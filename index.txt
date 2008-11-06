@@ -1,4 +1,4 @@
-v..
+..
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: In Progress. $
@@ -9,7 +9,7 @@ v..
 ..
 ..   $HeadURL$
 ..   $LastChangedRevision$
-n..   $LastChangedBy$
+..   $LastChangedBy$
 ..   $LastChangedDate$
 ..
 

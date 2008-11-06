@@ -1,3 +1,19 @@
+..
+.. META INFORMATION OF TRANSLATION
+..
+..   $TranslationStatus: Not started $
+..   $OriginalRevision: 9368 $
+..   $TranslationAuthors: None $
+..
+.. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
+..
+..   $HeadURL$
+..   $LastChangedRevision$
+..   $LastChangedBy$
+..   $LastChangedDate$
+..
+
+
 .. _howto-outputting-csv:
 
 ==========================
