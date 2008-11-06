@@ -1,15 +1,15 @@
-..
+v..
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: In Progress. $
-..   $OriginalRevision:  9333 $
-..   $TranslationAuthors: Wiliam Alves de Souza. $
+..   $OriginalRevision:  9141 $
+..   $TranslationAuthors: Wiliam Alves de Souza, semente $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
 ..   $HeadURL$
 ..   $LastChangedRevision$
-..   $LastChangedBy$
+n..   $LastChangedBy$
 ..   $LastChangedDate$
 ..
 
@@ -46,32 +46,32 @@ Tendo problemas? Nos gostaríamos de ajudar!
 .. _logs di IRC: http://oebfare.com/logger/django-br/
 .. _ticket tracker: http://code.djangoproject.com/
 
-First steps
-===========
+Primeiros passos
+================
 
-:ref:`Overview <intro-overview>`
+:ref:`Visão geral <intro-overview>`
     See what writing a database-driven application with Django looks like.
 
-:ref:`Installation <intro-install>`
+:ref:`Instalação <intro-install>`
     Get Django installed on your computer.
 
-Tutorial: Writing your first Django application
-===============================================
+Tutorial: Escrevendo sua primeira aplicação Django
+==================================================
 
-:ref:`Part 1 <intro-tutorial01>`
-    Start a project, create models and play with the database API.
+:ref:`Parte 1 <intro-tutorial01>`
+    Inicie um projeto, crie models e brinque com a API do banco de dados.
 
-:ref:`Part 2 <intro-tutorial02>`
-    Explore the automatically-generated admin site.
+:ref:`Parte 2 <intro-tutorial02>`
+    Explore o site de administração gerado automaticamente.
 
-:ref:`Part 3 <intro-tutorial03>`
-    Write the public interface views.
+:ref:`Parte 3 <intro-tutorial03>`
+    Escreva as interfaces públicas views.
 
-:ref:`Part 4 <intro-tutorial04>`
+:ref:`Parte 4 <intro-tutorial04>`
     Learn how to process forms.
 
-Using Django
-============
+Utilizando Django
+=================
 
 :ref:`Models <topics-db-index>`
     Design a single, definitive source of data about your data.
@@ -85,23 +85,23 @@ Using Django
 :ref:`Templates <topics-templates>`
     Develop the visual design of your site.
 
-And more:
----------
+E mais:
+-------
 
-    * :ref:`Authentication <topics-auth>`
+    * :ref:`Autenticação <topics-auth>`
     * :ref:`Caching <topics-cache>`
     * :ref:`E-mail <topics-email>`
     * :ref:`File-access APIs <topics-files>`
     * :ref:`topics-i18n`
     * :ref:`topics-pagination`
-    * :ref:`Serialization <topics-serialization>`
-    * :ref:`Sessions <topics-http-sessions>`
-    * :ref:`Settings/configuration <topics-settings>`
+    * :ref:`Serialização <topics-serialization>`
+    * :ref:`Sessões <topics-http-sessions>`
+    * :ref:`Settings/configuração <topics-settings>`
     * :ref:`topics-signals`
-    * :ref:`Testing <topics-testing>`
+    * :ref:`Testando <topics-testing>`
 
-Add-on ("contrib") applications
-===============================
+Aplicações adicionais ("contrib") 
+=================================
 
 :ref:`Django's automatic admin site <ref-contrib-admin>`
     Get a clean Web interface to your data with little effort.
@@ -115,8 +115,8 @@ Add-on ("contrib") applications
 :ref:`"Local flavor" <ref-contrib-localflavor>`
     Give your site that special local touch.
 
-And more:
----------
+E mais:
+-------
 
     * :ref:`Comments <ref-contrib-comments-index>`
     * :ref:`Content types <ref-contrib-contenttypes>`
@@ -130,8 +130,8 @@ And more:
     * :ref:`Web design helpers <ref-contrib-webdesign>`
     * :ref:`Markup <ref-contrib-markup>`
 
-Solving specific problems
-=========================
+Resolvendo problemas específicos
+================================
 
 :ref:`Deployment <howto-deployment-index>`
     Release your project to the world.
@@ -146,8 +146,8 @@ Solving specific problems
 :ref:`Generating CSV <howto-outputting-csv>` & :ref:`PDF <howto-outputting-pdf>`
     Produce non-HTML content with Django.
 
-And more:
----------
+E mais:
+-------
 
     * :ref:`Authenticating in Apache <howto-apache-auth>`
     * :ref:`howto-custom-file-storage`
@@ -156,10 +156,10 @@ And more:
     * :ref:`Tracking code errors by e-mail <howto-error-reporting>`
     * :ref:`howto-initial-data`
     * :ref:`howto-jython`
-    * :ref:`Serving static files <howto-static-files>`
+    * :ref:`Servindo arquivos estáticos <howto-static-files>`
 
-Reference
-=========
+Referência
+==========
 
 :ref:`Settings <ref-settings>`
     See all of Django's settings and what they do.
@@ -184,15 +184,15 @@ And more:
     * :ref:`ref-templates-index`
     * :ref:`ref-unicode`
 
-And all the rest
-================
+E o restante
+============
 
 :ref:`Internals <internals-index>`
     Learn how Django works under the hood and how you can contribute to the
     project.
 
-:ref:`Release notes <releases-index>`
-    See what is and was new in each release of Django.
+:ref:`Notas de lançamento <releases-index>`
+    Veja o que há de novo em cada versão do Django.
 
 :ref:`Miscellany <misc-index>`
     Stuff we can't find a more organized place for. Like that drawer in your
