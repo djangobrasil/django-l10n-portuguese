@@ -1,18 +1,3 @@
-..
-.. META INFORMATION OF TRANSLATION
-..
-..   $TranslationStatus: Done. $
-..   $OriginalRevision:  9333 $
-..   $TranslationAuthors: Anderson Santos. $
-..
-.. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
-..
-..   $HeadURL$
-..   $LastChangedRevision$
-..   $LastChangedBy$
-..   $LastChangedDate$
-..
-
 .. _intro-tutorial02:
 
 =====================================

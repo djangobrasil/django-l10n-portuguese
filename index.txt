@@ -19,30 +19,31 @@
 Documentação do Django
 ======================
 
-.. rubric:: Tudo oque você precisa saber sobre Django (and then some).
+.. rubric:: Tudo o que você precisa saber sobre Django (and then some).
 
 Conseguindo ajuda
 =================
 
 Tendo problemas? Nos gostaríamos de ajudar!
 
-* Tente a :ref:`FAQ <faq-index>` -- Para obter muitas respostas para perguntas comuns.
+* Tente a :ref:`FAQ <faq-index>` -- Para obter muitas respostas para perguntas
+  comuns.
 
-* Procurando por uma informação especifica? Tente :ref:`genindex`, :ref:`modindex` ou
-  a :ref:`Tabela de conteúdo detalhada <contents>`.
+* Procurando por uma informação especifica? Tente :ref:`genindex`,
+  :ref:`modindex` ou a :ref:`Tabela de conteúdo detalhada <contents>`.
 
-* Procure por informações no `arquivo do grupo de discussão do django-brasil`_, ou
-  `poste uma pergunta`_.
+* Procure por informações no `arquivo do grupo de discussão da Django Brasil`_,
+  ou `poste uma pergunta`_.
 
-* Pergunte um assunto no `Canal de IRC #django-br`_, ou procure nos `logs de IRC`_ para ver
-  se esta pergunta já não foi respondida anteriormente.
+* Faça uma pergunta no `canal de IRC #django-br`_, ou procure nos `logs do IRC`_
+  para ver se esta pergunta já não foi respondida anteriormente.
 
 * Reporte bugs do Django em nosso `ticket tracker`_.
 
-.. _arquivo do grupo de discussão do django-brasil: http://groups.google.com.br/group/django-brasil
+.. _arquivo do grupo de discussão da Django Brasil: http://groups.google.com.br/group/django-brasil
 .. _poste uma pergunta: http://groups.google.com.br/group/django-brasil
-.. _Canal de IRC #django-br: irc://irc.freenode.net/django-br
-.. _logs de IRC: http://oebfare.com/logger/django-br/
+.. _canal de IRC #django-br: irc://irc.freenode.net/django-br
+.. _logs di IRC: http://oebfare.com/logger/django-br/
 .. _ticket tracker: http://code.djangoproject.com/
 
 First steps
