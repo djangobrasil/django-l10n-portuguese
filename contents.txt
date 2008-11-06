@@ -1,0 +1,51 @@
+..
+.. META INFORMATION OF TRANSLATION
+..
+..   $TranslationStatus: In Progress. $
+..   $OriginalRevision:  9333 $
+..   $TranslationAuthors: Wiliam Alves de Souza. $
+..
+.. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
+..
+..   $HeadURL$
+..   $LastChangedRevision$
+..   $LastChangedBy$
+..   $LastChangedDate$
+..
+
+.. _contents:
+
+=============================
+Django documentation contents
+=============================
+
+.. toctree::
+   :maxdepth: 2
+   
+   intro/index
+   topics/index
+   howto/index
+   faq/index
+   ref/index
+   misc/index
+   glossary
+   releases/index
+   internals/index
+
+Indices, glossary and tables
+============================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`glossary`
+
+Deprecated/obsolete documentation
+=================================
+
+The following documentation covers features that have been deprecated or that
+have been replaced in newer versions of Django.
+
+.. toctree::
+   :maxdepth: 2
+   
+   obsolete/index

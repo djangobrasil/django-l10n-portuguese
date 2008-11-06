@@ -1,0 +1,198 @@
+..
+.. META INFORMATION OF TRANSLATION
+..
+..   $TranslationStatus: In Progress. $
+..   $OriginalRevision:  9333 $
+..   $TranslationAuthors: Wiliam Alves de Souza. $
+..
+.. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
+..
+..   $HeadURL$
+..   $LastChangedRevision$
+..   $LastChangedBy$
+..   $LastChangedDate$
+..
+
+.. _index:
+
+======================
+Documentação do Django
+======================
+
+.. rubric:: Tudo oque você precisa saber sobre Django (and then some).
+
+Conseguindo ajuda
+=================
+
+Tendo problemas? Nos gostaríamos de ajudar!
+
+* Tente a :ref:`FAQ <faq-index>` -- Para obter muitas respostas para perguntas comuns.
+
+* Procurando por uma informação especifica? Tente :ref:`genindex`, :ref:`modindex` ou
+  a :ref:`Tabela de conteúdo detalhada <contents>`.
+
+* Procure por informações no `arquivo do grupo de discussão do django-brasil`_, ou
+  `poste uma pergunta`_.
+
+* Pergunte um assunto no `Canal de IRC #django-br`_, ou procure nos `logs de IRC`_ para ver
+  se esta pergunta já não foi respondida anteriormente.
+
+* Reporte bugs do Django em nosso `ticket tracker`_.
+
+.. _arquivo do grupo de discussão do django-brasil: http://groups.google.com.br/group/django-brasil
+.. _poste uma pergunta: http://groups.google.com.br/group/django-brasil
+.. _Canal de IRC #django-br: irc://irc.freenode.net/django-br
+.. _logs de IRC: http://oebfare.com/logger/django-br/
+.. _ticket tracker: http://code.djangoproject.com/
+
+First steps
+===========
+
+:ref:`Overview <intro-overview>`
+    See what writing a database-driven application with Django looks like.
+
+:ref:`Installation <intro-install>`
+    Get Django installed on your computer.
+
+Tutorial: Writing your first Django application
+===============================================
+
+:ref:`Part 1 <intro-tutorial01>`
+    Start a project, create models and play with the database API.
+
+:ref:`Part 2 <intro-tutorial02>`
+    Explore the automatically-generated admin site.
+
+:ref:`Part 3 <intro-tutorial03>`
+    Write the public interface views.
+
+:ref:`Part 4 <intro-tutorial04>`
+    Learn how to process forms.
+
+Using Django
+============
+
+:ref:`Models <topics-db-index>`
+    Design a single, definitive source of data about your data.
+
+:ref:`Handling web requests <topics-http-index>`
+    Handle web requests, map them to views and return pages.
+
+:ref:`Forms <topics-forms-index>`
+    Build and handle HTML forms.
+
+:ref:`Templates <topics-templates>`
+    Develop the visual design of your site.
+
+And more:
+---------
+
+    * :ref:`Authentication <topics-auth>`
+    * :ref:`Caching <topics-cache>`
+    * :ref:`E-mail <topics-email>`
+    * :ref:`File-access APIs <topics-files>`
+    * :ref:`topics-i18n`
+    * :ref:`topics-pagination`
+    * :ref:`Serialization <topics-serialization>`
+    * :ref:`Sessions <topics-http-sessions>`
+    * :ref:`Settings/configuration <topics-settings>`
+    * :ref:`topics-signals`
+    * :ref:`Testing <topics-testing>`
+
+Add-on ("contrib") applications
+===============================
+
+:ref:`Django's automatic admin site <ref-contrib-admin>`
+    Get a clean Web interface to your data with little effort.
+
+:ref:`Form tools <ref-contrib-formtools-index>`
+    Easily handle complex form workflows.
+
+:ref:`Syndication feeds <ref-contrib-syndication>`
+    Generate RSS and Atom feeds of your data.
+
+:ref:`"Local flavor" <ref-contrib-localflavor>`
+    Give your site that special local touch.
+
+And more:
+---------
+
+    * :ref:`Comments <ref-contrib-comments-index>`
+    * :ref:`Content types <ref-contrib-contenttypes>`
+    * :ref:`Cross Site Request Forgery protection <ref-contrib-csrf>`
+    * :ref:`Databrowse <ref-contrib-databrowse>`
+    * :ref:`Flatpages <ref-contrib-flatpages>`
+    * :ref:`Humanize <ref-contrib-humanize>`
+    * :ref:`Redirects <ref-contrib-redirects>`
+    * :ref:`Sitemaps <ref-contrib-sitemaps>`
+    * :ref:`Sites <ref-contrib-sites>`
+    * :ref:`Web design helpers <ref-contrib-webdesign>`
+    * :ref:`Markup <ref-contrib-markup>`
+
+Solving specific problems
+=========================
+
+:ref:`Deployment <howto-deployment-index>`
+    Release your project to the world.
+
+:ref:`Importing data from legacy databases <howto-legacy-databases>`
+    Use Django with an existing database or alongside other web development
+    toolkits.
+
+:ref:`Custom template tags <howto-custom-template-tags>`
+    Add your own extensions to Django's template language.
+
+:ref:`Generating CSV <howto-outputting-csv>` & :ref:`PDF <howto-outputting-pdf>`
+    Produce non-HTML content with Django.
+
+And more:
+---------
+
+    * :ref:`Authenticating in Apache <howto-apache-auth>`
+    * :ref:`howto-custom-file-storage`
+    * :ref:`howto-custom-management-commands`
+    * :ref:`howto-custom-model-fields`
+    * :ref:`Tracking code errors by e-mail <howto-error-reporting>`
+    * :ref:`howto-initial-data`
+    * :ref:`howto-jython`
+    * :ref:`Serving static files <howto-static-files>`
+
+Reference
+=========
+
+:ref:`Settings <ref-settings>`
+    See all of Django's settings and what they do.
+
+:ref:`Request & response objects <ref-request-response>`
+    Understand the classes Django uses to represent HTTP requests and responses.
+
+:ref:`Model API reference <ref-models-index>`
+    Revel in the gory details of Django's model system.
+
+:ref:`Form API reference <ref-forms-index>`
+    Learn the details of forms, fields and widgets.
+
+And more:
+---------
+
+    * :ref:`ref-databases`
+    * :ref:`ref-django-admin`
+    * :ref:`ref-files-index`
+    * :ref:`ref-generic-views`
+    * :ref:`ref-middleware`
+    * :ref:`ref-templates-index`
+    * :ref:`ref-unicode`
+
+And all the rest
+================
+
+:ref:`Internals <internals-index>`
+    Learn how Django works under the hood and how you can contribute to the
+    project.
+
+:ref:`Release notes <releases-index>`
+    See what is and was new in each release of Django.
+
+:ref:`Miscellany <misc-index>`
+    Stuff we can't find a more organized place for. Like that drawer in your
+    kitchen with the scissors, batteries and duct tape.
