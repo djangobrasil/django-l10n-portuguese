@@ -43,7 +43,7 @@ Tendo problemas? Nos gostaríamos de ajudar!
 .. _arquivo do grupo de discussão da Django Brasil: http://groups.google.com.br/group/django-brasil
 .. _poste uma pergunta: http://groups.google.com.br/group/django-brasil
 .. _canal de IRC #django-br: irc://irc.freenode.net/django-br
-.. _logs di IRC: http://oebfare.com/logger/django-br/
+.. _logs do IRC: http://oebfare.com/logger/django-br/
 .. _ticket tracker: http://code.djangoproject.com/
 
 Primeiros passos
