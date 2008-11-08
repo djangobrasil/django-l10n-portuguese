@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
-..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationStatus: Draft $
+..   $OriginalRevision: 9324 $
+..   $TranslationAuthors: Wiliam Alves de Souza $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -13,86 +13,89 @@
 ..   $LastChangedDate$
 ..
 
-
 .. _intro-install:
 
-Quick install guide
-===================
+Guia de instalação rápida
+=========================
 
-Before you can use Django, you'll need to get it installed. We have a
-:ref:`complete installation guide <topics-install>` that covers all the
-possibilities; this guide will guide you to a simple, minimal installation
-that'll work while you walk through the introduction.
+Antes que você possa usar o Django, você vai precisar instala-lo. Nos temos um
+:ref:`guia completo de instalação <topics-install>` que abrange todas as
+possibilidades; este guia ira guiar você em uma simples e minima instalação que
+funcionará enquanto você caminha através da introdução.
 
-Install Python
---------------
+Instalando o Python
+-------------------
 
-Being a Python Web framework, Django requires Python. It works with any Python
-version 2.3 and higher, but we recommend installing Python 2.5 or later. If you do so, you won't need to set up a database just yet: Python 2.5 or later includes a lightweight database called SQLite_.
+Sendo um web framework Python, Django requer o  Python. Ele funciona com qualquer
+versao 2.3 e superiores, mais nos recomendamos instalar Python 2.5 ou posterior.
+Se fizer isso, você não precisará criar um banco de dados ainda: Python 2.5 ou
+posterior inclui uma base de dados leve chamado SQLite_.
 
 .. _sqlite: http://sqlite.org/
 
-Get Python at http://www.python.org. If you're running Linux or Mac OS X, you
-probably already have it installed.
+Baixe o Python em http://www.python.org. Se você estiver rodando Linux ou Mac OS X,
+você provavelmente já tem ele instalado.
 
-.. admonition:: Django on Jython
+.. admonition:: Django com Jython
 
-    If you use Jython_ (a Python implementation for the Java platform), you'll
-    need to follow a few additional steps. See :ref:`howto-jython` for details.
+    Se você usa Jython_ (Uma implementação Python para a plataforma Java), você
+    ira precisar seguir alguns passos adicionais. Veja :ref:`howto-jython` para
+    detalhes.
 
 .. _jython: http://www.jython.org/
 
-You can verify that Python's installed by typing ``python`` from your shell; you should see something like::
+você pode verificar que o Python esta instalado digitando ``python`` do seu
+terminal; você deve ver algo como::
 
-    Python 2.5.1 (r251:54863, Jan 17 2008, 19:35:17) 
+    Python 2.5.1 (r251:54863, Jan 17 2008, 19:35:17)
     [GCC 4.0.1 (Apple Inc. build 5465)] on darwin
     Type "help", "copyright", "credits" or "license" for more information.
     >>>
-    
-Set up a database
------------------
 
-If you installed Python 2.5 or later, you can skip this step for now.
+Criado um banco de dados
+------------------------
 
-If not, or if you'd like to work with a "large" database engine like PostgreSQL,
-MySQL, or Oracle, consult the :ref:`database installation information
-<database-installation>`.
+Se você instalou Python 2.5 ou posterior, você pode pular este passo agora.
 
-Remove any old versions of Django
----------------------------------
+Se não, ou se você gostaria de trabalhar com um mecanismo de banco de dados
+"grande" PostgreSQL, MySQL, ou Oracle, consulte a :ref:`informação sobre
+instalação de banco  de dados <database-installation>`.
 
-If you are upgrading your installation of Django from a previous version, you
-will need to :ref:`uninstall the old Django version before installing the new
-version <removing-old-versions-of-django>`.
+Remova qualquer versão antiga do Django
+---------------------------------------
 
-Install Django
---------------
+Se você está atualizando sua instalação do Django de versão uma anterior, você vai
+precisar :ref:`desinstalar a versão antiga do Django antes de instalar a nova
+versão <removing-old-versions-of-django>`.
 
-You've got three easy options to install Django:
+Instale o Django
+----------------
 
-    * Install a version of Django :ref:`provided by your operating system
-      distribution <misc-distributions>`. This is the quickest option for those
-      who have operating systems that distribute Django.
+Você tem três opções fáceis para instalar Django:
 
-    * :ref:`Install an official release <installing-official-release>`. This
-      is the best approach for users who want a stable version number and aren't
-      concerned about running a slightly older version of Django.
-      
-    * :ref:`Install the latest development version
-      <installing-development-version>`. This is best for users who want the
-      latest-and-greatest features and aren't afraid of running brand-new code.
-      
-.. warning::
+    * Instale a versão do Django :ref:`provida pelo distribuidor do seu sistema
+      operacional <misc-distributions>`. Esta é a opção mais rápida para aqueles
+      que tem sistemas operacionais que distribuem o Django.
 
-    If do either of the first two steps, keep an eye out for parts of the
-    documentation marked **new in development version**. That phrase flags
-    features that are only available in development versions of Django; if you
-    try to use them with an official release they won't work.
-    
-That's it!
-----------
+    * :ref:`Instale uma release oficial <installing-official-release>`. Esta
+      é a melhor abordagem para usuários que querem um número de versão estável
+      e não estão preocupados em rodar uma versão ligeiramente mais antiga do
+      Django.
 
-That's it -- you can now :ref:`move onto the tutorial <intro-tutorial01>`.
+    * :ref:`Instalar a versao de desenvolvimento mais recente
+      <installing-development-version>`. Esta é melhor para usuário que querem as
+      mais recentes e melhores funcionalidades e não tem medo de executar códigos
+      novos.
+     
+.. aviso::
 
+    Se você fizer um dos dois primeiro passos, mantenha seus olhos longe da partes
+    da documentação marcadas como ** novo na versão de desenvolvimento**. Esta
+    frase marca características que estão disponíveis apenas na versão de
+    desenvolvimento do Django; Se você tentar utilizar elas com um release oficial
+    elas não irão funcionar.
 
-
+É isso!
+-------
+   
+É isso! -- Agora voce pode :ref:`avançar para o tutorial <intro-tutorial01>`.
