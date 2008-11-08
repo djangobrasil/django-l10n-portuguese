@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting revision. $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 8658 $
 ..   $TranslationAuthors: Marcelo Minholi $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -145,8 +145,8 @@ código é necessária::
     # Delete um objeto com delete().
     >>> r.delete()
 
-A dynamic admin interface: it's not just scaffolding -- it's the whole house
-============================================================================
+Uma interface de administração dinâmica: isso não é apenas o andaime -- é a casa inteira
+==========================================================================================
 
 Uma vez que seus modelos estejam definidos, o Django poderá criar automaticamente
 uma :ref:`interface administrativa <ref-contrib-admin>` profissional pronta para
