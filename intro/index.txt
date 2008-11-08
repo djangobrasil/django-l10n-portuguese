@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
-..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationStatus: Draft $
+..   $OriginalRevision: 8506 $
+..   $TranslationAuthors: Wiliam Alves de Souza$
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,15 +16,15 @@
 
 .. _intro-index:
 
-Getting started
-===============
+Primeiros passos
+================
 
-New to Django? Or to web development in general? Well, you came to the right
-place: read this material to quickly get up and running.
+Novo no Django? Ou em desenvolvimento em geral? Bem, você veio ao lugar certo:
+leia este material para levantar-se depressa e correr.
 
 .. toctree::
    :maxdepth: 1
-    
+   
    overview
    install
    tutorial01
@@ -32,23 +32,23 @@ place: read this material to quickly get up and running.
    tutorial03
    tutorial04
    whatsnext
-   
-.. seealso::
+  
+.. Veja tambem::
 
-    If you're new to Python_, you might want to start by getting an idea of what
-    the language is like. Django is 100% Python, so if you've got minimal
-    comfort with Python you'll probably get a lot more out of Django.
-    
-    If you're new to programming entirely, you might want to start with this
-    `list of Python resources for non-programmers`_
-    
-    If you already know a few other languages and want to get up to speed with
-    Python quickly, we recommend `Dive Into Python`_ (also available in a
-    `dead-tree version`_). If that's not quite your style, there are quite
-    a few other `books about Python`_.
-    
+    Se você e novo em Python_, você pode querer começar por obter uma idéia do
+    que e a linguagem. Django e 100% Python, então se você tiver um minimo de
+    conforto com Python você provavelmente ira obter mais do Django.
+
+    Se você e inteiramente novo em programação, você pode querer começar com esta
+    `lista de recursos de Python para não programadores`_
+   
+    Se você já conhece algumas outras linguagens e quer aprender Python
+    rapidamente, nos recomendamos `Dive Into Python`_ (Disponível também na
+    `versão dead-tree`). Se isso não é muito o seu estilo, Tem muitos outros
+    `livros sobre Python`_.
+   
     .. _python: http://python.org/
-    .. _list of Python resources for non-programmers: http://wiki.python.org/moin/BeginnersGuide/NonProgrammers
+    .. _lista de recursos de Python para não programadores: http://wiki.python.org/moin/BeginnersGuide/NonProgrammers
     .. _dive into python: http://diveintopython.org/
-    .. _dead-tree version: http://www.amazon.com/exec/obidos/ASIN/1590593561/ref=nosim/jacobian20
-    .. _books about Python: http://wiki.python.org/moin/PythonBooks
+    .. _versão dead-tree: http://www.amazon.com/exec/obidos/ASIN/1590593561/ref=nosim/jacobian20
+    .. _livros sobre Python: http://wiki.python.org/moin/PythonBooks
