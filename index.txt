@@ -159,7 +159,7 @@ E mais:
     * :ref:`Servindo arquivos estáticos <howto-static-files>`
 
 Referência
-=======
+==========
 
 :ref:`Settings <ref-settings>`
     Veja todas as opções de configurações do Django e oque elas fazem.
