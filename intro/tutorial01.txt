@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
-..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationStatus: In Progress $
+..   $OriginalRevision: 9012 $
+..   $TranslationAuthors: Marcelo Minholi $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -13,87 +13,91 @@
 ..   $LastChangedDate$
 ..
 
-
 .. _intro-tutorial01:
 
-=====================================
-Writing your first Django app, part 1
-=====================================
+=================================================
+Escrevendo sua primeira aplicação Django, parte 1
+=================================================
 
-Let's learn by example.
+Vamos aprender pelo exemplo.
 
-Throughout this tutorial, we'll walk you through the creation of a basic
-poll application.
+Ao longo desse tutorial nós iremos guiá-lo na criação de uma aplicação básica de
+enquete.
 
-It'll consist of two parts:
+Ela irá consistir de duas partes:
 
-    * A public site that lets people view polls and vote in them.
-    * An admin site that lets you add, change and delete polls.
+    * Um site público que deixa as pessoas verem as enquetes e votarem nelas.
+    * Um site de administração que deixa você adicionar, alterar e deletar
+      enquetes.
 
-We'll assume you have :ref:`Django installed <intro-install>` already. You can
-tell Django is installed by running the Python interactive interpreter and
-typing ``import django``. If that command runs successfully, with no errors,
-Django is installed.
+Nós iremos assumir que você já tem o `Django instalado <intro-install>`. Você
+pode saber se o Django está instalado rodando o interpretador interativo do
+Python e digitando ``import django``. Se esse comando rodar com sucesso, sem
+nenhum erro, o Django está instalado.
 
-.. admonition:: Where to get help:
+.. admonition:: Onde conseguir ajuda:
 
-    If you're having trouble going through this tutorial, please post a message
-    to `django-users`__ or drop by `#django on irc.freenode.net`__ to chat
-    with other Django users who might be able to help.
+    Se você estiver tendo problemas no decorrer desse tutorial, por favor envie
+    uma mensagem para `django-brasil`__ ou para `django-users`__ (inglês) ou 
+    deixe-a em `#django-br`__ ou `#django`__ no ``irc.freenode.net`` para bater-papo
+    com outros usuarios Django que devem estar aptos a ajudar.
 
+__ http://groups.google.com/group/django-brasil
 __ http://groups.google.com/group/django-users
+__ irc://irc.freenode.net/django-br
 __ irc://irc.freenode.net/django
 
-Creating a project
+Criando um projeto
 ==================
 
-If this is your first time using Django, you'll have to take care of some
-initial setup. Namely, you'll need to auto-generate some code that establishes a
-Django :term:`project` -- a collection of settings for an instance of Django,
-including database configuration, Django-specific options and
-application-specific settings.
+Se for a primeira vez que você está usando o Django você terá que preocupar-se 
+com algumas configurações iniciais. A saber, você irá precisar auto-gerar
+algum código para estabelecer um :term:`project` Django -- uma coleção de
+configurações para uma instância do Django, incluindo configuração do banco de
+dados, opções específicas do Django e configurações específicas da aplicação.
 
-From the command line, ``cd`` into a directory where you'd like to store your
-code, then run the command ``django-admin.py startproject mysite``. This will
-create a ``mysite`` directory in your current directory.
+A partir da linha de comando, ``cd`` para o diretório onde você gostaria de
+armazenar seu código, então execute o comando ``django-admin.py startproject
+mysite``. Isso irá criar o diretório ``mysite`` no seu diretório atual.
 
-.. admonition:: Mac OS X permissions
-   
-   If you're using Mac OS X, you may see the message "permission denied" when
-   you try to run ``django-admin.py startproject``. This is because, on
-   Unix-based systems like OS X, a file must be marked as "executable" before it
-   can be run as a program. To do this, open Terminal.app and navigate (using
-   the ``cd`` command) to the directory where :ref:`django-admin.py
-   <ref-django-admin>` is installed, then run the command 
-   ``chmod +x django-admin.py``.
+.. admonition:: Permissões do Mac OS X
+
+   Se você estiver usando Mac OS X, você poderá ver a mensagem "permissão
+   negada" quando você tentar rodar o ``django-admin.py startproject``. Isso
+   porque, em sistemas baseados no Unix como o OS X, um arquivo precisa ser
+   marcado como "executável" antes que possa ser executado como um programa. Para
+   fazer isso, abra o Terminal.app e navegue (usando o comando `cd`) até o
+   diretório onde o :ref:`django-admin.py <ref-django-admin>` está instalado,
+   então rode o comando ``chmod +x django-admin.py``.
 
 .. note::
 
-    You'll need to avoid naming projects after built-in Python or Django
-    components. In particular, this means you should avoid using names like
-    ``django`` (which will conflict with Django itself) or ``test`` (which
-    conflicts with a built-in Python package).
+    Você precisará evitar dar nomes a projetos que remetam a componentes internos
+    do Python ou do Django. Particularmente, isso significa que você deve evitar
+    usar nomes como ``django`` (que irá conflitar com o próprio Django) ou
+    ``test`` (que irá conflitar com um pacote interno do Python).
 
-:ref:`django-admin.py <ref-django-admin>` should be on your system path if you
-installed Django via ``python setup.py``. If it's not on your path, you can find
-it in ``site-packages/django/bin``, where ```site-packages``` is a directory
-within your Python installation. Consider symlinking to :ref:`django-admin.py
-<ref-django-admin>` from some place on your path, such as
-:file:`/usr/local/bin`.
+O :ref:`django-admin.py <ref-django-admin>`  deverá estar no caminho do seu
+sistema se você instalou o Django via ``python setup.py``. Se ele não estiver no
+caminho, você pode encontrá-lo em ``site-packages/django/bin``, onde
+``site-packages`` é um diretório dentro da sua instalação do Python. Considere a
+possibilidade de criar um link simbólico para o :ref:`django-admin.py 
+<ref-django-admin>` a partir de algum lugar no seu caminho, como em
+``/usr/local/bin``.
 
-.. admonition:: Where should this code live?
+.. admonition:: Onde esse código deve morar?
 
-    If your background is in PHP, you're probably used to putting code under the
-    Web server's document root (in a place such as ``/var/www``). With Django,
-    you don't do that. It's not a good idea to put any of this Python code
-    within your Web server's document root, because it risks the possibility
-    that people may be able to view your code over the Web. That's not good for
-    security.
+    Se você tem experiência prévia em PHP, você deve estar acostumado a colocar o
+    código dentro da raiz da pasta de documentos do seu servidor Web (em um lugar
+    como ``/var/www``). Com o Django você não fará isto. Não é uma boa idéia
+    colocar qualquer código Python na raiz da pasta de documentos do seu servidor
+    Web, porque tem o possível risco de pessoas conseguirem ver seu
+    código através da Web. Isso não é bom para a segurança.
 
-    Put your code in some directory **outside** of the document root, such as
-    :file:`/home/mycode`.
+    Coloque seu código em algum diretório **fora** da raiz da pasta de documentos,
+    como em ``/home/mycode``.
 
-Let's look at what :djadmin:`startproject` created::
+Vamos olhar o que o :djadmin:`startproject` criou::
 
     mysite/
         __init__.py
@@ -101,31 +105,32 @@ Let's look at what :djadmin:`startproject` created::
         settings.py
         urls.py
 
-These files are:
+Esses arquivos são:
 
-    * :file:`__init__.py`: An empty file that tells Python that this directory
-      should be considered a Python package. (Read `more about packages`_ in the
-      official Python docs if you're a Python beginner.)
-      
-    * :file:`manage.py`: A command-line utility that lets you interact with this
-      Django project in various ways. You can read all the details about
-      :file:`manage.py` in :ref:`ref-django-admin`.
-      
-    * :file:`settings.py`: Settings/configuration for this Django project.
-      :ref:`topics-settings` will tell you all about how settings work.
-    
-    * :file:`urls.py`: The URL declarations for this Django project; a "table of
-      contents" of your Django-powered site. You can read more about URLs in
-      :ref:`topics-http-urls`.
+    * :file:`__init__.py`: Um arquivo vazio que diz ao Python que esse diretório
+      deve ser considerado como um pacote Python. (Leia `mais sobre pacotes`_ na
+      documentação oficial do Python se você for iniciante em Python.)
 
-.. _more about packages: http://docs.python.org/tut/node8.html#packages
+    * :file:`manage.py`: Um utilitário de linha de comando que permite a você
+      interagir com esse projeto Django de várias maneiras. Voce pode ler todos
+      os detalhes sobre :file:`manage.py` em :ref:`ref-django-admin`.
 
-The development server
-----------------------
+    * :file:`settings.py`: Settings/configurações para esse projeto Django.
+      :ref:`topics-settings` Ira revelar para voce tudo sobre como o settings
+      funciona.
 
-Let's verify this worked. Change into the :file:`mysite` directory, if you
-haven't already, and run the command ``python manage.py runserver``. You'll see
-the following output on the command line::
+    * :file:`urls.py`: As declarações de URLs para esse projeto Django; uma 
+      "tabela de conteúdos" para o seu site movido a Django. Voce pode ler mais
+      sobre URLs em :ref:`topics-http-urls`.
+
+.. _mais sobre pacotes: http://docs.python.org/tut/node8.html#packages
+
+O servidor de desenvolvimento
+-----------------------------
+
+Vamos verificar se ele funciona. Vá para o diretório :file:`mysite`, se você
+ainda não estiver nele, e rode o comando ``python manage.py runserver``. Você irá
+ver a seguinte saída na sua linha de comando::
 
     Validating models...
     0 errors found.
@@ -134,180 +139,192 @@ the following output on the command line::
     Development server is running at http://127.0.0.1:8000/
     Quit the server with CONTROL-C.
 
-You've started the Django development server, a lightweight Web server written
-purely in Python. We've included this with Django so you can develop things
-rapidly, without having to deal with configuring a production server -- such as
-Apache -- until you're ready for production.
+Você iniciou o servidor de desenvolvimento do Django, um servidor Web leve escrito
+puramente em Python. Nós incluímos ele com o Django, então você pode desenvolver
+coisas rapidamente, sem ter que lidar com a configuração de um servidor Web de
+produção -- como o Apache -- até que você esteja pronto para a produção.
 
-Now's a good time to note: DON'T use this server in anything resembling a
-production environment. It's intended only for use while developing. (We're in
-the business of making Web frameworks, not Web servers.)
+Agora é uma boa hora para anotar: NÃO use esse servidor em nada relacionado a um
+ambiente de produção. Seu objetivo é ser utilizado apenas durante o
+desenvolvimento. (Nós estamos no negócio de criar frameworks Web, não servidores
+Web.)
 
-Now that the server's running, visit http://127.0.0.1:8000/ with your Web
-browser. You'll see a "Welcome to Django" page, in pleasant, light-blue pastel.
-It worked!
+Agora que o servidor está rodando, visite http://127.0.0.1:8000/ com seu navegador
+Web. Você irá ver a página "Welcome to Django", em agradáveis tons de azul claro
+pastel. Ele funcionou!
 
-.. admonition:: Changing the port
+.. admonition:: Mudando a porta
 
-    By default, the :djadmin:`runserver` command starts the development server
-    on port 8000. If you want to change the server's port, pass it as a
-    command-line argument. For instance, this command starts the server on port
+    Por padrão, o comando ``runserver`` inicia o servidor de desenvolvimento na
+    porta 8000. Se você quer mudar a porta do servidor, passe ela como um argumento
+    na linha de comando. Por exemplo, este comando iniciará o servidor na porta
     8080:
     
     .. code-block:: bash
 
         python manage.py runserver 8080
 
-    Full docs for the development server can be found in the
-    :djadmin:`runserver` reference.
+    A documentação completa para o servidor de desenvolvimento está na
+    referncia :djadmin:`runserver`.
 
 
-Database setup
---------------
+Configuração do banco de dados
+------------------------------
 
-Now, edit :file:`settings.py`. It's a normal Python module with module-level
-variables representing Django settings. Change these settings to match your
-database's connection parameters:
+Agora, edite o :file:`settings.py`. Ele é um módulo normal do Python com variáveis
+representando as configurações do Django. Altere essas configurações para que
+atendam aos parâmetros de conexão do seu banco de dados:
 
-    * :setting:`DATABASE_ENGINE` -- Either 'postgresql_psycopg2', 'mysql' or
-      'sqlite3'. Other backends are :setting:`also available <DATABASE_ENGINE>`.
-      
-    * :setting:`DATABASE_NAME` -- The name of your database. If you're using
-      SQLite, the database will be a file on your computer; in that case,
-      ``DATABASE_NAME`` should be the full absolute path, including filename, of
-      that file. If the file doesn't exist, it will automatically be created
-      when you synchronize the database for the first time (see below).
-      
-      When specifying the path, always use forward slashes, even on Windows 
-      (e.g. ``C:/homes/user/mysite/sqlite3.db``).
-      
-    * :setting:`DATABASE_USER` -- Your database username (not used for SQLite).
-    
-    * :setting:`DATABASE_PASSWORD` -- Your database password (not used for
+    * :setting:`DATABASE_ENGINE` -- Um entre 'postgresql_psycopg2', 'mysql' ou
+      'sqlite3'.      Outros backends também :setting:`estão disponíveis 
+      <DATABASE_ENGINE>`.
+
+    * :setting:`DATABASE_NAME` -- O nome do seu banco de dados, e você estiver
+      usando SQLite, o banco de dados sera uma arquivo no se computador; neste
+      caso, ``DATABASE_NAME`` deve ser o caminho completo, incluindo o nome, para
+      este arquivo. Se este arquivo nao existir, ele sera automaticamente criado
+      quando voce sincronizar o banco de dados pela primeira vez (veja abaixo).
+
+      Quando estiver especificndo o caminho, sempre use barra normal ate mesmo
+      no Windows (e.g. ``C:/homes/user/mysite/sqlite3.db``).
+
+    * ``DATABASE_USER`` -- Usuário do seu banco de dados (não utilizado para o
       SQLite).
-    
-    * :setting:`DATABASE_HOST` -- The host your database is on. Leave this as an
-      empty string if your database server is on the same physical machine (not
-      used for SQLite).
 
-If you're new to databases, we recommend simply using SQLite (by setting
-:setting:`DATABASE_ENGINE` to ``'sqlite3'``). SQLite is included as part of
-Python 2.5 and later, so you won't need to install anything else.
+    * ``DATABASE_PASSWORD`` -- Senha do seu banco de dados (não utilizado para o
+      SQLite).
 
-.. note::
+    * ``DATABASE_HOST`` -- O host onde seu banco de dados está. Deixe isso em
+      branco se o seu servidor de banco de dados está na mesma máquina física
+      (não utilizado para o SQLite).
 
-    If you're using PostgreSQL or MySQL, make sure you've created a database by
-    this point. Do that with "``CREATE DATABASE database_name;``" within your
-    database's interactive prompt.
+Se voce ainda nao conhece banco de dados, nos recomendamos simplesment usar
+SQLite (configurando :setting:`DATABASE_ENGINE` para ``'sqlite3'``). SQLite é
+incluido como parte do Python 2.5 e posterior, entao voce nao precisa instalar
+qualquer outra coisa.
 
-    If you're using SQLite, you don't need to create anything beforehand - the
-    database file will be created automatically when it is needed.
+.. admonition:: Nota
 
-While you're editing :file:`settings.py`, take note of the
-:setting:`INSTALLED_APPS` setting towards the bottom of the file. That variable
-holds the names of all Django applications that are activated in this Django
-instance. Apps can be used in multiple projects, and you can package and
-distribute them for use by others in their projects.
+    Se você estiver usando PostgreSQL ou MySQL, certifique-se de que já tenha
+    criado o banco de dados a partir desse ponto. Faça isso com "``CREATE DATABASE
+    database_name;``" a partir do prompt interativo do seu banco de dados.
 
-By default, :setting:`INSTALLED_APPS` contains the following apps, all of which
-come with Django:
+    Se voce esta usando SQLite voce nao precisa crear nada de antemão - o arquivo
+    do banco de dado sera criado automaticamento quando ele for nescessario.
 
-    * :mod:`django.contrib.auth` -- An authentication system.
+Enquanto você estiver editando o :file:`settings.py`, observe a configuração do
+:setting:`INSTALLED_APPS` próximo ao final do arquivo. Aquela variável possui
+os nomes de todas as aplicações Django que estiverem ativadas para essa instância
+do Django. Aplicações podem ser usadas em múltiplos projetos, e você pode
+empacotá-las e distribuí-las para uso de outros em seus projetos.
 
-    * :mod:`django.contrib.contenttypes` -- A framework for content types.
+Por padrão, o :setting:`INSTALLED_APPS` contém as seguintes aplicações, que vêm
+com o Django:
 
-    * :mod:`django.contrib.sessions` -- A session framework.
+    * :mod:`django.contrib.auth` -- Um sistema de autenticação.
 
-    * :mod:`django.contrib.sites` -- A framework for managing multiple sites
-      with one Django installation.
+    * :mod:`django.contrib.contenttypes` -- Um framework para tipos de conteúdo.
 
-These applications are included by default as a convenience for the common case.
+    * :mod:`django.contrib.sessions` -- Um framework de sessão.
 
-Each of these applications makes use of at least one database table, though,
-so we need to create the tables in the database before we can use them. To do
-that, run the following command:
+    * :mod:`django.contrib.sites` -- Um framework para gerenciamento de múltiplos
+      sites com uma instalação do Django.
+
+Essas aplicações são incluídas por padrão como uma conveniência para os casos
+comuns.
+
+Cada uma dessas aplicações faz uso de pelo menos uma tabela no banco de dados,
+assim sendo, nós precisamos criar as tabelas no banco de dados antes que possamos
+usá-las. Para isso rode o seguinte comando:
 
 .. code-block:: bash
 
     python manage.py syncdb
 
-The :djadmin:`syncdb` command looks at the :setting:`INSTALLED_APPS` setting and
-creates any necessary database tables according to the database settings in your
-:file:`settings.py` file. You'll see a message for each database table it
-creates, and you'll get a prompt asking you if you'd like to create a superuser
-account for the authentication system. Go ahead and do that.
+O comando :djadmin:`syncdb` verifica a configuração em :setting:`INSTALLED_APPS`
+e cria todas as tabelas necessárias de acordo com a configuração do banco de
+dados no seu arquivo :file:`settings.py`. Você irá ver uma mensagem para cada
+tabela do banco de dados que ele criar, e você irá receber um prompt perguntando
+se gostaria de criar uma conta de super-usuário para o sistema de autenticação.
+Vá em frente e faça isso.
 
-If you're interested, run the command-line client for your database and type
-``\dt`` (PostgreSQL), ``SHOW TABLES;`` (MySQL), or ``.schema`` (SQLite) to
-display the tables Django created.
+Se você estiver interessado, rode o cliente de linha de comando do seu banco de
+dados e digite ``\dt`` (PostgreSQL), ``SHOW TABLES;`` (MySQL), ou ``.schema``
+(SQLite) para mostrar as tabelas que o Django criou.
 
-.. admonition:: For the minimalists
+.. admonition:: Para os minimalistas
 
-    Like we said above, the default applications are included for the common
-    case, but not everybody needs them. If you don't need any or all of them,
-    feel free to comment-out or delete the appropriate line(s) from
-    :setting:`INSTALLED_APPS` before running :djadmin:`syncdb`. The
-    :djadmin:`syncdb` command will only create tables for apps in
-    :setting:`INSTALLED_APPS`.
+    Como dissemos acima, as aplicações padrão são incluídas para casos comuns,
+    mas nem todo mundo precisa delas. Se você não precisa de nenhuma delas,
+    sinta-se livre para comentar ou deletar a(s) linha(s) apropriadas do
+    :setting:`INSTALLED_APPS` antes de rodar o :djadmin:`syncdb`. O comando
+    :djadmin:`syncdb` irá criar apenas as tabelas para as aplicações que
+    estiverem no :setting:`INSTALLED_APPS`.
 
 .. _creating-models:
 
-Creating models
+Criando modelos
 ===============
 
-Now that your environment -- a "project" -- is set up, you're set to start
-doing work.
+Agora que seu ambiente -- um "projeto" -- está configurado, você está pronto para
+começar o trabalho.
 
-Each application you write in Django consists of a Python package, somewhere
-on your `Python path`_, that follows a certain convention. Django comes with a
-utility that automatically generates the basic directory structure of an app,
-so you can focus on writing code rather than creating directories.
+Cada aplicação que você escreve no Django consiste de um pacote Python, em algum
+lugar no seu `caminho do Python`_, que seguirá uma certa convenção. O Django vem
+com um utilitário que gera automaticamente a estrutura básica de diretório de uma
+aplicação, então você pode se concentrar apenas em escrever código em vez de
+ficar criando diretórios.
 
-.. admonition:: Projects vs. apps
+.. admonition:: Projetos vs. aplicações
 
-    What's the difference between a project and an app? An app is a Web
-    application that does something -- e.g., a weblog system, a database of
-    public records or a simple poll app. A project is a collection of
-    configuration and apps for a particular Web site. A project can contain
-    multiple apps. An app can be in multiple projects.
+    Qual é a diferença entre um projeto e uma aplicação? Uma aplicação é uma
+    aplicação Web que faz alguma coisa -- ex., um sistema de blog, um banco de
+    dados de registros públicos ou uma simples aplicação de enquete. Um projeto
+    é uma coleção de configurações e aplicações para um determinado Web site. Um
+    projeto pode conter múltiplas aplicações. Uma aplicação pode estar em
+    múltiplos projetos.
 
-In this tutorial, we'll create our poll app in the :file:`mysite` directory,
-for simplicity. As a consequence, the app will be coupled to the project --
-that is, Python code within the poll app will refer to ``mysite.polls``.
-Later in this tutorial, we'll discuss decoupling your apps for distribution.
+Nesse tutorial nós iremos criar nossa aplicação de enquete no diretório ``mysite``,
+para simplificar. Como conseqüência, a aplicação irá ser acoplada ao projet.
+Assim sendo, o código Python interno da aplicação da enquete irá se referir a
+``mysite.polls``. Posteriormente, nesse tutorial, nós iremos discutir como
+desacoplar suas aplicações para distribuição.
 
-To create your app, make sure you're in the :file:`mysite` directory and type
-this command:
+Para criar sua aplicação, certifique-se de que você está no diretório
+:file:`mysite` e digite esse comando:
 
 .. code-block:: bash
 
     python manage.py startapp polls
 
-That'll create a directory :file:`polls`, which is laid out like this::
+Isso irá criar um diretório :file:`polls`, que irá ser apresentado desta forma::
 
     polls/
         __init__.py
         models.py
         views.py
 
-This directory structure will house the poll application.
+Essa estrutura de diretório irá abrigar a aplicação de enquete.
 
-The first step in writing a database Web app in Django is to define your models
--- essentially, your database layout, with additional metadata.
+O primeiro passo ao escrever uma aplicação Web de banco de dados no Django é
+definir seus modelos -- essencialmente, o layout do seu banco de dados, com
+metadados adicionais.
 
-.. admonition:: Philosophy
+.. admonition:: Filosofia
 
-   A model is the single, definitive source of data about your data. It contains
-   the essential fields and behaviors of the data you're storing. Django follows
-   the :ref:`DRY Principle <dry>`. The goal is to define your data model in one
-   place and automatically derive things from it.
+   Um modelo é a única e definitiva fonte de dados sobre seus dados. Ele contém
+   os campos essenciais e os comportamentos para os dados que você estiver
+   armazenando. O Django segue o :ref:`princípio DRY <dry>`. O objetivo é
+   definir seu modelo de dados em um local e automaticamente derivar coisas a
+   partir dele.
 
-In our simple poll app, we'll create two models: polls and choices. A poll has
-a question and a publication date. A choice has two fields: the text of the
-choice and a vote tally. Each choice is associated with a poll.
+Em nossa simples aplicação de enquete, nós iremos criar dois modelos: polls e
+choices. Uma enquete (poll) tem uma pergunta e uma data de publicação. Uma
+escolha (choice) tem dois campos: o texto da escolha e um totalizador de votos.
+Cada escolha é associada a uma enquete.
 
-These concepts are represented by simple Python classes. Edit the
-:file:`polls/models.py` file so it looks like this::
+Esses conceitos são representados por simples classes Python. Edite o arquivo
+:file:`polls/models.py` entao ele se parecerá com isso::
 
     from django.db import models
 
@@ -367,7 +384,7 @@ Finally, note a relationship is defined, using
 to a single Poll. Django supports all the common database relationships:
 many-to-ones, many-to-manys and one-to-ones.
 
-.. _`Python path`: http://docs.python.org/tut/node8.html#SECTION008110000000000000000
+.. _`caminho do Python`: http://docs.python.org/tut/node8.html#SECTION008110000000000000000
 
 Activating models
 =================
