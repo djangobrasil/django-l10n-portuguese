@@ -87,7 +87,7 @@ Você tem três opções fáceis para instalar Django:
       mais recentes e melhores funcionalidades e não tem medo de executar códigos
       novos.
      
-.. aviso::
+.. warning::
 
     Se você fizer um dos dois primeiro passos, mantenha seus olhos longe da partes
     da documentação marcadas como ** novo na versão de desenvolvimento**. Esta
