@@ -19,7 +19,16 @@
 Documentação do Django
 ======================
 
-.. rubric:: Tudo o que você precisa saber sobre Django (e, então, algumas).
+.. rubric:: Tudo o que você precisa saber sobre Django (e, então,
+   algumas).
+
+.. admonition:: Grupo de localização do Django para o Português
+
+   Esta é a tradução da documentação oficial do Django, mantida pelo
+   grupo de localização do Django para o Português. Você pode nos
+   ajudar a mantê-la atualizada e com qualidade. Para maiores
+   informações, visite a `página do grupo de localização
+   <http://code.google.com/p/django-l10n-portuguese/>`_.
 
 Conseguindo ajuda
 =================
