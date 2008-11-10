@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Italo Maia, Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,95 +16,96 @@
 
 .. _faq-models:
 
-FAQ: Databases and models
-=========================
+FAQ: Bancos de dados e modelos
+==============================
 
-How can I see the raw SQL queries Django is running?
-----------------------------------------------------
+Como eu posso ver as consultas SQL que o Django está executando?
+----------------------------------------------------------------
 
-Make sure your Django ``DEBUG`` setting is set to ``True``. Then, just do
-this::
+Certifique-se de que a configuração ``DEBUG`` está configurada em ``True``. Então,
+apenas faça isso::
 
     >>> from django.db import connection
     >>> connection.queries
     [{'sql': 'SELECT polls_polls.id,polls_polls.question,polls_polls.pub_date FROM polls_polls',
     'time': '0.002'}]
 
-``connection.queries`` is only available if ``DEBUG`` is ``True``. It's a list
-of dictionaries in order of query execution. Each dictionary has the following::
+``connection.queries`` está disponível apenas se ``DEBUG`` é ``True``. É uma
+lista de dicionários na ordem de execução das consultas. Cada dicionário tem
+o seguinte::
 
-    ``sql`` -- The raw SQL statement
-    ``time`` -- How long the statement took to execute, in seconds.
+    ``sql`` -- A declaração SQL
+    ``time`` -- O tempo que a declaração levou para executar, em segundos.
 
-``connection.queries`` includes all SQL statements -- INSERTs, UPDATES,
-SELECTs, etc. Each time your app hits the database, the query will be recorded.
+``connection.queries`` inclui todas as declarações SQL -- INSERTs, UPDATES,
+SELECTs, etc. Cada vez que o seu app aciona o banco de dados, a consulta será gravada.
 
-Can I use Django with a pre-existing database?
-----------------------------------------------
+Eu posso usar o Django com um banco de dados pré-existente?
+------------------------------------------------------------
 
-Yes. See :ref:`Integrating with a legacy database <howto-legacy-databases>`.
+Sim. Veja :ref:`Integrando com um banco de dados legado <howto-legacy-databases>`.
 
-If I make changes to a model, how do I update the database?
------------------------------------------------------------
+Se eu faço mudanças no modelo, como eu atualizo o banco de dados?
+-----------------------------------------------------------------
 
-If you don't mind clearing data, your project's ``manage.py`` utility has an
-option to reset the SQL for a particular application::
+Se você não se importar em resetar os dados, o utilitário ``manage.py`` do seu projeto tem uma opção
+para resetar o SQL para uma aplicação em particular::
 
     manage.py reset appname
 
-This drops any tables associated with ``appname`` and recreates them.
+Isso apaga quaisquer tabelas relacionadas com o ``appname`` e as recria.
 
-If you do care about deleting data, you'll have to execute the ``ALTER TABLE``
-statements manually in your database. That's the way we've always done it,
-because dealing with data is a very sensitive operation that we've wanted to
-avoid automating. That said, there's some work being done to add partially
-automated database-upgrade functionality.
+Se você se importa sobre a remoção dos dados, você tem de executar as declarações
+``ALTER TABLE`` manualmente no seu banco de dados. Esse é o modo que nós sempre fizemos,
+porque lidar com dados é uma operação muito sensível e nós procuramos
+evitar sua automatização. Dito isso, existem trabalhos sendo feitos para adicionar
+a funcionalidade de atualização automatizada de banco de dados de forma parcial.
 
-Do Django models support multiple-column primary keys?
-------------------------------------------------------
+Os modelos do Django suportam chaves primárias compostas?
+----------------------------------------------------------
 
-No. Only single-column primary keys are supported.
+Não. Apenas chaves primárias simples são suportadas.
 
-But this isn't an issue in practice, because there's nothing stopping you from
-adding other constraints (using the ``unique_together`` model option or
-creating the constraint directly in your database), and enforcing the
-uniqueness at that level. Single-column primary keys are needed for things such
-as the admin interface to work; e.g., you need a simple way of being able to
-specify an object to edit or delete.
+Mas isso não é um problema na prática, já que nada o impede de adicionar outras
+restrições (usando a opção do modelo ``unique_together`` ou criando a
+restrição diretamente no seu banco de dados) garantindo a unicidade
+nesse nível. Chaves primárias simples são necessárias para que coisas como a
+interface administrativa funcione; por exemplo, você precisa de uma forma simples
+de ser capaz de especificar um objeto para editar ou remover.
 
-How do I add database-specific options to my CREATE TABLE statements, such as specifying MyISAM as the table type?
-------------------------------------------------------------------------------------------------------------------
+Como eu adiciono opções específicas de banco de dados as minhas declarações CREATE TABLE, como especificar a tabela como tipo MyISAM?
+-------------------------------------------------------------------------------------------------------------------------------------
 
-We try to avoid adding special cases in the Django code to accommodate all the
-database-specific options such as table type, etc. If you'd like to use any of
-these options, create an :ref:`SQL initial data file <initial-sql>` that
-contains ``ALTER TABLE`` statements that do what you want to do. The initial
-data files are executed in your database after the ``CREATE TABLE`` statements.
+Nós tentamos evitar casos especiais no código do Django para acomodar todas as
+opções específicas de banco de dados, como tipo da tabela, etc. Se você gostaria
+de usar essa opções, crie um :ref:`arquivo de dados SQL inicial <initial-sql>` que 
+contenha as declarações ``ALTER TABLE`` que você quer fazer. Os arquivos de dados 
+iniciais são executados no seu banco de dados após as declarações ``CREATE TABLE``.
 
-For example, if you're using MySQL and want your tables to use the MyISAM table
-type, create an initial data file and put something like this in it::
+Por exemplo, se você está usando o MySQL e quer que suas tabelas sejam do tipo
+MyISAM, criar um arquivo de dados iniciais e coloque algo assim dentro dele::
 
     ALTER TABLE myapp_mytable ENGINE=MyISAM;
 
-As explained in the :ref:`SQL initial data file <initial-sql>` documentation,
-this SQL file can contain arbitrary SQL, so you can make any sorts of changes
-you need to make.
+Como explicado na documentação do :ref:`arquivo de dados SQL inicial <initial-sql>` , 
+esse arquivo SQL pode conter comandos SQL arbitrários, assim você pode fazer
+quaisquer modificações que quiser nele.
 
-Why is Django leaking memory?
------------------------------
+Por que o Django está vazando memória?
+---------------------------------------
 
-Django isn't known to leak memory. If you find your Django processes are
-allocating more and more memory, with no sign of releasing it, check to make
-sure your ``DEBUG`` setting is set to ``True``. If ``DEBUG`` is ``True``, then
-Django saves a copy of every SQL statement it has executed.
+O Django não é conhecido por vazar memória. Se você descobrir que seus
+processos Django estão alocando mais e mais memória, sem nenhum sinal de
+liberação, verifique se o ``DEBUG`` está habilitado. Se o ``DEBUG`` é ``True``,
+então o Django salva uma cópia de cada declaração SQL que ele executou.
 
-(The queries are saved in ``django.db.connection.queries``. See
-`How can I see the raw SQL queries Django is running?`_.)
+(As consultas são salvas em ``django.db.connection.queries``. Veja
+`Como eu posso ver as consultas SQL que o Django está executando?`_.)
 
-To fix the problem, set ``DEBUG`` to ``False``.
+Para resolver esse problema, configure o ``DEBUG`` para ``False``.
 
-If you need to clear the query list manually at any point in your functions,
-just call ``reset_queries()``, like this::
+Se você precisa limpar a lista de consultas manualmente em qualquer ponto das
+suas funções, apenas execute ``reset_queries()``, assim::
 
     from django import db
     db.reset_queries()
