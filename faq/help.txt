@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Italo Maia, Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,76 +16,76 @@
 
 .. _faq-help:
 
-FAQ: Getting Help
-=================
+FAQ: Obtendo ajuda
+==================
 
-How do I do X? Why doesn't Y work? Where can I go to get help?
---------------------------------------------------------------
+Como eu faço X? Por que Y não funciona? Onde eu posso obter ajuda?
+------------------------------------------------------------------
 
-If this FAQ doesn't contain an answer to your question, you might want to
-try the `django-users mailing list`_. Feel free to ask any question related
-to installing, using, or debugging Django.
+Se este FAQ não contém uma resposta a sua pergunta, você pode querer tentar a
+`lista de usuários do django`_. Sinta-se livre para perguntar quaisquer
+questões relacionadas a istalação, uso ou depuração do Django.
 
-If you prefer IRC, the `#django IRC channel`_ on the Freenode IRC network is an
-active community of helpful individuals who may be able to solve your problem.
+Se você prefere o IRC, o  `canal de IRC #django`_ na rede Freenode é uma
+comunidade ativa de indivíduos que podem ser capazes de ajudá-lo a resolver
+seu problema.
 
-.. _`django-users mailing list`: http://groups.google.com/group/django-users
-.. _`#django IRC channel`: irc://irc.freenode.net/django
+.. _`lista de usuários do django`: http://groups.google.com/group/django-users
+.. _`canal de IRC #django`: irc://irc.freenode.net/django
 
-Why hasn't my message appeared on django-users?
------------------------------------------------
+Por que a minha mensagem não apareceu na django-users?
+------------------------------------------------------
 
-django-users_ has a lot of subscribers. This is good for the community, as
-it means many people are available to contribute answers to questions.
-Unfortunately, it also means that django-users_ is an attractive target for
-spammers.
+A django-users_ tem muitos inscritos. Isso é bom para a comunidade, já que
+significa que muitas pessoas estão disponíveis para contribuir respondendo as
+perguntas. Infelizmente, significa também que a django-users_ é um alvo
+atrativo para spammers.
 
-In order to combat the spam problem, when you join the django-users_ mailing
-list, we manually moderate the first message you send to the list. This means
-that spammers get caught, but it also means that your first question to the
-list might take a little longer to get answered. We apologize for any
-inconvenience that this policy may cause.
+Para combater o problema do spam, quando você entra na lista django-users_,
+nós manualmente moderamos a primeira mensagem que você envia para a lista. Isso
+significa que os spammers são pegos, mas também significa que a sua primeira
+questão para a lista pode demorar um pouco para ser respondida. Pedimos
+desculpas por qualquer inconveniente que essa política pode causar.
 
 .. _django-users: http://groups.google.com/group/django-users
 
-Nobody on django-users answered my question! What should I do?
---------------------------------------------------------------
+Ninguém na django-users respondeu minha questão! O que eu faço?
+---------------------------------------------------------------
 
-Try making your question more specific, or provide a better example of your
-problem.
+Tente tornar sua questão mais específica, ou informar um exemplo melhor do seu
+problema.
 
-As with most open-source mailing lists, the folks on django-users_ are
-volunteers. If nobody has answered your question, it may be because nobody
-knows the answer, it may be because nobody can understand the question, or it
-may be that everybody that can help is busy. One thing you might try is to ask
-the question on IRC -- visit the `#django IRC channel`_ on the Freenode IRC
-network.
+Como na maioria das listas de projetos open-source, as pessoas na django-users_ são
+voluntárias. Se ninguém respondeu sua pergunta, pode ser que ninguém saiba a
+resposta, pode ser que ninguém tenha entendido a pergunta, ou pode ser que todos
+os que podem ajudar estão ocupados. Você pode tentar o IRC -- visite o `canal de IRC #django`_
+na rede Freenode.
 
-You might notice we have a second mailing list, called django-developers_ --
-but please don't e-mail support questions to this mailing list. This list is
-for discussion of the development of Django itself. Asking a tech support
-question there is considered quite impolite.
+Você pode notar que nós temos uma segunda lista de e-mail chamada django-developers_ --
+mas por favor, não envie perguntas de suporte para essa lista. Essa lista é para
+discussão dos desenvolvedores do Django em si. Fazer uma pergunta técnica ali
+pode ser considerado muito inconveniente.
 
 .. _django-developers: http://groups.google.com/group/django-developers
 
-I think I've found a bug! What should I do?
--------------------------------------------
+Acho que eu encontrei um bug! O que eu faço?
+---------------------------------------------
 
-Detailed instructions on how to handle a potential bug can be found in our
-:ref:`Guide to contributing to Django <reporting-bugs>`.
+Instruções detalhadas de como lidar com um bug em potencial podem ser encontradas em nosso
+:ref:`Guia de contribuição do Django <reporting-bugs>`.
 
-I think I've found a security problem! What should I do?
---------------------------------------------------------
+Acho que encontrei um problema de segurança. O que eu faço?
+-----------------------------------------------------------
 
-If you think you've found a security problem with Django, please send a message
-to security@djangoproject.com. This is a private list only open to long-time,
-highly trusted Django developers, and its archives are not publicly readable.
+Se você pensa ter encontrado um problema de segurança no Django, por favor envie
+uma mensagem para security@djangoproject.com. Essa é uma lista particular, aberta
+somente a desenvolvedores mais antigos e altamente confiáveis do Django, e seus
+arquivos não são públicos.
 
-Due to the sensitive nature of security issues, we ask that if you think you
-have found a security problem, *please* don't send a message to one of the
-public mailing lists. Django has a
-:ref:`policy for handling security issues <reporting-security-issues>`;
-while a defect is outstanding, we would like to minimize any damage that
-could be inflicted through public knowledge of that defect.
+Devido à natureza sensível de problemas de segurança, pedimos que se você pensa
+ter encontrado algo, *por favor* não envie uma mensagem para uma das listas públicas
+do Django. O Django tem uma `política para lidar com questões de segurança`_;
+enquanto o defeito está em aberto, gostaríamos de minimizar quaisquer danos que
+poderiam ser infligidos pelo seu conhecimento público.
 
-.. _`policy for handling security issues`: ../contributing/#reporting-security-issues
+.. _`política para lidar com questões de segurança`: ../contributing/#reporting-security-issues
