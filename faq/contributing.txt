@@ -3,7 +3,7 @@
 ..
 ..   $TranslationStatus: Not started $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Italo Maia, Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,31 +16,32 @@
 
 .. _faq-contributing:
 
-FAQ: Contributing code
-======================
+FAQ: Contribuindo com código
+============================
 
-How can I get started contributing code to Django?
---------------------------------------------------
+Como eu posso começar a contribuir com o código do Django?
+----------------------------------------------------------
 
-Thanks for asking! We've written an entire document devoted to this question.
-It's titled :ref:`Contributing to Django <internals-contributing>`.
+Obrigado por perguntar! Escrevemos um documento inteiro dedicado a essa questão
+chamado :ref:`Contribuindo com o Django <internals-contributing>`.
 
-I submitted a bug fix in the ticket system several weeks ago. Why are you ignoring my patch?
---------------------------------------------------------------------------------------------
+Eu enviei uma correção de bug no sistema de tickets semanas atrás. Por que vocês estão ignorando meu patch?
+------------------------------------------------------------------------------------------------------------
 
-Don't worry: We're not ignoring you!
+Não se preocupe, não estamos te ignorando!
 
-It's important to understand there is a difference between "a ticket is being
-ignored" and "a ticket has not been attended to yet." Django's ticket system
-contains hundreds of open tickets, of various degrees of impact on end-user
-functionality, and Django's developers have to review and prioritize.
+É importante entender que há uma diferença entre "um ticket está sendo ignorado"
+e "um ticket que ainda não foi atendido." O sistema de tickets do Django contém
+centenas de tickets abertos, de vários graus de impacto na funcionalidade
+oferecida aos usuários e os desenvolvedores do Django têm de revisá-los e
+priorizá-los.
 
-On top of that: the people who work on Django are all volunteers. As a result,
-the amount of time that we have to work on the framework is limited and will
-vary from week to week depending on our spare time. If we're busy, we may not
-be able to spend as much time on Django as we might want.
+Além disso, as pessoas que trabalham com o Django são voluntárias. Como resultado,
+a quantidade de tempo que temos para trabalhar no framework é limitada e irá
+variar semanalmente, de acordo com nosso tempo livre. Se estivermos ocupados,
+não poderemos gastar tanto tempo no Django como gostaríamos.
 
-Besides, if your feature request stands no chance of inclusion in Django, we
-won't ignore it -- we'll just close the ticket. So if your ticket is still
-open, it doesn't mean we're ignoring you; it just means we haven't had time to
-look at it yet.
+Além disso, se a sua requisição não tem chance de ser incluída no Django, nós
+não a inoraremos -- nós apenas fecharemos o ticket. Assim, se o seu ticket ainda
+está aberto, não significa que estamos te ignorando; significa apenas que ainda
+não tivemos tempo de olhá-lo.
