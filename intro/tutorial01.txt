@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done $
 ..   $OriginalRevision: 9012 $
 ..   $TranslationAuthors: Marcelo Minholi $
 ..
@@ -38,9 +38,9 @@ nenhum erro, o Django está instalado.
 .. admonition:: Onde conseguir ajuda:
 
     Se você estiver tendo problemas no decorrer desse tutorial, por favor envie
-    uma mensagem para `django-brasil`__ ou para `django-users`__ (inglês) ou 
+    uma mensagem para `django-brasil`__ ou para `django-users`__ (inglês) ou
     deixe-a em `#django-br`__ ou `#django`__ no ``irc.freenode.net`` para bater-papo
-    com outros usuarios Django que devem estar aptos a ajudar.
+    com outros usuários Django que devem estar aptos a ajudar.
 
 __ http://groups.google.com/group/django-brasil
 __ http://groups.google.com/group/django-users
@@ -50,7 +50,7 @@ __ irc://irc.freenode.net/django
 Criando um projeto
 ==================
 
-Se for a primeira vez que você está usando o Django você terá que preocupar-se 
+Se for a primeira vez que você está usando o Django você terá que preocupar-se
 com algumas configurações iniciais. A saber, você irá precisar auto-gerar
 algum código para estabelecer um :term:`project` Django -- uma coleção de
 configurações para uma instância do Django, incluindo configuração do banco de
@@ -81,7 +81,7 @@ O :ref:`django-admin.py <ref-django-admin>`  deverá estar no caminho do seu
 sistema se você instalou o Django via ``python setup.py``. Se ele não estiver no
 caminho, você pode encontrá-lo em ``site-packages/django/bin``, onde
 ``site-packages`` é um diretório dentro da sua instalação do Python. Considere a
-possibilidade de criar um link simbólico para o :ref:`django-admin.py 
+possibilidade de criar um link simbólico para o :ref:`django-admin.py
 <ref-django-admin>` a partir de algum lugar no seu caminho, como em
 ``/usr/local/bin``.
 
@@ -112,15 +112,15 @@ Esses arquivos são:
       documentação oficial do Python se você for iniciante em Python.)
 
     * :file:`manage.py`: Um utilitário de linha de comando que permite a você
-      interagir com esse projeto Django de várias maneiras. Voce pode ler todos
+      interagir com esse projeto Django de várias maneiras. Você pode ler todos
       os detalhes sobre :file:`manage.py` em :ref:`ref-django-admin`.
 
     * :file:`settings.py`: Settings/configurações para esse projeto Django.
-      :ref:`topics-settings` Ira revelar para voce tudo sobre como o settings
+      :ref:`topics-settings` Ira revelar para você tudo sobre como o settings
       funciona.
 
-    * :file:`urls.py`: As declarações de URLs para esse projeto Django; uma 
-      "tabela de conteúdos" para o seu site movido a Django. Voce pode ler mais
+    * :file:`urls.py`: As declarações de URLs para esse projeto Django; uma
+      "tabela de conteúdos" para o seu site movido a Django. você pode ler mais
       sobre URLs em :ref:`topics-http-urls`.
 
 .. _mais sobre pacotes: http://docs.python.org/tut/node8.html#packages
@@ -159,7 +159,7 @@ pastel. Ele funcionou!
     porta 8000. Se você quer mudar a porta do servidor, passe ela como um argumento
     na linha de comando. Por exemplo, este comando iniciará o servidor na porta
     8080:
-    
+   
     .. code-block:: bash
 
         python manage.py runserver 8080
@@ -176,16 +176,16 @@ representando as configurações do Django. Altere essas configurações para qu
 atendam aos parâmetros de conexão do seu banco de dados:
 
     * :setting:`DATABASE_ENGINE` -- Um entre 'postgresql_psycopg2', 'mysql' ou
-      'sqlite3'.      Outros backends também :setting:`estão disponíveis 
+      'sqlite3'.      Outros backends também :setting:`estão disponíveis
       <DATABASE_ENGINE>`.
 
     * :setting:`DATABASE_NAME` -- O nome do seu banco de dados, e você estiver
       usando SQLite, o banco de dados sera uma arquivo no se computador; neste
       caso, ``DATABASE_NAME`` deve ser o caminho completo, incluindo o nome, para
-      este arquivo. Se este arquivo nao existir, ele sera automaticamente criado
-      quando voce sincronizar o banco de dados pela primeira vez (veja abaixo).
+      este arquivo. Se este arquivo não existir, ele sera automaticamente criado
+      quando você sincronizar o banco de dados pela primeira vez (veja abaixo).
 
-      Quando estiver especificndo o caminho, sempre use barra normal ate mesmo
+      Quando estiver especificando o caminho, sempre use barra normal ate mesmo
       no Windows (e.g. ``C:/homes/user/mysite/sqlite3.db``).
 
     * ``DATABASE_USER`` -- Usuário do seu banco de dados (não utilizado para o
@@ -198,9 +198,9 @@ atendam aos parâmetros de conexão do seu banco de dados:
       branco se o seu servidor de banco de dados está na mesma máquina física
       (não utilizado para o SQLite).
 
-Se voce ainda nao conhece banco de dados, nos recomendamos simplesment usar
+Se você ainda não conhece banco de dados, nos recomendamos simplesmente usar
 SQLite (configurando :setting:`DATABASE_ENGINE` para ``'sqlite3'``). SQLite é
-incluido como parte do Python 2.5 e posterior, entao voce nao precisa instalar
+incluído como parte do Python 2.5 e posterior, então você não precisa instalar
 qualquer outra coisa.
 
 .. admonition:: Nota
@@ -209,8 +209,8 @@ qualquer outra coisa.
     criado o banco de dados a partir desse ponto. Faça isso com "``CREATE DATABASE
     database_name;``" a partir do prompt interativo do seu banco de dados.
 
-    Se voce esta usando SQLite voce nao precisa crear nada de antemão - o arquivo
-    do banco de dado sera criado automaticamento quando ele for nescessario.
+    Se você esta usando SQLite você não precisa criar nada de antemão - o arquivo
+    do banco de dado sera criado automaticamente quando ele for necessário.
 
 Enquanto você estiver editando o :file:`settings.py`, observe a configuração do
 :setting:`INSTALLED_APPS` próximo ao final do arquivo. Aquela variável possui
@@ -324,7 +324,7 @@ escolha (choice) tem dois campos: o texto da escolha e um totalizador de votos.
 Cada escolha é associada a uma enquete.
 
 Esses conceitos são representados por simples classes Python. Edite o arquivo
-:file:`polls/models.py` entao ele se parecerá com isso::
+:file:`polls/models.py` então ele se parecerá com isso::
 
     from django.db import models
 
@@ -337,75 +337,80 @@ Esses conceitos são representados por simples classes Python. Edite o arquivo
         choice = models.CharField(max_length=200)
         votes = models.IntegerField()
 
-.. admonition:: Errors about :attr:`~django.db.models.Field.max_length`
+.. admonition:: Erros sobre :attr:`~django.db.models.Field.max_length`
 
-   If Django gives you an error message saying that
-   :attr:`~django.db.models.Field.max_length` is not a valid argument, you're
-   most likely using an old version of Django. (This version of the tutorial is
-   written for the latest development version of Django.) If you're using a
-   Subversion checkout of Django's development version (see :ref:`the
-   installation docs <topics-install>` for more information), you shouldn't have
-   any problems.
+   Se o Django retornar para você uma mensagem de erro dizendo que o
+   :attr:`~django.db.models.Field.max_length` não é um argumento válido,
+   você provavelmente está usando uma versão antiga do Django. (Essa versão do
+   tutorial foi escrita para a última versão de desenvolvimento do Django.) Se
+   você estiver usando um checkout de Subversion da versão de desenvolvimento do
+   Django (veja :ref:`a documentação de instalação <topics-install>` para mais
+   informações), você não deveria ter nenhum problema.
 
-   If you want to stick with an older version of Django, you'll want to switch
-   to `the Django 0.96 tutorial`_, because this tutorial covers several features
-   that only exist in the Django development version.
+   Se você quiser continuar com uma versão antiga do Django, você deverá mudar
+   para `o tutorial do Django 0.96`_, porque este tutorial cobre vários recursos
+   que só existem na versão de desenvolvimento do Django.
 
-.. _the Django 0.96 tutorial: http://www.djangoproject.com/documentation/0.96/tutorial01/
+.. _o tutorial do Django 0.96: http://www.djangoproject.com/documentation/0.96/tutorial01/
 
-The code is straightforward. Each model is represented by a class that
-subclasses :class:`django.db.models.Model`. Each model has a number of class
-variables, each of which represents a database field in the model.
+O código é auto-explicativo. Cada modelo é representado por uma classe derivada
+da classe :class:`django.db.models.Model`. Cada modelo tem um número de
+variáveis de classe, as quais por sua vez representam os campos de banco de
+dados no modelo.
 
-Each field is represented by an instance of a :class:`~django.db.models.Field`
-class -- e.g., :class:`~django.db.models.CharField` for character fields and
-:class:`~django.db.models.DateTimeField` for datetimes. This tells Django what
-type of data each field holds.
+Cada campo é representado por uma instância de uma classe :class:`~django.db.models.Field`
+-- e.g., :class:`~django.db.models.CharField` para campos do tipo caractere e
+:class:`~django.db.models.DateTimeField` para datetimes. Isso diz ao Django qual
+tipo de dado cada campo contem.
 
-The name of each :class:`~django.db.models.Field` instance (e.g. ``question`` or
-``pub_date`` ) is the field's name, in machine-friendly format. You'll use this
-value in your Python code, and your database will use it as the column name.
+O nome de cada instância :class:`~django.db.models.Field` (e.g. ``question`` ou
+``pub_date`` ) é o nome do campo, em formato amigável para a máquina. Você irá
+usar esse valor no seu código Python, e seu banco de dados irá usá-lo como nome
+de coluna.
 
-You can use an optional first positional argument to a
-:class:`~django.db.models.Field` to designate a human-readable name. That's used
-in a couple of introspective parts of Django, and it doubles as documentation.
-If this field isn't provided, Django will use the machine-readable name. In this
-example, we've only defined a human-readable name for ``Poll.pub_date``. For all
-other fields in this model, the field's machine-readable name will suffice as
-its human-readable name.
+Você pode usar um argumento na primeira posição de um
+:class:`~django.db.models.Field` para designar um nome mais legível. O qual será
+usado em uma série de partes introspectivas do Django, e também servirá como
+documentação. Se esse campo não for fornecido, o Django irá usar o nome do campo.
+Nesse exemplo nós definimos um nome legível apenas para ``Poll.pub_date``.
+Para todos os outros campos nesse modelo o nome campo servirá como nome.
 
-Some :class:`~django.db.models.Field` classes have required elements.
-:class:`~django.db.models.CharField`, for example, requires that you give it a
-:attr:`~django.db.models.Field.max_length`. That's used not only in the database
-schema, but in validation, as we'll soon see.
+Algumas classes :class:`~django.db.models.Field` possuem elementos obrigatórios.
+O :class:`~django.db.models.CharField`, por exemplo, requer que você informe a
+ele um :attr:`~django.db.models.Field.max_length`. Isso é usado não apenas
+no esquema do banco de dados, mas na validação, como nós veremos em breve.
 
-Finally, note a relationship is defined, using
-:class:`~django.db.models.ForeignKey`. That tells Django each Choice is related
-to a single Poll. Django supports all the common database relationships:
-many-to-ones, many-to-manys and one-to-ones.
+Finalmente, note a definição de um relacionamento, usando
+:class:`~django.db.models.ForeignKey`. que diz ao Django que cada Choice(Escolha)
+está relacionada a uma única Poll (Enquete). O Django suporta todos os
+relacionamentos de banco de dados comuns: muitos-para-um, muitos-para-muitos e
+um-para-um.
 
 .. _`caminho do Python`: http://docs.python.org/tut/node8.html#SECTION008110000000000000000
 
-Activating models
-=================
+Ativando os modelos
+===================
 
-That small bit of model code gives Django a lot of information. With it, Django
-is able to:
+Aquela pequena parte do modelo fornece ao Django muita informação. Com ela o
+Django é capaz de:
 
-    * Create a database schema (``CREATE TABLE`` statements) for this app.
-    * Create a Python database-access API for accessing Poll and Choice objects.
+    * Criar um esquema de banco de dados (instruções ``CREATE TABLE``) para essa
+      aplicação.
+    * Criar uma API de acesso a banco de dados para acessar objetos ``Poll`` e
+      ``Choice``.
 
-But first we need to tell our project that the ``polls`` app is installed.
+Mas primeiro nós precisamos dizer ao nosso projeto que a aplicação ``polls``
+está instalada.
 
-.. admonition:: Philosophy
+.. admonition:: Filosofia
 
-    Django apps are "pluggable": You can use an app in multiple projects, and
-    you can distribute apps, because they don't have to be tied to a given
-    Django installation.
+    Aplicações Django são "plugáveis": Você pode usar uma aplicação em múltiplos
+    projetos, e você pode distribuir aplicações, porque elas não têm que ser
+    atreladas a uma determinada instalação do Django.
 
-Edit the :file:`settings.py` file again, and change the
-:setting:`INSTALLED_APPS` setting to include the string ``'mysite.polls'``. So
-it'll look like this::
+Edite o arquivo :file:`settings.py` novamente e altere a variavel
+:setting:`INSTALLED_APPS` para incluir ``'mysite.polls'``. Então ela irá parecer
+com isso::
 
     INSTALLED_APPS = (
         'django.contrib.auth',
@@ -415,15 +420,15 @@ it'll look like this::
         'mysite.polls'
     )
 
-Now Django knows ``mysite`` includes the ``polls`` app. Let's run another
-command:
+Agora o Django sabe que o ``mysite`` inclui a aplicação ``polls``. Vamos rodar
+outro comando:
 
 .. code-block:: bash
 
     python manage.py sql polls
 
-You should see something similar to the following (the ``CREATE TABLE`` SQL
-statements for the polls app):
+Você deverá ver algo similar ao seguinte (as instruções SQL `CREATE TABLE`` para
+a aplicação enquete (poll)):
 
 .. code-block:: sql
 
@@ -441,151 +446,154 @@ statements for the polls app):
     );
     COMMIT;
 
-Note the following:
+Note o seguinte:
 
-    * The exact output will vary depending on the database you are using.
+    * A saída exata irá variar dependendo do banco de dados que você está usando.
 
-    * Table names are automatically generated by combining the name of the app
-      (``polls``) and the lowercase name of the model -- ``poll`` and
-      ``choice``. (You can override this behavior.)
+    * Os nomes das tabelas são gerados automaticamente combinando o nome da
+      aplicação (``polls``) e o nome em minúsculas do modelo -- ``poll`` e
+      ``choice``. (Você pode alterar esse comportamento.)
 
-    * Primary keys (IDs) are added automatically. (You can override this, too.)
+    * Chaves primárias (IDs) são adicionadas automaticamente. (Você pode modificar
+      isso, também.)
 
-    * By convention, Django appends ``"_id"`` to the foreign key field name.
-      Yes, you can override this, as well.
+    * Por convenção, o Django adiciona ``"_id"`` ao nome do campo chave
+      estrangeira. Sim, você pode alterar isso, como quiser.
 
-    * The foreign key relationship is made explicit by a ``REFERENCES``
-      statement.
+    * O relacionamento da chave estrangeira é feito explicitamente por uma
+      instrução ``REFERENCES``.
 
-    * It's tailored to the database you're using, so database-specific field
-      types such as ``auto_increment`` (MySQL), ``serial`` (PostgreSQL), or
-      ``integer primary key`` (SQLite) are handled for you automatically. Same
-      goes for quoting of field names -- e.g., using double quotes or single
-      quotes. The author of this tutorial runs PostgreSQL, so the example
-      output is in PostgreSQL syntax.
+    * Isso é atrelado ao banco que você está usando, então a utilização de campos
+      específicos do banco de dados como ``auto_increment`` (MySQL), ``serial``
+      (PostgreSQL), ou ``integer primary key`` (SQLite) é feita para você
+      automaticamente. O mesmo ocorre com as aspas dos nomes de campos -- e.g.,
+      usando aspas duplas ou aspas simples. O autor desse tutorial rodava
+      PostgreSQL, então o saída do exemplo está na sintaxe do PostgreSQL.
 
-    * The :djadmin:`sql` command doesn't actually run the SQL in your database -
-      it just prints it to the screen so that you can see what SQL Django thinks
-      is required. If you wanted to, you could copy and paste this SQL into your
-      database prompt. However, as we will see shortly, Django provides an
-      easier way of committing the SQL to the database.
+    * O comando :djadmin:`sql` na realidade não roda o SQL no seu banco de dados
+      - ele apenas o exibe na tela para que você saiba qual SQL o Django acha que
+      é necessário. Se você quiser, você pode copiar e colar esse SQL no prompt
+      do seu banco de dados. Entretanto, como nós iremos ver em breve, o Django
+      fornece uma maneira mais fácil de submeter o SQL ao banco de dados.
 
-If you're interested, also run the following commands:
+Se você tiver interessado, também rode os seguintes comandos:
 
-    * :djadmin:`python manage.py validate <validate>` -- Checks for any errors
-      in the construction of your models.
+    * :djadmin:`python manage.py validate <validate>` -- Verifica por quaisquer
+      erros na construção dos seus modelos.
 
-    * :djadmin:`python manage.py sqlcustom polls <sqlcustom>` -- Outputs any
-      :ref:`custom SQL statements <initial-sql>` (such as table modifications or
-      constraints) that are defined for the application.
+    * :djadmin:`python manage.py sqlcustom polls <sqlcustom>` -- Mostra quaisquer
+      :ref:`instruções SQL personalizadas <initial-sql>` (como modificações em
+      tabelas ou restricoes) que tenham sido definidas para a aplicação.
 
-    * :djadmin:`python manage.py sqlclear polls <sqlclear>` -- Outputs the
-      necessary ``DROP TABLE`` statements for this app, according to which
-      tables already exist in your database (if any).
+    * :djadmin:`python manage.py sqlclear polls <sqlclear>` -- Mostra as
+      instruções ``DROP TABLE`` necessárias para essa aplicação, de acordo com
+      as tabelas que já existem no seu banco de dados (se houver alguma).
 
-    * :djadmin:`python manage.py sqlindexes polls <sqlindexes>` -- Outputs the
-      ``CREATE INDEX`` statements for this app.
+    * :djadmin:`python manage.py sqlindexes polls <sqlindexes>` -- Mostra as
+      instruções ``CREATE INDEX`` necessárias para essa aplicação.
 
-    * :djadmin:`python manage.py sqlall polls <sqlall>` -- A combination of all
-      the SQL from the :djadmin:`sql`, :djadmin:`sqlcustom`, and
-      :djadmin:`sqlindexes` commands.
+    * :djadmin:`python manage.py sqlall polls <sqlall>` -- Uma combinação SQL de
+      todos os comandos :djadmin:`sql`, :djadmin:`sqlcustom`, e
+      :djadmin:`sqlindexes`.
 
-Looking at the output of those commands can help you understand what's actually
-happening under the hood.
+Olhar para a saída desses comandos irá ajudar a entender o que está acontecendo
+por baixo dos panos.
 
-Now, run :djadmin:`syncdb` again to create those model tables in your database:
+Agora, rode o :djadmin:`syncdb` novamente para criar essas tabelas de modelos no
+seu banco de dados:
 
 .. code-block:: bash
 
     python manage.py syncdb
 
-The :djadmin:`syncdb` command runs the sql from 'sqlall' on your database for
-all apps in :setting:`INSTALLED_APPS` that don't already exist in your database.
-This creates all the tables, initial data and indexes for any apps you have
-added to your project since the last time you ran syncdb. :djadmin:`syncdb` can
-be called as often as you like, and it will only ever create the tables that
-don't exist.
+O comando :djadmin:`syncdb` roda o sql do 'sqlall' em seu banco de dados para
+todas as aplicações presentes no :setting:`INSTALLED_APPS` que ainda não existam
+em seu banco de dados. Isso criará todas as tabelas, dados iniciais e índices
+para quaisquer aplicações que você tenha adicionado ao seu projeto desde a
+última vez que você rodou o syncdb. O :djadmin:`syncdb` pode ser chamado sempre
+que você quiser, e ele irá apenas criar as tabelas que não existirem.
 
-Read the :ref:`django-admin.py documentation <ref-django-admin>` for full
-information on what the ``manage.py`` utility can do.
+Leia a :ref:`documentação do django-admin.py <ref-django-admin>` para informações
+completas sobre o que o utilitário ``manage.py`` pode fazer.
 
-Playing with the API
-====================
+Brincando com a API
+===================
 
-Now, let's hop into the interactive Python shell and play around with the free
-API Django gives you. To invoke the Python shell, use this command:
+Agora, vamos dar uma passada no shell interativo do Python e brincar um pouco com
+a API grátis que o Django dá a você. Para invocar o shell do Python, use esse
+comando:
 
 .. code-block:: bash
 
     python manage.py shell
 
-We're using this instead of simply typing "python", because ``manage.py`` sets
-up the project's environment for you. "Setting up the environment" involves two
-things:
+Nós usaremos isso em vez de simplesmente digitar "python", porque o
+``manage.py`` configura o ambiente de projeto para você. "A configuração do
+ambiente" envolve duas coisas:
 
-    * Putting ``mysite`` on ``sys.path``. For flexibility, several pieces of
-      Django refer to projects in Python dotted-path notation (e.g.
-      ``'mysite.polls.models'``). In order for this to work, the ``mysite``
-      package has to be on ``sys.path``.
+    * Colocar o ``mysite`` no ``sys.path``. Buscando flexibilidade, várias partes
+      do Django referem-se aos projetos usando a notação pontuada do Python (e.g.
+      ``'mysite.polls.models'``). Para que isso funcione, o pacote ``mysite``
+      precisa estar no ``sys.path``.
 
-      We've already seen one example of this: the :setting:`INSTALLED_APPS`
-      setting is a list of packages in dotted-path notation.
+      Nós já vimos um exemplo disso: a variavel :setting:`INSTALLED_APPS` é uma
+      lista de pacotes na notação pontuada de caminho.
 
-    * Setting the ``DJANGO_SETTINGS_MODULE`` environment variable, which gives
-      Django the path to your ``settings.py`` file.
+    * Configurar a variável de ambiente ``DJANGO_SETTINGS_MODULE``, que fornece ao
+      Django o caminho para o seu arquivo ``settings.py``.
 
-.. admonition:: Bypassing manage.py
+.. admonition:: Ignorando o manage.py
 
-    If you'd rather not use ``manage.py``, no problem. Just make sure ``mysite``
-    is at the root level on the Python path (i.e., ``import mysite`` works) and
-    set the ``DJANGO_SETTINGS_MODULE`` environment variable to
-    ``mysite.settings``.
+    Se você optar por não usar o ``manage.py``, não há problemas. Apenas
+    certifique-se de que o ``mysite`` está no nível raíz do caminho do Python
+    (i.e., ``import mysite`` funciona) e configure a variável de ambiente
+    ``DJANGO_SETTINGS_MODULE`` para ``mysite.settings``.
 
-    For more information on all of this, see the :ref:`django-admin.py
-    documentation <ref-django-admin>`.
+    Para mais informações sobre tudo isso, veja a :ref:`documentação do 
+    django-admin.py <ref-django-admin>`.
 
-Once you're in the shell, explore the :ref:`database API <topics-db-queries>`::
+Assim que você estiver no shell, explore a :ref:`API de banco de dados 
+<topics-db-queries>`::
 
-    >>> from mysite.polls.models import Poll, Choice # Import the model classes we just wrote.
+    # Importe as classes de modelo que acabamos de criar.
+    >>> from mysite.polls.models import Poll, Choice
 
-    # No polls are in the system yet.
+    # Não há nenhuma enquete no sistema ainda.
     >>> Poll.objects.all()
     []
 
-    # Create a new Poll.
+    # Crie uma nova enquete.
     >>> import datetime
     >>> p = Poll(question="What's up?", pub_date=datetime.datetime.now())
 
-    # Save the object into the database. You have to call save() explicitly.
+    # Salve o objeto na base de dados. Você tem que chamar o save() explicitamente.
     >>> p.save()
 
-    # Now it has an ID. Note that this might say "1L" instead of "1", depending
-    # on which database you're using. That's no biggie; it just means your
-    # database backend prefers to return integers as Python long integer
-    # objects.
+    # Agora ele tem uma ID. Note que ele irá mostrar "1L" em vez de "1",
+    # dependendo de qual banco de dados você está usando. Não é nada demais; isso
+    # apenas significa que o backend do seu banco de dados prefere retornar
+    # inteiros como objetos inteiros longos do Python.
     >>> p.id
     1
 
-    # Access database columns via Python attributes.
+    # Acesse colunas do banco de dados via atributos do Python.
     >>> p.question
     "What's up?"
     >>> p.pub_date
     datetime.datetime(2007, 7, 15, 12, 00, 53)
 
-    # Change values by changing the attributes, then calling save().
+    # Modifique valores alterando os atributos e depois chamando o save()..
     >>> p.pub_date = datetime.datetime(2007, 4, 1, 0, 0)
     >>> p.save()
 
-    # objects.all() displays all the polls in the database.
+    # objects.all() mostra todas as enquetes do banco de dados..
     >>> Poll.objects.all()
     [<Poll: Poll object>]
 
-
-Wait a minute. ``<Poll: Poll object>`` is, utterly, an unhelpful representation
-of this object. Let's fix that by editing the polls model (in the
-``polls/models.py`` file) and adding a
-:meth:`~django.db.models.Model.__unicode__` method to both ``Poll`` and
-``Choice``::
+Espere um pouco. ``<Poll: Poll object>`` é, uma representação totalmente inútil
+desse objeto. Vamos corrigir isso editando o modelo da enquete (no arquivo
+``polls/models.py``) e adicionando um método 
+:meth:`~django.db.models.Model.__unicode__` a ambos ``Poll`` e ``Choice``::
 
     class Poll(models.Model):
         # ...
@@ -597,49 +605,50 @@ of this object. Let's fix that by editing the polls model (in the
         def __unicode__(self):
             return self.choice
 
-.. admonition:: If :meth:`~django.db.models.Model.__unicode__` doesn't seem to work
+.. admonition:: Se o :meth:`~django.db.models.Model.__unicode__` parecer não funcionar
 
-   If you add the :meth:`~django.db.models.Model.__unicode__` method to your
-   models and don't see any change in how they're represented, you're most
-   likely using an old version of Django. (This version of the tutorial is
-   written for the latest development version of Django.) If you're using a
-   Subversion checkout of Django's development version (see :ref:`the
-   installation docs <topics-install>` for more information), you shouldn't have
-   any problems.
+    Se você adicionar o método :meth:`~django.db.models.Model.__unicode__` aos
+    seus modelos e não observar nenhuma mudança na forma com que eles são
+    representados, você deve estar usando uma versão antiga do Django. (Esta
+    versão do tutorial foi escrita para a última versão de desenvolvimento do
+    Django.) Se você estiver usando um checkout do Subversion do Django
+    (veja :ref:`a documentação de instalação <topics-install>` para mais
+    informações), você não deveria estar tendo nenhum problema.
 
-   If you want to stick with an older version of Django, you'll want to switch
-   to `the Django 0.96 tutorial`_, because this tutorial covers several features
-   that only exist in the Django development version.
+    Se você quiser seguir com uma versão antiga do Django, você deverá mudar para
+    `o tutorial do Django 0.96`_, porque este tutorial cobre vários recursos que
+    existem apenas na versão de desenvolvimento do Django.
 
-.. _the Django 0.96 tutorial: http://www.djangoproject.com/documentation/0.96/tutorial01/
+.. _o tutorial do Django 0.96: http://www.djangoproject.com/documentation/0.96/tutorial01/
 
-It's important to add :meth:`~django.db.models.Model.__unicode__` methods to
-your models, not only for your own sanity when dealing with the interactive
-prompt, but also because objects' representations are used throughout Django's
-automatically-generated admin.
+É importante adicionar métodos :meth:`~django.db.models.Model.__unicode__` aos
+seus modelos, não apenas para sua própria sanidade quando estiver lidando com o
+prompt interativo, mas também porque representações de objetos são usadas em
+toda a administração gerada automaticamente pelo Django.
 
-.. admonition:: Why :meth:`~django.db.models.Model.__unicode__` and not 
+.. admonition:: Por que :meth:`~django.db.models.Model.__unicode__` e não
                 :meth:`django.db.models.Model.__str__`?
 
-    If you're familiar with Python, you might be in the habit of adding
-    :meth:`django.db.models.Model.__str__` methods to your classes, not
-    :meth:`~django.db.models.Model.__unicode__` methods. We use
-    :meth:`~django.db.models.Model.__unicode__` here because Django models deal
-    with Unicode by default. All data stored in your database is converted to
-    Unicode when it's returned.
+    Se você esta familiarizado com o Python, você deve ter o hábito de adicionar
+    métodos :meth:`django.db.models.Model.__str__` às suas classes, não métodos
+    :meth:`~django.db.models.Model.__unicode__`. Nós usamos
+    :meth:`~django.db.models.Model.__unicode__` aqui porque os modelos do Django
+    lidam com Unicode por padrão. Todos os dados armazenados nos seus bancos de
+    dados são convertidos para Unicode quando são retornados.
 
-    Django models have a default :meth:`django.db.models.Model.__str__` method
-    that calls :meth:`~django.db.models.Model.__unicode__` and converts the
-    result to a UTF-8 bytestring. This means that ``unicode(p)`` will return a
-    Unicode string, and ``str(p)`` will return a normal string, with characters
-    encoded as UTF-8.
+    Os modelos do Django têm um método padrão
+    :meth:`django.db.models.Model.__str__` que chama o
+    :meth:`~django.db.models.Model.__unicode__` e converte os resultados para
+    uma bytestring UTF-8. Isso significa que ``unicode(p)`` irá retornar uma
+    string Unicode, e que ``str(p)`` irá retornar uma string normal, com
+    caracteres codificados como UTF-8.
 
-    If all of this is jibberish to you, just remember to add
-    :meth:`~django.db.models.Model.__unicode__` methods to your models. With any
-    luck, things should Just Work for you.
+    Se tudo isso é grego para você, apenas lembre-se de adicionar métodos
+    :meth:`~django.db.models.Model.__unicode__` aos seus modelos. Com alguma 
+    sorte, as coisas deverão Simplesmente Funcionar para você.
 
-Note these are normal Python methods. Let's add a custom method, just for
-demonstration::
+Note que esses são métodos Python normais. Vamos adicionar um método
+personalizado, apenas por demonstração::
 
     import datetime
     # ...
@@ -648,27 +657,27 @@ demonstration::
         def was_published_today(self):
             return self.pub_date.date() == datetime.date.today()
 
-Note the addition of ``import datetime`` to reference Python's standard
-``datetime`` module.
+Note a adição de ``import datetime`` para referenciar o módulo padrão do Python
+``datetime``.
 
-Let's jump back into the Python interactive shell by running
-``python manage.py shell`` again::
+Vamos voltar um pouco ao shell interativo do Python rodando
+``python manage.py shell`` novamente::
 
     >>> from mysite.polls.models import Poll, Choice
 
-    # Make sure our __unicode__() addition worked.
+    # Certifique-se de que a sua adição do __unicode__() funcionou.
     >>> Poll.objects.all()
     [<Poll: What's up?>]
 
-    # Django provides a rich database lookup API that's entirely driven by
-    # keyword arguments.
+    # O Django fornece uma rica API de procura em banco de dados inteiramente
+    # controlada por argumentos formados por palavras-chave.
     >>> Poll.objects.filter(id=1)
     [<Poll: What's up?>]
     >>> Poll.objects.filter(question__startswith='What')
     [<Poll: What's up?>]
 
-    # Get the poll whose year is 2007. Of course, if you're going through this
-    # tutorial in another year, change as appropriate.
+    # Pegue a enquete cujo ano é 2007. Claro que, se você estiver seguindo esse
+    # tutorial em outro ano, mude como for apropriado.
     >>> Poll.objects.get(pub_date__year=2007)
     <Poll: What's up?>
 
@@ -677,20 +686,20 @@ Let's jump back into the Python interactive shell by running
         ...
     DoesNotExist: Poll matching query does not exist.
 
-    # Lookup by a primary key is the most common case, so Django provides a
-    # shortcut for primary-key exact lookups.
-    # The following is identical to Poll.objects.get(id=1).
+    # Buscar por uma chave primária é o caso mais comum, então o Django fornece
+    # um atalho para buscas por chaves primárias específicas.
+    # O que se segue é idêntido a Poll.objects.get(id=1).
     >>> Poll.objects.get(pk=1)
     <Poll: What's up?>
 
-    # Make sure our custom method worked.
+    # Certifique-se de que o método personalizado funcionou.
     >>> p = Poll.objects.get(pk=1)
     >>> p.was_published_today()
     False
 
-    # Give the Poll a couple of Choices. The create call constructs a new
-    # choice object, does the INSERT statement, adds the choice to the set
-    # of available choices and returns the new Choice object.
+    # Dê à enquete algumas opções. A chamada create constrói um novo objeto
+    # opção, executa a instrução INSERT, adiciona a escolha ao conjunto de
+    # escolhas disponíveis e retorna o novo objeto opção.
     >>> p = Poll.objects.get(pk=1)
     >>> p.choice_set.create(choice='Not much', votes=0)
     <Choice: Not much>
@@ -698,29 +707,30 @@ Let's jump back into the Python interactive shell by running
     <Choice: The sky>
     >>> c = p.choice_set.create(choice='Just hacking again', votes=0)
 
-    # Choice objects have API access to their related Poll objects.
+    # Objetos Choice possuem acesso via API aos seus objetos Poll relacionados.
     >>> c.poll
     <Poll: What's up?>
 
-    # And vice versa: Poll objects get access to Choice objects.
+    # E vice-versa: Objetos Poll possuem acesso aos objetos Choice.
     >>> p.choice_set.all()
     [<Choice: Not much>, <Choice: The sky>, <Choice: Just hacking again>]
     >>> p.choice_set.count()
     3
 
-    # The API automatically follows relationships as far as you need.
-    # Use double underscores to separate relationships.
-    # This works as many levels deep as you want; there's no limit.
-    # Find all Choices for any poll whose pub_date is in 2007.
+    # A API segue automaticamente os relacionamentos da forma como você precisa.
+    # Use underscores duplos para separar relacionamentos.
+    # Isso funciona em tantos níveis abaixo quando você quiser; não há limite.
+    # Encontre todas as opções para uma enquete cuja data de publicacao é em 2007.
     >>> Choice.objects.filter(poll__pub_date__year=2007)
     [<Choice: Not much>, <Choice: The sky>, <Choice: Just hacking again>]
 
-    # Let's delete one of the choices. Use delete() for that.
+    # Vamos deletar uma das escolhas. Use delete() para isso.
     >>> c = p.choice_set.filter(choice__startswith='Just hacking')
     >>> c.delete()
 
-For full details on the database API, see our :ref:`Database API reference
-<topics-db-queries>`.
+Para um detalhamento completo da API de banco de dados, veja nossa
+:ref:`referência à API de Banco de Dados <topics-db-queries>`.
 
-When you're comfortable with the API, read :ref:`part 2 of this tutorial
-<intro-tutorial02>` to get Django's automatic admin working.
+Quando você se sentir confortável com a API, leia a :ref:`parte 2 desse tutorial
+<intro-tutorial02>` para colocar a administração automática do Django para
+funcionar.
