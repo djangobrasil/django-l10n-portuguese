@@ -27,7 +27,7 @@ Instalando o Python
 -------------------
 
 Sendo um web framework Python, Django requer o  Python. Ele funciona com qualquer
-versao 2.3 e superiores, mais nos recomendamos instalar Python 2.5 ou posterior.
+versão 2.3 e superiores, mais nos recomendamos instalar Python 2.5 ou posterior.
 Se fizer isso, você não precisará criar um banco de dados ainda: Python 2.5 ou
 posterior inclui uma base de dados leve chamado SQLite_.
 
@@ -86,16 +86,16 @@ Você tem três opções fáceis para instalar Django:
       <installing-development-version>`. Esta é melhor para usuário que querem as
       mais recentes e melhores funcionalidades e não tem medo de executar códigos
       novos.
-     
+    
 .. warning::
 
     Se você fizer um dos dois primeiro passos, mantenha seus olhos longe da partes
     da documentação marcadas como ** novo na versão de desenvolvimento**. Esta
     frase marca características que estão disponíveis apenas na versão de
-    desenvolvimento do Django; Se você tentar utilizar elas com um release oficial
+    desenvolvimento do Django; Se você tentar utilizar elas com uma release oficial
     elas não irão funcionar.
 
 É isso!
 -------
-   
-É isso! -- Agora voce pode :ref:`avançar para o tutorial <intro-tutorial01>`.
+  
+É isso! -- Agora você pode :ref:`avançar para o tutorial <intro-tutorial01>`.
