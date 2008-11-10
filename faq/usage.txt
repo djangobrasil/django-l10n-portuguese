@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Italo Maia, Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,69 +16,69 @@
 
 .. _faq-usage:
 
-FAQ: Using Django
-=================
+FAQ: Usando o Django
+====================
 
-Why do I get an error about importing DJANGO_SETTINGS_MODULE?
--------------------------------------------------------------
+Por que acontece um erro ao importar o DJANGO_SETTINGS_MODULE?
+--------------------------------------------------------------
 
-Make sure that:
+Certifique-se de que:
 
-    * The environment variable DJANGO_SETTINGS_MODULE is set to a fully-qualified
-      Python module (i.e. "mysite.settings").
+    * A variável de ambiente DJANGO_SETTINGS_MODULE está configurada para um módulo Python
+      totalmente qualificado (ex:. "mysite.settings").
 
-    * Said module is on ``sys.path`` (``import mysite.settings`` should work).
+    * O módulo está em ``sys.path`` (``import mysite.settings`` deve funcionar).
 
-    * The module doesn't contain syntax errors (of course).
+    * O módulo não contém erros de sintaxe (é claro).
 
-    * If you're using mod_python but *not* using Django's request handler,
-      you'll need to work around a mod_python bug related to the use of
-      ``SetEnv``; before you import anything from Django you'll need to do
-      the following::
+    * Se você está usando o mod_python, mas *não* está usando o manipulador de requisições do Django,
+      você precisa corrigir um bug do mod_python relacionado ao uso de ``SetEnv``; antes de você
+      importar qualquer coisa do Django você precisa fazer o seguinte::
 
             os.environ.update(req.subprocess_env)
 
-      (where ``req`` is the mod_python request object).
+      (onde ``req`` é o objeto de requisição do mod_python).
 
-I can't stand your template language. Do I have to use it?
-----------------------------------------------------------
+Eu não gosto da sua linguagem de template. Eu tenho de usá-la?
+---------------------------------------------------------------
 
-We happen to think our template engine is the best thing since chunky bacon,
-but we recognize that choosing a template language runs close to religion.
-There's nothing about Django that requires using the template language, so
-if you're attached to ZPT, Cheetah, or whatever, feel free to use those.
+Pensamos que nossa linguagem de templates é a melhor coisa inventada desde os
+pedaços de bacon mas reconhecemos que a escolha de linguagem de templates
+é uma discussão quase religiosa. Não há nada no Django que requeira que você use
+a linguagem de template, então, se você prefere o ZPT, Cheetah, ou o que quer que seja,
+sinta-se livre para usá-los.
 
-Do I have to use your model/database layer?
--------------------------------------------
+Eu tenho de usar sua camada de modelo/banco de dados?
+-----------------------------------------------------
 
-Nope. Just like the template system, the model/database layer is decoupled from
-the rest of the framework.
+Não. Assim como o sistema de templates, a camada de modelo/banco de dados está desacoplada
+do resto do framework.
 
-The one exception is: If you use a different database library, you won't get to
-use Django's automatically-generated admin site. That app is coupled to the
-Django database layer.
+A única exceção é: se você usar uma biblioteca diferente de banco de dados, você irá perder
+o sistema de administração gerado automaticamente pelo Django. Esse aplicativo é acoplado
+à camada de banco de dados do Django.
 
-How do I use image and file fields?
------------------------------------
+Como eu uso os campos de imagem e arquivos?
+--------------------------------------------
 
-Using a :class:`~django.db.models.FileField` or an 
-:class:`~django.db.models.ImageField` in a model takes a few steps:
+O uso de um :class:`~django.db.models.FileField` ou um 
+:class:`~django.db.models.ImageField` em modelo requer alguns passos:
 
-    #. In your settings file, you'll need to define :setting:`MEDIA_ROOT` as the
-       full path to a directory where you'd like Django to store uploaded files.
-       (For performance, these files are not stored in the database.) Define
-       :setting:`MEDIA_URL` as the base public URL of that directory. Make sure
-       that this directory is writable by the Web server's user account.
+    #. No seu arquivo de configurações, defina o :setting:`MEDIA_ROOT` como o caminho completo
+       para o diretório onde você gostaria que o Django salvasse os arquivos enviados. (Para
+       melhor performance, esses arquivos não são guardados em um banco de dados.) Defina o
+       :setting:`MEDIA_URL` como a URL pública para esse diretório. Assegure-se de que esse
+       diretório tenha permissão de escrita para o usuário do servidor Web.
 
-    #. Add the :class:`~django.db.models.FileField` or 
-       :class:`~django.db.models.ImageField` to your model, making sure to 
-       define the :attr:`~django.db.models.FileField.upload_to` option to tell 
-       Django to which subdirectory of :setting:`MEDIA_ROOT` it should upload 
-       files.
+    #. Adicione o :class:`~django.db.models.FileField` ou 
+       :class:`~django.db.models.ImageField` a seu modelo, definindo
+       a opção :attr:`~django.db.models.FileField.upload_to` para dizer 
+       ao Django para qual subdiretório do :setting:`MEDIA_ROOT` ele deve
+       enviar os arquivos.
 
-    #. All that will be stored in your database is a path to the file 
-       (relative to :setting:`MEDIA_ROOT`). You'll most likely want to use the
-       convenience :attr:`~django.core.files.File.url` attribute provided by
-       Django. For example, if your :class:`~django.db.models.ImageField` is
-       called ``mug_shot``, you can get the absolute URL to your image in a
-       template with ``{{ object.mug_shot.url }}``.
+    #. Tudo que será gravado no seu banco de dados é o caminho para o arquivo
+       (relativo ao :setting:`MEDIA_ROOT`). Você pode também querer usar o atributo
+       de conveniência :attr:`~django.core.files.File.url` fornecido pelo
+       Django. Por exemplo, se o seu :class:`~django.db.models.ImageField` é
+       chamado ``mug_shot``, você pode obter a URL absoluta para a sua imagem em um
+       template com ``{{ object.mug_shot_url }}``.
