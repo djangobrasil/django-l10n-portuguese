@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Italo Maia, Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,41 +16,41 @@
 
 .. _faq-install:
 
-FAQ: Installation
+FAQ: Instalação
 =================
 
-How do I get started?
----------------------
+Como eu começo?
+----------------
 
-    #. `Download the code`_.
-    #. Install Django (read the :ref:`installation guide <intro-install>`).
-    #. Walk through the :ref:`tutorial <intro-tutorial01>`.
-    #. Check out the rest of the :ref:`documentation <index>`, and `ask questions`_ if you
-       run into trouble.
+    #. `Baixe o código`_.
+    #. Instale o Django (leia o :ref:`guia de instalação <intro-install>`).
+    #. Execute o :ref:`tutorial <intro-tutorial01>`.
+    #. Verifique o resto da :ref:`documentação <index>`, e `pergunte`_ se você
+       estiver com problemas.
 
-.. _`Download the code`: http://www.djangoproject.com/download/
-.. _ask questions: http://www.djangoproject.com/community/
+.. _`Baixe o código`: http://www.djangoproject.com/download/
+.. _pergunte: http://www.djangoproject.com/community/
 
-How do I fix the "install a later version of setuptools" error?
+Como eu corrijo o erro "install a later version of setuptools"?
 ---------------------------------------------------------------
 
-Just run the ``ez_setup.py`` script in the Django distribution.
+Apenas execute o  script ``ez_setup.py`` na distribuição do Django.
 
-What are Django's prerequisites?
---------------------------------
+Quais são os pré requisitos para se executar o Django?
+------------------------------------------------------
 
-Django requires Python_ 2.3 or later. No other Python libraries are required
-for basic Django usage.
+O Django requer Python_ 2.3 ou superior. Nenhuma outra biblioteca Python é requerida
+para o uso básico do Django.
 
-For a development environment -- if you just want to experiment with Django --
-you don't need to have a separate Web server installed; Django comes with its
-own lightweight development server. For a production environment, we recommend
-`Apache 2`_ and mod_python_, although Django follows the WSGI_ spec, which
-means it can run on a variety of server platforms.
+Para um ambiente de desenvolvimento -- se você apenas quer experimentar o Django --
+você não precisa ter um servidor web separado; o Django vem com o seu próprio
+servidor leve de desenvolvimento. Para um ambiente de produção, nós recomendamos
+`Apache 2`_ e mod_python_, mas o Django seque a especificação WSGI_ spec, o que
+significa que ele pode rodar sobre uma ampla variedade de plataformas de servidores.
 
-If you want to use Django with a database, which is probably the case, you'll
-also need a database engine. PostgreSQL_ is recommended, because we're
-PostgreSQL fans, and MySQL_, `SQLite 3`_, and Oracle_ are also supported.
+Se você quer usar o Django com um banco de dados, que é o caso provável, você irá
+também precisar de um servidor de banco de dados. O PostgreSQL_ é recomendado, porque somos
+fãs do PostgreSQL, e o MySQL_, `SQLite 3`_, e Oracle_ são suportados também.
 
 .. _Python: http://www.python.org/
 .. _Apache 2: http://httpd.apache.org/
@@ -61,64 +61,62 @@ PostgreSQL fans, and MySQL_, `SQLite 3`_, and Oracle_ are also supported.
 .. _`SQLite 3`: http://www.sqlite.org/
 .. _Oracle: http://www.oracle.com/
 
-Do I lose anything by using Python 2.3 versus newer Python versions, such as Python 2.5?
-----------------------------------------------------------------------------------------
+Eu perco algo se eu rodar o Django com uma versão antiga do Python, com a 2.3, em vez de usar a 2.5, por exemplo?
+-----------------------------------------------------------------------------------------------------------------
 
-No. Django itself is guaranteed to work with any version of Python from 2.3
-and higher.
+Não, o Django funciona com qualquer versão do Python superior ao 2.3.
 
-If you use a Python version newer than 2.3, you will, of course, be able to
-take advantage of newer Python features in your own code, along with the speed
-improvements and other optimizations that have been made to the Python language
-itself. But the Django framework itself should work equally well on 2.3 as it
-does on 2.4 or 2.5.
+Se você usar uma versão mais nova que a 2.3 obviamente, você poderá
+tomar vantagem das novas características do Python no seu próprio código, junto com as melhorias
+de velocidade e outras otimizações que têm sido feitas na linguagem Python em si.
+Mas o framework Django em si deve funcionar igualmente bem nas versões 2.3, 2.4 ou 2.5 do Python.
 
-Do I have to use mod_python?
+Eu tenho de usar mod_python?
 ----------------------------
 
-Although we recommend mod_python for production use, you don't have to use it,
-thanks to the fact that Django uses an arrangement called WSGI_. Django can
-talk to any WSGI-enabled server. Other non-mod_python deployment setups are
-FastCGI, SCGI or AJP. See
-:ref:`How to use Django with FastCGI, SCGI or AJP <howto-deployment-fastcgi>`
-for full information.
+Nós recomendamos o uso do mod_python para produção, mas graças ao padrão WSGI_,
+você não é obrigado a usá-lo. O Django pode falar com qualquer servidor
+compatível com o WSGI. Outras configurações de deployment além do mod_python são
+FastCGI, SCGI ou AJP. Veja :ref:`Como usar o Django com, SCGI ou AJP <howto-deployment-fastcgi>`
+para mais informações.
 
-Also, see the `server arrangements wiki page`_ for other deployment strategies.
+Veja também a `página do wiki de opções de configuração de servidores`_ para outras
+estratégias de deployment.
 
-If you just want to play around and develop things on your local computer, use
-the development Web server that comes with Django. Things should Just Work.
+Se você quer apenas testar e desenvolver coisas em seu computador local, use o
+servidor Web de desenvolvimento que vem com o Django.
 
 .. _WSGI: http://www.python.org/peps/pep-0333.html
-.. _server arrangements wiki page: http://code.djangoproject.com/wiki/ServerArrangements
+.. _página do wiki de opções de configuração de servidores: http://code.djangoproject.com/wiki/ServerArrangements
 
-How do I install mod_python on Windows?
----------------------------------------
+Como eu instalo o mod_python no Windows?
+-----------------------------------------
 
-    * For Python 2.4, grab mod_python from `win32 build of mod_python for
-      Python 2.4`_.
-    * For Python 2.4, check out this `Django on Windows howto`_.
-    * For Python 2.3, grab mod_python from http://www.modpython.org/ and read
+    * Para o Python 2.4, obtenha o mod_python de `build win32 do mod_python para Python 2.4`_.
+    * Para o Python 2.4, verifique o `howto do Django no Windows`_.
+    * Para o Python 2.3, obtenha o mod_python de http://www.modpython.org/ e leia
       `Running mod_python on Apache on Windows2000`_.
-    * Also, try this (not Windows-specific) `guide to getting mod_python
+    * Também, tente esse guia (não específico do Windows) `guide to getting mod_python
       working`_.
 
-.. _`win32 build of mod_python for Python 2.4`: http://www.lehuen.com/nicolas/index.php/2005/02/21/39-win32-build-of-mod_python-314-for-python-24
-.. _`Django on Windows howto`: http://thinkhole.org/wp/django-on-windows/
+.. _`build win32 do mod_python para Python 2.4`: http://www.lehuen.com/nicolas/index.php/2005/02/21/39-win32-build-of-mod_python-314-for-python-24
+.. _`howto do Django no Windows`: http://thinkhole.org/wp/django-on-windows/
 .. _`Running mod_python on Apache on Windows2000`: http://groups-beta.google.com/group/comp.lang.python/msg/139af8c83a5a9d4f
 .. _`guide to getting mod_python working`: http://www.dscpl.com.au/articles/modpython-001.html
 
-Will Django run under shared hosting (like TextDrive or Dreamhost)?
--------------------------------------------------------------------
+O Django executará em hosts compartilhados (como TextDrive ou o Dreamhost)?
+----------------------------------------------------------------------------
 
-See our `Django-friendly Web hosts`_ page.
+Veja nossa página de `hosts amigáveis ao Django`_ .
 
-.. _`Django-friendly Web hosts`: http://code.djangoproject.com/wiki/DjangoFriendlyWebHosts
+.. _`hosts amigáveis ao Django`: http://code.djangoproject.com/wiki/DjangoFriendlyWebHosts
 
-Should I use the official version or development version?
----------------------------------------------------------
+Eu devo usar a versão oficial ou a versão de desenvolvimento?
+--------------------------------------------------------------
 
-The Django developers improve Django every day and are pretty good about not
-checking in broken code. We use the development code (from the Subversion
-repository) directly on our servers, so we consider it stable. With that in
-mind, we recommend that you use the latest development code, because it
-generally contains more features and fewer bugs than the "official" releases.
+Os desenvolvedores do Django melhoram o framework todos os dias e são muito bons
+em não enviar código quebrado ao repositório. Nós usamos o código do desenvolvimento
+(do repositório Subversion) diretamente em nossos servidores, então nós o
+consideramos estável. Com isso em mente, recomentadmos que você use a última
+versão do código em desenvolvimento, porque ele geralmente tem mais funcionalidades
+e menos bugs que as versões "oficiais".
