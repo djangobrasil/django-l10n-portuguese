@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Draft $
 ..   $OriginalRevision: 9368 $
 ..   $TranslationAuthors: None $
 ..
@@ -16,77 +16,78 @@
 
 .. _ref-contrib-csrf:
 
-=====================================
-Cross Site Request Forgery protection
-=====================================
+====================================
+Proteção Cross Site Request Forgery
+====================================
 
 .. module:: django.contrib.csrf
-   :synopsis: Protects against Cross Site Request Forgeries
+   :synopsis: Protege contra Cross Site Request Forgeries
 
-The CsrfMiddleware class provides easy-to-use protection against
-`Cross Site Request Forgeries`_.  This type of attack occurs when a malicious
-Web site creates a link or form button that is intended to perform some action
-on your Web site, using the credentials of a logged-in user who is tricked
-into clicking on the link in their browser.
+A classe CsrfMiddleware provê uma proteção fácil de usar contra `Requisições
+Cross Site falsas`_. Esse tipo de ataque ocorre quando um website malicioso
+cria um link ou um botão de formulário que é destinado a executar alguma ação
+sobre seu site, usando credenciais de um usuário logado que pode ser enganado
+ao clicar em um link no seu navegador.
 
-The first defense against CSRF attacks is to ensure that GET requests
-are side-effect free.  POST requests can then be protected by adding this
-middleware into your list of installed middleware.
+A primeira defesa contra ataques CSRF é assegurar que requisições GET são 
+livres de efeitos colaterais. Requisições POST podem então ser protegidas por
+este middleware, adicionando-o em sua lista de middlewares instalados.
 
 .. _Cross Site Request Forgeries: http://www.squarefree.com/securitytips/web-developers.html#CSRF
 
-How to use it
-=============
-
-Add the middleware ``'django.contrib.csrf.middleware.CsrfMiddleware'`` to
-your list of middleware classes, :setting:`MIDDLEWARE_CLASSES`. It needs to process
-the response after the SessionMiddleware, so must come before it in the
-list. It also must process the response before things like compression
-happen to the response, so it must come after GZipMiddleware in the list.
-
-How it works
-============
-
-CsrfMiddleware does two things:
-
-1. It modifies outgoing requests by adding a hidden form field to all
-   'POST' forms, with the name 'csrfmiddlewaretoken' and a value which is
-   a hash of the session ID plus a secret. If there is no session ID set,
-   this modification of the response isn't done, so there is very little
-   performance penalty for those requests that don't have a session.
-
-2. On all incoming POST requests that have the session cookie set, it
-   checks that the 'csrfmiddlewaretoken' is present and correct. If it
-   isn't, the user will get a 403 error.
-
-This ensures that only forms that have originated from your Web site
-can be used to POST data back.
-
-It deliberately only targets HTTP POST requests (and the corresponding POST
-forms). GET requests ought never to have any potentially dangerous side
-effects (see `9.1.1 Safe Methods, HTTP 1.1, RFC 2616`_), and so a
-CSRF attack with a GET request ought to be harmless.
-
-POST requests that are not accompanied by a session cookie are not protected,
-but they do not need to be protected, since the 'attacking' Web site
-could make these kind of requests anyway.
-
-The Content-Type is checked before modifying the response, and only
-pages that are served as 'text/html' or 'application/xml+xhtml'
-are modified.
-
-.. _9.1.1 Safe Methods, HTTP 1.1, RFC 2616: http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html
-
-Limitations
+Como usá-lo
 ===========
 
-CsrfMiddleware requires Django's session framework to work. If you have
-a custom authentication system that manually sets cookies and the like,
-it won't help you.
+Adicione o middleware ``'django.contrib.csrf.middleware.CsrfMiddleware'`` em
+sua lista de classes middleware, :setting:`MIDDLEWARE_CLASSES`. Ele necessita 
+processar a resposta depois do SessionMiddleware, portanto deve vir antes dele
+na lista. Ele também deve processar a resposta antes de coisas como compressão,
+que ocorrerá com a resposta, logo deve vir depois do GZipMiddleware na lista.
 
-If your app creates HTML pages and forms in some unusual way, (e.g.
-it sends fragments of HTML in JavaScript document.write statements)
-you might bypass the filter that adds the hidden field to the form,
-in which case form submission will always fail.  It may still be possible
-to use the middleware, provided you can find some way to get the
-CSRF token and ensure that is included when your form is submitted.
+Como ele funciona
+=================
+
+CsrfMiddleware faz duas coisas:
+
+1. Modifica requisições de saída adicionando um campo hidden para todo
+   formulário 'POST', com o nome 'csrfmiddlewaretoken' e um valor que é um hash
+   composto pelo ID da sessão mais um secret. Se não houver um ID de sessão
+   configurado, esta modificação da resposta não será feita. Assim há muito
+   pouca perda de performance para essas requisições que não possuem uma
+   sessão.
+
+2. Em todos as requisições POST de entrada que tiverem um cookie de sessão
+   configurado, ele checa se o 'csrfmiddlewaretoken' está presente e correto.
+   Se não estiver, o usuário receberá um erro 403.
+
+Isso assegura que somente formulários originários de seu website podem ser
+usados para enviar dados de volta.
+
+Deliberadamente somente são alvos de requisições os POSTS HTTP (e os
+formulários POST correspondentes). Requisições GET não costumam representar um
+perigo em potencial (veja `9.1.1 Métodos Seguros, HTTP 1.1, RFC 2616`_), logo
+um ataque CSRF com uma requisição GET costuma ser inofensivo.
+
+Requisições POST que não são acompanhadas por um cookie de sessão não estão
+protegidas, mas elas não precisam ser protegidas, uma vez que o website
+agressor poderia fazer este tipo de requisição de qualquer maneira.
+
+O Content-Type é checado antes de modificar a resposta, e somente páginas que
+são servidas como 'text/html' ou 'application/xml+xhtml' são modificadas.
+
+.. _9.1.1 Métodos Seguros, HTTP 1.1, RFC 2616: http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html
+
+Limitações
+==========
+
+O CsrfMiddleware requer o framework de sessões do Django para funcionar. Se 
+você tem um sistema customizado de autenticação que manualmente configura os
+cookies, ele não irá ajudá-lo.
+
+Se sua aplicação cria páginas HTML e formulários de alguma forma incomum,
+(ex: ela envia fragmentos de páginas HTML em chamadas document.write de
+JavaScript), você pode pular o filtro que adiciona o campo hidden no
+formulário, caso este no qual a submissão do formulário irá sempre falhar.
+Pode ser ainda possível usar o middleware, desde que você consiga encontrar uma
+maneira de obter o token CSRF e assegurar-se de que ele está incluído quando os
+seus formulários forem enviados.
