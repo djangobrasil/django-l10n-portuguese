@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In progress $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,69 +16,74 @@
 
 .. _misc-api-stability:
 
-=============
-API stability
-=============
-
-:ref:`The release of Django 1.0 <releases-1.0>` comes with a promise of API
-stability and forwards-compatibility. In a nutshell, this means that code you
-develop against Django 1.0 will continue to work against 1.1 unchanged, and you
-should need to make only minor changes for any 1.X release.
-
-What "stable" means
+===================
+Estabilidade de API
 ===================
 
-In this context, stable means:
+:ref:`O release do Django 1.0 <releases-1.0>` vem com a promessa de estabilidade
+de API e compatibilidade futura. Em resumo, isto significa que o código que você
+contriur utilizando o Django 1.0 irá funcionar com 1.1 sem mudanças, e você 
+precisará fazer somente pequenas mudanças para qualquer release 1.x.
 
-   - All the public APIs -- everything documented in the linked documents below,
-     and all methods that don't begin with an underscore -- will not be moved or
-     renamed without providing backwards-compatible aliases.
+O que "stable" significa
+========================
+
+Neste contexto, "stable" significa:
+
+   - Todas as APIs públicas -- tudo que está documentado nos links abaixo, e 
+     todos os métodos que não comecem com um underscore -- não serão nem
+     movidas nem renomeadas sem fornecer aliases de compatibilidade anterior.
      
-   - If new features are added to these APIs -- which is quite possible --
-     they will not break or change the meaning of existing methods. In other
-     words, "stable" does not (necessarily) mean "complete."
+   - Se novas funcionalidades são adicionadas a essas APIs -- o que é bem
+     possível -- elas não irão quebrar ou mudar o significado dos métodos
+     existentes. Em outras palavras, "stable" não significa, necessariamente,
+     "completo".
+
+   - Se, por alguma razão, uma API declarada "stable" tiver que ser removida ou
+     substituída, ela será declarada "deprecated", porém irá permanecer até,
+     pelo menos, a versão 1.1. Avisos serão feitos quando um método
+     "deprecated" for chamado.
+
+     Veja :ref:`official-releases` para mais detalhes de como a numeração das
+     versões do Django funciona, e como as funcionalidades entrarão em desuso.
           
-   - If, for some reason, an API declared stable must be removed or replaced, it
-     will be declared deprecated but will remain in the API for at least two
-     minor version releases. Warnings will be issued when the deprecated method
-     is called.
-     
-     See :ref:`official-releases` for more details on how Django's version
-     numbering scheme works, and how features will be deprecated.
-     
-   - We'll only break backwards compatibility of these APIs if a bug or
-     security hole makes it completely unavoidable.
+   - Nós somente iremos quebrar a compatibilidade anterior dessas APIs se um
+     bug ou uma falha de segurança fizer com que seja completamente inevitável.
 
-Stable APIs
-===========
+APIs "stable"
+=============
 
 In general, everything covered in the documentation -- with the exception of
 anything in the :ref:`internals area <internals-index>` is considered stable as
 of 1.0. This includes these APIs:
+Geralmente, tudo que foi documentado -- com excessão de qualquer item da 
+:ref:`area interna <internals-index>` é considerado "stable" na versão 1.0. Isto
+inclui estas APIs:
 
-    - :ref:`Authorization <topics-auth>`
-
+    - :ref:`Autorização <topics-auth>`
+    
     - :ref:`Caching <topics-cache>`.
     
-    - :ref:`Model definition, managers, querying and transactions
+    - :ref:`Definição de Model, gerenciadores, consultas e transações
       <topics-db-index>`
     
-    - :ref:`Sending e-mail <topics-email>`.
+    - :ref:`Envio de e-email <topics-email>`.
     
-    - :ref:`File handling and storage <topics-files>`
+    - :ref:`Manipulação de arquivos e armazenamento <topics-files>`
     
-    - :ref:`Forms <topics-forms-index>`
+    - :ref:`Formulários <topics-forms-index>`
     
-    - :ref:`HTTP request/response handling <topics-http-index>`, including file
-      uploads, middleware, sessions, URL resolution, view, and shortcut APIs.
+    - :ref:`Manipulação de requisições/respostas HTTP <topics-http-index>`, 
+      incluíndo upload de arquivos, middleware, sessions, resolução de URL, 
+      view, e shortcut APIs.
     
     - :ref:`Generic views <topics-http-generic-views>`.
 
-    - :ref:`Internationalization <topics-i18n>`.
+    - :ref:`Internacionalização <topics-i18n>`.
     
-    - :ref:`Pagination <topics-pagination>`
+    - :ref:`Paginação <topics-pagination>`
     
-    - :ref:`Serialization <topics-serialization>`
+    - :ref:`Serialização <topics-serialization>`
     
     - :ref:`Signals <topics-signals>`
     
@@ -91,23 +96,24 @@ of 1.0. This includes these APIs:
       
     - :ref:`Testing <topics-testing>`
 
-    - :ref:`django-admin utility <ref-django-admin>`.
+    - :ref:`Utilitário django-admin <ref-django-admin>`.
     
     - :ref:`Built-in middleware <ref-middleware>`
     
-    - :ref:`Request/response objects <ref-request-response>`.
+    - :ref:`Objetos request/response <ref-request-response>`.
     
     - :ref:`Settings <ref-settings>`. Note, though that while the :ref:`list of
       built-in settings <ref-settings>` can be considered complete we may -- and
       probably will -- add new settings in future versions. This is one of those
       places where "'stable' does not mean 'complete.'"
       
-    - :ref:`Built-in signals <ref-signals>`. Like settings, we'll probably add
-      new signals in the future, but the existing ones won't break.
+    - :ref:`Built-in signals <ref-signals>`. Como settings, nós iremos 
+      provavelmente adicionar novos sinais no futuro, mas os existentes não 
+      devem quebrar.
       
-    - :ref:`Unicode handling <ref-unicode>`.
+    - :ref:`Manipulação unicode <ref-unicode>`.
         
-    - Everything covered by the :ref:`HOWTO guides <howto-index>`.
+    - Tudo coberto pelo :ref:`guia HOWTO <howto-index>`.
     
 ``django.utils``
 ----------------
