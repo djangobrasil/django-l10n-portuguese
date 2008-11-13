@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,15 +16,16 @@
 
 .. _misc-index:
 
-Meta-documentation and miscellany
-=================================
+Meta-documentação e miscelânea
+==============================
 
-Documentation that we can't find a more organized place for. Like that drawer in
-your kitchen with the scissors, batteries, duct tape, and other junk.
+Documentação que não podemos encontrar um lugar mais organizado para colocá-la.
+Como aquela gaveta na sua cozinha com a tesoura, baterias, fita adesiva, e 
+outras tralhas.
 
 .. toctree::
    :maxdepth: 2
    
-   api-stability
    design-philosophies
+   api-stability
    distributions
