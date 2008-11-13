@@ -33,7 +33,7 @@ leia este material para levantar-se depressa e correr.
    tutorial04
    whatsnext
   
-.. Veja tambem::
+.. seealso::
 
     Se você e novo em Python_, você pode querer começar por obter uma idéia do
     que e a linguagem. Django e 100% Python, então se você tiver um minimo de
