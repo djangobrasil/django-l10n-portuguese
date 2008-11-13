@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In progress $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -17,7 +17,7 @@
 .. _misc-design-philosophies:
 
 ===================
-Design philosophies
+Filosofia de design
 ===================
 
 This document explains some of the fundamental philosophies Django's developers
