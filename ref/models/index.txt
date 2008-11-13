@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,10 +16,11 @@
 
 .. _ref-models-index:
 
-Models
-======
+Modelos
+=======
 
-Model API reference. For introductory material, see :ref:`topics-db-models`.
+Referência da API de modelos. Para um material introdutório, veja
+:ref:`topics-db-models`.
 
 .. toctree::
    :maxdepth: 1
