@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,8 +16,8 @@
 
 .. _topics-http-generic-views:
 
-=============
-Generic views
-=============
+================
+Visões genéricas
+================
 
-See :ref:`ref-generic-views`.
+Veja :ref:`ref-generic-views`.
