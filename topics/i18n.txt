@@ -357,21 +357,20 @@ Trabalhando com objetos de traduções tardias
 
 .. highlightlang:: python
 
-Using ``ugettext_lazy()`` and ``ungettext_lazy()`` to mark strings in models
-and utility functions is a common operation. When you're working with these
-objects elsewhere in your code, you should ensure that you don't accidentally
-convert them to strings, because they should be converted as late as possible
-(so that the correct locale is in effect). This necessitates the use of a
-couple of helper functions.
+O uso de ``ugettext_lazy()`` e ``ungettext_lazy()`` para marcar as strings nos
+models e funções utilitárias é uma operação comum. Quando você está trabalhando
+com esses objetos no seu código, você deve se assegurar que não os converteu em
+strings acidentalmente, porque eles devem ser convertidos o mais tardiamente
+possível (para que o efeito ocorra no local correto). Isso requer o uso de alguns helpers.
 
-Joining strings: string_concat()
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Juntando strings: string_concat()
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Standard Python string joins (``''.join([...])``) will not work on lists
-containing lazy translation objects. Instead, you can use
-``django.utils.translation.string_concat()``, which creates a lazy object that
-concatenates its contents *and* converts them to strings only when the result
-is included in a string. For example::
+O padrão do Python para junção de strings (``''.join([...])``) não irá 
+funcionar nas listas contendo objetos de tradução tardia. Em vez disso, você
+pode usar ``django.utils.translation.string_concat``, que cria um objeto tardio
+que concatena seu conteúdo *e* os converte para strings somente quando o 
+resultado é incluído em uma outra string. Por exemplo::
 
     from django.utils.translation import string_concat
     ...
@@ -379,103 +378,103 @@ is included in a string. For example::
     instrument = ugettext_lazy(u'guitar')
     result = string_concat([name, ': ', instrument])
 
-In this case, the lazy translations in ``result`` will only be converted to
-strings when ``result`` itself is used in a string (usually at template
-rendering time).
+Nesse caso, a tradução tardia no ``result`` irá somente ser convertido para
+uma string quando ``result`` por si só for usado numa string (geralmente na
+hora de renderizar o template).
 
-The allow_lazy() decorator
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+O decorador allow_lazy()
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-Django offers many utility functions (particularly in ``django.utils``) that
-take a string as their first argument and do something to that string. These
-functions are used by template filters as well as directly in other code.
+O Django oferece muitas funções utilitárias (particulamente ``django.utils``)
+que recebem uma string como primeiro argumento e fazem algo com ela. Tais
+funções são usadas por meio de filtros nos templates, bem como em outros códigos.
 
-If you write your own similar functions and deal with translations, you'll
-face the problem of what to do when the first argument is a lazy translation
-object. You don't want to convert it to a string immediately, because you might
-be using this function outside of a view (and hence the current thread's locale
-setting will not be correct).
+Se você escrever suas próprias funções similares e tratar algumas traduções, você
+irá se deparar com um problema: o que fazer quando o primeiro argumento é um
+objeto de tradução tardia? Você não quer convertê-lo para uma string
+imediatamente, porque você pode estar usando esta função fora de uma view (and 
+hence the current thread's locale setting will not be correct).
 
-For cases like this, use the ``django.utils.functional.allow_lazy()``
-decorator. It modifies the function so that *if* it's called with a lazy
-translation as the first argument, the function evaluation is delayed until it
-needs to be converted to a string.
+Para casos como este, use o decorador ``django.utils.functional.allow_lazy()``.
+Ele modifica a função de modo que *caso* ela seja chamada com uma tradução
+tardia como primeiro argumento, a função de avaliação é mostrada até que
+necessite ser convertida para uma string.
 
-For example::
+Por exemplo::
 
     from django.utils.functional import allow_lazy
 
     def fancy_utility_function(s, ...):
-        # Do some conversion on string 's'
+        # Realiza alguma conversão sobre a string 's'
         ...
     fancy_utility_function = allow_lazy(fancy_utility_function, unicode)
 
-The ``allow_lazy()`` decorator takes, in addition to the function to decorate,
-a number of extra arguments (``*args``) specifying the type(s) that the
-original function can return. Usually, it's enough to include ``unicode`` here
-and ensure that your function returns only Unicode strings.
+O decorador ``allow_lazy()`` recebe, além da função para docorar, um argumento
+extra (``*args``) especificando o(s) tipo(s) que a função original pode 
+retornar. Geralmente, é suficiente incluir ``unicode`` ali, e assegurar que sua
+função retorne somente strings Unicode.
 
-Using this decorator means you can write your function and assume that the
-input is a proper string, then add support for lazy translation objects at the
-end.
+O uso desse decorador significa que você pode escrever suas funções e assumir
+que a entrada é uma string apropriada, e então adicionar um suporte para
+objetos de tradução tardia no final.
 
 .. _how-to-create-language-files:
 
-2. How to create language files
-===============================
+2. Como criar arquivos de linguagem
+===================================
 
-Once you've tagged your strings for later translation, you need to write (or
-obtain) the language translations themselves. Here's how that works.
+Uma vez que você tenha marcado suas strings para tradução, você precisa 
+escrever (ou obter) as traduções em si. Aqui é mostrado como isto funciona.
 
-.. admonition:: Locale restrictions
+.. admonition:: Restrições de localidades
 
-    Django does not support localizing your application into a locale for
-    which Django itself has not been translated. In this case, it will ignore
-    your translation files. If you were to try this and Django supported it,
-    you would inevitably see a mixture of translated strings (from your
-    application) and English strings (from Django itself). If you want to
-    support a locale for your application that is not already part of
-    Django, you'll need to make at least a minimal translation of the Django
-    core. See the relevant :ref:`LocaleMiddleware note<locale-middleware-notes>`
-    for more details.
+    O Django não  suporta a localização da sua aplicação em uma localidade
+    para a qual ele mesmo não foi traduzido. Neste caso, ele irá ignorar os 
+    arquivos de tradução. Se você tentou isto e o Django suportou, você 
+    inevitavelmente verá uma mistura de palavas traduzidas (de sua aplicação) e
+    strings em inglês (vindas do Django). Se você quiser suportar a sua
+    aplicação para um local que não já não faz parte do Django, você precisa
+    fazer pelo menos uma tradução mínima do Django core.  See the relevant 
+    :ref:`LocaleMiddleware note<locale-middleware-notes>` for more details.
 
-Message files
--------------
+Arquivos de mensagens
+---------------------
 
-The first step is to create a **message file** for a new language. A message
-file is a plain-text file, representing a single language, that contains all
-available translation strings and how they should be represented in the given
-language. Message files have a ``.po`` file extension.
+O primeiro passo é criar um **arquivo de mensagens** para um novo idioma. O
+arquivo de mensagens é um arquivo de texto simples, representando uma língua em
+particular, que contém todas as translation strings e como elas devem ser
+representadas para dada língua. Os arquivos de mensagens possuem a extensão 
+``.po``.
 
-Django comes with a tool, ``django-admin.py makemessages``, that automates the
-creation and upkeep of these files.
+O Django vem com uma ferramenta, ``django-admin.py makemessages``, que automatiza a 
+criação e manutenção destes arquivos.
 
-.. admonition:: A note to Django veterans
+.. admonition:: Uma nota para veteranos do Django
 
-    The old tool ``bin/make-messages.py`` has been moved to the command
-    ``django-admin.py makemessages`` to provide consistency throughout Django.
+    A ferramenta antiga ``bin/make-messages.py`` foi movida para o comando
+    ``django-admin.py makemessages`` para tornar o Django mais consistente.
 
-To create or update a message file, run this command::
+Para criar ou atualizar um arquivo de mensagens, execute este comando::
 
     django-admin.py makemessages -l de
 
-...where ``de`` is the language code for the message file you want to create.
-The language code, in this case, is in locale format. For example, it's
-``pt_BR`` for Brazilian Portuguese and ``de_AT`` for Austrian German.
+...onde ``de`` é o código do idioma para o arquivo de mensagens que você deseja
+criar. O código do idioma, neste caso, está no formato de localidade. Por 
+exemplo, ``pt_BR`` para Portugues do Brasil e ``de_AT`` para Alemão Austríaco.
 
-The script should be run from one of three places:
+O script deve ser executado em um destes três lugares:
 
-    * The root directory of your Django project.
-    * The root directory of your Django app.
-    * The root ``django`` directory (not a Subversion checkout, but the one
-      that is linked-to via ``$PYTHONPATH`` or is located somewhere on that
-      path). This is only relevant when you are creating a translation for
+    * No diretório raiz do seu projeto Django.
+    * No diretório raiz de uma Django app.
+    * No diretório raiz do ``django`` (não um checkout do Subversion, mas em 
+      que esteja ligado ao ``$PYTHONPATH`` ou localizado em algum lugar sobre
+      este caminho). This is only relevant when you are creating a translation for
       Django itself, see :ref:`contributing-translations`.
 
-Th script runs over your project source tree or your application source tree and
-pulls out all strings marked for translation. It creates (or updates) a message
-file in the directory ``locale/LANG/LC_MESSAGES``. In the ``de`` example, the
-file will be ``locale/de/LC_MESSAGES/django.po``.
+O script roda sobre todo código do seu projeto ou sobre todo o código da sua aplicação
+e extrai todas as strings marcadas para tradução. Ele cria (ou atualiza) 
+o arquivo de mensagens no diretório ``locale/LANG/LC_MESSAGES``. No exemplo ``de``, 
+o arquivo será ``locale/de/LC_MESSAGES/django.po``.
 
 By default ``django-admin.py makemessages`` examines every file that has the
 ``.html`` file extension. In case you want to override that default, use the
@@ -493,7 +492,7 @@ When `creating JavaScript translation catalogs`_ you need to use the special
 
 .. _create a JavaScript translation catalog: `Creating JavaScript translation catalogs`_
 
-.. admonition:: No gettext?
+.. admonition:: Sem gettext?
 
     If you don't have the ``gettext`` utilities installed, ``django-admin.py
     makemessages`` will create empty files. If that's the case, either install
@@ -501,83 +500,89 @@ When `creating JavaScript translation catalogs`_ you need to use the special
     (``locale/en/LC_MESSAGES/django.po``) if available and use it as a starting
     point; it's just an empty translation file.
 
+    Se você não possui os utilitários do ``gettext`` instalados, o 
+    ``django-admin.py makemessages` irá criar arquivos vazios. Se neste caso, 
+    você quiser instalar os utilitários do ``gettext`` ou somente copiar o arquivo com as
+    mensagens em Inglês (``locale/en/LC_MESSAGES/django.po``) e usá-lo
+    como ponto de partida; ele é apenas um arquivo vazio de tradução.
+
 .. admonition:: Working on Windows?
 
    If you're using Windows and need to install the GNU gettext utilities so
    ``django-admin makemessages`` works see `gettext on Windows`_ for more
    information.
 
-The format of ``.po`` files is straightforward. Each ``.po`` file contains a
-small bit of metadata, such as the translation maintainer's contact
-information, but the bulk of the file is a list of **messages** -- simple
-mappings between translation strings and the actual translated text for the
-particular language.
+O formato ``.po`` é bem simples. Cada arquivo ``.po`` contém um pouco de 
+metadados, tais como as informações de contato do mantenedor da tradução, mas a
+maior parte do arquivo é uma lista de **mensagens** -- um simples mapeamento
+entre as translation strings e o texto traduzido para um idioma em particular.
 
-For example, if your Django app contained a translation string for the text
-``"Welcome to my site."``, like so::
+Por exemplo, se sua Django app contém uma translation string para o texto
+``"Welcome to my site."``, assim::
 
     _("Welcome to my site.")
 
-...then ``django-admin.py makemessages`` will have created a ``.po`` file
-containing the following snippet -- a message::
+...então ``django-admin.py makemessages`` terá criado um arquivo ``.po`` contendo o
+seguinte conteúdo -- uma mensagem::
 
     #: path/to/python/module.py:23
     msgid "Welcome to my site."
     msgstr ""
 
-A quick explanation:
+Uma rápida explicação:
 
-    * ``msgid`` is the translation string, which appears in the source. Don't
-      change it.
-    * ``msgstr`` is where you put the language-specific translation. It starts
-      out empty, so it's your responsibility to change it. Make sure you keep
-      the quotes around your translation.
-    * As a convenience, each message includes, in the form of a comment line
-      prefixed with ``#`` and located above the ``msgid`` line, the filename and
-      line number from which the translation string was gleaned.
+    * ``msgid`` é a translation string, que aparece no seu código-fonte. Não
+      toque nela!
+    * ``msgstr`` é onde se escreve a tradução. Ela é iniciada vazia, então é de
+      sua responsabilidade mudá-la. Esteja certo de que as aspas não foram
+      removidas.
+    * Por conveniência, cada mensagem inclui na forma de um comentário prefixado 
+      por ``#``e localizada acima da linha ``msgid`` o nome do arquivo e número
+      da linha de onde foi tirada a translation string.
 
-Long messages are a special case. There, the first string directly after the
-``msgstr`` (or ``msgid``) is an empty string. Then the content itself will be
-written over the next few lines as one string per line. Those strings are
-directly concatenated. Don't forget trailing spaces within the strings;
-otherwise, they'll be tacked together without whitespace!
+Mensagens longas são um caso especial. Ali, a primeira string diretamente após
+``msgstr`` (ou ``msgid``) é uma string vazia. Em seguida, o conteúdo 
+propriamente dito será escrito ao longo das próximas linhas como uma string por
+linha. Estas strings são diretamente concatenadas. Não esqueça dos espaços
+dentro das strings, caso contrário, elas irão aparecer todas juntas sem espaços
+em branco!
 
-.. admonition:: Mind your charset
+.. admonition:: Pense no seu charset
 
-    When creating a PO file with your favorite text editor, first edit
-    the charset line (search for ``"CHARSET"``) and set it to the charset
-    you'll be using to edit the content. Due to the way the ``gettext`` tools
-    work internally and because we want to allow non-ASCII source strings in
-    Django's core and your applications, you **must** use UTF-8 as the encoding
-    for your PO file. This means that everybody will be using the same
-    encoding, which is important when Django processes the PO files.
+    Quando estiver criando um arquivo PO com seu editor de texto favorito, 
+    primeiro edite a linha do charset (procure por ``"CHARSET"``) e mude-o para
+    o charset que usará para editar o conteúdo. Devido à forma que a ferramenta
+    ``gettext`` trabalha internamente, e porque nós queremos habilitar strings
+    non-ASCII no core do Django e de suas aplicações, você **deve** usar UTF-8
+    como encoding de seus arquivos PO. Isto significa que todos estarão usando
+    o mesmo encoding, o que é importante quando o Django processa os arquivos PO.
 
-To reexamine all source code and templates for new translation strings and
-update all message files for **all** languages, run this::
+Para re-examinar todo código fonte e templates para novas translations strings
+e atualizar todos os arquivos de mensagens para **todas** as línguas, execute
+isto::
 
     django-admin.py makemessages -a
 
-Compiling message files
------------------------
+Compilando arquivos de mensagens
+--------------------------------
 
-After you create your message file -- and each time you make changes to it --
-you'll need to compile it into a more efficient form, for use by ``gettext``.
-Do this with the ``django-admin.py compilemessages`` utility.
+Depois de criar seus arquivos de mensagens -- e cada vez que você fizer 
+alterações neles --, você necessitará compilá-los de uma forma eficiente, para que
+o ``gettext`` use-os. Faça isso com o utilitário ``django-admin.py compilemessages``.
 
-This tool runs over all available ``.po`` files and creates ``.mo`` files, which
-are binary files optimized for use by ``gettext``. In the same directory from
-which you ran ``django-admin.py makemessages``, run ``django-admin.py
-compilemessages`` like this::
+Essa ferramenta roda sobre todos os arquivos ``.po`` desponíveis e cria 
+arquivos ``.mo``, que são os binários otimizados para serem usados pelo 
+``gettext``. No mesmo diretório de onde você rodou ``django-admin.py
+makemessages``, execute ``django-admin.py compilemessages``, desta forma::
 
    django-admin.py compilemessages
 
-That's it. Your translations are ready for use.
+É isso. Suas traduções estão prontas para serem usadas.
 
-.. admonition:: A note to Django veterans
+.. admonition:: Uma nota para veteranos do Django
 
-    The old tool ``bin/compile-messages.py`` has been moved to the command
-    ``django-admin.py compilemessages`` to provide consistency throughout
-    Django.
+    A ferramenta antiga ``bin/compile-messages.py`` foi movida para o comando
+    ``django-admin.py compilemessages`` para tornar o Django mais consistente.
 
 .. admonition:: Working on Windows?
 
@@ -590,35 +595,41 @@ That's it. Your translations are ready for use.
 3. How Django discovers language preference
 ===========================================
 
-Once you've prepared your translations -- or, if you just want to use the
-translations that come with Django -- you'll just need to activate translation
-for your app.
+Uma vez que você tenha preparado suas traduções -- ou se você somente quer 
+usar as traduções que acompanham o Django -- você somente precisará ativar a 
+tradução para sua aplicação.
 
-Behind the scenes, Django has a very flexible model of deciding which language
-should be used -- installation-wide, for a particular user, or both.
+Por trás das cenas, o Django tem um modelo muito flexível de decisão sobre qual
+idioma será usado -- em toda a instalação, para um usuário em particular, ou ambos.
 
-To set an installation-wide language preference, set :setting:`LANGUAGE_CODE`.
-Django uses this language as the default translation -- the final attempt if no
-other translator finds a translation.
+Para configurar uma preferência de idioma para toda a instalação, configure o
+:setting:``LANGUAGE_CODE``. O Django usa esta língua como
+padrão de tradução -- a tentativa final se não for encontrada outra tradução.
 
-If all you want to do is run Django with your native language, and a language
-file is available for your language, all you need to do is set
-``LANGUAGE_CODE``.
+Se tudo o que você quer fazer é rodar o Django em seu idioma nativo, e um
+arquivo de linguagem disponível para sua língua, tudo que você precisa fazer
+é configurar ``LANGUAGE_CODE``.
 
-If you want to let each individual user specify which language he or she
-prefers, use ``LocaleMiddleware``. ``LocaleMiddleware`` enables language
-selection based on data from the request. It customizes content for each user.
+Se você quer deixar cada usuário individualmente especifique que idioma ele ou
+ela prefere, use ``LocaleMiddleware``. O ``LocaleMiddleware`` habilita a
+seleção de idiomas baseado nos dados vindos pelo request, customizando o
+conteúdo para cada usuário.
+
+Para usar o ``LocaleMiddleware``, adicione ``'django.middleware.locale.LocaleMiddleware'`` 
+em sua configuração de ``MIDDLEWARE_CLASSES``. Como a ordem em que os middlewares são 
+especificados importa, você deve seguir estas recomendações:
 
 To use ``LocaleMiddleware``, add ``'django.middleware.locale.LocaleMiddleware'``
 to your ``MIDDLEWARE_CLASSES`` setting. Because middleware order matters, you
 should follow these guidelines:
 
-    * Make sure it's one of the first middlewares installed.
-    * It should come after ``SessionMiddleware``, because ``LocaleMiddleware``
-      makes use of session data.
-    * If you use ``CacheMiddleware``, put ``LocaleMiddleware`` after it.
+    * Certifique-se de que é um dos primeiros middlewares instalados.
+    * Ele deve vir após ``SessionMiddleware``, porque ``LocaleMiddleware`` faz
+      uso de dados da sessão.
+    * Se você usa ``CacheMiddleware``, coloque o ``LocaleMiddleware`` depois 
+      dele.
 
-For example, your ``MIDDLEWARE_CLASSES`` might look like this::
+Por exemplo, seu ``MIDDLEWARE_CLASSES`` deve parecer com isso::
 
     MIDDLEWARE_CLASSES = (
        'django.contrib.sessions.middleware.SessionMiddleware',
@@ -626,70 +637,66 @@ For example, your ``MIDDLEWARE_CLASSES`` might look like this::
        'django.middleware.common.CommonMiddleware',
     )
 
-(For more on middleware, see the :ref:`middleware documentation
-<topics-http-middleware>`.)
+(Para mais sobre middleware, veja a :ref`documentação do middleware <topics-http-middleware>`.)
 
-``LocaleMiddleware`` tries to determine the user's language preference by
-following this algorithm:
+O ``LocaleMiddleware`` tenta determinar o idioma do usuário a partir do
+seguinte algoritmo:
 
-    * First, it looks for a ``django_language`` key in the current user's
-      session.
+    * Primeiro ele procura uma chave ``django_language`` na sessão do usuário 
+      corrente.
 
-    * Failing that, it looks for a cookie.
+    * Se falhar, ele procura por um cookie.
 
       .. versionchanged:: 1.0
 
-      In Django version 0.96 and before, the cookie's name is hard-coded to
-      ``django_language``. In Django 1,0, The cookie name is set by the
-      ``LANGUAGE_COOKIE_NAME`` setting. (The default name is
-      ``django_language``.)
+      No Django versão 0.96 e anteriores, o nome do cooloe é imutável em
+      ``django_language``. No Django 1,0, o nome do cookie é configurado pela
+      configuração ``LANGUAGE_COOKIE_NAME``. (O nome padrão é``django_language``.)
 
-    * Failing that, it looks at the ``Accept-Language`` HTTP header. This
-      header is sent by your browser and tells the server which language(s) you
-      prefer, in order by priority. Django tries each language in the header
-      until it finds one with available translations.
+    * Se falhar, ele procura por ``Accept-Language`` no cabeçalho do HTTP. Este 
+      cabeçalho é enviado pelo seu navegador e diz ao servidor que idioma você
+      prefere, na ordem de prioridade. O Django tenta cada língua do cabeçalho
+      até que encontre uma que tenha traduções disponíveis.
 
-    * Failing that, it uses the global ``LANGUAGE_CODE`` setting.
+    * Se falhar, ele usa a configuração global ``LANGUAGE_CODE``.
 
 .. _locale-middleware-notes:
 
-Notes:
+Notas:
 
-    * In each of these places, the language preference is expected to be in the
-      standard language format, as a string. For example, Brazilian Portuguese
-      is ``pt-br``.
+    * Em cada um desses lugares, o idioma de preferência é esperado no formato
+      padrão da língua, como uma string. Por exemplo, Português Brasileiro é
+      ``pt-br``.      
 
-    * If a base language is available but the sublanguage specified is not,
-      Django uses the base language. For example, if a user specifies ``de-at``
-      (Austrian German) but Django only has ``de`` available, Django uses
-      ``de``.
+    * Se uma língua de base está disponível, mas a sublíngua especificada não 
+      está, o Django usa a língua de base. Por exemplo, se um usuário 
+      especifica ``de-at`` (Alemão Austríaco), mas o Django somente tem ``de``
+      disponível, o Django usa ``de``.
 
-    * Only languages listed in the :setting:`LANGUAGES` setting can be selected.
-      If you want to restrict the language selection to a subset of provided
-      languages (because your application doesn't provide all those languages),
-      set ``LANGUAGES`` to a list of languages. For example::
+    * Somente línguas listadas em :segging:`LANGUAGES`_ podem ser selecionadas. Se você
+      quiser restringir o idioma para um subconjunto de línguas (porque sua
+      aplicação não provê todos os idiomas), modifique o ``LANGUAGES`` para uma
+      tupla de idiomas. Por exemplo::
 
           LANGUAGES = (
             ('de', _('German')),
             ('en', _('English')),
           )
 
-      This example restricts languages that are available for automatic
-      selection to German and English (and any sublanguage, like de-ch or
-      en-us).
+      Este exemplo restringe os idiomas disponíveis para seleção automática
+      para Alemão e Inglês (e qualquer sublíngua, como ``de-ch`` ou ``en-us``).
 
       .. _LANGUAGES setting: ../settings/#languages
 
-    * If you define a custom ``LANGUAGES`` setting, as explained in the
-      previous bullet, it's OK to mark the languages as translation strings
-      -- but use a "dummy" ``ugettext()`` function, not the one in
-      ``django.utils.translation``. You should *never* import
-      ``django.utils.translation`` from within your settings file, because that
-      module in itself depends on the settings, and that would cause a circular
-      import.
+    * Se você define uma configuração ``LANGUAGES`` customizada, como mostrado
+      anteriormente, está tudo OK para marcar os idiomas como translation 
+      strings -- mas use uma função "dummy" ``ugettext()``, não uma que esteja
+      em ``django.utils.translation``. Você nunca deve importar 
+      ``django.utils.translation`` dentro do arquivo settings, porque o módulo
+      em si depende do settings, e isto poderia provocar um import circular.
 
-      The solution is to use a "dummy" ``ugettext()`` function. Here's a sample
-      settings file::
+      A solução é usar uma função "dummy" ``ugettext()``. Aqui está um 
+      arquivo de configuração de exemplo::
 
           ugettext = lambda s: s
 
@@ -703,29 +710,29 @@ Notes:
       at runtime -- so you'll have to remember to wrap the languages in the
       *real* ``ugettext()`` in any code that uses ``LANGUAGES`` at runtime.
 
-    * The ``LocaleMiddleware`` can only select languages for which there is a
-      Django-provided base translation. If you want to provide translations
-      for your application that aren't already in the set of translations
-      in Django's source tree, you'll want to provide at least basic
-      translations for that language. For example, Django uses technical
-      message IDs to translate date formats and time formats -- so you will
-      need at least those translations for the system to work correctly.
+    * O ``LocaleMiddleware`` pode somente selecionar línguas que são providas
+      pela base de tradução do Django. Se você quer prover traduções para sua
+      aplicação que ainda não estão no conjunto de traduções do Django, você irá
+      ter de prover pelo menos a tradução básica para tal língua. Por exemplo,
+      o Django usa IDs de mensagens técnicas para traduzir formatos de data e
+      tempo -- então você precisará pelo menos destas traduções para que o seu
+      sistema funcione corretamente.
 
-      A good starting point is to copy the English ``.po`` file and to
-      translate at least the technical messages -- maybe the validation
-      messages, too.
+      Um bom começo é copiar o arquivo ``.po`` em inglês e traduzir pelo menos
+      as mensagens técnicas -- talvez as mensagens de validação, também.
 
-      Technical message IDs are easily recognized; they're all upper case. You
-      don't translate the message ID as with other messages, you provide the
-      correct local variant on the provided English value. For example, with
-      ``DATETIME_FORMAT`` (or ``DATE_FORMAT`` or ``TIME_FORMAT``), this would
-      be the format string that you want to use in your language. The format
-      is identical to the format strings used by the ``now`` template tag.
+      Os IDs das mensagens técnicas são facilmente encontrados; todos eles 
+      estão em caixa alta. Você não traduz o ID da mensagem como nas outras 
+      mensagens, você provê o local correto variado a partir do valor em 
+      Inglês. Por exemplo, com ``DATETIME_FORMAT`` (ou ``DATE_FORMAT`` ou 
+      ``TIME_FORMAT``), estas poderiam ser o formato da string que você quer 
+      usar em sua língua. O formato é idêntico ao formato usado pela template
+      tag ``now``.
 
-Once ``LocaleMiddleware`` determines the user's preference, it makes this
-preference available as ``request.LANGUAGE_CODE`` for each
-:class:`~django.http.HttpRequest`. Feel free to read this value in your view
-code. Here's a simple example::
+Uma vez que ``LocaleMiddleware`` determine o idioma do usuário, ele
+disponibiliza esta preferência como ``request.LANGUAGE_CODE`` para cada
+:class:`~django.http.HttpRequest`. Sinta-se livre para ler este valor em sua visualização de
+código. Aqui está um pequeno exemplo::
 
     def hello_world(request, count):
         if request.LANGUAGE_CODE == 'de-at':
@@ -733,9 +740,9 @@ code. Here's a simple example::
         else:
             return HttpResponse("You prefer to read another language.")
 
-Note that, with static (middleware-less) translation, the language is in
-``settings.LANGUAGE_CODE``, while with dynamic (middleware) translation, it's
-in ``request.LANGUAGE_CODE``.
+Note que, com tradução estática (sem-middleware), a língua está no 
+``settings.LANGUAGE_CODE``, enquanto que a tradução dinâmica (com middleware),
+está em ``request.LANGUAGE_CODE``.
 
 .. _settings file: ../settings/
 .. _middleware documentation: ../middleware/
@@ -744,34 +751,33 @@ in ``request.LANGUAGE_CODE``.
 
 .. _translations-in-your-own-projects:
 
-Using translations in your own projects
-=======================================
+Usando traduções em seus próprios projetos
+==========================================
 
-Django looks for translations by following this algorithm:
+O Django procura por traduções seguindo o seguinte algoritmo:
 
-    * First, it looks for a ``locale`` directory in the application directory
-      of the view that's being called. If it finds a translation for the
-      selected language, the translation will be installed.
-    * Next, it looks for a ``locale`` directory in the project directory. If it
-      finds a translation, the translation will be installed.
-    * Finally, it checks the Django-provided base translation in
-      ``django/conf/locale``.
+    * Primeiro, ele procura por um diretório ``locale`` na pasta da aplicação
+      que estiver sendo executada. Se ele encontra a tradução para a língua 
+      selecionada, a tradução será instalada.
+    * Depois, ele procura por um diretório ``locale`` no diretório do projeto. 
+      Se ele encontra uma tradução, a tradução será instalada.
+    * Finalmente, ele checa a base de traduções no ``django/conf/locale``.
 
-This way, you can write applications that include their own translations, and
-you can override base translations in your project path. Or, you can just build
-a big project out of several apps and put all translations into one big project
-message file. The choice is yours.
+Deste jeito, você pode escrever aplicações que possuem suas próprias traduções,
+e sobrescrever as traduções padrões no caminho do seu projeto. Ou, você pode 
+simplesmente construir um grande projeto de várias aplicações e colcoar todas
+as traduções em um grande arquivo de mensagens do projeto. A escolha é sua.
 
 .. note::
 
-    If you're using manually configured settings, as described
-    :ref:`settings-without-django-settings-module`, the ``locale`` directory in
-    the project directory will not be examined, since Django loses the ability
-    to work out the location of the project directory. (Django normally uses the
-    location of the settings file to determine this, and a settings file doesn't
-    exist if you're manually configuring your settings.)
+    Se você tem o settings configurado manualmente, como descrito na 
+    :ref:`settings-without-django-settings-module`_, o diretório ``locale`` na pasta 
+    do projeto não será examifnado, desde que o Django perca a habilidade de trabalhar fora da
+    localização da pasta do projeto. (O Django normalmente usa a localização do
+    arquivo settings para determinar isto, e um arquivo settings não existe se
+    você está setando manualmente suas configurações.)
 
-All message file repositories are structured the same way. They are:
+Todo arquivo repositório de mensagem é estruturado da mesma forma, a saber:
 
     * ``$APPPATH/locale/<language>/LC_MESSAGES/django.(po|mo)``
     * ``$PROJECTPATH/locale/<language>/LC_MESSAGES/django.(po|mo)``
@@ -779,64 +785,65 @@ All message file repositories are structured the same way. They are:
       searched in that order for ``<language>/LC_MESSAGES/django.(po|mo)``
     * ``$PYTHONPATH/django/conf/locale/<language>/LC_MESSAGES/django.(po|mo)``
 
-To create message files, you use the same ``django-admin.py makemessages``
-tool as with the Django message files. You only need to be in the right place
--- in the directory where either the ``conf/locale`` (in case of the source
-tree) or the ``locale/`` (in case of app messages or project messages)
-directory are located. And you use the same ``django-admin.py compilemessages``
-to produce the binary ``django.mo`` files that are used by ``gettext``.
+Para criar arquivos de mensagens, você usa a mesma ferramenta 
+``django-admin.py makemessages`` como nos arquivos de mensagem do Django. Você somente
+precisa estar no lugar certo -- no diretório onde qualquer um dos dois --
+``conf/locale`` (para o código do Django) ou ``locale/`` (para as mensagens de
+apps ou projeto) -- estão localizados. E você usa o mesmo ``compile-message.py``
+para gerar os arquivos binários ``django.mo`` que são usados pelo ``gettext``.
 
-You can also run ``django-admin.py compilemessages --settings=path.to.settings``
-to make the compiler process all the directories in your ``LOCALE_PATHS``
-setting.
+Você pode também executar ``django-admin.py compilemessages --settings=path.to.settings``
+para fazer o compilador processar todos os diretórios em seu ``LOCALE_PATHS``.
 
-Application message files are a bit complicated to discover -- they need the
-``LocaleMiddleware``. If you don't use the middleware, only the Django message
-files and project message files will be processed.
+Os arquivos de mensagens das aplicações são um pouco complicados de achar
+-- eles precisam do ``LocaleMiddleware``. Se você não usa o middleware, somente
+os arquivos de mensagens do Django e do projeto serão processados.
 
-Finally, you should give some thought to the structure of your translation
-files. If your applications need to be delivered to other users and will
-be used in other projects, you might want to use app-specific translations.
-But using app-specific translations and project translations could produce
-weird problems with ``makemessages``: ``makemessages`` will traverse all
-directories below the current path and so might put message IDs into the
-project message file that are already in application message files.
+Finalmente, você deve ter pensado em algo para estruturar seus arquivos de
+tradução. Se suas aplicações precisam ser entregues para outros usuários e irão
+ser utilizadas em outros projetos, você pode querer usar as traduções 
+específicas de cada aplicação. Porém, usar as traduções de aplicações e
+traduções de projeto podem produzir alguns problemas com o ``make-messages``:
+o ``make-messages`` irá visitar todos os diretórios abaixo do diretório 
+corrente e então poderá colocar todos os IDs no arquivos de mensagens do
+projeto que já estão nos seus arquivos de mensagens das aplicações.
 
-The easiest way out is to store applications that are not part of the project
-(and so carry their own translations) outside the project tree. That way,
-``django-admin.py makemessages`` on the project level will only translate
-strings that are connected to your explicit project and not strings that are
-distributed independently.
+O caminho mais fácil é armazenar as aplicações que não fazem parte do projeto
+(que carrega suas próprias traduções) fora da árvore do projeto. Desta 
+forma, o ``django-admin.py makemessages`` no nível do projeto irá traduzir somente o que 
+estiver conectado dentro dele e não o que está distribuído indenpendentemente.
 
-The ``set_language`` redirect view
-==================================
+O view redirecionador ``set_language``
+=======================================
 
-As a convenience, Django comes with a view, ``django.views.i18n.set_language``,
-that sets a user's language preference and redirects back to the previous page.
+Por conveniência, o Django é acompanhado de um view, 
+``django.view.i18n.set_language`` que configura a preferência de idioma do
+usuário e redireciona para uma página anterior.
 
-Activate this view by adding the following line to your URLconf::
+Para ativar este view, adicione a seguinte linha em seu URLconf::
 
     (r'^i18n/', include('django.conf.urls.i18n')),
 
-(Note that this example makes the view available at ``/i18n/setlang/``.)
+(Note que este exemplo torna o view disponível em ``/i18n/setlang/``.)
 
-The view expects to be called via the ``POST`` method, with a ``language``
-parameter set in request. If session support is enabled, the view
-saves the language choice in the user's session. Otherwise, it saves the
-language choice in a cookie that is by default named ``django_language``.
-(The name can be changed through the ``LANGUAGE_COOKIE_NAME`` setting if you're
-using the Django development version.)
+O view espera uma requisição via método ``POST``, com um parâmetro 
+``language``. Se o suporte a sessão está habilitado, o view salva a escolha do
+idioma na sessão do usuário. Caso contrário, ele o salva em um cookie que 
+tem por padrão o nome ``django_language``. (O nome pode ser alterado por meio
+da configuração ``LANGUAGE_COOKIE_NAME``, se você estiver usando a versão de
+desenvolvimento do Django.)
 
-After setting the language choice, Django redirects the user, following this
-algorithm:
+Depois de salvar a opção de idioma, o Django redireciona o usuário, seguindo 
+este algoritmo:
 
-    * Django looks for a ``next`` parameter in the ``POST`` data.
-    * If that doesn't exist, or is empty, Django tries the URL in the
-      ``Referrer`` header.
-    * If that's empty -- say, if a user's browser suppresses that header --
-      then the user will be redirected to ``/`` (the site root) as a fallback.
+    * O Django procura por um parâmetro ``next`` nos dados do ``POST``.
+    * Se isso não existir, ou estiver vazio, o Django tenta a URL no cabeçalho
+      ``Referer``.
+    * Se estiver vazio -- isto é, se o navegador do usuário suprimir o 
+      cabeçalho -- então o usuário será redirecionado para ``/`` (a raiz do 
+      site) como um fallback.
 
-Here's example HTML template code:
+Aqui está um exemplo de código de template em HTML::
 
 .. code-block:: html+django
 
@@ -850,33 +857,33 @@ Here's example HTML template code:
     <input type="submit" value="Go" />
     </form>
 
-Translations and JavaScript
-===========================
+Traduções e JavaScript
+======================
 
-Adding translations to JavaScript poses some problems:
+Adicionar traduções para JavaScript apresenta alguns problemas:
 
-    * JavaScript code doesn't have access to a ``gettext`` implementation.
+    * O código JavaScript não tem acesso a uma implementação do ``gettext``.
 
-    * JavaScript code doesn't have access to .po or .mo files; they need to be
-      delivered by the server.
+    * O código JavaScript não tem acesso aos arquivos .po ou .mo; eles precisam
+      ser entregues por um servidor.
 
-    * The translation catalogs for JavaScript should be kept as small as
-      possible.
+    * Os catálogos de tradução para JavaScript devem ser mantidos tão pequenos
+      quanto possível.
 
-Django provides an integrated solution for these problems: It passes the
-translations into JavaScript, so you can call ``gettext``, etc., from within
+O Django provê uma solução integrada para estes problemas: ele passa a tradução
+dentro do JavaScript, então você pode chamar ``gettext``, etc., de qualquer
 JavaScript.
 
-The ``javascript_catalog`` view
--------------------------------
+O view ``javascript_catalog``
+-----------------------------
 
-The main solution to these problems is the ``javascript_catalog`` view, which
-sends out a JavaScript code library with functions that mimic the ``gettext``
-interface, plus an array of translation strings. Those translation strings are
-taken from the application, project or Django core, according to what you
-specify in either the info_dict or the URL.
+A principal solução para estes problemas é o view ``javascript_catalog``, que
+envia uma biblioteca de código JavaScript com funções que imitam a interface do
+``gettext``, mais um array com as translation strings. Estas translation
+strings são capturadas das aplicações, do projeto ou do Django core, de acordo
+com o que você especificou em qualquer um dos info_dict ou na URL.
 
-You hook it up like this::
+Faça desta forma::
 
     js_info_dict = {
         'packages': ('your.app.package',),
@@ -886,63 +893,63 @@ You hook it up like this::
         (r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
     )
 
-Each string in ``packages`` should be in Python dotted-package syntax (the
-same format as the strings in ``INSTALLED_APPS``) and should refer to a package
-that contains a ``locale`` directory. If you specify multiple packages, all
-those catalogs are merged into one catalog. This is useful if you have
-JavaScript that uses strings from different applications.
+Cada string no ``packages`` deve ser escrita na sintaxe pontuada do Python (o
+mesmo formato das ``INSTALLED_APPS``)) e devem se referir a um pacote que
+contenha um diretório ``locale``. Se você especificar múltiplos pacotes, todos 
+estes catálogos são combinados em um único catálogo. Isto é comum se você tem
+JavaScripts que usam strings de diferentes aplicações.
 
-You can make the view dynamic by putting the packages into the URL pattern::
+Você pode tornar o view dinâmico, colocando os pacotes no URL patterns::
 
     urlpatterns = patterns('',
         (r'^jsi18n/(?P<packages>\S+?)/$', 'django.views.i18n.javascript_catalog'),
     )
 
-With this, you specify the packages as a list of package names delimited by '+'
-signs in the URL. This is especially useful if your pages use code from
-different apps and this changes often and you don't want to pull in one big
-catalog file. As a security measure, these values can only be either
-``django.conf`` or any package from the ``INSTALLED_APPS`` setting.
+Com isto, você especifica os pacotes como uma lista de pacotes delimitados por
+sinais de '+' na URL. Esta é uma especialidade comum se sua página usa código
+de diferentes aplicações, se elas mudam freqüentemente e você não quer baixar um
+catálogo enorme. Como uma medida de segurança, estes valores podem somente estar
+ou no ``django.conf`` ou em outro pacote configurado no ``INSTALLED_APPS``.
 
-Using the JavaScript translation catalog
-----------------------------------------
+Usando o catálogo de tradução do JavaScript
+-------------------------------------------
 
-To use the catalog, just pull in the dynamically generated script like this::
+Para usar o catálogo, é só usar um script dinamicamente gerado, como a seguir::
 
     <script type="text/javascript" src="/path/to/jsi18n/"></script>
 
-This is how the admin fetches the translation catalog from the server. When the
-catalog is loaded, your JavaScript code can use the standard ``gettext``
-interface to access it::
+Isto é como o admin captura os catálogos de tradução do servidor. Quando o 
+catálogo é carregado, seu código Javascript pode usar o padrão da interface de
+acesso do ``gettext``::
 
     document.write(gettext('this is to be translated'));
 
-There is also an ``ngettext`` interface::
+Existe também uma interface ``ngettext``::
 
     var object_cnt = 1 // or 0, or 2, or 3, ...
     s = ngettext('literal for the singular case',
             'literal for the plural case', object_cnt);
 
-and even a string interpolation function::
+e ainda um função de interpolação de string::
 
     function interpolate(fmt, obj, named);
 
-The interpolation syntax is borrowed from Python, so the ``interpolate``
-function supports both positional and named interpolation:
+A sintaxe de interpolação é emprestada do Python, então a função 
+``interpolate`` suporta ambas as interpolações, posicional e nomeada.
 
-    * Positional interpolation: ``obj`` contains a JavaScript Array object
-      whose elements values are then sequentially interpolated in their
-      corresponding ``fmt`` placeholders in the same order they appear.
-      For example::
+    * Interpolação posicional: o ``obj`` contém um objeto Array de JavaScript 
+      e os valores dos elementos são então seqüencialmente interpolados em seus
+      lugares correspondendo aos marcadores ``fmt`` na mesma ordem em que 
+      aparecem. Por exemplo::
 
         fmts = ngettext('There is %s object. Remaining: %s',
                 'There are %s objects. Remaining: %s', 11);
         s = interpolate(fmts, [11, 20]);
         // s is 'There are 11 objects. Remaining: 20'
 
-    * Named interpolation: This mode is selected by passing the optional
-      boolean ``named`` parameter as true. ``obj`` contains a JavaScript
-      object or associative array. For example::
+    * Interpolação nomeada: Este modo é selecionado passando um valor booleano
+      para o parâmetro ``named``, como True. O ``obj`` contém um objeto
+      JavaScript ou um array associativo. Por exemplo::
 
         d = {
             count: 10
@@ -953,41 +960,42 @@ function supports both positional and named interpolation:
         'there are %(count)s of a total of %(total)s objects', d.count);
         s = interpolate(fmts, d, true);
 
-You shouldn't go over the top with string interpolation, though: this is still
-JavaScript, so the code has to make repeated regular-expression substitutions.
-This isn't as fast as string interpolation in Python, so keep it to those
-cases where you really need it (for example, in conjunction with ``ngettext``
-to produce proper pluralizations).
+Você não deve passar por cima da interpolação de string. Embora isso ainda 
+seja JavaScript, o código tem de fazer repetidas substituições por 
+expressões-regulares. Isto não é tão rápido quanto a interpolação do Python,
+então mantenha esses casos onde você realmente precisa (por exemplo, na
+conjunção com ``ngettext`` para produzir pluralizações).
 
-Creating JavaScript translation catalogs
-----------------------------------------
+Criando catálogos de tradução para JavaScript
+---------------------------------------------
 
-You create and update the translation catalogs the same way as the other
-
-Django translation catalogs -- with the django-admin.py makemessages tool. The
-only difference is you need to provide a ``-d djangojs`` parameter, like this::
+Para criar e atualizar os catálogos de traduções é da mesma forma como os
+outros catálogos de tradução do Django -- com a ferramenta django-admin.py makemessages.
+A única diferença está em você passar um parâmetro ``-d djangojs``, desta 
+forma::
 
     django-admin.py makemessages -d djangojs -l de
 
-This would create or update the translation catalog for JavaScript for German.
-After updating translation catalogs, just run ``django-admin.py compilemessages``
-the same way as you do with normal Django translation catalogs.
+Isto poderia criar ou atualizar o catálogo de tradução para JavaScript em 
+Alemão. Depois da atualização dos catálogos, simplesmente execute
+``django-admin.py compilemessages`` da mesma forma que se faz com um catálogo normal do 
+Django.
 
-Specialties of Django translation
-==================================
+Especialidades da tradução do Django
+====================================
 
-If you know ``gettext``, you might note these specialties in the way Django
-does translation:
+Se você conhece ``gettext``, você pôde notar estas especialidades na forma como
+o Django faz tradução:
 
-    * The string domain is ``django`` or ``djangojs``. This string domain is
-      used to differentiate between different programs that store their data
-      in a common message-file library (usually ``/usr/share/locale/``). The
-      ``django`` domain is used for python and template translation strings
-      and is loaded into the global translation catalogs. The ``djangojs``
-      domain is only used for JavaScript translation catalogs to make sure
-      that those are as small as possible.
-    * Django doesn't use ``xgettext`` alone. It uses Python wrappers around
-      ``xgettext`` and ``msgfmt``. This is mostly for convenience.
+    * Os domínios de string são ``django`` ou ``djangojs``. Estes domínios são 
+      utilizados para distinguir diferentes programas que armazenam seus dados 
+      em um arquivo comum de mensagens (usualmente em ``/usr/share/locale/``). 
+      O domínio ``django`` é usado pelas translation strings no Python e 
+      em templates e é carregado dentro do catálogo de tradução geral. O 
+      domínio ``djangojs`` é utilizado somente para catálogos de tradução de
+      JavaScript, a fim de torná-lo o menor possível.
+    * O Django não usa ``xgettext`` sozinho. Ele usa wrappers do Python em torno
+      do ``xgettext`` e ``msgfmt``. Isto é mais por conveniência.
 
 ``gettext`` on Windows
 ======================
