@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Draft $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,73 +16,76 @@
 
 .. _ref-contrib-redirects:
 
-=================
-The redirects app
-=================
+===============================
+A aplicação de redirecionamento
+===============================
 
 .. module:: django.contrib.redirects
-   :synopsis: A framework for managing redirects.
+   :synopsis: Um framework para gerenciar redirecionamentos.
 
-Django comes with an optional redirects application. It lets you store simple
-redirects in a database and handles the redirecting for you.
+O Django vem acompanhado de uma aplicação de redirecionamento opcional. Ela
+permite você armazenar redirecionadores no banco de dados e manipula o 
+redirecionamento pra você.
 
-Installation
-============
+Instalação
+==========
 
-To install the redirects app, follow these steps:
+Para instalá-lo, siga os seguintes passos:
 
-    1. Add ``'django.contrib.redirects'`` to your :setting:`INSTALLED_APPS`
-       setting.
-    2. Add ``'django.contrib.redirects.middleware.RedirectFallbackMiddleware'``
-       to your :setting:`MIDDLEWARE_CLASSES` setting.
-    3. Run the command :djadmin:`manage.py syncdb <syncdb>`.
+    1. Adicione ``'django.contrib.redirects'`` em suas 
+       :setting:`INSTALLED_APPS`.
+    2. Adicione 
+       ``'django.contrib.redirects.middleware.RedirectFallbackMiddleware'`` nas
+       suas :setting:`MIDDLEWARE_CLASSES`.
+    3. Execute o commando :djadmin:`manage.py syncdb <syncdb>`.
 
-How it works
-============
+Como ele funciona
+=================
 
-``manage.py syncdb`` creates a ``django_redirect`` table in your database. This
-is a simple lookup table with ``site_id``, ``old_path`` and ``new_path`` fields.
+O ``manage.py syncdb`` cria uma tabela ``django_redirect`` no seu banco de 
+dados. Essa é uma tabela de aparência simples com os campos ``site_id``, 
+``old_path`` e ``new_path``.
 
-The ``RedirectFallbackMiddleware`` does all of the work. Each time any Django
-application raises a 404 error, this middleware checks the redirects database
-for the requested URL as a last resort. Specifically, it checks for a redirect
-with the given ``old_path`` with a site ID that corresponds to the
-:setting:`SITE_ID` setting.
+O ``RedirectFallbackMiddleware`` faz todo trabalho. Toda vez que uma aplicação
+Django gera um erro 404, esse middleware checa o banco de dados do 
+redirecionador para a URL acessada como um último recurso. Especialmente, ele
+procura por um redirecionador que tenha um ``old_path`` com um ID do site que
+corresponde ao :setting:`SITE_ID` no arquivo settings.py.
 
-    * If it finds a match, and ``new_path`` is not empty, it redirects to
-      ``new_path``.
-    * If it finds a match, and ``new_path`` is empty, it sends a 410 ("Gone")
-      HTTP header and empty (content-less) response.
-    * If it doesn't find a match, the request continues to be processed as
-      usual.
+    * Se ele encontra uma correspondência, e ``new_path`` não está vazio, ele
+      redireciona para o ``new_path``.
+    * Se ele encontra uma correspondência, e ``new_path`` está vazio, ele envia
+      um cabeçalho HTTP 410 ("Gone") e uma resposta vazia (content-less).
+    * Se ele não encontra uma correspondência, a requisição continua sendo 
+      processada normalmente.
 
-The middleware only gets activated for 404s -- not for 500s or responses of any
-other status code.
+O middleware somente opera sobre 404s -- não para 500s ou respostas de qualquer
+outro código de status.
 
-Note that the order of :setting:`MIDDLEWARE_CLASSES` matters. Generally, you
-can put ``RedirectFallbackMiddleware`` at the end of the list, because it's a
-last resort.
+Note que a ordem do ``MIDDLEWARE_CLASSES`` importa. Geralmente, você pode
+colocar o ``RedirectFallbackMiddleware`` no final da lista, porque ele é um
+último recurso.
 
-For more on middleware, read the :ref:`middleware docs
+Para saber mais sobre o middleware, leia a :ref:`documentação do middleware 
 <topics-http-middleware>`.
 
-How to add, change and delete redirects
-=======================================
+Como adicionar, mudar e deletar redirecionadores
+================================================
 
-Via the admin interface
------------------------
+Via interface de administração
+------------------------------
 
-If you've activated the automatic Django admin interface, you should see a
-"Redirects" section on the admin index page. Edit redirects as you edit any
-other object in the system.
+Se você tem ativada a interface de administração automática do Django, você
+pode ver uma seção "Redirects" na página principal do admin. Edite os 
+redirecionadores como você edita qualquer outro objeto do sistema.
 
-Via the Python API
-------------------
-
+Via API do Python
+-----------------
 .. class:: models.Redirect
 
-    Redirects are represented by a standard :ref:`Django model <topics-db-models>`,
-    which lives in `django/contrib/redirects/models.py`_. You can access redirect
-    objects via the :ref:`Django database API <topics-db-queries>`.
+    Os redirecionadores são representados por um :ref:`modelo Django 
+    <topics-db-models>` padrão, que se encontram em 
+    `django/contrib/redirects/models.py`_. Você pode acessar os objetos de 
+    redirecionamento utilizando a :ref:`API de banco de dados do Django <topics-db-queries>`.
 
 .. _django/contrib/redirects/models.py: http://code.djangoproject.com/browser/django/trunk/django/contrib/redirects/models.py
