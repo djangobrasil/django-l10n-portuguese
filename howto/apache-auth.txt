@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Draft $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,31 +16,34 @@
 
 .. _howto-apache-auth:
 
-=========================================================
-Authenticating against Django's user database from Apache
-=========================================================
+===========================================================
+Autenticando no Apache usuários do banco de dados do Django
+===========================================================
 
-Since keeping multiple authentication databases in sync is a common problem when
-dealing with Apache, you can configuring Apache to authenticate against Django's
-:ref:`authentication system <topics-auth>` directly. For example, you
-could:
+Fazer autenticação mantendo múltiplas bases de dados em sincronia é um problema
+comum quando se trabalha com o Apache, por isso você pode configurar o Apache
+para usar o :ref:`sistema de autenticação <topics-auth>` do Django diretamente. 
+Por exemplo, você poderia:
 
-    * Serve static/media files directly from Apache only to authenticated users.
+    * Servir arquivos static/media diretamente do Apache somente para usuários
+      autenticados.
 
-    * Authenticate access to a Subversion_ repository against Django users with
-      a certain permission.
+    * Acessar um repositório Subversion_ autenticado para usuários Django
+      com uma certa permissão.
 
-    * Allow certain users to connect to a WebDAV share created with mod_dav_.
+    * Permitir certos usuários conectarem-se para um compartilhamento WebDAV
+      criado com o mod_dav_.
 
 .. _Subversion: http://subversion.tigris.org/
 .. _mod_dav: http://httpd.apache.org/docs/2.0/mod/mod_dav.html
+      
+Configurando o Apache
+=====================
 
-Configuring Apache
-==================
-
-To check against Django's authorization database from a Apache configuration
-file, you'll need to use mod_python's ``PythonAuthenHandler`` directive along
-with the standard ``Auth*`` and ``Require`` directives:
+Para autenticar-se na base de dados do Django a partir de um arquivo de
+configurações do Apache, você precisará utilizar a diretiva
+``PythonAuthenHandler`` do mod_python junto com as tradicionais diretivas
+``Auth*`` e ``Require``::
 
 .. code-block:: apache
 
@@ -53,23 +56,23 @@ with the standard ``Auth*`` and ``Require`` directives:
         PythonAuthenHandler django.contrib.auth.handlers.modpython
     </Location>
 
-.. admonition:: Using the authentication handler with Apache 2.2
+.. admonition:: Usando o manipulador de autenticação com o Apache 2.2
 
-    If you're using Apache 2.2, you'll need to take a couple extra steps.
+    Se você está usando Apache 2.2, você necessitará seguir alguns passos.
 
-    You'll need to ensure that ``mod_auth_basic`` and ``mod_authz_user``
-    are loaded. These might be compiled statically into Apache, or you might
-    need to use ``LoadModule`` to load them dynamically (as shown in the
-    example at the bottom of this note).
+    Você precisará se assegurar de que o ``mod_auth_basic`` e 
+    ``mod_authz_user`` estão carregados. Esses devem ser compilados 
+    estaticamente no Apache, ou você pode usar ``LoadModule`` para carregar
+    dinamicamente (como demonstram os exemplos abaixo desta nota).
 
-    You'll also need to insert configuration directives that prevent Apache
-    from trying to use other authentication modules, as well as specifying
-    the ``AuthUserFile`` directive and pointing it to ``/dev/null``. Depending
-    on which other authentication modules you have loaded, you might need one
-    or more of the following directives::
-    
+    Você também precisará inserir diretivas de configuração que impedem que o
+    Apache tente utilizar outros módulos autenticação, bem como especificar a
+    diretiva ``AuthUserFile`` e apontá-la para ``/dev/null``. 
+    Dependendo dos módulos de autenticação que você tenha carregado, você
+    pode precisar ter uma ou mais das seguintes diretivas::
+
     .. code-block:: apache
-
+        
         AuthBasicAuthoritative Off
         AuthDefaultAuthoritative Off
         AuthzLDAPAuthoritative Off
@@ -79,8 +82,8 @@ with the standard ``Auth*`` and ``Require`` directives:
         AuthzOwnerAuthoritative Off
         AuthzUserAuthoritative Off
 
-    A complete configuration, with differences between Apache 2.0 and
-    Apache 2.2 marked in bold, would look something like:
+    Uma configuração completa, com direnças entre Apache 2.0 e Apache 2.2
+    marcadas em negrito, poderia parecer algo assim:
 
     .. parsed-literal::
 
@@ -100,39 +103,40 @@ with the standard ``Auth*`` and ``Require`` directives:
             PythonAuthenHandler django.contrib.auth.handlers.modpython
         </Location>
 
-By default, the authentication handler will limit access to the ``/example/``
-location to users marked as staff members.  You can use a set of
-``PythonOption`` directives to modify this behavior:
+Por padrão, o manipulador de autenticação limitará o acesso para localização
+``/example/`` para usuários marcados como staff. Você pode usar um conjunto de
+diretivas ``PythonOption`` para modificar esse comportamento:
 
     ================================  =========================================
-    ``PythonOption``                  Explanation
+    ``PythonOption``                  Explicação
     ================================  =========================================
-    ``DjangoRequireStaffStatus``      If set to ``on`` only "staff" users (i.e.
-                                      those with the ``is_staff`` flag set)
-                                      will be allowed.
+    ``DjangoRequireStaffStatus``      Se marcado como ``on`` somente usuários
+                                      "staff" (i.e. aqueles com o flag
+                                      ``is_staff`` setado) serão permitidos.
 
-                                      Defaults to ``on``.
+                                      O padrão é ``on``.
 
-    ``DjangoRequireSuperuserStatus``  If set to ``on`` only superusers (i.e.
-                                      those with the ``is_superuser`` flag set)
-                                      will be allowed.
+    ``DjangoRequireSuperuserStatus``  Se setado como ``on`` somente 
+                                      super-usuários (i.e. aqueles com o flag
+                                      ``is_superuser`` setado) serão permitidos.
 
-                                      Defaults to ``off``.
+                                      O padrão é ``off``.
 
-    ``DjangoPermissionName``          The name of a permission to require for
-                                      access. See :ref:`custom permissions
-                                      <custom-permissions>` for more
-                                      information.
+    ``DjangoPermissionName``          O nome de uma permissão de acesso a 
+                                      exigir. Veja :ref:`custom permissions
+                                      <custom-permissions>` para mais 
+                                      informações.
 
-                                      By default no specific permission will be
-                                      required.
+                                      Por padrão não será exigida autorização
+                                      expressa.
     ================================  =========================================
 
-Note that sometimes ``SetEnv`` doesn't play well in this mod_python
-configuration, for reasons unknown. If you're having problems getting
-mod_python to recognize your ``DJANGO_SETTINGS_MODULE``, you can set it using
-``PythonOption`` instead of ``SetEnv``. Therefore, these two Apache directives
-are equivalent::
+Note que algumas vezes o ``SetEnv`` não funciona bem com esta configuração do
+mod_python, por razões desconhecidas. Se você está encontrando problemas para
+fazer o mod_python reconhecer seu ``DJANGO_SETTINGS_MODULE``, você pode
+configurá-lo usando ``PythonOption`` em vez de ``SetEnv``. Portanto, estas duas
+diretivas do Apache são equivalentes::
 
     SetEnv DJANGO_SETTINGS_MODULE mysite.settings
     PythonOption DJANGO_SETTINGS_MODULE mysite.settings
+
