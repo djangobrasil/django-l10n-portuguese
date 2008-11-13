@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Anderson Santos $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -13,48 +13,51 @@
 ..   $LastChangedDate$
 ..
 
-
 .. _intro-tutorial02:
 
-=====================================
-Writing your first Django app, part 2
-=====================================
+=================================================
+Escrevendo sua primeira aplicação Django, parte 2
+=================================================
 
-This tutorial begins where :ref:`Tutorial 1 <intro-tutorial01>` left off. We're
-continuing the Web-poll application and will focus on Django's
-automatically-generated admin site.
+Este tutorial inicia-se onde o :ref:`Tutorial 1 <intro-tutorial01>` terminou.
+Vamos continuar a aplicação web de enquete focando agora no site de administração
+automática do Django.
 
-.. admonition:: Philosophy
+.. admonition:: Filosofia
 
-    Generating admin sites for your staff or clients to add, change and delete
-    content is tedious work that doesn't require much creativity. For that
-    reason, Django entirely automates creation of admin interfaces for models.
+    Gerar sites de administração para sua equipe ou clientes adicionarem,
+    editarem ou excluírem conteúdo é um trabalho entediante que não requer
+    muita criatividade. Por essa razão, o Django automatiza toda a criação da
+    interface de administração para modelos.
 
-    Django was written in a newsroom environment, with a very clear separation
-    between "content publishers" and the "public" site. Site managers use the
-    system to add news stories, events, sports scores, etc., and that content is
-    displayed on the public site. Django solves the problem of creating a
-    unified interface for site administrators to edit content.
+    O Django foi desenvolvido em um ambiente de redacao, onde havia
+    uma clara separação entre "produtores de conteúdo" e o site "público".
+    Gerentes de site usam o sistema para adicionar notícias, eventos,
+    resultado de esportes, etc, e o conteúdo é exibido no site público. O
+    Django soluciona o problema de criar uma interface unificada para os
+    administradores editarem o conteúdo.
 
-    The admin isn't necessarily intended to be used by site visitors; it's for
-    site managers.
+    A administração não foi desenvolvida necessariamente para ser usada pelos
+    visitantes do site, mas sim pelos gerentes.
 
-Activate the admin site
-=======================
+Ative o site de admin
+=====================
 
-The Django admin site is not activated by default -- it's an opt-in thing. To
-activate the admin site for your installation, do these three things:
+O site de administração não vem ativo por padrão -- ele é opcional. Para
+ativá-lo para sua instalação, faca estes três passos:
 
-    * Add ``"django.contrib.admin"`` to your :setting:`INSTALLED_APPS` setting.
+    * Adicione ``"django.contrib.admin"`` às suas configurações de
+      :setting:`INSTALLED_APPS`.
 
-    * Run ``python manage.py syncdb``. Since you have added a new application
-      to :setting:`INSTALLED_APPS`, the database tables need to be updated.
+    * Execute ``python manage.py syncdb``. Já que uma nova aplicação foi
+      adicionada ao :setting:`INSTALLED_APPS`, as tabelas do banco de dados
+      precisam ser atualizadas.
 
-    * Edit your ``mysite/urls.py`` file and uncomment the lines below the
-      "Uncomment the next two lines..." comment. This file is a URLconf;
-      we'll dig into URLconfs in the next tutorial. For now, all you need to
-      know is that it maps URL roots to applications. In the end, you should
-      have a ``urls.py`` file that looks like this:
+    * Edite seu arquivo ``meusite/urls.py`` e retire o comentário das linhas
+      abaixo de "Uncomment the next two lines...". Esse arquivo é um URLconf;
+      entraremos em detalhes sobre URLconfs no próximo tutorial. Por enquanto,
+      tudo o que você tem a saber é que ele mapeia as URL principais para as
+      aplicações. No final você deve ter um ``urls.py`` parecido com este:
 
       .. parsed-literal::
 
@@ -76,36 +79,38 @@ activate the admin site for your installation, do these three things:
               **(r'^admin/(.*)', admin.site.root),**
           )
 
-      (The bold lines are the ones that needed to be uncommented.)
+      (As linhas em negrito são as que precisam ser descomentadas.)
 
-Start the development server
-============================
+Inicie o servidor de desenvolvimento
+====================================
 
-Let's start the development server and explore the admin site.
+Vamos iniciar o servidor de desenvolvimento e explorar o site de administração.
 
-Recall from Tutorial 1 that you start the development server like so:
+Lembre-se do Tutorial 1 onde você iniciou o servidor com:
 
 .. code-block:: bash
 
     python manage.py runserver
 
-Now, open a Web browser and go to "/admin/" on your local domain -- e.g.,
-http://127.0.0.1:8000/admin/. You should see the admin's login screen:
+Agora, abra o navegador de internet e vá para "/admin/" no seu domínio local --
+e.g., http://127.0.0.1:8000/admin/. Você deverá ver a tela de login:
 
 .. image:: _images/admin01.png
-   :alt: Django admin login screen
+   :alt:  Tela de login do Django admin
 
-Enter the admin site
-====================
+Entre no site de administração
+==============================
 
-Now, try logging in. (You created a superuser account in the first part of this
-tutorial, remember?) You should see the Django admin index page:
+Agora tente acessar o sistema. (Você criou uma conta de superusuário na
+primeira parte deste tutorial, lembra?). Você deverá ver a página inicial do
+Django admin:
 
 .. image:: _images/admin02t.png
-   :alt: Django admin index page
+   :alt: Página inicial do Django admin
 
-You should see a few other types of editable content, including groups, users
-and sites. These are core features Django ships with by default.
+Você deverá ver alguns outros tipos de conteúdos editáveis, incluindo grupos,
+usuários e sites. Essas são as funcionalidades centrais que o Django inclui por
+padrão.
 
 Make the poll app modifiable in the admin
 =========================================
