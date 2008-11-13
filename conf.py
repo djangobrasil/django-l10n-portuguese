@@ -116,7 +116,7 @@ htmlhelp_basename = 'Djangodoc'
 # ------------------------
 
 # The paper size ('letter' or 'a4').
-#latex_paper_size = 'letter'
+latex_paper_size = 'a4'
 
 # The font size ('10pt', '11pt' or '12pt').
 #latex_font_size = '10pt'
@@ -129,7 +129,8 @@ latex_documents = [
 ]
 
 # Additional stuff for the LaTeX preamble.
-#latex_preamble = ''
+latex_preamble = 'Esta é a tradução da documentação oficial do Django, mantida ' +\
+                 'pelo grupo de localização do Django para o Português.'
 
 # Documents to append as an appendix to all manuals.
 #latex_appendices = []
