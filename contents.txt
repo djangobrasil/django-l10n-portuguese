@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, wainting for revision $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,9 +16,9 @@
 
 .. _contents:
 
-=============================
-Django documentation contents
-=============================
+==================================
+Conteúdo da documentação do Django
+==================================
 
 .. toctree::
    :maxdepth: 2
@@ -33,18 +33,18 @@ Django documentation contents
    releases/index
    internals/index
 
-Indices, glossary and tables
+Índices, glossário e tabelas
 ============================
 
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`glossary`
 
-Deprecated/obsolete documentation
-=================================
+Documentação depreciada/obsoleta
+================================
 
-The following documentation covers features that have been deprecated or that
-have been replaced in newer versions of Django.
+A documentação a seguir cobre funcionalidades que estão entrando em desuso ou
+que serão substituídas nas novas versões do Django.
 
 .. toctree::
    :maxdepth: 2
