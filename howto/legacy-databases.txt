@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Draft $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,9 +16,9 @@
 
 .. _howto-legacy-databases:
 
-=========================================
-Integrating Django with a legacy database
-=========================================
+================================================
+Integrando o Django com um banco de dados legado
+================================================
 
 While Django is best suited for developing new applications, it's quite
 possible to integrate it into legacy databases. Django includes a couple of
@@ -30,12 +30,20 @@ This document assumes you know the Django basics, as covered in the
 Once you've got Django set up, you'll follow this general process to integrate
 with an existing database.
 
-Give Django your database parameters
-====================================
+Embora o Django seja mais adequado para o desenvolvimento de novas 
+aplicações, é bem possível integrá-lo com bases de dados legadas. O Django 
+inclui alguns utilitários para automatizar, tanto quanto possível, este 
+processo.
 
-You'll need to tell Django what your database connection parameters are, and
-what the name of the database is. Do that by editing these settings in your
-:ref:`settings file <topics-settings>`:
+Este documento assume que você sabe o básico sobre Django, pelo menos o que já
+foi discutido no :ref:`tutorial <intro-tutorial01>`.
+
+Dê ao Django seus parâmetros do banco de dados
+==============================================
+
+Você necessitará informar ao Django os seus parâmetros de conexão com o banco de
+dados, e qual tipo de banco de dados será usado. Faça isso editando estas
+configurações no seu :ref:`arquivo settings <topics-settings>`:
 
     * :setting:`DATABASE_NAME`
     * :setting:`DATABASE_ENGINE`
@@ -44,40 +52,42 @@ what the name of the database is. Do that by editing these settings in your
     * :setting:`DATABASE_HOST`
     * :setting:`DATABASE_PORT`
 
-Auto-generate the models
-========================
+Geramento automático de modelos
+===============================
 
 .. highlight:: bash
 
-Django comes with a utility called :djadmin:`inspectdb` that can create models
-by introspecting an existing database. You can view the output by running this
-command::
+O Django vem acompanhado de um utilitário, chamado :djadmin:`inspectdb`, que 
+pode criar modelos a partir de um banco de dados existente. Você pode ver o que
+ele gera usando este comando::
 
     python manage.py inspectdb
 
-Save this as a file by using standard Unix output redirection::
+Salve a saída como um arquivo usando o redirecionamento de saída padrão do 
+Unix::
 
     python manage.py inspectdb > models.py
 
-This feature is meant as a shortcut, not as definitive model generation. See the
-:djadmin:`documentation of inspectdb <inspectdb>` for more information.
+Esta funcionalidade é entendida como um shortcut (atalho), e não como um
+gerador definitivo de modelos. Veja a :djadmin:`documentação do inspectdb <inspectdb>`
+para mais informações.
 
-Once you've cleaned up your models, name the file ``models.py`` and put it in
-the Python package that holds your app. Then add the app to your
-:setting:`INSTALLED_APPS` setting.
+Uma vez que você tenha limpado seus modelos, nomeie o arquivo como 
+``models.py`` e coloque-o no pacote Python correspondente à sua aplicação. 
+Então adicione sua aplicação nas configurações de  :setting:`INSTALLED_APPS`.
 
-Install the core Django tables
-==============================
+Instale as tabelas do core do Django
+====================================
 
-Next, run the :djadmin:`syncdb` command to install any extra needed database
-records such as admin permissions and content types::
+Agora, execute o comando :djadmin:`syncdb` para instalar qualquer dado extra
+no banco de dados, como permissões de administração ou tipos de conteúdo::
 
     python manage.py syncdb
 
-Test and tweak
-==============
+Veja se funciona
+================
 
-Those are the basic steps -- from here you'll want to tweak the models Django
-generated until they work the way you'd like. Try accessing your data via the
-Django database API, and try editing objects via Django's admin site, and edit
-the models file accordingly.
+Estes são os passos básicos -- a partir daqui você terá de modificar os modelos
+gerados pelo Django até que eles funcionem da maneira que lhe é conveniente. 
+Tente acessar seus dados por meio da API de banco de dados do Django, e tente 
+editar objetos por meio do site de administração do Django.
