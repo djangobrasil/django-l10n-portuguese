@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, wainting for revision $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,11 +16,11 @@
 
 .. _ref-files-index:
 
-File handling reference
-=======================
+Referência de manipulação de arquivos
+=====================================
 
 .. module:: django.core.files
-   :synopsis: File handling and storage
+   :synopsis: Manipulação de arquivos e armazenamento
 
 .. toctree::
    :maxdepth: 1
