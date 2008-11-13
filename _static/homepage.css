@@ -2,21 +2,21 @@
 
 #index div.section dt { font-weight: normal; }
 
-#index #s-getting-help { float: right; width: 35em; background: #E1ECE2; padding: 1em; margin: 2em 0 2em 2em; }
-#index #s-getting-help h2 { margin: 0; }
+#index #s-conseguindo-ajuda { float: right; width: 35em; background: #E1ECE2; padding: 1em; margin: 2em 0 2em 2em; }
+#index #s-conseguindo-ajuda h2 { margin: 0; }
 
-#index #s-django-documentation div.section div.section h3 { margin: 0; }
-#index #s-django-documentation div.section div.section { background: #E1ECE2; padding: 1em; margin: 2em 0 2em 40.3em; }
-#index #s-django-documentation div.section div.section a.reference { white-space: nowrap; }
+#index #s-documenta-o-do-django div.section div.section h3 { margin: 0; }
+#index #s-documenta-o-do-django div.section div.section { background: #E1ECE2; padding: 1em; margin: 2em 0 2em 40.3em; }
+#index #s-documenta-o-do-django div.section div.section a.reference { white-space: nowrap; }
 
-#index #s-using-django dl,
-#index #s-add-on-contrib-applications dl,
-#index #s-solving-specific-problems dl,
-#index #s-reference dl
+#index #s-utilizando-django dl,
+#index #s-aplica-es-adicionais-contrib dl,
+#index #s-resolvendo-problemas-espec-ficos dl,
+#index #s-refer-ncia dl
     { float: left; width: 41em; }
 
-#index #s-add-on-contrib-applications,
+#index #s-aplica-es-adicionais-contrib,
 #index #s-solving-specific-problems,
-#index #s-reference,
+#index #s-refer-ncia,
 #index #s-and-all-the-rest
     { clear: left; }
