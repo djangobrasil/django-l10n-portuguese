@@ -43,7 +43,7 @@ Configurando o Apache
 Para autenticar-se na base de dados do Django a partir de um arquivo de
 configurações do Apache, você precisará utilizar a diretiva
 ``PythonAuthenHandler`` do mod_python junto com as tradicionais diretivas
-``Auth*`` e ``Require``::
+``Auth*`` e ``Require``:
 
 .. code-block:: apache
 
@@ -70,9 +70,9 @@ configurações do Apache, você precisará utilizar a diretiva
     diretiva ``AuthUserFile`` e apontá-la para ``/dev/null``. 
     Dependendo dos módulos de autenticação que você tenha carregado, você
     pode precisar ter uma ou mais das seguintes diretivas::
-
+    
     .. code-block:: apache
-        
+
         AuthBasicAuthoritative Off
         AuthDefaultAuthoritative Off
         AuthzLDAPAuthoritative Off
@@ -139,4 +139,3 @@ diretivas do Apache são equivalentes::
 
     SetEnv DJANGO_SETTINGS_MODULE mysite.settings
     PythonOption DJANGO_SETTINGS_MODULE mysite.settings
-

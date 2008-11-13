@@ -223,7 +223,7 @@ Se você não gosta do nome verboso ``ugettext_lazy``, pode usar somente o alias
         name = models.CharField(help_text=_('This is the help text'))
 
 
-Sempre use traduções tardias nos :ref:`modelos do Django <topics_db_models>`_. 
+Sempre use traduções tardias nos :ref:`modelos do Django <topics-db-models>`. 
 Nomes de campos e nomes de tabelas devem ser macados para tradução(do contrário
 eles não serão traduzidos na interface administrativa). Isso significa a escrita
 das opções ``verbose_name`` e ``verbose_name_plural`` na classe ``Meta``, veja,
@@ -318,7 +318,7 @@ Cada ``RequestContext`` tem acesso a três variáveis de traduções específica
 
     * ``LANGUAGE_CODE`` é o idioma corrente do usuário, na forma de string.
       Exemplo: ``en-us``. (Veja :ref:`how-django-discovers-language-preference`,
-       abaixo).
+      abaixo).
 
     * ``LANGUAGE_BIDI`` é a direção do idioma corrente. Se True, a língua se
       escreve da direita para a esquerda, ex: Ebreu, Árabe. Se False da
@@ -490,22 +490,15 @@ multiple times::
 When `creating JavaScript translation catalogs`_ you need to use the special
 'djangojs' domain, **not** ``-e js``.
 
-.. _create a JavaScript translation catalog: `Creating JavaScript translation catalogs`_
+.. _create a JavaScript translation catalog: `Criando catálogos de tradução para JavaScript`_
 
 .. admonition:: Sem gettext?
 
-    If you don't have the ``gettext`` utilities installed, ``django-admin.py
-    makemessages`` will create empty files. If that's the case, either install
-    the ``gettext`` utilities or just copy the English message file
-    (``locale/en/LC_MESSAGES/django.po``) if available and use it as a starting
-    point; it's just an empty translation file.
-
-    Se você não possui os utilitários do ``gettext`` instalados, o 
-    ``django-admin.py makemessages` irá criar arquivos vazios. Se neste caso, 
-    você quiser instalar os utilitários do ``gettext`` ou somente copiar o arquivo com as
-    mensagens em Inglês (``locale/en/LC_MESSAGES/django.po``) e usá-lo
-    como ponto de partida; ele é apenas um arquivo vazio de tradução.
-
+  Se você não possui os utilitários do ``gettext`` instalados, o 
+  ``django-admin.py makemessages` irá criar arquivos vazios. Se neste caso, 
+  você quiser instalar os utilitários do ``gettext`` ou somente copiar o arquivo com as
+  mensagens em Inglês (``locale/en/LC_MESSAGES/django.po``) e usá-lo
+  como ponto de partida; ele é apenas um arquivo vazio de tradução.
 .. admonition:: Working on Windows?
 
    If you're using Windows and need to install the GNU gettext utilities so
@@ -673,7 +666,7 @@ Notas:
       especifica ``de-at`` (Alemão Austríaco), mas o Django somente tem ``de``
       disponível, o Django usa ``de``.
 
-    * Somente línguas listadas em :segging:`LANGUAGES`_ podem ser selecionadas. Se você
+    * Somente línguas listadas em :setting:`LANGUAGES` podem ser selecionadas. Se você
       quiser restringir o idioma para um subconjunto de línguas (porque sua
       aplicação não provê todos os idiomas), modifique o ``LANGUAGES`` para uma
       tupla de idiomas. Por exemplo::
@@ -771,7 +764,7 @@ as traduções em um grande arquivo de mensagens do projeto. A escolha é sua.
 .. note::
 
     Se você tem o settings configurado manualmente, como descrito na 
-    :ref:`settings-without-django-settings-module`_, o diretório ``locale`` na pasta 
+    :ref:`settings-without-django-settings-module`, o diretório ``locale`` na pasta 
     do projeto não será examifnado, desde que o Django perca a habilidade de trabalhar fora da
     localização da pasta do projeto. (O Django normalmente usa a localização do
     arquivo settings para determinar isto, e um arquivo settings não existe se

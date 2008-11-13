@@ -33,7 +33,7 @@ A primeira defesa contra ataques CSRF é assegurar que requisições GET são
 livres de efeitos colaterais. Requisições POST podem então ser protegidas por
 este middleware, adicionando-o em sua lista de middlewares instalados.
 
-.. _Cross Site Request Forgeries: http://www.squarefree.com/securitytips/web-developers.html#CSRF
+.. _Requisições Cross Site falsas: http://www.squarefree.com/securitytips/web-developers.html#CSRF
 
 Como usá-lo
 ===========
