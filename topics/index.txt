@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,10 +16,10 @@
 
 .. _topics-index:
 
-Using Django
-============
+Usando o Django
+===============
 
-Introductions to all the key parts of Django you'll need to know:
+Introduções para todos os partes-chaves do Django, você precisa saber:
 
 .. toctree::
    :maxdepth: 1
