@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,10 +16,10 @@
 
 .. _topics-http-index:
 
-Handling HTTP requests
-======================
+Manipulando requisições HTTP
+============================
 
-Information on handling HTTP requests in Django:
+Informações sobre manipulação de requisições HTTP no Django:
 
 .. toctree::
    :maxdepth: 1
