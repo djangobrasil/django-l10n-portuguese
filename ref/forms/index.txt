@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,10 +16,11 @@
 
 .. _ref-forms-index:
 
-Forms
-=====
+Formulários
+===========
 
-Detailed form API reference. For introductory material, see :ref:`topics-forms-index`.
+Referência detalhada da API de formulário. Para um material introdutório, veja
+:ref:`topics-forms-index`.
 
 .. toctree::
    :maxdepth: 1
