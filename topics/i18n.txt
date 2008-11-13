@@ -88,7 +88,7 @@ Tradução padrão
 Especifique uma translation string usando a função ``ugettext()``. É
 convenção importá-la como um alias mais curto, o ``_``, para facilitar a escrita.
 
-.. nota::
+.. note::
     O módulo ``gettext`` da biblioteca padrão do Python instala uma função 
     ``_()`` no namespace global, que funciona como um alias para 
     ``gettext()``. No Django, nós escolhemos não seguir esta prática, 
@@ -342,7 +342,7 @@ de template que aceite strings constantes. Neste caso, use somente a sintaxe
 Neste caso, ambas as tags e filtros irão receber a string já traduzida, então 
 elas não precisam se preocupar com as traduções.
 
-.. nota::
+.. note::
     Nesse exemplo, a infraestrutura de tradução irá receber a string
     ``"yes,no"``, não as strings individuais ``"yes"`` e ``"no"``. A
     string traduzida precisa ter a vírgula para que o código do filter
