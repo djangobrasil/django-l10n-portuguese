@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, waiting for revision. $
+..   $TranslationStatus: Done $
 ..   $OriginalRevision: 9368 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
@@ -19,7 +19,7 @@
 Meta-documentação e miscelânea
 ==============================
 
-Documentação que não podemos encontrar um lugar mais organizado para colocá-la.
+Documentação que não podemos encontrar um lugar mais organizado para colocá-las.
 Como aquela gaveta na sua cozinha com a tesoura, baterias, fita adesiva, e 
 outras tralhas.
 
