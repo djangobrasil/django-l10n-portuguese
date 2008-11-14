@@ -19,8 +19,7 @@
 Documentação do Django
 ======================
 
-.. rubric:: Tudo o que você precisa saber sobre Django (e, então,
-   algumas).
+.. rubric:: Tudo o que você precisa saber sobre Django (e algo mais).
 
 .. admonition:: Grupo de localização do Django para o Português
 
@@ -33,13 +32,13 @@ Documentação do Django
 Conseguindo ajuda
 =================
 
-Tendo problemas? Nos gostaríamos de ajudar!
+Tendo problemas? Nós gostaríamos de ajudar!
 
-* Tente a :ref:`FAQ <faq-index>` -- Para obter muitas respostas para perguntas
-  comuns.
+* Tente a :ref:`FAQ <faq-index>` -- Para obter respostas para muitas
+  perguntas comuns.
 
-* Procurando por uma informação especifica? Tente :ref:`genindex`,
-  :ref:`modindex` ou a :ref:`Tabela de conteúdo detalhada <contents>`.
+* Procurando por uma informação especifica? Tente o :ref:`genindex`, o
+  :ref:`modindex` ou a :ref:`tabela de conteúdo detalhada <contents>`.
 
 * Procure por informações no `arquivo do grupo de discussão da Django Brasil`_,
   ou `poste uma pergunta`_.
@@ -47,7 +46,7 @@ Tendo problemas? Nos gostaríamos de ajudar!
 * Faça uma pergunta no `canal de IRC #django-br`_, ou procure nos `logs do IRC`_
   para ver se esta pergunta já não foi respondida anteriormente.
 
-* Reporte bugs do Django em nosso `ticket tracker`_.
+* Reporte *bugs* do Django no `ticket tracker`_.
 
 .. _arquivo do grupo de discussão da Django Brasil: http://groups.google.com.br/group/django-brasil
 .. _poste uma pergunta: http://groups.google.com.br/group/django-brasil
@@ -62,7 +61,7 @@ Primeiros passos
     Veja como e escrever uma aplicação Web dirigida a banco de dados com Django.
 
 :ref:`Instalação <intro-install>`
-    Tenha o Django instalado em seu computador
+    Tenha o Django instalado em seu computador.
 
 Tutorial: Escrevendo sua primeira aplicação Django
 ==================================================
@@ -74,7 +73,7 @@ Tutorial: Escrevendo sua primeira aplicação Django
     Explore o site de administração gerado automaticamente.
 
 :ref:`Parte 3 <intro-tutorial03>`
-    Escreva as interfaces públicas views.
+    Escreva as interfaces públicas *views*.
 
 :ref:`Parte 4 <intro-tutorial04>`
     Aprenda como processar formulários.
@@ -83,16 +82,16 @@ Utilizando Django
 =================
 
 :ref:`Modelos <topics-db-index>`
-    Desenhe uma única, definitiva fonte de dados sobre os seus dados.
+    Desenhe uma única e definitiva fonte de dados sobre os seus dados.
 
-:ref:`processando requisicoes web <topics-http-index>`
-    Processe requisições web, mapeie elas para views e retorne paginas.
+:ref:`Processando requisições web <topics-http-index>`
+    Processe requisições web, mapeie elas para *views* e retorne páginas.
 
-:ref:`Formularios <topics-forms-index>`
+:ref:`Formulários <topics-forms-index>`
     Construa e processe formulários HTML.
 
 :ref:`Templates <topics-templates>`
-    Desenvolva o visual do seu site.
+    Desenvolva o desenho visual do seu site.
 
 E mais:
 -------
@@ -101,12 +100,12 @@ E mais:
     * :ref:`Caching <topics-cache>`
     * :ref:`E-mail <topics-email>`
     * :ref:`APIs de acesso a arquivo <topics-files>`
-    * :ref:`topics-i18n`
-    * :ref:`topics-pagination`
+    * :ref:`Internacionalização <topics-i18n>`
+    * :ref:`Paginação <topics-pagination>`
     * :ref:`Serialização <topics-serialization>`
     * :ref:`Sessões <topics-http-sessions>`
     * :ref:`Settings/configuração <topics-settings>`
-    * :ref:`topics-signals`
+    * :ref:`Signals <topics-signals>`
     * :ref:`Testando <topics-testing>`
 
 Aplicações adicionais ("contrib")
@@ -116,28 +115,28 @@ Aplicações adicionais ("contrib")
     Obtenha uma interface Web limpa para os seus dados com pouco esforço.
 
 :ref:`Ferramentas de formulários <ref-contrib-formtools-index>`
-    manipule facilmente complexos workflows de formulários.
+    Manipule facilmente complexos workflows de formulários.
 
-:ref:`Syndication feeds <ref-contrib-syndication>`
-    Gere RSS e Atom feeds de seus dados.
+:ref:`*Syndication feeds* <ref-contrib-syndication>`
+    Gere feeds RSS e Atom de seus dados.
 
 :ref:`"Local flavor" <ref-contrib-localflavor>`   
-    Dê a seu site aquele especial toque local.
+    Dê a seu site aquele toque local especial.
 
 E mais:
 -------
 
-    * :ref:`Comments <ref-contrib-comments-index>`
-    * :ref:`Content types <ref-contrib-contenttypes>`
-    * :ref:`Cross Site Request Forgery protection <ref-contrib-csrf>`
+    * :ref:`Comentários <ref-contrib-comments-index>`
+    * :ref:`*Content types* <ref-contrib-contenttypes>`
+    * :ref:`Proteção contra *Cross Site Request Forgery* <ref-contrib-csrf>`
     * :ref:`Databrowse <ref-contrib-databrowse>`
     * :ref:`Flatpages <ref-contrib-flatpages>`
     * :ref:`Humanize <ref-contrib-humanize>`
-    * :ref:`Redirects <ref-contrib-redirects>`
+    * :ref:`Redirecionamentos <ref-contrib-redirects>`
     * :ref:`Sitemaps <ref-contrib-sitemaps>`
     * :ref:`Sites <ref-contrib-sites>`
-    * :ref:`Web design helpers <ref-contrib-webdesign>`
-    * :ref:`Markup <ref-contrib-markup>`
+    * :ref:`Assistentes para Web design <ref-contrib-webdesign>`
+    * :ref:`Marcação de texto <ref-contrib-markup>`
 
 Resolvendo problemas específicos
 ================================
@@ -146,10 +145,10 @@ Resolvendo problemas específicos
     Libere seu projeto para o mundo.
 
 :ref:`Importando dados de um banco de dados legado <howto-legacy-databases>`
-    Use Django com uma  base de dados existente ou ao lado de outro kit de
+    Use Django com uma base de dados existente ou ao lado de outro kit de
     ferramentas de desenvolvimento web.
 
-:ref:`Etiquetas personalizadas para template <howto-custom-template-tags>`
+:ref:`*Tags* de template personalizadas <howto-custom-template-tags>`
     Adicione suas próprias extensões para a linguagem de templates do Django.
 
 :ref:`Gerando CSV <howto-outputting-csv>` & :ref:`PDF <howto-outputting-pdf>`
@@ -159,39 +158,39 @@ E mais:
 -------
 
     * :ref:`Autenticação no Apache <howto-apache-auth>`
-    * :ref:`howto-custom-file-storage`
-    * :ref:`howto-custom-management-commands`
-    * :ref:`howto-custom-model-fields`
+    * :ref:`Escrevendo o seu sistema de armazenamento <howto-custom-file-storage>`
+    * :ref:`Escrevendo seus comandos do django-admin <howto-custom-management-commands>`
+    * :ref:`Escrevendo novos campos de model <howto-custom-model-fields>`
     * :ref:`Acompanhe erros no codigo por e-mail <howto-error-reporting>`
-    * :ref:`howto-initial-data`
-    * :ref:`howto-jython`
+    * :ref:`Fornecendo dados iniciais aos models <howto-initial-data>`
+    * :ref:`Rodando Django no Jython <howto-jython>`
     * :ref:`Servindo arquivos estáticos <howto-static-files>`
 
 Referência
 ==========
 
 :ref:`Settings <ref-settings>`
-    Veja todas as opções de configurações do Django e oque elas fazem.
+    Veja todas as opções de configurações do Django e o que elas fazem.
 
-:ref:`Objetos Request & response <ref-request-response>`
-    Entenda as classes que o Django usa para representar requests e responses HTTP.
+:ref:`Objetos request & response <ref-request-response>`
+    Entenda as classes que o Django usa para representar *requests* e *responses* HTTP.
 
-:ref:`Referencia da API de modelos <ref-models-index>`
+:ref:`Referência da API do *Model* <ref-models-index>`
     Divirta-se na glória do sistema de modelos do Django.
 
 :ref:`Referência da API de Formulários <ref-forms-index>`
-    Aprenda os detalhes dos formulários, campos e widgets.
+    Aprenda os detalhes dos formulários, campos e *widgets*.
 
-E mais::
----------
+E mais:
+-------
 
-    * :ref:`ref-databases`
-    * :ref:`ref-django-admin`
-    * :ref:`ref-files-index`
-    * :ref:`ref-generic-views`
-    * :ref:`ref-middleware`
-    * :ref:`ref-templates-index`
-    * :ref:`ref-unicode`
+    * :ref:`Notas sobre banco de dados suportados <ref-databases>`
+    * :ref:`django-admin.py e manage.py <ref-django-admin>`
+    * :ref:`Referência da manipulação de arquivos <ref-files-index>`
+    * :ref:`*Views* genéricas <ref-generic-views>`
+    * :ref:`Referência dos *middlewares* embutidos <ref-middleware>`
+    * :ref:`Referência do *template* <ref-templates-index>`
+    * :ref:`Dados Unicode em Django <ref-unicode>`
 
 E o restante
 ============
