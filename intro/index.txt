@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Draft $
+..   $TranslationStatus: Done $
 ..   $OriginalRevision: 8506 $
 ..   $TranslationAuthors: Wiliam Alves de Souza$
 ..
@@ -35,12 +35,12 @@ leia este material para levantar-se depressa e correr.
   
 .. seealso::
 
-    Se você e novo em Python_, você pode querer começar por obter uma idéia do
-    que e a linguagem. Django e 100% Python, então se você tiver um minimo de
-    conforto com Python você provavelmente ira obter mais do Django.
+    Se você é novo em Python_, você pode querer começar obtendo uma idéia do
+    que é a linguagem. Django é 100% Python, então se você tiver um mínimo de
+    conforto com Python você provavelmente irá tirar mais proveito do Django.
 
-    Se você e inteiramente novo em programação, você pode querer começar com esta
-    `lista de recursos de Python para não programadores`_
+    Se você é inteiramente novo em programação, você pode querer começar com esta
+    `lista de recursos de Python para não programadores`_.
    
     Se você já conhece algumas outras linguagens e quer aprender Python
     rapidamente, nos recomendamos `Dive Into Python`_ (Disponível também na
