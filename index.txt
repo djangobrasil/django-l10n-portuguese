@@ -81,7 +81,7 @@ Tutorial: Escrevendo sua primeira aplicação Django
 Utilizando Django
 =================
 
-:ref:`Modelos <topics-db-index>`
+:ref:`Models <topics-db-index>`
     Desenhe uma única e definitiva fonte de dados sobre os seus dados.
 
 :ref:`Processando requisições web <topics-http-index>`
@@ -117,7 +117,7 @@ Aplicações adicionais ("contrib")
 :ref:`Ferramentas de formulários <ref-contrib-formtools-index>`
     Manipule facilmente complexos workflows de formulários.
 
-:ref:`*Syndication feeds* <ref-contrib-syndication>`
+:ref:`Syndication feeds <ref-contrib-syndication>`
     Gere feeds RSS e Atom de seus dados.
 
 :ref:`"Local flavor" <ref-contrib-localflavor>`   
@@ -127,8 +127,8 @@ E mais:
 -------
 
     * :ref:`Comentários <ref-contrib-comments-index>`
-    * :ref:`*Content types* <ref-contrib-contenttypes>`
-    * :ref:`Proteção contra *Cross Site Request Forgery* <ref-contrib-csrf>`
+    * :ref:`Content types <ref-contrib-contenttypes>`
+    * :ref:`Proteção contra Cross Site Request Forgery <ref-contrib-csrf>`
     * :ref:`Databrowse <ref-contrib-databrowse>`
     * :ref:`Flatpages <ref-contrib-flatpages>`
     * :ref:`Humanize <ref-contrib-humanize>`
@@ -148,7 +148,7 @@ Resolvendo problemas específicos
     Use Django com uma base de dados existente ou ao lado de outro kit de
     ferramentas de desenvolvimento web.
 
-:ref:`*Tags* de template personalizadas <howto-custom-template-tags>`
+:ref:`Tags de template personalizadas <howto-custom-template-tags>`
     Adicione suas próprias extensões para a linguagem de templates do Django.
 
 :ref:`Gerando CSV <howto-outputting-csv>` & :ref:`PDF <howto-outputting-pdf>`
@@ -175,7 +175,7 @@ Referência
 :ref:`Objetos request & response <ref-request-response>`
     Entenda as classes que o Django usa para representar *requests* e *responses* HTTP.
 
-:ref:`Referência da API do *Model* <ref-models-index>`
+:ref:`Referência da API do Model <ref-models-index>`
     Divirta-se na glória do sistema de modelos do Django.
 
 :ref:`Referência da API de Formulários <ref-forms-index>`
@@ -187,9 +187,9 @@ E mais:
     * :ref:`Notas sobre banco de dados suportados <ref-databases>`
     * :ref:`django-admin.py e manage.py <ref-django-admin>`
     * :ref:`Referência da manipulação de arquivos <ref-files-index>`
-    * :ref:`*Views* genéricas <ref-generic-views>`
-    * :ref:`Referência dos *middlewares* embutidos <ref-middleware>`
-    * :ref:`Referência do *template* <ref-templates-index>`
+    * :ref:`Views genéricas <ref-generic-views>`
+    * :ref:`Referência dos middlewares embutidos <ref-middleware>`
+    * :ref:`Referência do template <ref-templates-index>`
     * :ref:`Dados Unicode em Django <ref-unicode>`
 
 E o restante
