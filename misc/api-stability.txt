@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In progress $
+..   $TranslationStatus: Done, wainting for revision. $
 ..   $OriginalRevision: 9368 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
@@ -86,14 +86,15 @@ inclui estas APIs:
     - :ref:`Serialização <topics-serialization>`
     
     - :ref:`Signals <topics-signals>`
-    
-    - :ref:`Templates <topics-templates>`, including the language, Python-level
-      :ref:`template APIs <ref-templates-index>`, and :ref:`custom template tags
-      and libraries <howto-custom-template-tags>`. We may add new template
-      tags in the future and the names may inadvertently clash with
-      external template tags. Before adding any such tags, we'll ensure that
-      Django raises an error if it tries to load tags with duplicate names.
-      
+
+    - :ref:`Templates <topics-templates>`, incluíndo a linguagem, 
+      :ref:`APIs de template <ref-templates-index>` a nível do Python, e 
+      :ref:`bibliotecas e tags customizadas de template <howto-custom-template-tags>`. 
+      Nós podemos adicionar novas tags de template no futuro, e os nomes podem
+      inadivertidamente chocar-se com tags de template externas. Antes de 
+      adicionar algo como tags, esteja seguro de que o Django mostrará um erro
+      caso tente carregar tags com nomes duplicados.
+
     - :ref:`Testing <topics-testing>`
 
     - :ref:`Utilitário django-admin <ref-django-admin>`.
@@ -102,11 +103,12 @@ inclui estas APIs:
     
     - :ref:`Objetos request/response <ref-request-response>`.
     
-    - :ref:`Settings <ref-settings>`. Note, though that while the :ref:`list of
-      built-in settings <ref-settings>` can be considered complete we may -- and
-      probably will -- add new settings in future versions. This is one of those
-      places where "'stable' does not mean 'complete.'"
-      
+    - :ref:`Settings <ref-settings>`. Note, embora a :ref:`lista de 
+      configurações <ref-settings>` possa ser conciderada completa, nós 
+      podemos -- e provavelmente iremos -- adicionar novas configurações nas 
+      versões futuras. Este é um dos muitos lugares onde "'stable' não significa
+      'completo'".
+
     - :ref:`Built-in signals <ref-signals>`. Como settings, nós iremos 
       provavelmente adicionar novos sinais no futuro, mas os existentes não 
       devem quebrar.
@@ -119,10 +121,12 @@ inclui estas APIs:
 ----------------
 
 Most of the modules in ``django.utils`` are designed for internal use. Only the following parts of ``django.utils`` can be considered stable:
+A maioria dos módulos em ``django.utils`` são projetados para uso interno. 
+Somente as seguintes partes do ``django.utils`` podem ser consideradas estáveis:
 
     - ``django.utils.cache``
-    - ``django.utils.datastructures.SortedDict`` -- only this single class; the
-      rest of the module is for internal use.
+    - ``django.utils.datastructures.SortedDict`` -- somente está classe em 
+      particular; o resto do módulo é para uso interno.
     - ``django.utils.encoding``
     - ``django.utils.feedgenerator``
     - ``django.utils.http``
@@ -130,46 +134,54 @@ Most of the modules in ``django.utils`` are designed for internal use. Only the 
     - ``django.utils.translation``
     - ``django.utils.tzinfo``
     
-Exceptions
-==========
+Exceções
+========
 
-There are a few exceptions to this stability and backwards-compatibility
-promise.
+Existem algumas poucas exceções para está promessa de estabilidade e 
+compatibilidade anterior.
 
-Security fixes
---------------
+Correções de segurança
+----------------------
 
-If we become aware of a security problem -- hopefully by someone following our
-:ref:`security reporting policy <reporting-security-issues>` -- we'll do
-everything necessary to fix it. This might mean breaking backwards compatibility; security trumps the compatibility guarantee.
+Se nós tomarmos conciência de um problema de segurança -- esperemos por alguém 
+após o nosso :ref:`reporte de política de segurança <reporting-security-issues>` --
+nós iremos fazer tudo que for necessário para corrigi-lo. Isto pode significar
+quebra de compatibilidade; A segurança triunfa sobre a garantia de compatibilidade.
 
-Contributed applications (``django.contrib``)
----------------------------------------------
+Aplicações contribuídas (``django.contrib``)
+--------------------------------------------
 
-While we'll make every effort to keep these APIs stable -- and have no plans to
-break any contrib apps -- this is an area that will have more flux between
-releases. As the web evolves, Django must evolve with it.
+Nós faremos tudo para manter essas APIs estáveis -- e não temos planos de 
+quebrar qualquer aplicação contribuinte -- esta é uma área que terá mais fluxo 
+entre os releases. Como a web evolui, o Django também deve evoluir com ela.
 
-However, any changes to contrib apps will come with an important guarantee:
-we'll make sure it's always possible to use an older version of a contrib app if
-we need to make changes. Thus, if Django 1.5 ships with a backwards-incompatible
-``django.contrib.flatpages``, we'll make sure you can still use the Django 1.4
-version alongside Django 1.5. This will continue to allow for easy upgrades.
+No entanto, eventuais alterações as aplicações contribuintes virão com uma 
+importante garantia: faremos o necessário para que seja possível utilizar uma 
+versão mais antiga de uma aplicação contribuinte se precisarmos fazer alterações.
+Desta forma, se o Django 1.5 vem com uma incompatibilidade no 
+``django.contrib.flatpages``, nós faremos de forma que você continue utilizando 
+o django 1.4 em par com o Django 1.5. Esta vai continuar a permitir faceis 
+upgrades.
 
 Historically, apps in ``django.contrib`` have been more stable than the core, so
 in practice we probably won't have to ever make this exception. However, it's
 worth noting if you're building apps that depend on ``django.contrib``.
 
-APIs marked as internal
------------------------
+Historicamente, aplicaçãoes ``django.contrib`` têm sido mais estáveis que o 
+núcleo, então na prática nós provavelmente não iremos ter muito o que fazer com 
+esta exceção. Entretanto, é importante notar se você está construindo 
+aplicativos que dependem do ``django.contrib``.
 
-Certain APIs are explicitly marked as "internal" in a couple of ways:
+APIs marcadas como internal
+---------------------------
 
-    - Some documentation refers to internals and mentions them as such. If the
-      documentation says that something is internal, we reserve the right to
-      change it.
-      
-    - Functions, methods, and other objects prefixed by a leading underscore
-      (``_``). This is the standard Python way of indicating that something is
-      private; if any method starts with a single ``_``, it's an internal API.
+Algumas APIs são explicitamente marcadas como "internal" (interna, em inglês) de
+algumas maneiras:
 
+    - Algumas documentações referem-se as partes internas como tal. Se a 
+      documentação diz que algo é interno, nós reservamos o direito para 
+      mudá-la.
+
+    - Funções, métodos, e outros objetos pré-fixados por um sublinhado (``_``). 
+      Este é um padrão do Python para indicar que algo é privado; se qualquer
+      método começa com um ``_``, ele pertence a API interna.
