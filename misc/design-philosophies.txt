@@ -171,8 +171,8 @@ O framework deve tornar fácil a escrita de SQL customizado -- consultas
 inteiras, ou simplesmente a clausula ``WHERE`` como paramêtros customizados para
 chamada da API.
 
-URL design
-==========
+Design de URL
+=============
 
 Loose coupling
 --------------
@@ -298,8 +298,8 @@ maliciosos -- como comandos que deletam dados no banco de dados.
 Esta é outra razão para o sistema de template não permitir código Python 
 arbritário.
 
-Extensibility
--------------
+Extensibilidade
+---------------
 
 O sistema de template deve reconhecer que autores avançados de templates podem
 querer extender sua tecnologia.
