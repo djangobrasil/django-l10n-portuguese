@@ -53,9 +53,6 @@ Neste contexto, "stable" significa:
 APIs "stable"
 =============
 
-In general, everything covered in the documentation -- with the exception of
-anything in the :ref:`internals area <internals-index>` is considered stable as
-of 1.0. This includes these APIs:
 Geralmente, tudo que foi documentado -- com excessão de qualquer item da 
 :ref:`area interna <internals-index>` é considerado "stable" na versão 1.0. Isto
 inclui estas APIs:
