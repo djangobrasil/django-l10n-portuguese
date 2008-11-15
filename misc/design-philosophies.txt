@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In progress $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 9368 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
@@ -20,12 +20,12 @@
 Filosofia de design
 ===================
 
-This document explains some of the fundamental philosophies Django's developers
-have used in creating the framework. Its goal is to explain the past and guide
-the future.
+Este documento explica algumas filosofias fundamentais dos desenvolvedores 
+do Django, que as tem usado na criação do framework. O objetivo é explicar o
+passado e guiar para o futuro.
 
-Overall
-=======
+Em toda parte
+=============
 
 .. _loose-coupling:
 
@@ -34,139 +34,142 @@ Loose coupling
 
 .. index:: coupling; loose
 
-A fundamental goal of Django's stack is `loose coupling and tight cohesion`_.
-The various layers of the framework shouldn't "know" about each other unless
-absolutely necessary.
+Um objetivo fundamental da pilha do Django é `loose coupling and tight cohesion`_.
+As várias camadas do framework não devem saber saber sobre si, a menos que seja
+absolutamente necessário.
 
-For example, the template system knows nothing about Web requests, the database
-layer knows nothing about data display and the view system doesn't care which
-template system a programmer uses.
+Por exemplo, o sistema de template não saber nada sobre requisição Web, a camada
+de banco de dados não sabe nada sobre visualização e sistema de visualização não
+se preocupa com que sistema de template o programador está usando.
 
-Although Django comes with a full stack for convenience, the pieces of the
-stack are independent of another wherever possible.
+Apesar do Django vir com uma pilha completa por conveniencia, as peçãs de uma 
+pilha são independentes de qualquer outra que possa existir.
 
 .. _`loose coupling and tight cohesion`: http://c2.com/cgi/wiki?CouplingAndCohesion
 
 .. _less-code:
 
-Less code
----------
+Menos código
+------------
 
-Django apps should use as little code as possible; they should lack boilerplate.
-Django should take full advantage of Python's dynamic capabilities, such as
-introspection.
+Aplicações Django deveriam, se possível, usar menos código; elas deveriam fugir
+do padrão. O Django deveria tirar pleno proveito das capacidades dinâmicas do 
+Python, tais como a introspecção.
 
 .. _quick-development:
 
-Quick development
------------------
+Desenvolvimento ágil
+--------------------
 
-The point of a Web framework in the 21st century is to make the tedious aspects
-of Web development fast. Django should allow for incredibly quick Web
-development.
+O ponto forte de um framework Web no século 21, é transformar um trabalho 
+tedioso de desenvolvimento Web, mais rápido. O Django deve permitir um 
+desenvolvimento Web incrivelmente rápido.
 
 .. _dry:
 
-Don't repeat yourself (DRY)
----------------------------
+Não repita a si mesmo - `Don't repeat yourself` (DRY)
+-----------------------------------------------------
 
 .. index::
    single: DRY
    single: Don't repeat yourself
 
-Every distinct concept and/or piece of data should live in one, and only one,
-place. Redundancy is bad. Normalization is good.
+Todo conceito distinto e/ou pedaço de dado deve existir em um, e somente em um, 
+lugar. Redundância é ruim. Normalização é bom.
 
-The framework, within reason, should deduce as much as possible from as little
-as possible.
+O framework, por uma razão, deve deduzir tão bem quanto possível as pequenas
+possibilidades.
 
 .. seealso::
 
-    The `discussion of DRY on the Portland Pattern Repository`__
+    A `discussão sobre DRY no repositório Portland Pattern`__
 
     __ http://c2.com/cgi/wiki?DontRepeatYourself
     
 .. _explicit-is-better-than-implicit:
 
-Explicit is better than implicit
+Explícito é melhor que implícito
 --------------------------------
 
-This, a `core Python principle`_, means Django shouldn't do too much "magic."
-Magic shouldn't happen unless there's a really good reason for it. Magic is
-worth using only if it creates a huge convenience unattainable in other ways,
-and it isn't implemented in a way that confuses developers who are trying to
-learn how to use the feature.
+Este, um `princípio do núcleo do Python`_, significa que o Django não deve fazer
+muita "mágica". Mágica não deveria acontecer a menos que haja realmente uma boa
+razão para ela. Vale a pena usar mágica somente se ele cria uma enorme 
+conveniência inatingíveis de outras formas, e não é aplicada de uma forma que 
+confunde desenvolvedores que estão tentando aprender a usar este recurso.
 
-.. _`core Python principle`: http://www.python.org/dev/peps/pep-0020/
+.. _`princípio do núcleo do Python`: http://www.python.org/dev/peps/pep-0020/
 
 .. _consistency:
 
-Consistency
------------
+Consistência
+------------
 
-The framework should be consistent at all levels. Consistency applies to
-everything from low-level (the Python coding style used) to high-level (the
-"experience" of using Django).
+O framework deve ser consistente em todos os níveis. Consistência aplicá-se para
+tudo desde o baixo-nível (estilo de código Python usado) até o alto-nível (a
+"experiência" de uso do Django).
 
-Models
-======
+Modelos
+=======
 
-Explicit is better than implicit
+Explícito é melhor que implícito
 --------------------------------
 
-Fields shouldn't assume certain behaviors based solely on the name of the
-field. This requires too much knowledge of the system and is prone to errors.
-Instead, behaviors should be based on keyword arguments and, in some cases, on
-the type of the field.
+Os campos não devem assumir certos comportamentos baseado unicamente no nome 
+do campo. Isto exige muito conhecimento de sistema e é propenso a erros.
+Em vez disso, os comportamentos devem ser baseadas em argumentos palavra-chave 
+e, em alguns casos, sobre o tipo do campo
 
-Include all relevant domain logic
----------------------------------
+Domínio incluem todas as lógicas
+--------------------------------
 
-Models should encapsulate every aspect of an "object," following Martin
-Fowler's `Active Record`_ design pattern.
+Modelos devem encapsular todo aspecto de um "objeto", seguindo o padrão de 
+desenho do Martin Fowler `Active Record`_.
 
-This is why both the data represented by a model and information about
-it (its human-readable name, options like default ordering, etc.) are
-defined in the model class; all the information needed to understand a
-given model should be stored *in* the model.
+É assim porquê ambos, dado representado por um modelo e informação sobre ele 
+(seu nome legível por humanos, opções como ordenamento padrão, etc.), são 
+definidos in uma classe de modelo; todas as informações necessárias para 
+compreender um determinado modelo deve ser armazenado *no* modelo.
 
 .. _`Active Record`: http://www.martinfowler.com/eaaCatalog/activeRecord.html
 
-Database API
-============
+API de banco de dados
+=====================
 
-The core goals of the database API are:
+Os objetivos do núcleo da API de banco de dados são:
 
-SQL efficiency
---------------
+Eficiência de SQL
+-----------------
 
-It should execute SQL statements as few times as possible, and it should
-optimize statements internally.
+Ele deve executar declarações SQL o mais rápido possível, e deve otimizar as
+consultas internamente.
 
-This is why developers need to call ``save()`` explicitly, rather than the
-framework saving things behind the scenes silently.
+Esta é a razão pela qual os desenvolvedores devem executar ``save()`` 
+explicitamente, em vez do framework salvar coisas por traz das cenas 
+silenciosamente.
 
-This is also why the ``select_related()`` ``QuerySet`` method exists. It's an
-optional performance booster for the common case of selecting "every related
-object."
+Esta também é a razão dos métodos ``selecte_related()`` ``QuerySet`` existirem.
+É como um otimizador opcional de performance para o caso comum de selecionar
+"tudo que está relacionado a um objeto".
 
-Terse, powerful syntax
-----------------------
+Lapidar, poderosa sintaxe
+-------------------------
 
-The database API should allow rich, expressive statements in as little syntax
-as possible. It should not rely on importing other modules or helper objects.
+A API de banco de dados deve permitir ricas, expressivas consultas em uma 
+sintaxe mais simples possível. Ela não deve depender de outros módulos ou 
+da importação de objetos auxiliares.
 
-Joins should be performed automatically, behind the scenes, when necessary.
+Joins devem ser executados automaticamente, por trás das cenas, quando 
+necessário.
 
-Every object should be able to access every related object, systemwide. This
-access should work both ways.
+Todo objeto deve ser capaz de acessar todo conteúdo relacionado a ela. Este 
+acesso deve funcionar nos dois sentidos.
 
-Option to drop into raw SQL easily, when needed
------------------------------------------------
+Opção de usar SQL puro facilmente, quando necessário
+----------------------------------------------------
 
-The database API should realize it's a shortcut but not necessarily an
-end-all-be-all. The framework should make it easy to write custom SQL -- entire
-statements, or just custom ``WHERE`` clauses as custom parameters to API calls.
+O framework deve tornar fácil a escrita de SQL customizado -- consultas 
+inteiras, ou simplesmente a clausula ``WHERE`` como paramêtros customizados para
+chamada da API.
 
 URL design
 ==========
@@ -174,159 +177,162 @@ URL design
 Loose coupling
 --------------
 
-URLs in a Django app should not be coupled to the underlying Python code. Tying
-URLs to Python function names is a Bad And Ugly Thing.
+URLs nas aplicações Django não devem ser acopladas a códigos Python subjacentes.
+Subordinando URLs a nomes de funções do Python é uma coisa ruim e feia de se
+fazer.
 
-Along these lines, the Django URL system should allow URLs for the same app to
-be different in different contexts. For example, one site may put stories at
-``/stories/``, while another may use ``/news/``.
+Ao longo destas linhas, o sistema de URL do Django deve permitir que URLs para 
+uma mesma aplicação sejam diferentes em diferentes contextos. Por exemplo, um
+site pode ter notícias em ``/stories/``, enquanto outros caminho usado é ``/news/``.
 
-Infinite flexibility
---------------------
+Flexibilidade infinita
+----------------------
 
-URLs should be as flexible as possible. Any conceivable URL design should be
-allowed.
+URLs devem ser tão flexiveis quanto possível. Qualquer URL concebível deve ser
+permitida.
 
-Encourage best practices
-------------------------
+Encorajar as melhores práticas
+------------------------------
 
-The framework should make it just as easy (or even easier) for a developer to
-design pretty URLs than ugly ones.
+O framework deve tornar fácil (ou até mais fácil) o design de URLs bonitas.
 
-File extensions in Web-page URLs should be avoided.
+Extensões de arquivos na URLs das páginas devem ser evitadas.
 
-Vignette-style commas in URLs deserve severe punishment.
+Vignette-style vírgulas em URLs merecem castigo servero.
 
 .. _definitive-urls:
 
-Definitive URLs
----------------
+URLs definitivas
+----------------
 
 .. index:: urls; definitive
 
-Technically, ``foo.com/bar`` and ``foo.com/bar/`` are two different URLs, and
-search-engine robots (and some Web traffic-analyzing tools) would treat them as
-separate pages. Django should make an effort to "normalize" URLs so that
-search-engine robots don't get confused.
+Técnicamente, ``foo.com/bar`` e ``foo.com/bar/`` são duas URLs diferentes, e 
+robos de motores de busca (e alguns analizadores de trafego na Web) irão 
+tratá-las como páginas separadas. O Django deve fazer um esforço para 
+"normalizar" as URLs, a fim de que os robôs de motore de busca não se confundam.
 
-This is the reasoning behind the :setting:`APPEND_SLASH` setting.
+Este é o raciocínio por trás da configuração :setting:`APPEND_SLASH`.
 
-Template system
-===============
+Sistema de template
+===================
 
 .. _separation-of-logic-and-presentation:
 
-Separate logic from presentation
+Separar a lógica da apresentação
 --------------------------------
 
-We see a template system as a tool that controls presentation and
-presentation-related logic -- and that's it. The template system shouldn't
-support functionality that goes beyond this basic goal.
+Nós vemos um sistema de template como uma ferramenta que controla a apresentação
+e a lógica relacionada à apresentação -- e era isso. O sistema de template não
+deve suportar funcionalidades que vão além de seu objetivo básico.
 
-If we wanted to put everything in templates, we'd be using PHP. Been there,
-done that, wised up.
+Se quiséssemos colocar tudo em moldes, deveríamos estar usando PHP. Estivemos 
+lá, feito isso, estamos aqui. 
 
-Discourage redundancy
----------------------
+Desencorajar redundância
+------------------------
 
-The majority of dynamic Web sites use some sort of common sitewide design --
-a common header, footer, navigation bar, etc. The Django template system should
-make it easy to store those elements in a single place, eliminating duplicate
-code.
+A maioria dos Web sites dinâmicos utilizam algum tipo de design comum -- um
+cabeçalho comum, rodapé, barra de navegação, etc. O sistema de template do 
+Django deve tornar fácil de armazenar estes elementos em um único lugar, 
+eliminando código duplicado.
 
-This is the philosophy behind :ref:`template inheritance
+Esta é a filosofia por trás da :ref:`herança de templates 
 <template-inheritance>`.
 
-Be decoupled from HTML
+Ser dissociado do HTML
 ----------------------
 
-The template system shouldn't be designed so that it only outputs HTML. It
-should be equally good at generating other text-based formats, or just plain
-text.
+O sistema de template não deve ser projetado para gerar somente saída HTML. Ele
+deve ser igualmente bom para geração de outros formatos baseados em texto, ou
+só texto plano.
 
-XML should not be used for template languages
+XML não deve ser usado como modelo de línguas
 ---------------------------------------------
 
 .. index:: xml; suckiness of
 
-Using an XML engine to parse templates introduces a whole new world of human
-error in editing templates -- and incurs an unacceptable level of overhead in
-template processing.
+Usando um motor de XML para fazer parse nos templates, introduz um novo mundo de 
+erro humano na edição templates -- e incorre em um nível inaceitável de 
+retro-modelo em transformação.
 
-Assume designer competence
---------------------------
+Presume competência do desinger
+-------------------------------
 
-The template system shouldn't be designed so that templates necessarily are
-displayed nicely in WYSIWYG editors such as Dreamweaver. That is too severe of
-a limitation and wouldn't allow the syntax to be as nice as it is. Django
-expects template authors are comfortable editing HTML directly.
+O sistema de template não deve ser projetado de modo que necessariamente seja
+exibido simpaticamente nos editores WYSIWYG, como o Dreamweaver. Isso é tão 
+grave, que passa a ser uma limitação e não permitiria a sintaxe ser tão legal
+como ela é. O Django espera que os autores de templates estejam confortáveis
+editando HTML diretamente.
 
-Treat whitespace obviously
---------------------------
+Trate espaços em branco obviamente
+----------------------------------
 
-The template system shouldn't do magic things with whitespace. If a template
-includes whitespace, the system should treat the whitespace as it treats text
--- just display it. Any whitespace that's not in a template tag should be
-displayed.
+O sistema de template não deve fazer coisas mágicas com espaços em branco. Se um
+tempalte inclui espaços em branco, o sistema deve tratá-los como se trata um 
+texto -- simplesmente mostre-o. Qualquer espaço em branco que não está em uma 
+tag de template deve ser mostrada.
 
-Don't invent a programming language
------------------------------------
+Não invente uma linguagem de programação
+----------------------------------------
 
-The template system intentionally doesn't allow the following:
+O sistema de template intencionalmente não permite o seguinte:
 
-    * Assignment to variables
-    * Advanced logic
+    * Atribuição de variáveis
+    * Lógica avançada
 
-The goal is not to invent a programming language. The goal is to offer just
-enough programming-esque functionality, such as branching and looping, that is
-essential for making presentation-related decisions.
+O objetivo é não inventar uma linguagem de programação. O objetivo é oferecer
+somente funcionalidades suficientes, como ramificações e laços, que são 
+essenciais para se contruir decisões em apresentações relacionadas.
 
-The Django template system recognizes that templates are most often written by
-*designers*, not *programmers*, and therefore should not assume Python
-knowledge.
+O sistema de template do Django reconhece que templates são mais frequentemente
+escritos por *designers*, não *programadores*, e por isso não devem possuir
+conhecimento em Python.
 
-Safety and security
--------------------
+Segurança
+---------
 
-The template system, out of the box, should forbid the inclusion of malicious
-code -- such as commands that delete database records.
+O sistema de template, fora da caixa, deve proíbir a inclusão de códigos 
+maliciosos -- como comandos que deletam dados no banco de dados.
 
-This is another reason the template system doesn't allow arbitrary Python code.
+Esta é outra razão para o sistema de template não permitir código Python 
+arbritário.
 
 Extensibility
 -------------
 
-The template system should recognize that advanced template authors may want
-to extend its technology.
+O sistema de template deve reconhecer que autores avançados de templates podem
+querer extender sua tecnologia.
 
-This is the philosophy behind custom template tags and filters.
+Está é a filosofia por trás das tags e filtros customizados dos templates.
 
 Views
 =====
 
-Simplicity
-----------
+Simplicidade
+------------
 
-Writing a view should be as simple as writing a Python function. Developers
-shouldn't have to instantiate a class when a function will do.
+Escrever uma view deve ser tão simples quanto escrever uma função Python. Os
+desenvolvedores não deveriam ter que instanciar uma classe quando uma função já
+irá fazê-lo.
 
-Use request objects
--------------------
+Use objetos de requisição
+-------------------------
 
-Views should have access to a request object -- an object that stores metadata
-about the current request. The object should be passed directly to a view
-function, rather than the view function having to access the request data from
-a global variable. This makes it light, clean and easy to test views by passing
-in "fake" request objects.
+Views devem ter acesso ao objeto `request` -- um objeto que armazena metadados 
+sobre a requisição corrente. O objeto deve ser passado diretamente para a função
+view, ao invés da função view ter quer acessar o request de uma variável global.
+Isto se faz leve, limpo e fácil de testar visões passando-a objetos de 
+requisição "falsos".
 
 Loose coupling
 --------------
 
-A view shouldn't care about which template system the developer uses -- or even
-whether a template system is used at all.
+Um view deveria se preocupar sobre qual sistema de template o desenvolvedor 
+utiliza -- ou mesmo se ele usa algum sistema de template --.
 
-Differentiate between GET and POST
-----------------------------------
+Diferenciamento entre GET e POST
+--------------------------------
 
-GET and POST are distinct; developers should explicitly use one or the other.
-The framework should make it easy to distinguish between GET and POST data.
+GET é POST são distintos; os desenvolvedores devem explicitamente usar um ou o 
+outro. O framework deve tornar a distinção fácil entre os dados GET e POST.
