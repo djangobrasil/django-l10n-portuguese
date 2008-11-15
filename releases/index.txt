@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Not started $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 9448 $
 ..   $TranslationAuthors: None $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -33,6 +33,7 @@ changes made in that version.
    1.0-beta
    1.0-beta-2
    1.0
+   1.0.1
 
 .. seealso::
 
