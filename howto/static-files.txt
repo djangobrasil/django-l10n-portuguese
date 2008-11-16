@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, wainting for revision. $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Vinicius Martins, Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,95 +16,97 @@
 
 .. _howto-static-files:
 
-=========================
-How to serve static files
-=========================
+==============================
+Como servir arquivos estáticos
+==============================
 
 .. module:: django.views.static
-   :synopsis: Serving of static files during development.
+   :synopsis: Servingo arquivos estáticos durante o desenvolvimento.
  
-Django itself doesn't serve static (media) files, such as images, style sheets,
-or video. It leaves that job to whichever Web server you choose.
+Django, por si só, não serve arquivos estáticos (media), como imagens, folhas
+de estilo (CSS), ou vídeo. Esse trabalho é deixado para o servidor Web de sua
+escolha.
 
-The reasoning here is that standard Web servers, such as Apache_ and lighttpd_,
-are much more fine-tuned at serving static files than a Web application
-framework.
+O motivo para isso é que servidores Web padrões, como Apache e lighttpd_, são
+muito mais apropriados para servir arquivos estáticos do que um framework de
+aplicações web.
 
-With that said, Django does support static files **during development**. You can
-use the :func:`django.views.static.serve` view to serve media files.
+Dito isso, Django suporta arquivos estáticos **durante o desenvolvimento**. Você
+pode usar a view :func:`django.views.static.serve` para servir arquivos 
+estáticos.
 
 .. _Apache: http://httpd.apache.org/
 .. _lighttpd: http://www.lighttpd.net/
 
-The big, fat disclaimer
-=======================
+Não diga que não avisamos
+=========================
 
-Using this method is **inefficient** and **insecure**. Do not use this in a
-production setting. Use this only for development.
+Usar este método é **ineficiente** e **inseguro**. Não use isso em um ambiente
+de produçao. Use apenas para desenvolvimento.
 
-For information on serving static files in an Apache production environment,
-see the :ref:`Django mod_python documentation <serving-media-files>`.
+Para informações sobre servir arquivos estáticos em um ambiente de produção com
+Apache, veja a :ref:`documentação Django mod_python <serving-media-files>`.
 
-How to do it
-============
+Como proceder
+=============
 
-Here's the formal definition of the :func:`~django.views.static.serve` view:
+Aqui temos a definição formal da view :func:`~django.views.static.serve`:
 
 .. function:: def serve(request, path, document_root, show_indexes=False):
 
-To use it, just put this in your :ref:`URLconf <topics-http-urls>`::
+Para usá-la, somente coloque isto na sua :ref:`URLconf <topics-http-urls>`::
 
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
             {'document_root': '/path/to/media'}),
 
-...where ``site_media`` is the URL where your media will be rooted, and
-``/path/to/media`` is the filesystem root for your media. This will call the
-:func:`~django.views.static.serve` view, passing in the path from the URLconf
-and the (required) ``document_root`` parameter.
+...onde ``site_media`` é a URL onde a sua mídia será mapeada, e 
+``/path/to/media`` é a pasta raiz para sua mídia. Isto irá chamar a view
+:func:`~django.views.static.serve`, passando o caminho da URLconf e o parâmetro
+(obrigatório) ``document_root``.
 
-Given the above URLconf:
+Dado o URLconf acima:
 
-    * The file ``/path/to/media/foo.jpg`` will be made available at the URL
+    * O arquivo ``/path/to/media/foo.jpg`` será mapeado para a URL
       ``/site_media/foo.jpg``.
 
-    * The file ``/path/to/media/css/mystyles.css`` will be made available
-      at the URL ``/site_media/css/mystyles.css``.
+    * O arquivo ``/path/to/media/css/mystyles.css`` será mapeado para a URL
+      ``/site_media/css/mystyles.css``.
 
-    * The file ``/path/bar.jpg`` will not be accessible, because it doesn't
-      fall under the document root.
+    * O arquivo ``/path/bar.jpg`` não será acessível, pois não é mapeado para a
+      pasta raiz.
 
-Of course, it's not compulsory to use a fixed string for the
-``'document_root'`` value. You might wish to make that an entry in your
-settings file and use the setting value there. That will allow you and
-other developers working on the code to easily change the value as
-required. For example, if we have a line in ``settings.py`` that says::
+É claro, não é obrigatória a utilização de uma string fixa para o valor 
+``'document_root'``. Você pode querer ter uma variável em seu arquivo settings
+e usar o valor que estiver nela. Que permitirá a você e outros desenvolvedores
+trabalhar sobre o código facilmente, mudando o valor como quiserem. Por exemplo,
+se nós tivermos uma linha no ``settings.py`` que diz::
 
     STATIC_DOC_ROOT = '/path/to/media'
 
-...we could write the above :ref:`URLconf <topics-http-urls>` entry as::
+...nós poderiamos escrever uma entrada :ref:`URLconf <topics-http-urls>` desta
+forma::
 
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
             {'document_root': settings.STATIC_DOC_ROOT}),
 
-Directory listings
-==================
+Listagem de diretórios
+======================
 
-Optionally, you can pass the ``show_indexes`` parameter to the
-:func:`~django.views.static.serve` view. This is ``False`` by default. If it's
-``True``, Django will display file listings for directories.
+Opcionalmente, você pode passar um parâmetro ``show_indexes`` para a view
+:func:`~django.views.static.serve`. O valor padrão é ``False``. Se for ``True``,
+o Django exibirá uma listagem dos arquivos dos diretórios.
 
-For example::
+Exemplo::
 
-    (r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
-            {'document_root': '/path/to/media', 'show_indexes': True}),
+    (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/path/to/media', 'show_indexes': True}),
 
-You can customize the index view by creating a template called
-``static/directory_index.html``. That template gets two objects in its context:
+Você pode customizar a exibição do índice criando um template chamado
+``static/directory_index``. Esse template recebe dois objetos em seu contexto:
 
-    * ``directory`` -- the directory name (a string)
-    * ``file_list`` -- a list of file names (as strings) in the directory
+    * ``directory`` -- o nome do diretório (como string)
+    * ``file_list`` -- a lista de nomes de arquivos (como strings) no diretório
 
-Here's the default ``static/directory_index`` template:
+Aqui está o template ``static/directory_index`` padrão:
 
 .. code-block:: html+django
 
@@ -125,17 +127,17 @@ Here's the default ``static/directory_index`` template:
         </ul>
     </body>
     </html>
+    
+Limitando o uso para DEBUG=True
+===============================
 
-Limiting use to DEBUG=True
-==========================
+Como URLconfs são simples módulos Python, você pode usar lógica Python para
+fazer com que a exibição de arquivos estáticos seja possível apenas em fase de
+desenvolvimento. Esse é um truque útil para se certificar de que a exibição de
+arquivos estáticos não seja usada em modo de produção por engano.
 
-Because URLconfs are just plain Python modules, you can use Python logic to
-make the static-media view available only in development mode. This is a handy
-trick to make sure the static-serving view doesn't slip into a production
-setting by mistake.
-
-Do this by wrapping an ``if DEBUG`` statement around the
-:func:`django.views.static.serve` inclusion. Here's a full example URLconf::
+Faça isso inserindo uma instrução ``if DEBUG`` em volta da inclusão do
+:func:`django.views.static.serve`. Aqui está um exemplo completo de URLconf::
 
     from django.conf.urls.defaults import *
     from django.conf import settings
@@ -152,10 +154,10 @@ Do this by wrapping an ``if DEBUG`` statement around the
             (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/path/to/media'}),
         )
 
-This code is straightforward. It imports the settings and checks the value of
-the :setting:`DEBUG` setting. If it evaluates to ``True``, then ``site_media``
-will be associated with the ``django.views.static.serve`` view. If not, then the
-view won't be made available.
+Este código é simples. Ele importa as configurações e checa o valor do 
+:setting:`DEBUG`. Se for avaliado como ``True``, então ``site_media`` será 
+associada com a view ``django.views.static.serve``. Caso contrário então a view
+não estará disponível.
 
-Of course, the catch here is that you'll have to remember to set ``DEBUG=False``
-in your production settings file. But you should be doing that anyway.
+Obviamente, a questão aqui é lembrar-se de colocar ``DEBUG=False`` no arquivo de
+configurações. Mas você já devia fazer isso de qualquer forma.
