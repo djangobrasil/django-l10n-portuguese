@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Luiz Fernando Barbosa Vital, Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,59 +16,66 @@
 
 .. _topics-http-sessions:
 
-===================
-How to use sessions
-===================
+=====================
+Como utilizar sessões
+=====================
 
-Django provides full support for anonymous sessions. The session framework lets
-you store and retrieve arbitrary data on a per-site-visitor basis. It stores
-data on the server side and abstracts the sending and receiving of cookies.
-Cookies contain a session ID -- not the data itself.
+O Django provê suporte integral para sessões anônimas. O framework de sessão
+deixa você armazenar e recuperar dados arbitrários para cada visitante do site.
+Ele armazena dados no lado do servidor e abstrai o envio e recebimento de 
+cookies. Os cookies contêm um ID da sessão -- não os dados em si.
 
-Enabling sessions
-=================
+Habilitando as sessões
+======================
 
-Sessions are implemented via a piece of :ref:`middleware <ref-middleware>`.
+As sessões são implementadas por meio de um :ref:`middleware <ref-middleware>`.
 
-To enable session functionality, do the following:
+Para habilitar a funcionalidade de sessões, faça o seguinte:
 
-    * Edit the ``MIDDLEWARE_CLASSES`` setting and make sure
-      ``MIDDLEWARE_CLASSES`` contains ``'django.contrib.sessions.middleware.SessionMiddleware'``.
-      The default ``settings.py`` created by ``django-admin.py startproject`` has
-      ``SessionMiddleware`` activated.
+    * Edite o parâmetro de configuração ``MIDDLEWARE_CLASSES`` e assegure-se
+      de que ele contenha
+      ``'django.contrib.sessions.middleware.SessionMiddleware'``.
+      O arquivo padrão ``settings.py`` criado pelo ``django-admin.py
+      startproject`` tem o ``SessionMiddleware`` ativado.
 
-    * Add ``'django.contrib.sessions'`` to your ``INSTALLED_APPS`` setting,
-      and run ``manage.py syncdb`` to install the single database table
-      that stores session data.
+    * Adicione ``'django.contrib.sessions'`` à sua configuração 
+      ``INSTALLED_APPS`` e rode ``manage.py syncdb`` para instalar a única
+      tabela de banco de dados que armazena os dados de sessão.
+
+      **Novo na versão de desenvolvimento do Django**: esse passo é opcional
+      se você não estiver usando um backend de sessão de banco de dados; veja
+      `configurando o mecanismo de sessão`_.
 
 .. versionchanged:: 1.0
-   This step is optional if you're not using the database session backend;
-   see `configuring the session engine`_.
+   Este passo é opcional se você não está usando o banco de dados sessão 
+   backend; veja `configurando o mecanismo de sessão`_.
 
-If you don't want to use sessions, you might as well remove the
-``SessionMiddleware`` line from ``MIDDLEWARE_CLASSES`` and ``'django.contrib.sessions'``
-from your ``INSTALLED_APPS``. It'll save you a small bit of overhead.
+Se você não deseja utilizar sessões, você pode remover a linha 
+``SessionMiddleware`` do ``MIDDLEWARE_CLASSES`` e ``'django.contrib.sessions'``
+de seu ``INSTALLED_APPS``. Isso poupará um pouco o processamento adicional.
 
-Configuring the session engine
-==============================
+Configurando o mecanismo de sessão
+==================================
 
 .. versionadded:: 1.0
 
-By default, Django stores sessions in your database (using the model
-``django.contrib.sessions.models.Session``). Though this is convenient, in
-some setups it's faster to store session data elsewhere, so Django can be
-configured to store session data on your filesystem or in your cache.
+Por padrão, o Django armazena as sessões no seu banco de dados (usando o modelo
+``django.contrib.sessions.models.Session``). Apesar de ser conveniente, em 
+algumas configurações é mais rápido armazenar esses dados em algum outro lugar,
+então o Django pode ser configurado para armazenar dados de sessão no seu 
+sistema de arquivos ou no cache.
 
-Using file-based sessions
--------------------------
+Usando sessões baseadas em arquivos
+-----------------------------------
 
-To use file-based sessions, set the ``SESSION_ENGINE`` setting to
+Para usar sessões em arquivos, configure o parâmetro ``SESSION_ENGINE`` para
 ``"django.contrib.sessions.backends.file"``.
 
-You might also want to set the ``SESSION_FILE_PATH`` setting (which defaults
-to output from ``tempfile.gettempdir()``, most likely ``/tmp``) to control
-where Django stores session files. Be sure to check that your Web server has
-permissions to read and write to this location.
+Você pode querer configurar o parâmetro ``SESSION_FILE_PATH`` (que obtém o
+valor padrão de saída de ``tempfile.gettempdir()``, comumente ``/tmp``) para
+controlar onde o Django deve armazenar os arquivos de sessão. Certifique-se de
+que seu servidor Web tem permissão para ler e escrever neste local.
+
 
 Using cache-based sessions
 --------------------------
@@ -87,35 +94,36 @@ you've configured your cache; see the :ref:`cache documentation <topics-cache>` 
     database sessions directly instead of sending everything through the file
     or database cache backends.
 
-Using sessions in views
-=======================
+Utilizando sessões nas views
+============================
 
-When ``SessionMiddleware`` is activated, each ``HttpRequest`` object -- the
-first argument to any Django view function -- will have a ``session``
-attribute, which is a dictionary-like object. You can read it and write to it.
+Quando ``SessionMiddleware`` está ativo, cada objeto ``HttpRequest`` -- o 
+primeiro argumento para qualquer view em Django -- terá um atributo
+``session``, que é um objeto que se comporta como dicionário. Você pode ler ou
+escrever nele.
 
-A session object has the following standard dictionary methods:
+Ele implementa os seguintes métodos padrões de dicionários:
 
     * ``__getitem__(key)``
 
-      Example: ``fav_color = request.session['fav_color']``
+      Exemplo: ``fav_color = request.session['fav_color']``
 
     * ``__setitem__(key, value)``
 
-      Example: ``request.session['fav_color'] = 'blue'``
+      Exemplo: ``request.session['fav_color'] = 'blue'``
 
     * ``__delitem__(key)``
 
-      Example: ``del request.session['fav_color']``. This raises ``KeyError``
-      if the given ``key`` isn't already in the session.
+      Exemplo: ``del request.session['fav_color']``. Se a chave ``key`` ainda
+      não está na sessão, uma exceção ``KeyError`` será lançada.
 
     * ``__contains__(key)``
 
-      Example: ``'fav_color' in request.session``
+      Exemplo: ``'fav_color' in request.session``
 
     * ``get(key, default=None)``
 
-      Example: ``fav_color = request.session.get('fav_color', 'red')``
+      Exemplo: ``fav_color = request.session.get('fav_color', 'red')``
 
     * ``keys()``
 
@@ -126,168 +134,175 @@ A session object has the following standard dictionary methods:
     * ``clear()``
 
 .. versionadded:: 1.0
-   ``setdefault()`` and ``clear()`` are new in this version.
+   ``setdefault()`` and ``clear()`` são novos nesta versão.
 
-It also has these methods:
+Existem também estes métodos:
 
     * ``flush()``
 
       .. versionadded:: 1.0
 
-      Delete the current session data from the database and regenerate the
-      session key value that is sent back to the user in the cookie. This is
-      used if you want to ensure that the previous session data can't be
-      accessed again from the user's browser (for example, the
-      ``django.contrib.auth.logout()`` method calls it).
+      Deleta os dados da sessão corrente do banco de dados, e re-gera a chave o
+      valor da chave da sessão que é enviado de volta para o cookie do usuário.
+      Isto é usado se você quer assegurar que os dados de uma sessão prévia não
+      possa ser acessados novamente por usuário do navegador (por exempo, o 
+      método ``django.contrib.auth.logout()`` o chama).
 
     * ``set_test_cookie()``
 
-      Sets a test cookie to determine whether the user's browser supports
-      cookies. Due to the way cookies work, you won't be able to test this
-      until the user's next page request. See `Setting test cookies`_ below for
-      more information.
+      Cria um cookie de teste para determinar se o navegador do usuário suporta
+      cookies. Devido à maneira como os cookies funcionam, você não é capaz
+      de testá-lo até que o usuário requisite a próxima página. Veja 
+      `Criando cookies de teste`_ abaixo para mais informações.
 
     * ``test_cookie_worked()``
 
-      Returns either ``True`` or ``False``, depending on whether the user's
-      browser accepted the test cookie. Due to the way cookies work, you'll
-      have to call ``set_test_cookie()`` on a previous, separate page request.
-      See `Setting test cookies`_ below for more information.
+      Devolve ``True`` ou ``False``, a depender de o navegador do usuário ter 
+      aceito o cookie de teste ou não. Devido à maneira como os cookies 
+      funcionam, você deverá chamar ``set_test_cookie()`` em uma requisição
+      anterior de uma página separada. Veja `Criando cookies de teste`_ 
+      abaixo para mais informações.
 
     * ``delete_test_cookie()``
 
-      Deletes the test cookie. Use this to clean up after yourself.
+      Apaga o cookie de test. Use isto você mesmo, para limpar tudo.
 
     * ``set_expiry(value)``
 
       .. versionadded:: 1.0
 
-      Sets the expiration time for the session. You can pass a number of
-      different values:
+      Configura o tempo de expiração para a sessão. Você pode passar vários
+      valores diferentes:
 
-            * If ``value`` is an integer, the session will expire after that
-              many seconds of inactivity. For example, calling
-              ``request.session.set_expiry(300)`` would make the session expire
-              in 5 minutes.
+            * Se ``value`` é um inteiro, a sessão irá expirar depois dessa
+              quantidade de segundos de inatividade. Por exemplo, chamar
+              ``request.session.set_expiry(300)`` fará com que a sessão expire
+              em 5 minutos.
 
-            * If ``value`` is a ``datetime`` or ``timedelta`` object, the
-              session will expire at that specific date/time.
-
-            * If ``value`` is ``0``, the user's session cookie will expire
-              when the user's Web browser is closed.
-
-            * If ``value`` is ``None``, the session reverts to using the global
-              session expiry policy.
+            * Se ``value`` é um objeto ``datetime`` ou ``timedelta``, a sessão
+              irá expirar nessa data/hora específica.
+            
+            * Se ``value`` é ``0``, o cookie de sessão do usuário expirará
+              quando o navegador Web do usuário for fechado. 
+            
+            * Se ``value`` é ``None``, a sessão volta a utilizar a política
+              global de expiração. 
 
     * ``get_expiry_age()``
 
       .. versionadded:: 1.0
 
-      Returns the number of seconds until this session expires. For sessions
-      with no custom expiration (or those set to expire at browser close), this
-      will equal ``settings.SESSION_COOKIE_AGE``.
+      Devolve o número de segundos até que a sessão expire. Para sessões sem
+      uma expiração customizada (ou aquelas que são configuradas para expirar
+      quando o navegador fecha), esse valor será igual a 
+      ``settings.SESSION_COOKIE_AGE``.
 
     * ``get_expiry_date()``
 
       .. versionadded:: 1.0
 
-      Returns the date this session will expire. For sessions with no custom
-      expiration (or those set to expire at browser close), this will equal the
-      date ``settings.SESSION_COOKIE_AGE`` seconds from now.
+      Devolve a data em que a sessão expirará. Para sessões sem expiração 
+      customizada (ou aquelas que são configuradas para expirar quando o
+      navegador fechar), esse valor é igual à data 
+      ``settings.SESSION_COOKIE_AGE`` segundos de agora.
 
     * ``get_expire_at_browser_close()``
 
       .. versionadded:: 1.0
 
-      Returns either ``True`` or ``False``, depending on whether the user's
-      session cookie will expire when the user's Web browser is closed.
+      Devolve ``True`` ou ``False``, dependendo se o cookie de sessão do 
+      usuário expirar quando o navegador Web do usuário for fechado.
 
-You can edit ``request.session`` at any point in your view. You can edit it
-multiple times.
+Você pode editar ``request.session`` em qualquer ponto de sua view, podendo
+ser editado múltiplas vezes.
 
-Session object guidelines
--------------------------
+Guia de uso do objeto de sessão
+-------------------------------
 
-    * Use normal Python strings as dictionary keys on ``request.session``. This
-      is more of a convention than a hard-and-fast rule.
+    * Use strings normais Python como chaves de dicionário em 
+      ``request.session``. Isso é mais uma convenção do que uma regra.
 
-    * Session dictionary keys that begin with an underscore are reserved for
-      internal use by Django.
+    * Chaves de dicionário de sessão que começam com "underscore" ("_") são
+      reservadas para uso interno do Django.
 
-    * Don't override ``request.session`` with a new object, and don't access or
-      set its attributes. Use it like a Python dictionary.
+    * Nâo sobrescreva ``request.session`` com um novo objeto e não acesse
+      ou mude o valor de seus atributos. Use-o como um dicionário Python.
 
-Examples
+Exemplos
 --------
 
-This simplistic view sets a ``has_commented`` variable to ``True`` after a user
-posts a comment. It doesn't let a user post a comment more than once::
+Esta view simplista muda o valor da variável ``has_commented`` para ``True``
+depois que um usuário posta um comentário. Ela não deixa que um usuário
+poste um comentário mais de uma vez::
 
     def post_comment(request, new_comment):
         if request.session.get('has_commented', False):
-            return HttpResponse("You've already commented.")
+            return HttpResponse(u"Você já comentou.")
         c = comments.Comment(comment=new_comment)
         c.save()
         request.session['has_commented'] = True
-        return HttpResponse('Thanks for your comment!')
+        return HttpResponse(u'Obrigado pelo seu comentário!')
 
-This simplistic view logs in a "member" of the site::
+Esta outra view simples autentica um "membro" do site::
 
     def login(request):
         m = Member.objects.get(username=request.POST['username'])
         if m.password == request.POST['password']:
             request.session['member_id'] = m.id
-            return HttpResponse("You're logged in.")
+            return HttpResponse(u"Você está autenticado.")
         else:
-            return HttpResponse("Your username and password didn't match.")
+            return HttpResponse(u"Seu nome de usuário e senha não conferem.")
 
-...And this one logs a member out, according to ``login()`` above::
+...E esta encerra a sessão do membro, de acordo com o ``login()`` acima::
 
     def logout(request):
         try:
             del request.session['member_id']
         except KeyError:
             pass
-        return HttpResponse("You're logged out.")
+        return HttpResponse(u"Você saiu.")
 
-The standard ``django.contrib.auth.logout()`` function actually does a bit
-more than this to prevent inadvertent data leakage. It calls
-``request.session.flush()``. We are using this example as a demonstration of
-how to work with session objects, not as a full ``logout()`` implementation.
+A função padrão ``django.contrib.auth.logout()`` na verdade faz um pouco mais do
+que isso para evitar fugas de dados inadvertida. Ele chama 
+``request.session.flush()``. Nós estamos usando este exemplo como uma 
+demonstração de como trabalhar com objetos de sessão, não uma implementação
+completa de ``logout()``.
 
-Setting test cookies
-====================
+Criando cookies de teste
+========================
 
-As a convenience, Django provides an easy way to test whether the user's
-browser accepts cookies. Just call ``request.session.set_test_cookie()`` in a
-view, and call ``request.session.test_cookie_worked()`` in a subsequent view --
-not in the same view call.
+Como uma conveniência, o Django provê uma maneira fácil de testar se o navegador
+do usuário aceita cookies. Simplesmente chame 
+``request.session.set_test_cookie()`` em uma view e chame
+``request.session.test_cookie_worked()`` em uma view subseqüente -- não na 
+mesma chamada de view.
 
-This awkward split between ``set_test_cookie()`` and ``test_cookie_worked()``
-is necessary due to the way cookies work. When you set a cookie, you can't
-actually tell whether a browser accepted it until the browser's next request.
+Essa estranha separação entre ``set_test_cookie()`` e ``test_cookie_worked()``
+é necessária devido à maneira como os cookies funcionam. Quando você cria um
+cookie, você não pode dizer se o navegador o aceitou até a próxima requisição do
+navegador.
 
-It's good practice to use ``delete_test_cookie()`` to clean up after yourself.
-Do this after you've verified that the test cookie worked.
+É uma boa prática usar ``delete_test_cookie()`` para limpar o cookie de teste.
+Faça isso depois que você verificou que o cookie funcionou.
 
-Here's a typical usage example::
+Aqui vai um exemplo típico de uso::
 
     def login(request):
         if request.method == 'POST':
             if request.session.test_cookie_worked():
                 request.session.delete_test_cookie()
-                return HttpResponse("You're logged in.")
+                return HttpResponse(u"Você está autenticado.")
             else:
-                return HttpResponse("Please enable cookies and try again.")
+                return HttpResponse(u"Por favor habilite os cookies e tente novamente.")
         request.session.set_test_cookie()
         return render_to_response('foo/login_form.html')
 
-Using sessions out of views
-===========================
+Usando sessões fora das views
+=============================
 
 .. versionadded:: 1.0
 
-An API is available to manipulate session data outside of a view::
+Uma API está disponível para manipular os dados da sessão fora de uma view::
 
     >>> from django.contrib.sessions.backends.db import SessionStore
     >>> s = SessionStore(session_key='2b1189a188b44ad18c35e113ac6ceead')
@@ -296,199 +311,208 @@ An API is available to manipulate session data outside of a view::
     datetime.datetime(2005, 8, 20, 13, 35, 0)
     >>> s.save()
 
-If you're using the ``django.contrib.sessions.backends.db`` backend, each
-session is just a normal Django model. The ``Session`` model is defined in
-``django/contrib/sessions/models.py``. Because it's a normal model, you can
-access sessions using the normal Django database API::
+Se você está usando o backend ``django.contrib.sessions.backends.db``, cada
+sessão é simplesmente um modelo normal do Django. O modelo ``Session`` é 
+definido em ``django/contrib/sessions/models.py``. Por ser um modelo normal,
+você pode acessar as sessões usando a API normal de banco de dados do Django::
 
     >>> from django.contrib.sessions.models import Session
     >>> s = Session.objects.get(pk='2b1189a188b44ad18c35e113ac6ceead')
     >>> s.expire_date
     datetime.datetime(2005, 8, 20, 13, 35, 12)
 
-Note that you'll need to call ``get_decoded()`` to get the session dictionary.
-This is necessary because the dictionary is stored in an encoded format::
+Note que você precisa chamar ``get_decoded()`` para obter o dicionário da
+sessão. Isso é necessário porque o dicionário é armazenado em um formato
+codificado::
 
     >>> s.session_data
     'KGRwMQpTJ19hdXRoX3VzZXJfaWQnCnAyCkkxCnMuMTExY2ZjODI2Yj...'
     >>> s.get_decoded()
     {'user_id': 42}
 
-When sessions are saved
-=======================
+Quando as sessões são gravadas
+==============================
 
-By default, Django only saves to the session database when the session has been
-modified -- that is if any of its dictionary values have been assigned or
-deleted::
+Por padrão, o Django somente grava no banco de dados da sessão quando ela foi
+modificada -- ou seja, se algum de seus valores de dicionário foram atribuídos
+ou apagados::
 
-    # Session is modified.
+    # A sessão é modificada.
     request.session['foo'] = 'bar'
 
-    # Session is modified.
+    # A sessão é modificada.
     del request.session['foo']
 
-    # Session is modified.
+    # A sessão é modificada.
     request.session['foo'] = {}
 
-    # Gotcha: Session is NOT modified, because this alters
-    # request.session['foo'] instead of request.session.
+    # Pegadinha: A sessão NÃO é modificada, porque isso altera
+    # request.session['foo'] em vez de request.session.
     request.session['foo']['bar'] = 'baz'
 
-In the last case of the above example, we can tell the session object
-explicitly that it has been modified by setting the ``modified`` attribute on
-the session object::
+No último caso do exemplo acima, podemos dizer explicitamente ao objeto de 
+sessão que ele foi modificado por meio do atributo ``modified`` do objeto
+de sessão::
 
     request.session.modified = True
 
-To change this default behavior, set the ``SESSION_SAVE_EVERY_REQUEST`` setting
-to ``True``. If ``SESSION_SAVE_EVERY_REQUEST`` is ``True``, Django will save
-the session to the database on every single request.
+Para mudar esse comportamento padrão, coloque o valor de configuração
+``SESSION_SAVE_EVERY_REQUEST`` para ``True``. Se ``SESSION_SAVE_EVERY_REQUEST``
+for ``True``, o Django gravará a sessão no banco de dados a cada requisição.
 
-Note that the session cookie is only sent when a session has been created or
-modified. If ``SESSION_SAVE_EVERY_REQUEST`` is ``True``, the session cookie
-will be sent on every request.
+Note que o cookie de sessão somente é enviado quando uma sessão foi criada ou
+modificada. Se ``SESSION_SAVE_EVERY_REQUEST`` for ``True``, o cookie de sessão
+será enviado em todos os requests. 
 
-Similarly, the ``expires`` part of a session cookie is updated each time the
-session cookie is sent.
+Similarmente, a parte de ``expires`` de um cookie de sessão é atualizado a cada
+vez que o cookie é enviado.
 
-Browser-length sessions vs. persistent sessions
-===============================================
 
-You can control whether the session framework uses browser-length sessions vs.
-persistent sessions with the ``SESSION_EXPIRE_AT_BROWSER_CLOSE`` setting.
+Sessões que duram até o navegador fechar contra sessões persistentes
+====================================================================
 
-By default, ``SESSION_EXPIRE_AT_BROWSER_CLOSE`` is set to ``False``, which
-means session cookies will be stored in users' browsers for as long as
-``SESSION_COOKIE_AGE``. Use this if you don't want people to have to log in
-every time they open a browser.
+Você pode controlar se o framework de sessão usa sessões que duram enquanto o
+navegador está aberto ou sessões persistentes com o parâmetro de configuração
+``SESSION_EXPIRE_AT_BROWSER_CLOSE``.
 
-If ``SESSION_EXPIRE_AT_BROWSER_CLOSE`` is set to ``True``, Django will use
-browser-length cookies -- cookies that expire as soon as the user closes his or
-her browser. Use this if you want people to have to log in every time they open
-a browser.
+Por padrão, ``SESSION_EXPIRE_AT_BROWSER_CLOSE`` é ``False``, o que significa que
+os cookies de sessão serão armazenados nos navegadores dos usuários pelo tempo
+determinado no parâmetro ``SESSION_COOKIE_AGE``. Use isso se você não quer que
+as pessoas tenham que se autenticar toda vez que abrem o navegador.
+
+Se ``SESSION_EXPIRE_AT_BROWSER_CLOSE`` for ``True``, o Django usará cookies que
+duram enquanto o navegador estiver aberto -- ou seja, eles expirarão assim
+que o usuário fechar o seu navegador. Use isso se você deseja que as pessoas 
+tenham de se autenticar toda vez que abrem o seu navegador.
 
 .. versionadded:: 1.0
 
-This setting is a global default and can be overwritten at a per-session level
-by explicitly calling ``request.session.set_expiry()`` as described above in
-`using sessions in views`_.
+Esse parâmetro é um padrão global que pode ser redefinido para cada sessão
+chamando explicitamente ``request.session.set_expiry()`` como descrito acima,
+em `utilizando sessões nas views`_.
 
-Clearing the session table
-==========================
+Limpando a tabela de sessão
+===========================
 
-Note that session data can accumulate in the ``django_session`` database table
-and Django does *not* provide automatic purging. Therefore, it's your job to
-purge expired sessions on a regular basis.
+Perceba que os dados de sessão podem acumular na tabela de banco de dados
+``django_session`` e o Django *não* dispõe de uma limpeza automática. Portanto,
+é seu trabalho limpar as sessões expiradas regularmente.
 
-To understand this problem, consider what happens when a user uses a session.
-When a user logs in, Django adds a row to the ``django_session`` database
-table. Django updates this row each time the session data changes. If the user
-logs out manually, Django deletes the row. But if the user does *not* log out,
-the row never gets deleted.
+Para entender esse problema, considere o que acontece quando um usuário usa uma
+sessão. Quando um usuário se autentica, o Django adiciona uma linha na tabela 
+``django_session``. O Django atualiza essa linha cada vez que os dados da 
+sessão mudam. Se o usuário encerra sua sessão manualmente (logout), o Django
+apaga essa linha. Mas se o usuário não *sai* (não dá logout), a linha nunca é 
+apagada.
 
-Django provides a sample clean-up script in ``django-admin.py cleanup``.
-That script deletes any session in the session table whose ``expire_date`` is
-in the past -- but your application may have different requirements.
+O Django tem um script de exemplo para limpeza em ``django-admin.py cleanup``.
+Esse script apaga qualquer sessão na tabela em que ``expire_date`` está em
+uma data no passado --, mas sua aplicação pode ter requisitos diferentes.
 
-Settings
-========
+Configurações
+=============
 
-A few :ref:`Django settings <ref-settings>` give you control over session behavior:
+Algumas :ref:`configurações do Django <ref-settings>` te dão controle sobre o 
+comportamento de sessões:
 
 SESSION_ENGINE
 --------------
 
 .. versionadded:: 1.0
 
-Default: ``django.contrib.sessions.backends.db``
+Padrão: ``django.contrib.sessions.backends.db``
 
-Controls where Django stores session data. Valid values are:
+Controla onde o Django armazena os dados de sessão. Os valores válidos são:
 
     * ``'django.contrib.sessions.backends.db'``
     * ``'django.contrib.sessions.backends.file'``
     * ``'django.contrib.sessions.backends.cache'``
 
-See `configuring the session engine`_ for more details.
+Veja `configurando o mecanismo de sessão`_ para mais detalhes.
 
 SESSION_FILE_PATH
 -----------------
 
 .. versionadded:: 1.0
 
-Default: ``/tmp/``
+Padrão: ``/tmp/``
 
-If you're using file-based session storage, this sets the directory in
-which Django will store session data.
+Se você está usando um armazenamento baseado em arquivos, esse parâmetro
+configura o diretório no qual o Django irá armazenar os dados de sessão.
 
 SESSION_COOKIE_AGE
 ------------------
 
-Default: ``1209600`` (2 weeks, in seconds)
+Padrão: ``1209600`` (2 semanas, em segundos)
 
-The age of session cookies, in seconds.
+O tempo de duração de um cookie de sessão, em segundos.
 
 SESSION_COOKIE_DOMAIN
 ---------------------
 
-Default: ``None``
+Padrão: ``None``
 
-The domain to use for session cookies. Set this to a string such as
-``".lawrence.com"`` for cross-domain cookies, or use ``None`` for a standard
-domain cookie.
+O domínio para seu usado nos cookies de sessão. Configure-o para uma string
+como ``".lawrence.com"`` para cookies entre domínios diferentes (cross-domain 
+cookies), ou use ``None`` para um cookie de domínio padrão.
 
 SESSION_COOKIE_NAME
 -------------------
 
-Default: ``'sessionid'``
+Padrão: ``'sessionid'``
 
-The name of the cookie to use for sessions. This can be whatever you want.
+O nome do cookie a usar para as sessões. Esse valor pode ser o que você quiser.
 
 SESSION_COOKIE_SECURE
 ---------------------
 
-Default: ``False``
+Padrão: ``False``
 
-Whether to use a secure cookie for the session cookie. If this is set to
-``True``, the cookie will be marked as "secure," which means browsers may
-ensure that the cookie is only sent under an HTTPS connection.
+Se deseja usar cookie seguro para os cookies de sessão ou não. Se este
+parâmetro for ``True``, o cookie será marcado como "seguro", o que significa
+que os navegadores devem assegurar-se de que o cookie somente será enviado por
+meio de uma conexão HTTPS.
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE
 -------------------------------
 
-Default: ``False``
+Padrão: ``False``
 
-Whether to expire the session when the user closes his or her browser. See
-"Browser-length sessions vs. persistent sessions" above.
+Se a sessão deve expirar quando o usuário fecha seu navegador. Veja
+"Sessões que duram até o navegador fechar contra sessões persistentes" acima.
 
 SESSION_SAVE_EVERY_REQUEST
 --------------------------
 
-Default: ``False``
+Padrão: ``False``
 
-Whether to save the session data on every request. If this is ``False``
-(default), then the session data will only be saved if it has been modified --
-that is, if any of its dictionary values have been assigned or deleted.
+Se os dados da sessão devem ser gravados a cada request. Se for ``False`` 
+(padrão), então os dados da sessão somente serão gravados quando forem 
+modificados -- ou seja, se algum dos valores de seu dicionário forem alterados
+ou excluídos.
 
-.. _Django settings: ../settings/
+.. _Configurações Django: ../settings/
 
-Technical details
+Detalhes técnicos
 =================
 
-    * The session dictionary should accept any pickleable Python object. See
-      `the pickle module`_ for more information.
+    * O dicionário de sessão deve aceitar qualquer objeto Python que possa
+      ser serializado com "pickle". Veja `o módulo pickle`_ para mais 
+      informações.
 
-    * Session data is stored in a database table named ``django_session`` .
+    * Os dados de sessão são armazenados em uma tabela de banco de dados
+      chamada ``django_session``.
 
-    * Django only sends a cookie if it needs to. If you don't set any session
-      data, it won't send a session cookie.
+    * O Django somente envia o cookie se for necessário. Se você não coloca 
+      nenhum dado na sessão, ele não enviará o cookie de sessão.
+    
+.. _`o módulo pickle`: http://www.python.org/doc/current/lib/module-pickle.html
 
-.. _`the pickle module`: http://docs.python.org/library/pickle.html
+IDs de sessão em URLs
+=====================
 
-Session IDs in URLs
-===================
-
-The Django sessions framework is entirely, and solely, cookie-based. It does
-not fall back to putting session IDs in URLs as a last resort, as PHP does.
-This is an intentional design decision. Not only does that behavior make URLs
-ugly, it makes your site vulnerable to session-ID theft via the "Referer"
-header.
+O framework de sessão do Django é única e inteiramente baseado em cookies.
+Ele não tenta colocar IDs de sessão em URLs como um último recurso se o
+navegador não aceita cookies, como o PHP faz. Isso é uma decisão de projeto
+intencional. Esse comportamento não só cria URLs horríveis, como deixa seu 
+site vulnerável a roubo de ID de sessão por meio do cabeçalho "Referer".
