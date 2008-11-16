@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, wainting for revision. $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,30 +16,35 @@
 
 .. _howto-outputting-csv:
 
-==========================
-Outputting CSV with Django
-==========================
+===========================
+Exportando CSV com o Django
+===========================
 
-This document explains how to output CSV (Comma Separated Values) dynamically
-using Django views. To do this, you can either use the `Python CSV library`_ or
-the Django template system.
+Este documento explica como gerar CSV (Valores Separados por Vírgulas) 
+dinamicamente usando views do Django.Para fazer isso, você pode utilizar a 
+`biblioteca Python CSV`_ ou o sistema de templates do Django.
 
-.. _Python CSV library: http://docs.python.org/library/csv.html
-
-Using the Python CSV library
-============================
+.. _biblioteca Python CSV: http://docs.python.org/library/csv.html
 
 Python comes with a CSV library, ``csv``. The key to using it with Django is
 that the ``csv`` module's CSV-creation capability acts on file-like objects, and
 Django's :class:`~django.http.HttpResponse` objects are file-like objects.
 
-Here's an example::
+Usando a biblioteca Python CSV
+==============================
+
+O Python vem com uma biblioteca CSV, ``csv``. A chave para usá-la com o Django
+é que a capacidade de criação de CSV do módulo ``csv`` recai em objetos que
+equivalem a arquivos, e objetos :class:`~django.http.HttpResponse` do Django são
+deste tipo.
+
+Aqui tem um exemplo::
 
     import csv
     from django.http import HttpResponse
 
     def some_view(request):
-        # Create the HttpResponse object with the appropriate CSV header.
+        # Cria o objeto HttpResponse com o cabeçalho CSV apropriado.
         response = HttpResponse(mimetype='text/csv')
         response['Content-Disposition'] = 'attachment; filename=somefilename.csv'
 
@@ -49,53 +54,58 @@ Here's an example::
 
         return response
 
-The code and comments should be self-explanatory, but a few things deserve a
-mention:
+O código e comentários devem ser auto-explicativos, mas algumas coisas merecem
+ser mencionadas:
 
-    * The response gets a special MIME type, ``text/csv``. This tells
-      browsers that the document is a CSV file, rather than an HTML file. If
-      you leave this off, browsers will probably interpret the output as HTML,
-      which will result in ugly, scary gobbledygook in the browser window.
+    * O response pega um mimetype especial, ``text/csv``. Isso avisa aos 
+      navegadores que o documento é um arquivo CSV, em vez de um arquivo HTML.
+      Se você deixar isso desligado, os navegadores provavelmente irão
+      interpretar a saída com um HTML, o que resultará em feiúra, um assustador
+      gobbledygook (deve ser um ser epacial) na sua janela do navegador.
+      
+    * O response pega um cabeçalho adicional ``Content-Disposition``, que 
+      contém o nome do arquivo CSV. Esse nome de arquivo é arbritário; chame-o
+      como quiser. Ele será usado pelos navegadores em caixas de diálogo
+      "Salvar como...", etc.
+      
+    * Usar hooks na API de geração do CSV é fácil: Simplesmente passe
+      ``response`` como o primeiro argumento para ``csv.writer``. A função
+      ``csv.writer`` espera um objeto semelhante a um arquivo e objetos
+      :class:`~django.http.HttpResponse` são justamente isso.
 
-    * The response gets an additional ``Content-Disposition`` header, which
-      contains the name of the CSV file. This filename is arbitrary; call it
-      whatever you want. It'll be used by browsers in the "Save as..."
-      dialogue, etc.
+    * Para cada linha em seu arquivo CSV, chame ``writer.writerow``, passando-o
+      um objeto iterável como uma lista ou tupla.
+      
+    * O módulo CSV se preocupa em escapar por você, então você não tem de se
+      preocupar em escapar strings com aspas ou vírgulas. Somente passe para o
+      ``writerow()`` suas strings normalmente, e ele irá fazer a coisa certa.
 
-    * Hooking into the CSV-generation API is easy: Just pass ``response`` as the
-      first argument to ``csv.writer``. The ``csv.writer`` function expects a
-      file-like object, and :class:`~django.http.HttpResponse` objects fit the
-      bill.
+Usando o sistema de template
+============================
 
-    * For each row in your CSV file, call ``writer.writerow``, passing it an
-      iterable object such as a list or tuple.
+Alternativamente, você pode usar o :ref:`sistema de template do Django 
+<topics-templates>` para gerar CSV. Isso é mais baixo nível do que usar a 
+biblioteca CSV, mas a solução é apresentada para fins de complementação.
 
-    * The CSV module takes care of quoting for you, so you don't have to worry
-      about escaping strings with quotes or commas in them. Just pass
-      ``writerow()`` your raw strings, and it'll do the right thing.
+A idéia aqui é passar uma lista de itens para o seu template e ter a saída
+separada por vírgulas através de uma tag de loop :ttag:`for`.
 
-Using the template system
-=========================
+Aqui vai um exemplo, que gera o mesmo arquivo CSV do outro exemplo::
 
-Alternatively, you can use the :ref:`Django template system <topics-templates>`
-to generate CSV. This is lower-level than using the convenient CSV, but the
-solution is presented here for completeness.
-
-The idea here is to pass a list of items to your template, and have the
-template output the commas in a :ttag:`for` loop.
-
-Here's an example, which generates the same CSV file as above::
 
     from django.http import HttpResponse
     from django.template import loader, Context
 
     def some_view(request):
-        # Create the HttpResponse object with the appropriate CSV header.
+        # Cria o objeto HttpResponse com o cabeçalho CSV apropriado.
         response = HttpResponse(mimetype='text/csv')
         response['Content-Disposition'] = 'attachment; filename=somefilename.csv'
 
         # The data is hard-coded here, but you could load it from a database or
         # some other source.
+        # Aqui os dados estão embutidos no código, mas você poderia carregá-lo 
+        # de um banco de dados ou de alguma outra fonte.
+
         csv_data = (
             ('First row', 'Foo', 'Bar', 'Baz'),
             ('Second row', 'A', 'B', 'C', '"Testing"', "Here's a quote"),
@@ -108,25 +118,29 @@ Here's an example, which generates the same CSV file as above::
         response.write(t.render(c))
         return response
 
-The only difference between this example and the previous example is that this
-one uses template loading instead of the CSV module. The rest of the code --
-such as the ``mimetype='text/csv'`` -- is the same.
+This template is quite basic. It just iterates over the given data and displays
+a line of CSV for each row. It uses the :tfilter:`addslashes` template filter to
+ensure there aren't any problems with quotes.
 
-Then, create the template ``my_template_name.txt``, with this template code:
+A única diferença entre esse exemplo e o anterior, é que esse usa o carregador
+de templates em vez do módulo CSV. O resto do código -- tais como o
+``mimetype='text/csv'`` -- é o mesmo.
+
+Então crie um template ``my_template_name.txt`` com este código:
 
 .. code-block:: html+django
 
     {% for row in data %}"{{ row.0|addslashes }}", "{{ row.1|addslashes }}", "{{ row.2|addslashes }}", "{{ row.3|addslashes }}", "{{ row.4|addslashes }}"
     {% endfor %}
 
-This template is quite basic. It just iterates over the given data and displays
-a line of CSV for each row. It uses the :tfilter:`addslashes` template filter to
-ensure there aren't any problems with quotes.
+Este template é muito básico. Ele somente itera sobre o dado passado e mostra 
+uma linha de CSV para cada linha. Ele usa o filtro de template 
+:tfilter:`addslashes` para assegurar que não haja quaisquer problemas com aspas.
 
-Other text-based formats
-========================
+Outro formato baseado em texto
+==============================
 
-Notice that there isn't very much specific to CSV here -- just the specific
-output format. You can use either of these techniques to output any text-based
-format you can dream of. You can also use a similar technique to generate
-arbitrary binary data; see :ref:`howto-outputting-pdf` for an example.
+Repare que não existe muita especificidade para CSV aqui -- somente o formato de
+saída. Você pode usar qualquer destas técnicas para gerar saída de qualquer
+formato baseado em texto que você sonhar. Você pode também usar uma técnica 
+similar para gerar dados binários; veja :ref:`howto-outputting-pdf` por exemplo.
