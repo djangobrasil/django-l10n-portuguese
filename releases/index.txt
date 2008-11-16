@@ -16,12 +16,12 @@
 
 .. _releases-index:
 
-Release notes
-=============
+Notas de Releases
+=================
 
-Releases notes for the official Django releases. Each release note will tell you
-what's new in each version, and will also describe any backwards-incompatible
-changes made in that version.
+Notas de releases para os releases oficiais do Django. Cada nota irá falar sobre
+que há de novo em cada versão, e também descreverá qualquer incompatibilidade
+com versões anteriores por conta das mudanças que ocorrem.
 
 .. toctree::
    :maxdepth: 1
@@ -37,9 +37,10 @@ changes made in that version.
 
 .. seealso::
 
-    The list of `backwards-incompatible changes`_ made in the current
-    development "trunk". If you're running versions of Django newer than an
-    official release, you should keep track of new pieces pointed there. It's
-    also fun reading if you're looking forward to new versions of Django.
+    A lista de `mudanças com quebra de compatilidade`_ feitas no desenvolvimento
+    corrent, "trunk". Se você estiver executando versões do Django mais recentes
+    que a de um lançamento oficial, você deve manter um registo das novas peças 
+    que apontam por lá. Também é divertido ler se você estiver ansioso para 
+    novas versões do Django.
 
-.. _backwards-incompatible changes: http://code.djangoproject.com/wiki/BackwardsIncompatibleChanges
+.. _mudanças com quebra de compatilidade: http://code.djangoproject.com/wiki/BackwardsIncompatibleChanges
