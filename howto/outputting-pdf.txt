@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, wainting for revision. $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,161 +16,167 @@
 
 .. _howto-outputting-pdf:
 
-===========================
-Outputting PDFs with Django
-===========================
+============================
+Exportando PDFs com o Django
+============================
 
-This document explains how to output PDF files dynamically using Django views.
-This is made possible by the excellent, open-source ReportLab_ Python PDF
-library.
+Este documento explora como exportar arquivos PDF dinamicamente usando views do
+Django. Isso é possível graças a uma excelente, biblioteca PDF de código-aberto
+para Python, chamada ReportLab_.
 
-The advantage of generating PDF files dynamically is that you can create
-customized PDFs for different purposes -- say, for different users or different
-pieces of content.
+A vantagem de gerar dinamicamente arquivos PDF é que você pode criar PDFs 
+customizados para diferentes propósitos -- como para diferentes usuários ou
+diferentes partes de conteúdos.
 
-For example, Django was used at kusports.com_ to generate customized,
-printer-friendly NCAA tournament brackets, as PDF files, for people
-participating in a March Madness contest.
+Por exemplo, o Django foi usado no kusports.com_ para gerar versões de 
+impressão curtomizadas dos torneios do NCAA, como arquivos PDF, para
+pessoas participantes no concurso March Madness.
 
 .. _ReportLab: http://www.reportlab.org/rl_toolkit.html
 .. _kusports.com: http://www.kusports.com/
 
-Install ReportLab
-=================
+Instalando o ReportLab
+======================
 
-Download and install the ReportLab library from http://www.reportlab.org/downloads.html.
-The `user guide`_ (not coincidentally, a PDF file) explains how to install it.
+Baixe e instale a biblioteca ReportLab do site 
+http://www.reportlab.org/downloads.html. O `guia de usuário`_ (não 
+coincidentemente, um arquivo PDF) explica como instalá-lo.
 
-Test your installation by importing it in the Python interactive interpreter::
+Teste sua instalação importando-o no interpretador interativo do Python::
 
     >>> import reportlab
 
-If that command doesn't raise any errors, the installation worked.
+Se o comando não mostrar nenhum erro, a instalação está funcionando.
 
-.. _user guide: http://www.reportlab.com/docs/userguide.pdf
+.. _guia de usuário: http://www.reportlab.com/docs/userguide.pdf
 
-Write your view
-===============
+Escreva o seu view
+==================
 
-The key to generating PDFs dynamically with Django is that the ReportLab API
-acts on file-like objects, and Django's :class:`~django.http.HttpResponse`
-objects are file-like objects.
+A chave para gerar PDFs dinamicamente com o Django é que a API do ReportLab
+trabalha sobre objetos que se comportam como arquivos, e objetos
+:class:`~django.http.HttpResponse` do Django são objetos assim.
 
-Here's a "Hello World" example::
+Aqui vai um exemplo "Hello World"::
 
     from reportlab.pdfgen import canvas
     from django.http import HttpResponse
 
     def some_view(request):
-        # Create the HttpResponse object with the appropriate PDF headers.
+        # Crie o objeto HttpResponse com o cabeçalho de PDF apropriado.
         response = HttpResponse(mimetype='application/pdf')
         response['Content-Disposition'] = 'attachment; filename=somefilename.pdf'
 
-        # Create the PDF object, using the response object as its "file."
+        # Crie o objeto PDF, usando o objeto response como seu "arquivo".
         p = canvas.Canvas(response)
 
-        # Draw things on the PDF. Here's where the PDF generation happens.
-        # See the ReportLab documentation for the full list of functionality.
+        # Desenhe coisas no PDF. Aqui é onde a geração do PDF acontece.
+        # Veja a documentação do ReportLab para a lista completa de 
+        # funcionalidades.
         p.drawString(100, 100, "Hello world.")
 
-        # Close the PDF object cleanly, and we're done.
+        # Feche o objeto PDF, e está feito.
         p.showPage()
         p.save()
         return response
 
-The code and comments should be self-explanatory, but a few things deserve a
-mention:
+O código e comentários devem ser auto-explicativos, mas umas poucas coisas
+merecem ser mencionadas:
 
-    * The response gets a special MIME type, ``application/pdf``. This tells
-      browsers that the document is a PDF file, rather than an HTML file. If
-      you leave this off, browsers will probably interpret the output as HTML,
-      which would result in ugly, scary gobbledygook in the browser window.
+    * O response recebe um mimetype especial, ``application/pdf``. Isso informa
+      ao navegador que o documento é um arquivo PDF, em vez de um arquivo HTML.
+      Se você não informar isto, o navegador irá provavelmente interpretar a
+      saída como um HTML, o que poderia resultar em um resultado feio e
+      assustador na janela do navegador.
+      
+    * O response recebe um cabeçalho adicional ``Content-Disposition``, que
+      contém o nome do arquivo PDF. Esse nome de arquivo é arbitrário: chame-o
+      como quiser. Ele será usado pelo navegador na caixa de diálogo
+      "Salvar como...", etc.
+      
+    * O cabeçalho ``Content-Disposition`` começa com  ``'attachment; '`` neste
+      exemplo. Isso força o navegador a mostrar uma caixa de diálogo 
+      avisando/confirmando como manipular o documento, mesmo se um padrão está
+      definido na máquina. Se você não informar o ``'attachment'``, o navegador
+      manipulará o PDF usando qualquer programa/plugin que ele tiver
+      configurado para usar com PDFs. Veja como esse código se pareceria::
+      
+          response['Content-Disposition'] = 'filename=algum_nomedearquivo.pdf'
 
-    * The response gets an additional ``Content-Disposition`` header, which
-      contains the name of the PDF file. This filename is arbitrary: Call it
-      whatever you want. It'll be used by browsers in the "Save as..."
-      dialogue, etc.
+    * Usar hooks da API do ReportLab é fácil: somente passe ``response`` como
+      o primeiro argumento para o ``canvas.Canvas``. A classe ``Canvas`` recebe
+      um objeto como arquivo, e objetos :class:`~django.http.HttpResponse` 
+      atendem a esse requisito.
+      
+    * Note que todo método subseqüente de geração de PDF é chamado no objeto
+      PDF (neste caso, ``p``) -- não no ``response``.
 
-    * The ``Content-Disposition`` header starts with ``'attachment; '`` in this
-      example. This forces Web browsers to pop-up a dialog box
-      prompting/confirming how to handle the document even if a default is set
-      on the machine. If you leave off ``'attachment;'``, browsers will handle
-      the PDF using whatever program/plugin they've been configured to use for
-      PDFs. Here's what that code would look like::
+    * Finalmente, é importante chamar ``showPage()`` e ``save()`` sobre o
+      arquivo PDF.
 
-          response['Content-Disposition'] = 'filename=somefilename.pdf'
+PDFs complexos
+==============
 
-    * Hooking into the ReportLab API is easy: Just pass ``response`` as the
-      first argument to ``canvas.Canvas``. The ``Canvas`` class expects a
-      file-like object, and :class:`~django.http.HttpResponse` objects fit the
-      bill.
-
-    * Note that all subsequent PDF-generation methods are called on the PDF
-      object (in this case, ``p``) -- not on ``response``.
-
-    * Finally, it's important to call ``showPage()`` and ``save()`` on the PDF
-      file.
-
-Complex PDFs
-============
-
-If you're creating a complex PDF document with ReportLab, consider using the
-cStringIO_ library as a temporary holding place for your PDF file. The cStringIO
-library provides a file-like object interface that is particularly efficient.
-Here's the above "Hello World" example rewritten to use ``cStringIO``::
+Se você está criando um documento PDF complexo com o ReportLab, considere a
+utilização da biblioteca cStringIO_ como um manipulador temporário para o seu 
+arquivo PDF. A biblioteca cStringIO fornece uma interface para objeto como 
+arquivo que é particularmente eficiente. Aqui o exemplo acima "Hello World" é
+re-escrito para usar o ``cStringIO``::
 
     from cStringIO import StringIO
     from reportlab.pdfgen import canvas
     from django.http import HttpResponse
 
     def some_view(request):
-        # Create the HttpResponse object with the appropriate PDF headers.
+        # Crie o objeto HttpResponse com o cabeçalho PDF apropriado.
         response = HttpResponse(mimetype='application/pdf')
         response['Content-Disposition'] = 'attachment; filename=somefilename.pdf'
 
         buffer = StringIO()
 
-        # Create the PDF object, using the StringIO object as its "file."
+        # Crie um objeto PDF, usando o objeto StringIO como seu "arquivo."
         p = canvas.Canvas(buffer)
 
-        # Draw things on the PDF. Here's where the PDF generation happens.
-        # See the ReportLab documentation for the full list of functionality.
+        # Desenhe coisas no PDF. Aqui é onde a geração do PDF acontece.
+        # Veja a documentação do ReportLab para a lista completa de 
+        # funcionalidades.
         p.drawString(100, 100, "Hello world.")
 
-        # Close the PDF object cleanly.
+        # Feche o objeto PDF.
         p.showPage()
         p.save()
 
-        # Get the value of the StringIO buffer and write it to the response.
+        # Pegue o valor do buffer StringIO e escreva-o para o response.
         pdf = buffer.getvalue()
         buffer.close()
         response.write(pdf)
         return response
 
-.. _cStringIO: http://docs.python.org/library/stringio.html#module-cStringIO
+.. _cStringIO: http://www.python.org/doc/current/lib/module-cStringIO.html
 
-Further resources
-=================
+Mais recursos
+=============
 
-    * PDFlib_ is another PDF-generation library that has Python bindings. To
-      use it with Django, just use the same concepts explained in this article.
-    * `Pisa HTML2PDF`_ is yet another PDF-generation library. Pisa ships with
-      an example of how to integrate Pisa with Django.      
-    * HTMLdoc_ is a command-line script that can convert HTML to PDF. It
-      doesn't have a Python interface, but you can escape out to the shell
-      using ``system`` or ``popen`` and retrieve the output in Python.
-    * `forge_fdf in Python`_ is a library that fills in PDF forms.
+    * PDFlib_ é outra biblioteca de geração de PDF que tem binding para o 
+      Python. Para usá-lo com o Django, somente use o mesmo conceito explicado
+      neste artigo.
+    * `Pisa HTML2PDF`_ é mais uma biblioteca de geração de PDF. Pisa é entregue
+      com um exemplo de como integrá-la com o Django.
+    * HTMLdoc_ é um script de linha de comando que consegue converter HTML para
+      PDF. Ele não possui uma interface Python, mas você consegue escapar do
+      terminal usando ``system`` ou ``popen`` e recebendo a saída no Python.
+    * `forge_fdf no Python`_ é uma biblioteca que preenche formulários em PDF.
 
 .. _PDFlib: http://www.pdflib.org/
 .. _`Pisa HTML2PDF`: http://www.htmltopdf.org/
 .. _HTMLdoc: http://www.htmldoc.org/
-.. _forge_fdf in Python: http://www.accesspdf.com/article.php/20050421092951834
+.. _forge_fdf no Python: http://www.accesspdf.com/article.php/20050421092951834
 
-Other formats
-=============
+Outros formatos
+===============
 
-Notice that there isn't a lot in these examples that's PDF-specific -- just the
-bits using ``reportlab``. You can use a similar technique to generate any
-arbitrary format that you can find a Python library for. Also see
-:ref:`howto-outputting-csv` for another example and some techniques you can use
-when generated text-based formats.
+Repare que não há muitos destes exemplos específicos de PDF -- somente o que é 
+usado o ``reportlab``. Você pode usar uma técnica similar para gerar qualquer 
+formato que possa ser gerado por uma biblioteca Python. Também veja 
+:ref:`howto-outputting-csv` para outro exemplo e algumas técnicas que você pode
+usar quando gera formatos baseados em texto.
