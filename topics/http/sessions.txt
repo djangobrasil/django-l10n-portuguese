@@ -76,23 +76,25 @@ valor padrão de saída de ``tempfile.gettempdir()``, comumente ``/tmp``) para
 controlar onde o Django deve armazenar os arquivos de sessão. Certifique-se de
 que seu servidor Web tem permissão para ler e escrever neste local.
 
+Usando sessões baseadas em cache
+--------------------------------
 
-Using cache-based sessions
---------------------------
+Para armazenar dados de sessão utilizando o sistema de cache do Django, 
+configure ``SESSION_ENGINE`` para ``"django.contrib.sessions.backends.cache"``.
+É importante confirmar que o seu cache esteja configurado; veja a 
+:ref:`documentação de cache <topics-cache>` para mais detalhes.
 
-To store session data using Django's cache system, set ``SESSION_ENGINE``
-to ``"django.contrib.sessions.backends.cache"``. You'll want to make sure
-you've configured your cache; see the :ref:`cache documentation <topics-cache>` for details.
-
-.. _cache documentation: ../cache/
+.. _documentação de cache: ../cache/
 
 .. note::
 
-    You should probably only use cache-based sessions if you're using the
-    Memcached cache backend. The local-memory cache backend doesn't retain data
-    long enough to be a good choice, and it'll be faster to use file or
-    database sessions directly instead of sending everything through the file
-    or database cache backends.
+    Você provavelmente só deve utilizar sessões baseadas em cache se estiver 
+    usando o backend de cache Memcached. O backend de cache de memória local 
+    não guarda os dados por um período longo o suficiente para ser considerado
+    uma boa escolha, e será mais rápido usar sessões de arquivos ou banco de 
+    dados diretamente em vez de enviar tudo por meio do backend de cache 
+    baseado em arquivos ou banco de dados.
+
 
 Utilizando sessões nas views
 ============================
