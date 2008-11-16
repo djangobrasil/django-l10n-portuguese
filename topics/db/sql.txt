@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -19,12 +19,12 @@
 Performing raw SQL queries
 ==========================
 
-Feel free to write custom SQL statements in custom model methods and
-module-level methods. The object ``django.db.connection`` represents the
-current database connection. To use it, call ``connection.cursor()`` to get a
-cursor object. Then, call ``cursor.execute(sql, [params])`` to execute the SQL
-and ``cursor.fetchone()`` or ``cursor.fetchall()`` to return the resulting
-rows. Example::
+Sinta-se livre para escrever consultas SQL nos métodos de seus modelos e métodos
+a nível de módulo. O objeto ``django.db.connection`` representa a conexão 
+corrente com o banco de dados. Para usá-lo, chame ``connection.cursor()`` para
+capturar o objeto cursor. Então, chame ``cursor.execute(sql, [params])`` para
+executar o SQL e ``cursor.fetchone()`` ou ``cursor.fechall()`` para retornar o
+resultado em linhas. Exemplo::
 
     def my_custom_sql(self):
         from django.db import connection
@@ -33,19 +33,19 @@ rows. Example::
         row = cursor.fetchone()
         return row
 
-``connection`` and ``cursor`` mostly implement the standard `Python DB-API`_
-(except when it comes to :ref:`transaction handling <topics-db-transactions>`).
-If you're not familiar with the Python DB-API, note that the SQL statement in
-``cursor.execute()`` uses placeholders, ``"%s"``, rather than adding parameters
-directly within the SQL. If you use this technique, the underlying database
-library will automatically add quotes and escaping to your parameter(s) as
-necessary. (Also note that Django expects the ``"%s"`` placeholder, *not* the
-``"?"`` placeholder, which is used by the SQLite Python bindings. This is for
-the sake of consistency and sanity.)
+``connection`` and ``cursor`` maioritariamente implementa a 
+`DB-API padrão do Python`_ (exceto quando se trata de :ref:`manipulação de 
+transações <topics-db-transactions>`). Se você não está familiarizado com a 
+DB-API do Python, note que a consulta SQL em ``cursor.execute()`` possui 
+marcadores, ``"%s"``, ao invés de adicionar paramêtros diretamente dentro do SQL.
+Se você usa esta técnica, as bibliotecas de banco de dados subjacentes irão 
+automaticamente addicionar aspas e espacar seus paramêtros quando necessário.
+(Também atente que o Django espera pelo marcador ``"%s"``, *não* pelo marcador
+``"?"``, que é utilizado pelos bindings para Python do SQLite. Isto é por uma 
+questão de coerência e bom senso.)
 
-A final note: If all you want to do is a custom ``WHERE`` clause, you can just
-use the ``where``, ``tables`` and ``params`` arguments to the standard lookup
-API. 
+Um lembrete final: Se tudo que você quer é fazer uma clausula ``WHERE`` 
+customizada, você pode somente usar os argumentos ``where``, ``tables`` e 
+``params`` da API padrão.
 
-.. _Python DB-API: http://www.python.org/peps/pep-0249.html
-
+.. _DB-API padrão do Python: http://www.python.org/peps/pep-0249.html
