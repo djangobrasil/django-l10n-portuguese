@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, wainting for revision. $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,18 +16,19 @@
 
 .. _howto-custom-management-commands:
 
-Writing custom django-admin commands
-====================================
+Escrevendo commando customizados para o django-admin
+====================================================
 
 .. versionadded:: 1.0
 
-Applications can register their own actions with ``manage.py``. For example,
-you might want to add a ``manage.py`` action for a Django app that you're
-distributing.
+As aplicações podem registrar suas próprias ações com ``manage.py``. Por exemplo,
+você pode querer adicionar uma ação ``manage.py`` para uma aplicação Django que
+você está distribuíndo.
 
-To do this, just add a ``management/commands`` directory to your application.
-Each Python module in that directory will be auto-discovered and registered as
-a command that can be executed as an action when you run ``manage.py``::
+Para fazer isto, é só adicionar um diretório ``management/commands`` na sua 
+aplicação. Cada módulo Python neste diretório será auto-discoberto e registrado
+como um comando que pode ser executado como uma ação quando você roda 
+``manage.py``::
 
     blog/
         __init__.py
@@ -39,11 +40,12 @@ a command that can be executed as an action when you run ``manage.py``::
                 explode.py
         views.py
 
-In this example, the ``explode`` command will be made available to any project
-that includes the ``blog`` application in ``settings.INSTALLED_APPS``.
+Neste exemplo, o comando ``explode`` será disponibilizado para qualquer projeto
+que incluir a aplicação ``blog`` no ``settings.INSTALLED_APPS``.
 
-The ``explode.py`` module has only one requirement -- it must define a class
-called ``Command`` that extends ``django.core.management.base.BaseCommand``.
+O módulo ``explode.py`` tem somente um requerimento -- ele deve definir uma 
+classe chamada ``Command`` que extende 
+``django.core.management.base.BaseCommand``.
 
-For more details on how to define your own commands, look at the code for the
-existing ``django-admin.py`` commands, in ``/django/core/management/commands``.
+Para mais detalhes de como definir seus próprios comandos, olhe o código dos
+comandos do  ``django-admin.py``, em ``/django/core/management/commands``.
