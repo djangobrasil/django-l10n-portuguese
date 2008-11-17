@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Draft $
+..   $TranslationStatus: Done, waiting revision $
 ..   $OriginalRevision: 9457 $
 ..   $TranslationAuthors: Robson mendonça $
 ..
@@ -16,60 +16,54 @@
 
 .. _releases-1.0.1:
 
-================================
-Notas de release do Django 1.0.1
-================================
+===================================
+Notas de lançamento do Django 1.0.1
+===================================
 
 Bem-vindo ao Django 1.0.1!
 
 Este é o primeiro release de correção de bugs na série Django 1.0, melhorando a
 estabilidade e performance do código de base do Django 1.0. Como tal, o Django
-1.0.1 contém nenhuma nova funcionalidade (e, conforme `nossa política de 
-compatibilidade`_, mantemos a compatibilidade com o Django 1.0). mas contém uma 
-série de correções e outras melhorias. É recomendado o upgrade para o Django 
-1.0.1 para qualquer desenvolvimento ou deployment atualmente em uso ou 
+1.0.1 não contém novas funcionalidade (e, conforme `nossa política de 
+compatibilidade`_, mantêm compatibilidade com o Django 1.0), mas contém uma 
+série de correções e outras melhorias. É recomendado a atualização para o Django 
+1.0.1 para qualquer desenvolvimento ou instalação atualmente em uso ou 
 segmentação do Django 1.0.
 
 Correções e melhorias no Django 1.0.1
 =====================================
 
-O Django 1.0.1 contém mais de 200 correções do código de base do Django 1.0; a
+O Django 1.0.1 contém mais de 200 correções no código de base do Django 1.0; a
 lista detalhada de todas as correções estão disponíveis no `log do subversion do
-branch 1.0.X`_, mas aqui estão alguns dos principais:
+branch 1.0.X`_, mas aqui estão algumas das principais:
 
-* Várias correções no ``django.contrib.comments``, pertencentes ao RSS feed
-  de comentários, ordenamento padrão de comentários e templates de comentários
-  para XHTML e internacionalização.
+* Várias correções no ``django.contrib.comments``, pertencentes ao
+  feed RSS de comentários, ordenação padrão de comentários e ao XHTML e
+  internacionalização dos templates padrão dos comentários.
 
 * Múltiplas correções para suporte do Django a bancos de dados Oracle, incluíndo
   suporte a páginação por GIS QuerySets, uma separação mais eficiente de 
   resultados e melhoria na introspecção em bancos de dados existentes.
   
 * Várias correções para suporte de consultas no mapeador objeto-relacional do 
-  Django, incluíndo configuração repetida e redefinição de ordenamento e 
-  correções para o trabalho com consultas ``INSERT``-only.
+  Django, incluíndo configuração repetida e redefinição de ordenação e 
+  correções no trabalho com consultas ``INSERT``-only.
   
-* Múltiplas correções par formulários inline e formsets.
+* Múltiplas correções nos formulários inline e formsets.
 
-* Múltiplas correções para constrains de modelos ``unique`` e 
+* Múltiplas correções nas restrições de models ``unique`` e 
   ``unique_together`` em formulários automaticamente gerados.
   
-* Corrigido o suporte a declarações exigídas ``upload_to`` quando se manipula
-  upload de arquivos através de formulários automaticamente gerados.
+* Corrigido o suporte a declarações ``upload_to`` quando se manipula
+  envio de arquivos através de formulários automaticamente gerados.
 
-* Corrigido suporte para ordenar uma lista de mudança do admin, baseado em
-  atributos exigidos no ``list_display``.
+* Corrigido suporte para ordenar uma lista de mudanças do admin, baseado em
+  atributos *callable* no ``list_display``.
 
-  Literal strings
-  passed to ``join`` are no longer automatically escaped, meaning you
-  must now manually escape them; this is an incompatibility if you
-  were relying on this bug, but not if you were relying on escaping
-  behaving as documented.
-
-* Uma correção para autoscaping de aplicações para strings literais passadas 
-  para o filtro de template ``join``. Previamente, strings literais passadas 
-  para o ``join`` eram automaticamente escapadas, do contrário `os 
-  comportamentos documentados para autoescaping e strings literais`_. Strings
+* Uma correção na aplicação de  *autoscaping* em strings literais passadas 
+  para o filtro de template ``join``. Anteriormente, strings literais passadas 
+  para o ``join`` eram automaticamente escapadas, ao contrário do 
+  `comportamento documentado para autoescaping e strings literais`_. Strings
   literais passadas para o ``join`` já não são automaticamente escapados, 
   significando que você deve escapá-las manualmente agora; isto é uma 
   incompatibilidade se você contou com este bug, mas não se você fez como está 
@@ -84,4 +78,4 @@ branch 1.0.X`_, mas aqui estão alguns dos principais:
   
 .. _nossa política de compatibilidade: http://docs.djangoproject.com/en/dev/misc/api-stability/
 .. _log do subversion do branch 1.0.X: http://code.djangoproject.com/log/django/branches/releases/1.0.X
-.. _os comportamentos documentados para autoescaping e strings literais: http://docs.djangoproject.com/en/dev/topics/templates/#string-literals-and-automatic-escaping
+.. _comportamento documentado para autoescaping e strings literais: http://docs.djangoproject.com/en/dev/topics/templates/#string-literals-and-automatic-escaping
