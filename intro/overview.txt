@@ -341,5 +341,5 @@ Os próximos passos óbvios para você são fazer o `download do Django`_, ler
 :ref:`o tutorial <intro-tutorial01>` e juntar-se `à comunidade`_.
 Obrigado pelo seu interesse!
 
-.. _download do Django: http://www.djangoproject.com/download/
-.. _à comunidade: http://www.djangoproject.com/community/
+.. _download do Django: http://www.djangobrasil.org/download/
+.. _à comunidade: http://www.djangobrasil.org/comunidade/
