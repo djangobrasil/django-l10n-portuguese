@@ -16,13 +16,14 @@
 
 .. _howto-deployment-index:
 
-Deploying Django
-================
+Implantando o Django
+====================
 
-Django's chock-full of shortcuts to make web developer's lives easier, but all
-those tools are of no use if you can't easily deploy your sites. Since Django's
-inception, ease of deployment has been a major goal. There's a number of good
-ways to easily deploy Django:
+O Django possui uma série de atalhos para tornar a vida do desenvolvedor web 
+mais fácil, mas de nada vale se você não consegue realizar a implantação de seus 
+sites facilmente. Desde o início do Django trás o conceito, fácil 
+``implantação``, como um objetivo prioritário. E há um certo número de boas 
+soluções para se colocar um projeto Django em produção:
 
 .. toctree::
    :maxdepth: 1
@@ -30,20 +31,20 @@ ways to easily deploy Django:
    modpython
    fastcgi
    
-:ref:`Deploying under mod_python <howto-deployment-modpython>` is the
-recommended deployment method; start there if you're not sure which path you'd
-like to go down.
+O método de implantação mais recomendado é com 
+:ref:`mod_python <howto-deployment-modpython>`; começe utilizando ele, se não 
+tiver certeza de qual solução você gostaria usar.
 
 .. seealso::
 
-    * `Chapter 20 of The Django Book`_ discusses deployment and especially
-      scaling in more detail.
-      
-    * `mod_wsgi`_ is a newcomer to the Python deployment world, but it's rapidly
-      gaining traction. Currently there's a few hoops you have to jump through to
-      `use mod_wsgi with Django`_, but mod_wsgi tends to get rave reviews from
-      those who use it.
+    * No `capítulo 20 do Livro do Django`_ é discutido implantação e 
+      especialmente escalabilidade e mais detalhes.
 
-.. _chapter 20 of the django book: http://djangobook.com/en/1.0/chapter20/
+    * O `mod_wsgi`_ é um novato no mundo de implantação com Python, mas ele 
+      ganhou atenção muito rápido. Atualmente á poucos aros que você tem que 
+      saltar através do `uso de mod_wsgi com Django`_, mas mod_wsgi tende a 
+      ficar vibrante com as opiniões de quem o utiliza.
+
+.. _capítulo 20 do Livro do Django: http://djangobook.com/en/1.0/chapter20/
 .. _mod_wsgi: http://code.google.com/p/modwsgi/
-.. _use mod_wsgi with Django: http://code.google.com/p/modwsgi/wiki/IntegrationWithDjango
+.. _uso de mod_wsgi com Django: http://code.google.com/p/modwsgi/wiki/IntegrationWithDjango
