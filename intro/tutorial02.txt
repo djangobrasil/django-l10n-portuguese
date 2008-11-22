@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done $
 ..   $OriginalRevision: 9368 $
 ..   $TranslationAuthors: Anderson Santos $
 ..
@@ -335,150 +335,156 @@ são exibidos de uma maneira mais compacta, formatada em tabela:
 .. image:: _images/admin12.png
    :alt: A página Add poll agora com opções mais compactas
 
-Customize the admin change list
-===============================
+Customize a página de lista de edição
+=====================================
 
-Now that the Poll admin page is looking good, let's make some tweaks to the
-"change list" page -- the one that displays all the polls in the system.
+Agora que a página de administração de Polls está bonita, vamos fazer algumas
+melhorias à página "change list" (lista de edição) -- aquela que exibe todas as
+enquetes do sistema.
 
-Here's what it looks like at this point:
+Aqui como ela está até agora:
 
 .. image:: _images/admin04t.png
-   :alt: Polls change list page
+   :alt: Página de lista de Enquetes
 
-By default, Django displays the ``str()`` of each object. But sometimes it'd be
-more helpful if we could display individual fields. To do that, use the
-``list_display`` admin option, which is a tuple of field names to display, as
-columns, on the change list page for the object::
+Por padrão, o Django mostra o ``str()`` de cada objeto. Mas algumas vezes seria
+mais útil se pudéssemos mostrar campos individuais. Para fazer isso, use a
+opção ``list_display``, que é uma tupla de nomes de campos a serem exibidos,
+como colunas, na página de lista de edição dos objetos::
 
     class PollAdmin(admin.ModelAdmin):
         # ...
         list_display = ('question', 'pub_date')
 
-Just for good measure, let's also include the ``was_published_today`` custom
-method from Tutorial 1::
+Apenas para facilitar, vamos incluir o método customizado
+``was_published_today`` do Tutorial 1::
 
     class PollAdmin(admin.ModelAdmin):
         # ...
         list_display = ('question', 'pub_date', 'was_published_today')
 
-Now the poll change list page looks like this:
+Agora a página de edição de enquetes está assim:
 
 .. image:: _images/admin13t.png
-   :alt: Polls change list page, updated
+   :alt: Página de edição de enquetes, atualizada
 
-You can click on the column headers to sort by those values -- except in the
-case of the ``was_published_today`` header, because sorting by the output of
-an arbitrary method is not supported. Also note that the column header for
-``was_published_today`` is, by default, the name of the method (with
-underscores replaced with spaces). But you can change that by giving that
-method a ``short_description`` attribute::
+Você pode clicar no cabeçalho da coluna para ordená-las por estes valores --
+exceto no caso do ``was_published_today``, porque a ordenação pelo resultado
+de um método arbitrário não é suportada. Também note que o cabeçalho da coluna
+para ``was_published_today`` é, por padrão, o nome do método (com underscores
+substituídos por espaços). Mas você pode alterar isso fornecendo ao método
+um atributo ``short_description``::
 
     def was_published_today(self):
         return self.pub_date.date() == datetime.date.today()
     was_published_today.short_description = 'Published today?'
 
-Let's add another improvement to the Poll change list page: Filters. Add the
-following line to ``PollAdmin``::
+Vamos adicionar uma outra melhoria à página de lista de edição: Filtros. Adicione
+a seguinte linha ao ``PollAdmin``::
 
     list_filter = ['pub_date']
 
-That adds a "Filter" sidebar that lets people filter the change list by the
-``pub_date`` field:
+Isso adiciona uma barra lateral "Filter" que permite às pessoas filtrarem
+a lista de edição pelo campo ``pub_date``:
 
 .. image:: _images/admin14t.png
-   :alt: Polls change list page, updated
+   :alt: Página de edição de Enquetes, atualizada
 
-The type of filter displayed depends on the type of field you're filtering on.
-Because ``pub_date`` is a DateTimeField, Django knows to give the default
-filter options for DateTimeFields: "Any date," "Today," "Past 7 days,"
+O tipo de filtro exibido depende do tipo de campo que você está filtrando.
+Devido ao ``pub_date`` ser um DateTimeField, o Django sabe dar as opções
+de filtro para DateTimeFields: "Any date," "Today," "Past 7 days,"
 "This month," "This year."
 
-This is shaping up well. Let's add some search capability::
+Isso está tomando uma boa forma. Vamos adicionar alguma capacidade de
+pesquisa::
 
     search_fields = ['question']
 
-That adds a search box at the top of the change list. When somebody enters
-search terms, Django will search the ``question`` field. You can use as many
-fields as you'd like -- although because it uses a ``LIKE`` query behind the
-scenes, keep it reasonable, to keep your database happy.
+Isso adiciona um campo de pesquisa ao topo da lista de edição. Quando alguém
+informa termos de pesquisa, o Django irá pesquisar o campo ``question``. Você
+pode usar quantos campos quiser -- entretanto, porque ele usa um comando
+``LIKE`` internamente, seja moderado para manter seu banco de dados feliz.
 
-Finally, because Poll objects have dates, it'd be convenient to be able to
-drill down by date. Add this line::
+Finalmente, porque os objetos Poll possuem datas, é conveniente acompanhar
+por data. Adicione esta linha::
 
     date_hierarchy = 'pub_date'
 
-That adds hierarchical navigation, by date, to the top of the change list page.
-At top level, it displays all available years. Then it drills down to months
-and, ultimately, days.
+Isso adiciona uma navegação hierárquica, por data, no topo da página lista de
+edição. No nível mais acima, ele exibe todos os anos disponíveis. Então desce
+para os meses e, por último, os dias.
 
-Now's also a good time to note that change lists give you free pagination. The
-default is to display 50 items per page. Change-list pagination, search boxes,
-filters, date-hierarchies and column-header-ordering all work together like you
-think they should.
+Agora é também uma boa hora para observar que a lista de edição fornece uma
+paginação gratuitamente. O padrão é mostrar 50 itens por página. A página da
+lista de edição, campos de pesquisa, filtros, hierarquia por data, ordenação
+por cabeçalho de coluna, todos trabalham em sincronia como deveriam.
 
-Customize the admin look and feel
-=================================
+Customize a aparencia do site de administracao
+==============================================
 
-Clearly, having "Django administration" at the top of each admin page is
-ridiculous. It's just placeholder text.
+Obviamente, ter "Django administration" no topo de cada página de admin é
+ridículo. Isso é só um texto de exemplo.
 
-That's easy to change, though, using Django's template system. The Django admin
-is powered by Django itself, and its interfaces use Django's own template
-system. (How meta!)
+É fácil de editar, no entanto, usando o sistema de templates do Django. O
+Django admin é feito com o próprio Django e conseqüentemente sua interface usa
+o sistema de templates nativo do Django. (How meta!)
 
-Open your settings file (``mysite/settings.py``, remember) and look at the
-:setting:`TEMPLATE_DIRS` setting. :setting:`TEMPLATE_DIRS` is a tuple of
-filesystem directories to check when loading Django templates. It's a search
-path.
+Abra seu arquivo de settings (``mysite/settings.py``, lembre-se) e veja a
+configuração :setting:`TEMPLATE_DIRS`. :setting:`TEMPLATE_DIRS` é uma tupla de
+diretórios de arquivos que serão verificados quando carregar os templates do
+Django, ou seja, caminhos de busca.
 
-By default, :setting:`TEMPLATE_DIRS` is empty. So, let's add a line to it, to
-tell Django where our templates live::
+Por padrão, :setting:`TEMPLATE_DIRS` vem vazio. Portanto, vamos adicionar uma
+linha para dizer onde nossos templates Django estão::
 
     TEMPLATE_DIRS = (
         "/home/my_username/mytemplates", # Change this to your own directory.
     )
 
-Now copy the template ``admin/base_site.html`` from within the default Django
-admin template directory (``django/contrib/admin/templates``) into an ``admin``
-subdirectory of whichever directory you're using in :setting:`TEMPLATE_DIRS`.
-For example, if your :setting:`TEMPLATE_DIRS` includes
-``"/home/my_username/mytemplates"``, as above, then copy
-``django/contrib/admin/templates/admin/base_site.html`` to
-``/home/my_username/mytemplates/admin/base_site.html``. Don't forget that
-``admin`` subdirectory.
+Agora copie o template ``admin/base_site.html`` de dentro do diretório padrão
+do Django admin (``django/contrib/admin/templates``) em um subdiretório
+``admin`` onde quer que esteja o diretório que você está usando em
+:setting:`TEMPLATE_DIRS`. Por exemplo, se seu :setting:`TEMPLATE_DIRS` inclui
+``"/home/my_username/mytemplates"``, como acima, então copie
+``django/contrib/admin/templates/admin/base_site.html``para
+``/home/my_username/mytemplates/admin/base_site.html``. Não se esqueça do
+subdiretório ``admin``.
 
-Then, just edit the file and replace the generic Django text with your own
-site's name as you see fit.
+Então simplesmente edite o arquivo e substitua o texto genérico do Django com
+o nome do seu próprio site como desejar.
 
-Note that any of Django's default admin templates can be overridden. To
-override a template, just do the same thing you did with ``base_site.html`` --
-copy it from the default directory into your custom directory, and make
-changes.
+Note que qualquer template padrão do admin pode ser sobrescrito. Para
+sobrescrever um template, apenas faça a mesma coisa que você fez com
+``base_site.html`` -- copie ele do diretório padrão para o seu próprio
+diretório, e faça as mudanças.
 
-Astute readers will ask: But if :setting:`TEMPLATE_DIRS` was empty by default,
-how was Django finding the default admin templates? The answer is that, by
-default, Django automatically looks for a ``templates/`` subdirectory within
-each app package, for use as a fallback. See the :ref:`template loader
-documentation <template-loaders>` for full information.
+Leitores astutos irão se perguntar: Mas se :setting:`TEMPLATE_DIRS` estava vazio
+por padrão, como o Django pôde encontrar o diretório padrão dos templates do admin?
+A resposta é, por padrão, o Django irá automaticamente procurar por um
+subdiretório ``templates/`` dentro de cada pacote de aplicação, para usar como
+fallback. Veja a :ref:`documentação do template loader <template-loaders>`
+- para a informação completa.
 
-Customize the admin index page
-==============================
+Customize a página inicial de administracao
+===========================================
 
-On a similar note, you might want to customize the look and feel of the Django
-admin index page.
+De maneira similar, você pode querer customizar a aparencia da página
+inicial da pagina de administracao do Django.
 
-By default, it displays all the apps in :setting:`INSTALLED_APPS` that have been
-registered with the admin application, in alphabetical order. You may want to
-make significant changes to the layout. After all, the index is probably the
-most important page of the admin, and it should be easy to use.
+Por padrão, ele exibe todas as aplicações em :setting:`INSTALLED_APPS`, que estao
+registrados na aplicacao de administracao, em ordem alfabetica. E você pode querer
+fazer alterações significativas no layout. Além do que, a página inicial é
+provavelmente a página mais importante da pagina de administracao, e deve se
+fácil de usar.
 
-The template to customize is ``admin/index.html``. (Do the same as with
-``admin/base_site.html`` in the previous section -- copy it from the default
-directory to your custom template directory.) Edit the file, and you'll see it
-uses a template variable called ``app_list``. That variable contains every
-installed Django app. Instead of using that, you can hard-code links to
-object-specific admin pages in whatever way you think is best.
+O template a ser customizado é o ``admin/index.html``. (Faça o mesmo que foi
+feito com o ``admin/base_site.html`` na seção anterior -- copie ele do
+diretório padrão para o seu próprio diretório de templates). Edite o arquivo, e
+você verá que ele usa uma variavel de template chamada ``app_list``. Esta
+variavel contem todas as aplicações instaladas no Django. Em vez de usá-la, você
+pode explicitamente fazer os links para os objetos específicos na página de
+administracao de qualquer maneira que voce acha mais apropriado.
 
-When you're comfortable with the admin site, read :ref:`part 3 of this tutorial
-<intro-tutorial03>` to start working on public poll views.
+Quando você se sentir confortável com o site de administracao, leia a :ref:`parte
+3 deste tutorial <intro-tutorial03>` para começar a trabalhar com parte
+pública da enquete.
