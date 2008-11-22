@@ -37,7 +37,7 @@ Embora você possa usar o Django sem um banco de dados, ele vem com um mapeador
 objeto-relacional no qual você descreve o layout da sua base de dados em código
 Python.
 
-A :ref:`data-model syntax <topics-db-models>` oferece muitas maneiras
+A :ref:`syntaxe do modelos de dados <topics-db-models>` oferece muitas maneiras
 ricas de representar seus modelos -- portanto, ele está resolvendo cerca de
 dois anos de problemas de esquemas de base de dados. Aqui está um exemplo rápido::
 
@@ -229,7 +229,7 @@ ou levantar uma exceção como :class:`~django.http.Http404`. O resto é com voc
 
 Geralmente, uma view recupera dados de acordo com parâmetros, carrega um template
 e renderiza o template com os dados recuperados. Aqui está uma view de para o
-``year_archive`` exemplo acima::
+``year_archive`` do exemplo acima::
 
     def year_archive(request, year):
         a_list = Article.objects.filter(pub_date__year=year)
@@ -268,14 +268,14 @@ como ele deve se parecer:
     {% endfor %}
     {% endblock %}
 
-Variáveis são cercadas por chaves duplas. ``{{ article.headline }}``
+Variáveis são cercadas por chaves duplas. ``{{ article.headline }}`` que
 significa "Retorne o valor do atributo headline do artigo." Mas pontos não são
-usados apenas para visualização de atributos: Eles também podem visualizar
-chaves de dicionários, visualizar índices e chamar funções.
+usados apenas para acessar atributos: Eles também podem acessar chaves de 
+dicionários, acesar índices e chamar funções.
 
 Note que ``{{ article.pub_date|date:"F j, Y" }}`` usa um "pipe" no estilo Unix (o
 caractere "|"). Isso é chamado de filtro de template, e é uma forma de filtrar o
-valor de uma variável. Nesse caso, o filtro date formata um objeto Python
+valor de uma variável. Nesse caso, o filtro "date" formata um objeto Python
 datetime para um formato dado (como o encontrado na função date do PHP; sim, aqui
 está uma boa idéia do PHP).
 
@@ -304,7 +304,7 @@ Aqui está como o template "base.html" deve se parecer:
     </body>
     </html>
 
-Simplesmente, ele define o look-and-feel do site (com o logotipo do site),
+Simplesmente, ele define a aparencia do site (com o logotipo do site),
 e fornece "buracos" para templates filhos preencherem. Isso torna o redesign do
 site tão fácil quanto modificar um único arquivo -- o template base.
 
