@@ -49,7 +49,7 @@ Tendo problemas? Nós gostaríamos de ajudar!
 * Reporte *bugs* do Django no `ticket tracker`_.
 
 .. _arquivo do grupo de discussão da Django Brasil: http://groups.google.com.br/group/django-brasil
-.. _poste uma pergunta: http://groups.google.com.br/group/django-brasil
+.. _poste uma pergunta: http://groups.google.com.br/group/django-brasil/post
 .. _canal de IRC #django-br: irc://irc.freenode.net/django-br
 .. _logs do IRC: http://oebfare.com/logger/django-br/
 .. _ticket tracker: http://code.djangoproject.com/
