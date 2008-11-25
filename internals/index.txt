@@ -21,7 +21,7 @@ Django internamente
 
 A documentação para quem quer *hackear* o Django. Este é o lugar se você tem
 interesse em melhorar o Django, aprender mais sobre ele ou aprender sobre como
-ele funciona "sob o capô".
+ele funciona "por baixo dos panos".
 
 .. warning::
 
