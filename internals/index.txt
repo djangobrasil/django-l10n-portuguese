@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, waiting for revision. $
+..   $TranslationStatus: Done $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: Robson Mendonça $
+..   $TranslationAuthors: Robson Mendonça, semente $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,20 +16,20 @@
 
 .. _internals-index:
 
-Internos do Django
-==================
+Django internamente
+===================
 
-Esta é uma documentação para quem quer hackiar o Django. Este é o lugar para ir
-se você gostaria de ajudar a melhorar o Django, aprender ou aprender sobre como
-o Django funciona "sob o capô".
+A documentação para quem quer *hackear* o Django. Este é o lugar se você tem
+interesse em melhorar o Django, aprender mais sobre ele ou aprender sobre como
+ele funciona "sob o capô".
 
 .. warning::
 
-    Noutros locais da documentação do Django, a cobertura de um recurso é uma 
-    espécie de um contrato, uma vez que a API está na documentação oficial, nós
-    consideramos "stable" e não mudamos sem uma boa razão. As APIs cobertas aqui,
-    no entanto, são consideradas "internas somente": nós reservamos o direito de
-    mudança para estes internos se nós pudermos.
+    Em outros locais da documentação do Django, a cobertura de um recurso é uma
+    espécie de um contrato: uma vez que a API está na documentação oficial, nós
+    consideramos "stable" e não a mudamos sem uma boa razão. As APIs cobertas
+    aqui, no entanto, são consideradas "apenas internas": nós reservamos o
+    direito de mudar estas APIs internas se for necessário.
 
 .. toctree::
    :maxdepth: 1

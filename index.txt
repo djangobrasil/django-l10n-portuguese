@@ -195,7 +195,7 @@ E mais:
 E o restante
 ============
 
-:ref:`Internos <internals-index>`
+:ref:`Django internamente <internals-index>`
     Aprenda como o Django funciona por baixo dos panos e como você pode contribuir
     com o projeto.
 
