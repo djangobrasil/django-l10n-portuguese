@@ -3,7 +3,7 @@
 ..
 ..   $TranslationStatus: Draft $
 ..   $OriginalRevision: 9573 $
-..   $TranslationAuthors: Marinho Brandão $
+..   $TranslationAuthors: Marinho Brandão, wiliamsouza $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -373,6 +373,8 @@ chamada das URLconf usa. Uma view 404 por sí só não tem nada de especial:
 Você normalmente não terá de se incomodar em escrever views de 404. Por padrão,
 as URLconfs têm a seguinte linha no começo do arquivo::
 
+    from django.conf.urls.defaults import *
+
 Que se encarrega de definir ``handler404`` no módulo corrente. Como você pode
 ver em ``django/conf/urls/defaults.py``, ``handler404`` é definido para
 :func:`django.views.defaults.page_not_found` por padrão.
@@ -513,6 +515,6 @@ continuar funcionando.
 
 Toda a aplicação poll preocupa-se com URLs relativas, e não com URLs absolutas.
 
-Quando você estiver confortável em escrever views, lêia a :ref:`a parte 4 deste
- tutorial <intro-tutorial04>` para aprender sobre processamento de formulários
+Quando você estiver confortável em escrever views, leia a :ref:`a parte 4 deste
+tutorial <intro-tutorial04>` para aprender sobre processamento de formulários
 simples e sobre as views genéricas.
