@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Felipe Zorzo $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -21,54 +21,52 @@ django.contrib.webdesign
 ========================
 
 .. module:: django.contrib.webdesign
-   :synopsis: Helpers and utilities targeted primarily at Web *designers*
-              rather than Web *developers*.
+   :synopsis: Ajudantes e utilitários voltados inicialmente à web *designers*
+              em vez de *desenvolvedores* web.
 
-The ``django.contrib.webdesign`` package, part of the
-:ref:`"django.contrib" add-ons <ref-contrib-index>`, provides various Django
-helpers that are particularly useful to Web *designers* (as opposed to
-developers).
+O pacote ``django.contrib.webdesign``, parte dos
+:ref:`add-ons "django.contrib" <ref-contrib-index>`, provê ajudantes
+que são particularmente úteis à web *designers* (o oposto de desenvolvedores).
 
-At present, the package contains only a single template tag. If you have ideas
-for Web-designer-friendly functionality in Django, please
-:ref:`suggest them <internals-contributing>`.
+Atualmente, o pacote contém uma única template tag. Se você tem idéias sobre
+funcionalidades para o Django se tornar mais amigável a web designers, por favor
+:ref:`sugira-as <internals-contributing>`.
 
 Template tags
 =============
 
-To use these template tags, add ``'django.contrib.webdesign'`` to your
-:setting:`INSTALLED_APPS` setting. Once you've done that, use
-``{% load webdesign %}`` in a template to give your template access to the tags.
+Para usar essas template tags, adicione ``'django.contrib.webdesign'`` às suas
+:setting:`INSTALLED_APPS`. Uma vez feito, use
+``{% load webdesign %}`` em um template para ganhar acesso as template tags.
 
 
 lorem
 =====
 
-Displays random "lorem ipsum" Latin text. This is useful for providing sample
-data in templates.
+Exibe um randômico texto latino "lorem ipsum". Isso é útil para mostrar dados
+de exemplo em templates.
 
-Usage::
+Uso::
 
     {% lorem [count] [method] [random] %}
 
-The ``{% lorem %}`` tag can be used with zero, one, two or three arguments.
-The arguments are:
+A tag ``{% lorem %}`` pode ser usada com zero, um, dois ou três argumentos.
+Os argumentos são:
 
     ===========  =============================================================
-    Argument     Description
+    Argumento    Descrição
     ===========  =============================================================
-    ``count``    A number (or variable) containing the number of paragraphs or
-                 words to generate (default is 1).
-    ``method``   Either ``w`` for words, ``p`` for HTML paragraphs or ``b``
-                 for plain-text paragraph blocks (default is ``b``).
-    ``random``   The word ``random``, which if given, does not use the common
-                 paragraph ("Lorem ipsum dolor sit amet...") when generating
-                 text.
+    ``count``    Um número (ou variável) contendo o número de parágrafos ou
+                 palavras para gerar (o padrão é 1).
+    ``method``   Use ``w`` para palavras, ``p`` para parágrafos HTML ou ``b``
+                 para blocos de texto puro (o padrão é ``b``).
+    ``random``   A palavra ``random``, se dada, não usa o parágrafo comum
+                 ("Lorem ipsum dolor sit amet...") ao gerar o texto.
     ===========  =============================================================
 
-Examples:
+Exemplos:
 
-    * ``{% lorem %}`` will output the common "lorem ipsum" paragraph.
-    * ``{% lorem 3 p %}`` will output the common "lorem ipsum" paragraph
-      and two random paragraphs each wrapped in HTML ``<p>`` tags.
-    * ``{% lorem 2 w random %}`` will output two random Latin words.
+    * ``{% lorem %}`` exibirá o parágrafo "lorem ipsum" padrão.
+    * ``{% lorem 3 p %}`` exibirá o parágrafo "lorem ipsum" padrão
+      e dois parágrafos randômicos, entre tags HTML ``<p>``.
+    * ``{% lorem 2 w random %}`` exibirá 2 palavras latinas randômicas.
