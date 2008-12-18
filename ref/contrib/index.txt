@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Felipe Zorzo $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,26 +16,26 @@
 
 .. _ref-contrib-index:
 
-============================
-The "django.contrib" add-ons
-============================
+===========================
+Os add-ons "django.contrib"
+===========================
 
-Django aims to follow Python's `"batteries included" philosophy`_. It ships
-with a variety of extra, optional tools that solve common Web-development
-problems.
+O Django procura seguir a filosofia Python das `"baterias incluídas"`_. Ele vem
+com uma variedade de extras, ferramentas opcionais que resolvem os problemas
+comuns ao desenvolvimento web.
 
-This code lives in ``django/contrib`` in the Django distribution. This document
-gives a rundown of the packages in ``contrib``, along with any dependencies
-those packages have.
+O código está em ``django/contrib`` na distribuição do Django. Este documento
+apresenta um resumo dos pacotes ``contrib``, juntamente com as suas possíveis
+dependências.
 
-.. admonition:: Note
+.. admonition:: Nota
 
-    For most of these add-ons -- specifically, the add-ons that include either
-    models or template tags -- you'll need to add the package name (e.g.,
-    ``'django.contrib.admin'``) to your ``INSTALLED_APPS`` setting and re-run
+    A maioria desses add-ons -- especificamente, os add-ons que incluem
+    models ou template tags -- você precisará adicionar o nome do pacote (e.x.,
+    ``'django.contrib.admin'``) a sua configuração ``INSTALLED_APPS`` e executar
     ``manage.py syncdb``.
 
-.. _"batteries included" philosophy: http://docs.python.org/tut/node12.html#batteries-included
+.. _"baterias incluídas": http://docs.python.org/tut/node12.html#batteries-included
 
 .. toctree::
    :maxdepth: 1
@@ -59,108 +59,110 @@ those packages have.
 admin
 =====
 
-The automatic Django administrative interface. For more information, see
-:ref:`Tutorial 2 <intro-tutorial02>` and the
-:ref:`admin documentation <ref-contrib-admin>`.
+A interface administrativa automática do Django. Para mais informações, veja
+:ref:`Tutorial 2 <intro-tutorial02>` e a
+:ref:`documentação do admin <ref-contrib-admin>`.
 
-Requires the auth_ and contenttypes_ contrib packages to be installed.
+Precisa que os pacotes contrib auth_ e contenttypes_ estejam instalados.
 
 auth
 ====
 
-Django's authentication framework.
+O framework de autenticação do Django.
 
-See :ref:`topics-auth`.
+Veja :ref:`topics-auth`.
 
 comments
 ========
 
 .. versionchanged:: 1.0
-   The comments application has been rewriten. See :ref:`ref-contrib-comments-upgrade`
-   for information on howto upgrade.
+   O aplicativo de comentários foi reescrito. Veja :ref:`ref-contrib-comments-upgrade`
+   para informações sobre como atualizar seu código.
 
-A simple yet flexible comments system. See :ref:`ref-contrib-comments-index`.
+Um simples e flexível sistema de comentários. Veja :ref:`ref-contrib-comments-index`.
 
 contenttypes
 ============
 
-A light framework for hooking into "types" of content, where each installed
-Django model is a separate content type.
+Um framework leve para a conexão de "tipos" de conteúdo, onde cada model
+Django instalado é um tipo de coneteúdo diferente.
 
-See the :ref:`contenttypes documentation <ref-contrib-contenttypes>`.
+Veja a :ref:`documentação do contenttypes <ref-contrib-contenttypes>`.
 
 csrf
 ====
 
-A middleware for preventing Cross Site Request Forgeries
+Um middleware para prevenir Cross Site Request Forgeries.
 
-See the :ref:`csrf documentation <ref-contrib-csrf>`.
+Veja a :ref:`documentação csrf <ref-contrib-csrf>`.
 
 flatpages
 =========
 
-A framework for managing simple "flat" HTML content in a database.
+Um framework para gerenciar simples conteúdo HTML "planos" no banco de dados.
 
-See the :ref:`flatpages documentation <ref-contrib-flatpages>`.
+Veja a :ref:`documentação flatpages <ref-contrib-flatpages>`.
 
-Requires the sites_ contrib package to be installed as well.
+Precisa que o pacote contrib sites_ seja instalado também.
 
 formtools
 =========
 
-A set of high-level abstractions for Django forms (django.forms).
+Um conjunto de abstrações de alto nível para os forms Django (django.forms).
 
 django.contrib.formtools.preview
 --------------------------------
 
-An abstraction of the following workflow:
+Uma abstração para o seguinte fluxo:
 
-"Display an HTML form, force a preview, then do something with the submission."
+"Exibe um formulário HTML, força um preview, então faça algo com a submissão."
 
-See the :ref:`form preview documentation <ref-contrib-formtools-form-preview>`.
+Veja a :ref:`documentação do form preview <ref-contrib-formtools-form-preview>`.
 
 django.contrib.formtools.wizard
 --------------------------------
 
-Splits forms across multiple Web pages.
+Divide um form em várias páginas.
 
-See the :ref:`form wizard documentation <ref-contrib-formtools-form-wizard>`.
+Veja a :ref:`documentação do assistente de formulários <ref-contrib-formtools-form-wizard>`.
 
 humanize
 ========
 
-A set of Django template filters useful for adding a "human touch" to data.
+Um conjunto de template filters úteis para adicionar um "toque humano" aos dados.
 
-See the :ref:`humanize documentation <ref-contrib-humanize>`.
+Veja a :ref:`documentação do humanize <ref-contrib-humanize>`.
 
 localflavor
 ===========
 
-A collection of various Django snippets that are useful only for a particular
-country or culture. For example, ``django.contrib.localflavor.us.forms``
-contains a ``USZipCodeField`` that you can use to validate U.S. zip codes.
+Uma coleção de vários snippets que são úteis somente para um
+país ou cultura. Por exemplo, ``django.contrib.localflavor.us.forms``
+contém um ``USZipCodeField`` que você pode usar para validar zip codes dos 
+Estado Unidos.
 
-See the :ref:`localflavor documentation <ref-contrib-localflavor>`.
+Veja a :ref:`documentação localflavor <ref-contrib-localflavor>`.
 
 .. _ref-contrib-markup:
 
 markup
 ======
 
-A collection of template filters that implement common markup languages:
+Uma coleção de template filters que implementam as linguagens de marcação mais
+comuns:
 
-    * ``textile`` -- implements `Textile`_
-    * ``markdown`` -- implements `Markdown`_
-    * ``restructuredtext`` -- implements `ReST (ReStructured Text)`_
+    * ``textile`` -- implementa `Textile`_
+    * ``markdown`` -- implementa `Markdown`_
+    * ``restructuredtext`` -- implementa `ReST (ReStructured Text)`_
 
-In each case, the filter expects formatted markup as a string and returns a
-string representing the marked-up text. For example, the ``textile`` filter
-converts text that is marked-up in Textile format to HTML.
+Em cada caso, o filtro espera por uma marcação formatada como string e retorna
+uma string representando o texto processado. Por exemplo, o filtro ``textile``
+converte texto escrito no formato Textile em HTML.
 
-To activate these filters, add ``'django.contrib.markup'`` to your
-:setting:`INSTALLED_APPS` setting. Once you've done that, use ``{% load markup %}`` in
-a template, and you'll have access to these filters. For more documentation,
-read the source code in django/contrib/markup/templatetags/markup.py.
+Para ativar esses filtros, adicione ``'django.contrib.markup'`` às suas
+:setting:`INSTALLED_APPS`. Uma vez adicionado, use ``{% load markup %}`` em
+um template, e você terá acesso à esses filtros. Para mais documentação,
+leia o código fonte em django/contrib/markup/templatetags/markup.py.
 
 .. _Textile: http://en.wikipedia.org/wiki/Textile_%28markup_language%29
 .. _Markdown: http://en.wikipedia.org/wiki/Markdown
@@ -169,52 +171,52 @@ read the source code in django/contrib/markup/templatetags/markup.py.
 redirects
 =========
 
-A framework for managing redirects.
+Um framework para gerenciar redirecionamentos.
 
-See the :ref:`redirects documentation <ref-contrib-redirects>`.
+Veja a :ref:`documentação de redirects <ref-contrib-redirects>`.
 
 sessions
 ========
 
-A framework for storing data in anonymous sessions.
+Um framework para armazenar dados em sessões anônimas.
 
-See the :ref:`sessions documentation <topics-http-sessions>`.
+Veja a :ref:`documentação de sessões <topics-http-sessions>`.
 
 sites
 =====
 
-A light framework that lets you operate multiple Web sites off of the same
-database and Django installation. It gives you hooks for associating objects to
-one or more sites.
+Um framework leve que permite que você gerencie múltiplos web sites no mesmo
+banco de dados e instalação do Django. Ele te dá ganchos para associar objetos a
+um ou mais sites.
 
-See the :ref:`sites documentation <ref-contrib-sites>`.
+Veja a :ref:`documentação de sites <ref-contrib-sites>`.
 
 sitemaps
 ========
 
-A framework for generating Google sitemap XML files.
+Um framework para gerar arquivos XML no formato de sitemap do Google.
 
-See the :ref:`sitemaps documentation <ref-contrib-sitemaps>`.
+Veja a :ref:`documentação de sitemaps <ref-contrib-sitemaps>`.
 
 syndication
 ===========
 
-A framework for generating syndication feeds, in RSS and Atom, quite easily.
+Um framework para gerar feed, em RSS e Atom, facilmente.
 
-See the :ref:`syndication documentation <ref-contrib-syndication>`.
+Veja a :ref:`documentação do syndication <ref-contrib-syndication>`.
 
 webdesign
 =========
 
-Helpers and utilities targeted primarily at Web *designers* rather than
-Web *developers*.
+Ajudantes que são particularmente úteis à web *designers*, e não
+desenvolvedores web.
 
-See the :ref:`Web design helpers documentation <ref-contrib-webdesign>`.
+Veja a :ref:`documentação dos ajudantes de web design <ref-contrib-webdesign>`.
 
-Other add-ons
+Outros add-ons
 =============
 
-If you have an idea for functionality to include in ``contrib``, let us know!
-Code it up, and post it to the `django-users mailing list`_.
+Se você tem uma idéia de funcionalidade para incluir no ``contrib``, nos conte!
+Codifique-a e poste na `django-users mailing list`_.
 
 .. _django-users mailing list: http://groups.google.com/group/django-users
