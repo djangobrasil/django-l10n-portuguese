@@ -214,7 +214,7 @@ desenvolvedores web.
 Veja a :ref:`documentação dos ajudantes de web design <ref-contrib-webdesign>`.
 
 Outros add-ons
-=============
+==============
 
 Se você tem uma idéia de funcionalidade para incluir no ``contrib``, nos conte!
 Codifique-a e poste na `django-users mailing list`_.
