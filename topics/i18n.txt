@@ -490,7 +490,7 @@ multiple times::
 When `creating JavaScript translation catalogs`_ you need to use the special
 'djangojs' domain, **not** ``-e js``.
 
-.. _create a JavaScript translation catalog: `Criando catálogos de tradução para JavaScript`_
+.. _creating JavaScript translation catalogs: `Criando catálogos de tradução para JavaScript`_
 
 .. admonition:: Sem gettext?
 
