@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 9441 $
 ..   $TranslationAuthors: None $
 ..
@@ -15,9 +15,9 @@
 
 .. _topics-cache:
 
-========================
-Django's cache framework
-========================
+==============================
+O framework de cache do Django
+==============================
 
 A fundamental trade-off in dynamic Web sites is, well, they're dynamic. Each
 time a user requests a page, the Web server makes all sorts of calculations --
@@ -26,37 +26,37 @@ page that your site's visitor sees. This is a lot more expensive, from a
 processing-overhead perspective, than your standard
 read-a-file-off-the-filesystem server arrangement.
 
-For most Web applications, this overhead isn't a big deal. Most Web
-applications aren't washingtonpost.com or slashdot.org; they're simply small-
-to medium-sized sites with so-so traffic. But for medium- to high-traffic
-sites, it's essential to cut as much overhead as possible.
+Para a maior parte dos aplicativos Web, esse overhead não é um problema. A maior
+parte das aplicações Web não são o washingtonpost.com oouslashdot.org; são simplesmente sites
+pequenos a médio com tráfico equivalente. Mas para aplicações de porte mério para grante,
+é essencial eliminar toda a sobrecarga possível.
 
-That's where caching comes in.
+É onde entra o cache.
 
-To cache something is to save the result of an expensive calculation so that
-you don't have to perform the calculation next time. Here's some pseudocode
-explaining how this would work for a dynamically generated Web page::
+Fazer o cache de algo é gravar o resultado de um cálculo custoso para que
+você não tenha de executar o cálculo da próxima vez. Aqui está um pseudocódigo
+explicando como isso funcionaria para uma página Web gerada dinamicamente::
 
-    given a URL, try finding that page in the cache
-    if the page is in the cache:
-        return the cached page
-    else:
-        generate the page
-        save the generated page in the cache (for next time)
-        return the generated page
+    tente encontrar uma página no cache para tal URL
+    se a página estiver no cache:
+        retorne a página do cache
+    se não:
+        gere a página
+        guarde a página gerada no cache (para a próxima vez)
+        retorne a página gerada
 
-Django comes with a robust cache system that lets you save dynamic pages so
-they don't have to be calculated for each request. For convenience, Django
-offers different levels of cache granularity: You can cache the output of
-specific views, you can cache only the pieces that are difficult to produce, or
-you can cache your entire site.
+O Django vem com um sistema de cache robusto que permite que você guarde as páginas dinâmicas para que
+elas não tenham de ser calculadas a cada requisição. Por conveniência, Django
+oferece diferentes níveis de granularidade de cache: Você pode fazer o cache da saída de
+views específicas, você pode fazer o cache somente das partes que são difíceis de produzir, ou
+pode fazer o cache do site inteiro.
 
 Django also works well with "upstream" caches, such as Squid
 (http://www.squid-cache.org/) and browser-based caches. These are the types of
 caches that you don't directly control but to which you can provide hints (via
 HTTP headers) about which parts of your site should be cached, and how.
 
-Setting up the cache
+Configurando o cache
 ====================
 
 The cache system requires a small amount of setup. Namely, you have to tell it
@@ -123,8 +123,8 @@ used for permanent storage -- they're all intended to be solutions for caching,
 not storage -- but we point this out here because memory-based caching is
 particularly temporary.
 
-Database caching
-----------------
+Cache em banco de dados
+-----------------------
 
 To use a database table as your cache backend, first create a cache table in
 your database by running this command::
@@ -145,8 +145,8 @@ In this example, the cache table's name is ``my_cache_table``::
 
 Database caching works best if you've got a fast, well-indexed database server.
 
-Filesystem caching
-------------------
+Cache em sistema de arquivos
+----------------------------
 
 To store cached items on a filesystem, use the ``"file://"`` cache type for
 ``CACHE_BACKEND``. For example, to store cached data in ``/var/tmp/django_cache``,
@@ -168,8 +168,8 @@ above example, if your server runs as the user ``apache``, make sure the
 directory ``/var/tmp/django_cache`` exists and is readable and writable by the
 user ``apache``.
 
-Local-memory caching
---------------------
+Cache em memória local
+----------------------
 
 If you want the speed advantages of in-memory caching but don't have the
 capability of running Memcached, consider the local-memory cache backend. This
