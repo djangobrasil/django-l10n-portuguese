@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 9368 $
 ..   $TranslationAuthors: None $
 ..
@@ -16,31 +16,32 @@
 
 .. _ref-models-instances:
 
-========================
-Model instance reference
-========================
+==================================
+Referência das instâncias de Model
+==================================
 
 .. currentmodule:: django.db.models
    
-This document describes the details of the ``Model`` API. It builds on the
-material presented in the :ref:`model <topics-db-models>` and :ref:`database
-query <topics-db-queries>` guides, so you'll probably want to read and
-understand those documents before reading this one.
+Esse documento descreve os detalhes da API ``Model``. Isso foi feito baseado
+no material apresentado nos guias :ref:`model <topics-db-models>` e 
+:ref:`consultas ao banco de datos <topics-db-queries>`, então provavelmente
+você vai querer ler e entender esses documentos antes de ler este aqui.
 
-Throughout this reference we'll use the :ref:`example weblog models
-<queryset-model-example>` presented in the :ref:`database query guide
-<topics-db-queries>`.
+Durante essa referência, usaremos os :ref:`models de exemplo do weblog
+<queryset-model-example>` apresentado no :ref:`guia de consultas ao banco de
+dados <topics-db-queries>`.
 
-Creating objects
-================
+Criando objetos
+===============
 
-To create a new instance of a model, just instantiate it like any other Python class:
+Para criar uma nova instância de um model, somente instancie-o assim como 
+qualquer outra classe Python:
 
 .. class:: Model(**kwargs)
 
-The keyword arguments to are simply the names of the fields you've defined on
-your model. Note that instantiating a model in no way touches your database; for
-that, you need to ``save()``.
+Os argumentos são simplesmente os nomes dos campos que você definiu no seu
+model. Perceba que instanciando um model você não alterará o banco de dados;
+para isso, você precisa do ``save()``.
 
 Saving objects
 ==============
