@@ -59,13 +59,14 @@ HTTP headers) about which parts of your site should be cached, and how.
 Configurando o cache
 ====================
 
-The cache system requires a small amount of setup. Namely, you have to tell it
+O sistema de cache requer uma pequena configuração. Namely, you have to tell it
 where your cached data should live -- whether in a database, on the filesystem
 or directly in memory. This is an important decision that affects your cache's
 performance; yes, some cache types are faster than others.
 
-Your cache preference goes in the ``CACHE_BACKEND`` setting in your settings
-file. Here's an explanation of all available values for CACHE_BACKEND.
+Sua preferência de cache vai na configuração ``CACHE_BACKEND`` no seu arquivo de
+configurações. Aqui vai uma explicação de todos os valores disponíveis para
+CACHE_BACKEND.
 
 Memcached
 ---------
@@ -126,24 +127,25 @@ particularly temporary.
 Cache em banco de dados
 -----------------------
 
-To use a database table as your cache backend, first create a cache table in
-your database by running this command::
+Para usar uma tabela do banco de dados como o seu backend de cache, primeiro 
+crie uma tabela de cache em seu banco de dados com o seguinte comando::
 
     python manage.py createcachetable [cache_table_name]
 
-...where ``[cache_table_name]`` is the name of the database table to create.
-(This name can be whatever you want, as long as it's a valid table name that's
-not already being used in your database.) This command creates a single table
-in your database that is in the proper format that Django's database-cache
-system expects.
+...onde ``[cache_table_name]`` é o nome da tabela no banco de dados a ser criada.
+(Esse nome pode ser qualquer um, desde que seja um nome válido de tabela e esse nome
+ainda não esteja sendo usado no seu banco de dados.) Esse comando cria uma única tabela
+no seu banco de dados, no formato apropriado que o sistema de cache em banco de dados
+do Django espera encontrar.
 
-Once you've created that database table, set your ``CACHE_BACKEND`` setting to
-``"db://tablename"``, where ``tablename`` is the name of the database table.
-In this example, the cache table's name is ``my_cache_table``::
+Uma vez que você tenha configurado a tabela do banco de dados, configure o seu ``CACHE_BACKEND``
+para ``"db://tablename"``, onde ``tablename`` é o nome da tabela.
+Nesse exemplo, o nome da tabela de cache é ``my_cache_table``::
 
     CACHE_BACKEND = 'db://my_cache_table'
 
-Database caching works best if you've got a fast, well-indexed database server.
+O cache em banco de dados funciona melhor se você tem um servidor de banco de dados rápido
+e bem indexado.
 
 Cache em sistema de arquivos
 ----------------------------
@@ -220,12 +222,12 @@ been well-tested and are easy to use.
 CACHE_BACKEND arguments
 -----------------------
 
-All caches may take arguments. They're given in query-string style on the
-``CACHE_BACKEND`` setting. Valid arguments are:
+Todos os tipos de cache podem receber argumentos. Eles são informados em um estilo  query-string
+semelhante a configuração ``CACHE_BACKEND``. Argumentos válidos são:
 
     timeout
-        Default timeout, in seconds, to use for the cache. Defaults to 5
-        minutes (300 seconds).
+        Timeout padrão, em segundos, a ser usado para o cache. O padrão é 5
+        minutos (300 segundos).
 
     max_entries
         For the simple and database backends, the maximum number of entries
@@ -317,8 +319,8 @@ more on these decorators.
 
 __ `Controlling cache: Using other headers`_
 
-The per-view cache
-==================
+O cache por visão
+=================
 
 A more granular way to use the caching framework is by caching the output of
 individual views. ``django.views.decorators.cache`` defines a ``cache_page``
@@ -342,8 +344,8 @@ Or, using Python 2.4's decorator syntax::
 above example, the result of the ``slashdot_this()`` view will be cached for 15
 minutes.
 
-Template fragment caching
-=========================
+Cache de fragmento de template
+==============================
 
 .. versionadded:: 1.0
 
@@ -385,21 +387,21 @@ equivalent::
 This feature is useful in avoiding repetition in templates. You can set the
 timeout in a variable, in one place, and just reuse that value.
 
-The low-level cache API
-=======================
+A API de baixo nível do cache
+=============================
 
-Sometimes, however, caching an entire rendered page doesn't gain you very much.
-For example, you may find it's only necessary to cache the result of an
-intensive database query. In cases like this, you can use the low-level cache
-API to store objects in the cache with any level of granularity you like.
+Algumas vezes, o cache de uma página completa renderizada não é de grande valor.
+Por exemplo, você pode descobrir que basta fazer o cache do resultado de uma consulta
+intensiva ao banco de dados. Em casos assim, você pode usar a API de baixo nível
+de cache para guardar os objetos em qualquer nível de granularidade que você quiser.
 
-The cache API is simple. The cache module, ``django.core.cache``, exports a
-``cache`` object that's automatically created from the ``CACHE_BACKEND``
-setting::
+A API de cache é simples. O módulo de cache, ``django.core.cache``, exporta um
+objeto ``cache`` que é criado automaticamente a partir da configuração
+``CACHE_BACKEND``::
 
     >>> from django.core.cache import cache
 
-The basic interface is ``set(key, value, timeout_seconds)`` and ``get(key)``::
+A interface básica é ``set(key, value, timeout_seconds)`` e ``get(key)``::
 
     >>> cache.set('my_key', 'hello, world!', 30)
     >>> cache.get('my_key')
@@ -495,8 +497,8 @@ exist to instruct caching mechanisms to differ their cache contents depending
 on designated variables, and to tell caching mechanisms not to cache particular
 pages.
 
-Using Vary headers
-==================
+Usando cabeçalhos Vary
+======================
 
 One of these headers is ``Vary``. It defines which request headers a cache
 mechanism should take into account when building its cache key. For example, if
@@ -575,8 +577,8 @@ For more on Vary headers, see the `official Vary spec`_.
 
 .. _`official Vary spec`: http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.44
 
-Controlling cache: Using other headers
-======================================
+Controlando o cache: Usando outros cabeçalhos
+=============================================
 
 Another problem with caching is the privacy of data and the question of where
 data should be stored in a cascade of caches.
@@ -647,8 +649,8 @@ headers to ensure the response won't be cached by browsers or other caches. Exam
 
 .. _`Cache-Control spec`: http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9
 
-Other optimizations
-===================
+Outras otimizações
+==================
 
 Django comes with a few other pieces of middleware that can help optimize your
 apps' performance:
@@ -660,7 +662,7 @@ apps' performance:
     * ``django.middleware.gzip.GZipMiddleware`` compresses content for browsers
       that understand gzip compression (all modern browsers).
 
-Order of MIDDLEWARE_CLASSES
+Ordem das MIDDLEWARE_CLASSES
 ===========================
 
 If you use caching middleware, it's important to put each half in the right
