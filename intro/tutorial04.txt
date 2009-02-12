@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Wiliam Alves de Souza $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -20,9 +20,9 @@
 Escrevendo sua primeira aplicação Django, parte 4
 =================================================
 
-Este tutorial inicia-se onde o:ref:`Tutorial 3 <intro-tutorial03>` terminou.
+Este tutorial inicia-se onde o :ref:`Tutorial 3 <intro-tutorial03>` terminou.
 Estamos continuando a aplicação Web de Enquete e vai focar em uma forma simples
-de processamnto de formulario e a redução de nosso código.
+de processamento de formulário e a redução de nosso código.
 
 Escreva um simples formulário
 =============================
@@ -52,11 +52,11 @@ Uma rápida explicação:
       que, quando alguém escolhe um dos botões de radio e submete a formulário,
       ele vai enviar ``choice=3`` por POST. Este são os formulários HTML 101.
 
-    * Nós definimos o parametro ``action`` do formulário para
-      /polls/{{ poll.id }}/vote/, e setamos ``method=post``. Usando ``method=post``
+    * Nós definimos o parâmetro ``action`` do formulário para
+      /polls/{{ poll.id }}/vote/, e definimos ``method=post``. Usando ``method=post``
       (em vez de ``method=get``) é muito importante, porque o ato de enviar este
       formulário irá alterar dados do lado servidor. Sempre que criar um
-      formulário que modifique os dados do lado do servidor, utilize 
+      formulário que modifique os dados do lado do servidor, utilize
       ``method="post"``. Esta dica não é específica do Django; mais sim uma boa
       prática para o desenvolvimento é Web.
 
@@ -64,12 +64,12 @@ Uma rápida explicação:
       ciclo.
 
 Agora, vamos criar uma ``view`` Django que manipula os dados submetidos e faz
-algo com eles. Lembre-se, no :ref:`Tutorial 3 <intro-tutorial03>`, criámos uma
+algo com eles. Lembre-se, no :ref:`Tutorial 3 <intro-tutorial03>`, criamos uma
 URLconf para a aplicação de enquete que inclui esta linha::
 
     (r'^(?P<poll_id>\d+)/vote/$', 'mysite.polls.views.vote'),
 
-Entao, vamos criar um função ``vote()`` em ``mysite/polls/views.py``::
+Então, vamos criar um função ``vote()`` em ``mysite/polls/views.py``::
 
     from django.shortcuts import get_object_or_404, render_to_response
     from django.http import HttpResponseRedirect
@@ -102,14 +102,14 @@ Este código inclui algumas coisas que ainda não foram cobertos, neste tutorial
       tal como uma string. Os valores de :attr:`request.POST
       <django.http.HttpRequest.POST>` são sempre strings.
 
-      Note que Django também prove :attr:`request.GET 
+      Note que Django também prove :attr:`request.GET
       <django.http.HttpRequest.GET>` para acesar dados GET da mesma forma -- mas
       nós estamos usando :attr:`request.GET <django.http.HttpRequest.GET>`
       explicitamente no nosso código, para garantir que os dados só podem ser
       alterados por meio de uma chamada POST.
 
     * ``request.POST['choice']`` irá levantar a exceção :exc:`KeyError` caso uma
-      ``choice`` não seja fornecida via POST. O código acima checa por 
+      ``choice`` não seja fornecida via POST. O código acima checa por
       :exc:`KeyError` e re-exibe o formulário da enquete com as mensagens de
       erro se uma ``choice`` não é fornecida.
  
@@ -118,20 +118,15 @@ Este código inclui algumas coisas que ainda não foram cobertos, neste tutorial
       :class:`~django.http.HttpResponse`.
       :class:`~django.http.HttpResponseRedirect`` recebe um único argumento:
       a URL para o qual o usuário será redirecionado (veja o ponto
-      seguinte para saber como nos construimos a URL, neste caso).
+      seguinte para saber como nos construímos a URL, neste caso).
 
       Como o comentário Python acima salienta, você deve sempre retornar uma
       :class:`~django.http.HttpResponseRedirect` depois de lidar com sucesso com
       dados POST. Esta dica não é específica do Django; mais sim uma boa prática
       para o desenvolvimento Web.
 
-      As the Python comment above points out, you should always return an
-      :class:`~django.http.HttpResponseRedirect` after successfully dealing with
-      POST data. This tip isn't specific to Django; it's just good Web
-      development practice.
-
     * Estamos usando a função :func:`~django.core.urlresolvers.reverse` no
-      contrutor do class:`~django.http.HttpResponseRedirect` neste exemplo.
+      construtor do :class:`~django.http.HttpResponseRedirect` neste exemplo.
       Essa função ajuda a evitar ter que escrever na mão a URL na função view.
       É dado o nome da view de que queremos passar o controle e uma porção da
       variável do padrão de URL que aponta para essa view. Neste caso, usando o
@@ -141,15 +136,13 @@ Este código inclui algumas coisas que ainda não foram cobertos, neste tutorial
         '/polls/3/results/'
 
       ... Onde o ``3`` é o valor de ``p.id``. Esta URL redirecionada irá então
-      chamar a view``'results'`` afim de exibir a página final. Note que você 
+      chamar a view``'results'`` afim de exibir a página final. Note que você
       precisará usar o nome completo da ``view`` aqui (incluindo o prefixo).
 
-
-Como mencionado no Tutorial 3, ``request`` é um objeto 
-:class:`~django.http.HttpRequest`. Para mais informações sobre o objeto 
-:class:`~django.http.HttpRequest`, veja :ref:` documentacao do request e
+Como mencionado no Tutorial 3, ``request`` é um objeto
+:class:`~django.http.HttpRequest`. Para mais informações sobre o objeto
+:class:`~django.http.HttpRequest`, veja :ref:` documentação do request e
 response <ref-request-response>`.
-
 
 Depois que alguém votar em uma enquete, a view ``vote()``  redireciona para a
 página de resultados da enquete. Vamos escrever essa ``view``::
@@ -162,7 +155,7 @@ Isto é quase exatamente o mesmo que a view ``detail()`` do :ref:`Tutorial 3
 <intro-tutorial03>`. A única diferença é o nome do template. Iremos corrigir
 esta redundância depois.
 
-Agora, crie um template ``results.html``::
+Agora, crie um template ``results.html``:
 
 .. code-block:: html+django
 
@@ -179,37 +172,39 @@ ver uma página de resultados que será atualizado cada vez que você votar. Se
 você enviar o formulário sem ter escolhido uma opção, você deverá ver a mensagem
 de erro.
 
-Use generic views: Less code is better
-======================================
+Use views genéricas: Menos código é melhor
+==========================================
 
-The ``detail()`` (from :ref:`Tutorial 3 <intro-tutorial03>`) and ``results()``
-views are stupidly simple -- and, as mentioned above, redundant. The ``index()``
-view (also from Tutorial 3), which displays a list of polls, is similar.
+As views ``detail()`` (do :ref:`Tutorial 3 <intro-tutorial03>`) e ``results()``
+são estupidamente simples -- e, como já mencionado acima, são redundante.
+A view, ``index()`` (também do Tutorial 3), que exibe uma lista de enquetes, é
+semelhante.
 
-These views represent a common case of basic Web development: getting data from
-the database according to a parameter passed in the URL, loading a template and
-returning the rendered template. Because this is so common, Django provides a
-shortcut, called the "generic views" system.
+Estas ``views`` representam um caso básico comum de Desenvolvimento Web:
+obtendo dados do banco de dados de acordo com um parâmetro passado na URL,
+carregando um template e devolvendo um template renderizado. Porque isto é
+muito comum, Django fornece um atalho, chamado  sistema de "views genéricas".
 
-Generic views abstract common patterns to the point where you don't even need
-to write Python code to write an app.
+Views genéricas abstraem padrões comuns para um ponto onde você nem precisa
+de escrever código Python para escrever um aplicação.
 
-Let's convert our poll app to use the generic views system, so we can delete a
-bunch of our own code. We'll just have to take a few steps to make the
-conversion.
+Vamos converter a nossa aplicação de enquete para utilizar o sistema de views
+genéricas, por isso podemos excluir um monte do nosso próprio código. Iremos
+apenas ter que executar alguns passos para fazer a conversão.
 
-.. admonition:: Why the code-shuffle?
+.. admonition:: Por que o código se arrastou?
 
-    Generally, when writing a Django app, you'll evaluate whether generic views
-    are a good fit for your problem, and you'll use them from the beginning,
-    rather than refactoring your code halfway through. But this tutorial
-    intentionally has focused on writing the views "the hard way" until now, to
-    focus on core concepts.
+   Geralmente, quando escrevendo uma aplicação Django, você vai avaliar se views
+   genéricas são uma escolha adequada para o seu problema e você irá utilizá-los
+   desde o início em vez de refatorar seu código no meio do caminho. Mas este
+   tutorial intencionalmente tem focado em escrever views genéricas "do jeito
+   mais difícil" até agora, para se concentrar nos conceitos fundamentais.
 
-    You should know basic math before you start using a calculator.
+   Você deve saber matemática básica antes de você começar a usar uma
+   calculadora.
 
-First, open the ``polls/urls.py`` URLconf. It looks like this, according to the
-tutorial so far::
+Em primeiro lugar, abra ``polls/urls.py`` URLconf. Ele esta assim, de acordo com
+o tutorial até o momento::
 
     from django.conf.urls.defaults import *
 
@@ -220,7 +215,7 @@ tutorial so far::
         (r'^(?P<poll_id>\d+)/vote/$', 'vote'),
     )
 
-Change it like so::
+Modifique para ficar assim::
 
     from django.conf.urls.defaults import *
     from mysite.polls.models import Poll
@@ -236,102 +231,110 @@ Change it like so::
         (r'^(?P<poll_id>\d+)/vote/$', 'mysite.polls.views.vote'),
     )
 
-We're using two generic views here:
-:func:`~django.views.generic.list_detail.object_list` and
-:func:`~django.views.generic.list_detail.object_detail`. Respectively, those two
-views abstract the concepts of "display a list of objects" and "display a detail
-page for a particular type of object."
+Nós estamos usando duas views genéricas aqui:
+:func:`~django.views.generic.list_detail.object_list` e
+:func:`~django.views.generic.list_detail.object_list`. Respectivamente, essas
+duas ``views`` abstraem o conceito de exibir uma lista de objetos e exibir uma
+página de detalhe para um tipo particular de objeto.
 
-    * Each generic view needs to know what data it will be acting upon. This
-      data is provided in a dictionary. The ``queryset`` key in this dictionary
-      points to the list of objects to be manipulated by the generic view.
+    * Cada view genérica precisa saber qual tipo de dado ela vai agir em cima.
+      Esses dados são fornecidos em um dicionário. A chave ``queryset`` neste
+      dicionário aponta para a lista de objetos a serem manipulados pela view
+      genérica.
 
-    * The :func:`~django.views.generic.list_detail.object_detail` generic view
-      expects the ID value captured from the URL to be called ``"object_id"``,
-      so we've changed ``poll_id`` to ``object_id`` for the generic views.
+    * A view genérica :func:`~django.views.generic.list_detail.object_detail`
+      espera o valor ID capturado da URL a ser chamada ``"object_id"``,
+      de modo que alteramos ``poll_id`` para ``object_id`` para view genérica.
 
-    * We've added a name, ``poll_results``, to the results view so that we have
-      a way to refer to its URL later on (see the documentation about
-      :ref:`naming URL patterns <naming-url-patterns>` for information). We're
-      also using the :func:`~django.conf.urls.default.url` function from
-      :mod:`django.conf.urls.defaults` here. It's a good habit to use
-      :func:`~django.conf.urls.defaults.url` when you are providing a pattern
-      name like this.
+    * Nós adicionamos o nome, ``poll_results``, para os resultados da view assim
+      nós temos uma maneira de se referir à sua URL depois (veja a documentação
+      sobre :ref:`naming URL patterns <naming-url-patterns>` para informações).
+      Também estamos usando a função :func:`~django.conf.urls.default.url` de
+      :mod:`django.conf.urls.defaults` aqui. É um bom hábito usar
+      :func:`~django.conf.urls.defaults.url` quando você estiver fornecendo um
+      padrão de nome como este.
 
-By default, the :func:`~django.views.generic.list_detail.object_detail` generic
-view uses a template called ``<app name>/<model name>_detail.html``. In our
-case, it'll use the template ``"polls/poll_detail.html"``. Thus, rename your
-``polls/detail.html`` template to ``polls/poll_detail.html``, and change the
-:func:`~django.shortcuts.render_to_response` line in ``vote()``.
+Por padrão, a view genérica
+:func:`~django.views.generic.list_detail.object_detail` utiliza um template
+chamado ``<app name>/<model name>_detail.html``. Em nosso caso, ela vai utilizar
+o template ``"polls/poll_detail.html"``. Assim, renomeie o seu template
+``polls/detail.html`` para ``polls/poll_detail.html`` e e altere a linha
+:func:`~django.shortcuts.render_to_response em ``vote()``.
 
-Similarly, the :func:`~django.views.generic.list_detail.object_list` generic
-view uses a template called ``<app name>/<model name>_list.html``. Thus, rename
-``polls/index.html`` to ``polls/poll_list.html``.
+semelhantemente, a view genérica
+:func:`~django.views.generic.list_detail.object_list` utiliza um template
+chamado ``<app name>/<model name>_list.html``. Assim, renomeie
+``polls/index.html`` para ``polls/poll_list.html``.
 
-Because we have more than one entry in the URLconf that uses
-:func:`~django.views.generic.list_detail.object_detail` for the polls app, we
-manually specify a template name for the results view:
-``template_name='polls/results.html'``. Otherwise, both views would use the same
-template. Note that we use ``dict()`` to return an altered dictionary in place.
+Porque nós temos mais de uma entrada no URLconf que usa
+:func:`~django.views.generic.list_detail.object_detail` para a aplicação de
+enquete, nós especificamos manualmente um nome para a view de resultados:
+``template_name='polls/results.html'``. Caso contrário, as duas views
+utilizariam o mesmo template. Note que nós usamos ``dict()`` para retornar um
+dicionário alterado no lugar.
 
-.. note:: :meth:`django.db.models.QuerySet.all` is lazy
+.. note:: :meth:`django.db.models.QuerySet.all` e preguiçosa
 
-    It might look a little frightening to see ``Poll.objects.all()`` being used
-    in a detail view which only needs one ``Poll`` object, but don't worry;
-    ``Poll.objects.all()`` is actually a special object called a
-    :class:`~django.db.models.QuerySet`, which is "lazy" and doesn't hit your
-    database until it absolutely has to. By the time the database query happens,
-    the :func:`~django.views.generic.list_detail.object_detail` generic view
-    will have narrowed its scope down to a single object, so the eventual query
-    will only select one row from the database.
+    Poderá parecer um pouco assustador ver ``Poll.objects.all()`` ser utilizado
+    na view de detalhe que necessita apenas de um objeto ``Poll`` mas não se
+    preocupe; ``Poll.objects.all()`` é na verdade um objeto especial chamado de
+    :class:`~django.db.models.QuerySet`, que é "preguiçosa" e não toca no seu
+    banco de dados a menos que seja absolutamente necessário. No o momento que
+    a consulta ao banco de dados acontecer, a view genérica
+    :func:`~django.views.generic.list_detail.object_detail` terá limitado o seu
+    escopo para um único objeto, de modo que a eventual consulta só irá
+    selecionar uma linha de base de dados.
 
-    If you'd like to know more about how that works, The Django database API
-    documentation :ref:`explains the lazy nature of QuerySet objects
+    Se você quiser saber mais sobre seu funcionamento, A documentação de banco
+    de dados do Django :ref:`explica a natureza preguiçosa dos abjetos QuerySet
     <querysets-are-lazy>`.
 
-In previous parts of the tutorial, the templates have been provided with a
-context that contains the ``poll`` and ``latest_poll_list`` context variables.
-However, the generic views provide the variables ``object`` and ``object_list``
-as context. Therefore, you need to change your templates to match the new
-context variables. Go through your templates, and modify any reference to
-``latest_poll_list`` to ``object_list``, and change any reference to ``poll``
-to ``object``.
+Nas partes anteriores deste tutorial, os templates tem sido fornecidos com um
+``context`` que contém as variáveis de contexto `poll`` e ``latest_poll_list``.
+No entanto, as views genérica fornecem as variáveis ``object`` e ``object_list``
+como contexto. Portanto, você precisa mudar seus templates para combinar com as
+novas variáveis de contexto. Vá através de seus templates, e altere qualquer
+referência a ``latest_poll_list`` para ``object_list`` e alterar qualquer
+referência de ``poll`` para ``object``.
 
-You can now delete the ``index()``, ``detail()`` and ``results()`` views
-from ``polls/views.py``. We don't need them anymore -- they have been replaced
-by generic views.
+Agora você pode deletar as views, ``index()``, ``detail()`` e ``results()``
+do arquivo ``polls/views.py``.  Não precisamos delas mais -- elas foram
+substituídas por views genéricas.
 
-The ``vote()`` view is still required. However, it must be modified to match the
-new context variables. In the :func:`~django.shortcuts.render_to_response` call,
-rename the ``poll`` context variable to ``object``.
+A view ``vote()`` ainda é necessária.No entanto, ela deve ser modificado para
+corresponder ao novo contexto de variáveis. Na chamada
+:func:`~django.shortcuts.render_to_response`, renomeie a variável de
+contexto de ``poll`` para ``object``.
 
-The last thing to do is fix the URL handling to account for the use of generic
-views. In the vote view above, we used the
-:func:`~django.core.urlresolvers.reverse` function to avoid hard-coding our
-URLs. Now that we've switched to a generic view, we'll need to change the
-:func:`~django.core.urlresolvers.reverse` call to point back to our new generic
-view. We can't simply use the view function anymore -- generic views can be (and
-are) used multiple times -- but we can use the name we've given::
+A última coisa a fazer é corrigir o manipulador da URL para levar em conta
+a utilização de views genéricas. Na view  anterior ``vote()``, usamos a
+função :func:`~django.core.urlresolvers.reverse` para evitar escrever na mão
+nossa URLs. Agora que mudamos para view genérica, nós vamos precisar alterar a
+chamada :func:`~django.core.urlresolvers.reverse` para apontar de volta para a
+nossa nova view genérica. Nós não podemos simplesmente utilizar a função view
+mais -- views genéricas podem ser (e são) utilizada várias vezes - mas podemos
+usar o nome que foi dado::
 
     return HttpResponseRedirect(reverse('poll_results', args=(p.id,)))
 
-Run the server, and use your new polling app based on generic views.
+Execute o servidor e use o sua nova aplicação de enquete baseada em views
+genéricas.
 
-For full details on generic views, see the :ref:`generic views documentation
-<topics-http-generic-views>`.
+Para maiores detalhes sobre views genéricas, consulte a :ref:`documentação
+sobre views genéricas <topics-http-generic-views>`.
 
-Coming soon
-===========
+Brevemente
+==========
 
-The tutorial ends here for the time being. Future installments of the tutorial
-will cover:
+O tutorial acaba aqui por enquanto. Futuras partes deste tutorial:
 
-    * Advanced form processing
-    * Using the RSS framework
-    * Using the cache framework
-    * Using the comments framework
-    * Advanced admin features: Permissions
-    * Advanced admin features: Custom JavaScript
+    * Processamento avançado de formulário
+    * Usando o framework de RSS
+    * Usando o framework de cache
+    * Usando o framework de comentários
+    * Características avançadas da interface de administração: Permissões
+    * Características avançadas da interface de administração:
+      Customização JavaScript
 
-In the meantime, you might want to check out some pointers on :ref:`where to go
-from here <intro-whatsnext>`
+Por enquanto, você pode querer verificar alguns pontos em :ref:`para onde ir a
+partir daqui <intro-whatsnext>`
