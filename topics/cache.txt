@@ -71,52 +71,52 @@ CACHE_BACKEND.
 Memcached
 ---------
 
-By far the fastest, most efficient type of cache available to Django, Memcached
-is an entirely memory-based cache framework originally developed to handle high
-loads at LiveJournal.com and subsequently open-sourced by Danga Interactive.
-It's used by sites such as Slashdot and Wikipedia to reduce database access and
-dramatically increase site performance.
+De longe, o mais rápido e mais eficiente tipo de cache disponível no Django, Memcached
+é um framework de cache inteiramente baseado em memória originalmente desenvolvido para
+lidar com as altas cargas no LiveJournal.com e subsequentemente tornada open-sourced pela Danga 
+Interactive. É usado por sites como o Slashdot ou Wikipedia para reduzir o acesso a banco de dados
+e aumentar a performance do site drasticamente.
 
-Memcached is available for free at http://danga.com/memcached/ . It runs as a
-daemon and is allotted a specified amount of RAM. All it does is provide an
-interface -- a *super-lightning-fast* interface -- for adding, retrieving and
-deleting arbitrary data in the cache. All data is stored directly in memory,
-so there's no overhead of database or filesystem usage.
+O Memcached está disponível de graça em http://danga.com/memcached/ . Ele executa como um
+daemon, para o qual é alocada uma quantidade específica de RAM. Tudo o que ele faz é fornecer
+uma interface -- um interface *super-ultra-rápida* -- para adição, busca e
+remoção de dados arbitrários do cache. Todos os dados são gravador diretamente na memória,
+então não existe sobrecarga de banco de dados ou uso do filesystem.
 
-After installing Memcached itself, you'll need to install the Memcached Python
-bindings. Two versions of this are available. Choose and install *one* of the
-following modules:
+Após a instakação do Memcached, você precisa instalar as bibliotecas do Memcached para
+Python. Duas versões estão disponíveis. Selecione e instale *um* dos
+seguintes módulos:
 
-    * The fastest available option is a module called ``cmemcache``, available
-      at http://gijsbert.org/cmemcache/ .
+    * A opção mais rápida é um módulo chamado ``cmemcache``, disponível
+      em http://gijsbert.org/cmemcache/ .
 
-    * If you can't install ``cmemcache``, you can install ``python-memcached``,
-      available at ftp://ftp.tummy.com/pub/python-memcached/ . If that URL is
-      no longer valid, just go to the Memcached Web site
-      (http://www.danga.com/memcached/) and get the Python bindings from the
-      "Client APIs" section.
+    * Se você não pode instalar o ``cmemcache``, você pode instalar o ``python-memcached``,
+      disponível em ftp://ftp.tummy.com/pub/python-memcached/ . Se essa URL não
+      é mais válida, apenas vá ao site do Memcached
+      (http://www.danga.com/memcached/) e obtenha as bibliotecas Python da seção
+      "Client APIs".
 
 .. versionadded:: 1.0
-    The ``cmemcache`` option is new in 1.0. Previously, only
-    ``python-memcached`` was supported.
+    A opção ``cmemcache`` é nova no 1.0. Anteriormente, somente o
+    ``python-memcached`` era suportado.
 
-To use Memcached with Django, set ``CACHE_BACKEND`` to
-``memcached://ip:port/``, where ``ip`` is the IP address of the Memcached
-daemon and ``port`` is the port on which Memcached is running.
+Para usar o Memcached com Django, configure o  ``CACHE_BACKEND`` para
+``memcached://ip:port/``, onde ``ip`` é o endereço IP dp daemon do Memcached
+e o ``port`` é a porta onde o Memcached está rodando.
 
-In this example, Memcached is running on localhost (127.0.0.1) port 11211::
+Nesse exemplo, o Memcached está rodando em localhost (127.0.0.1) na porta 11211::
 
     CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 
-One excellent feature of Memcached is its ability to share cache over multiple
-servers. To take advantage of this feature, include all server addresses in
-``CACHE_BACKEND``, separated by semicolons. In this example, the cache is
-shared over Memcached instances running on IP address 172.19.26.240 and
-172.19.26.242, both on port 11211::
+Uma característica excelente do Memcached é sua habilidade de compartilhar o cache
+em diversos servidores. Para aproveitar essa funcionalidade, inclua todos os endereços 
+de servidores em ``CACHE_BACKEND``, separados por ponto e vírgula. Nesse exemplo, o cache é
+compartilhado por instâncias do  Memcached rodando nos endereços IP 172.19.26.240 e
+172.19.26.242, ambos na porta 11211::
 
     CACHE_BACKEND = 'memcached://172.19.26.240:11211;172.19.26.242:11211/'
 
-Memory-based caching has one disadvantage: Because the cached data is stored in
+O cache baseado em memória tem uma desvantagem: Because the cached data is stored in
 memory, the data will be lost if your server crashes. Clearly, memory isn't
 intended for permanent data storage, so don't rely on memory-based caching as
 your only data storage. Actually, none of the Django caching backends should be
