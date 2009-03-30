@@ -111,6 +111,8 @@ Sinta-se à vontade para adicionar seu site feito com o Django à lista.
 
 .. _lista de sites desenvolvidos com o Django: http://code.djangoproject.com/wiki/DjangoPoweredSites
 
+.. _mtv:
+
 O Django parece ser um framework MVC, mas vocês chama o "controller" de "view", e a View de "template". Por que vocês não utilizam os nomes padrão?
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
