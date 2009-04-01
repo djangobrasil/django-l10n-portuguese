@@ -24,7 +24,7 @@ Glossario
 
     field
         Um atributo em um :term:`model`; um determinado campo que usualmente e
-        mapeado diretamente para uma unica coluna em uma base dados.
+        mapeado diretamente para uma única coluna em uma base dados.
 
         Veja :ref:`topics-db-models`.
 
@@ -35,7 +35,7 @@ Glossario
         Veja :ref:`ref-generic-views`.
 
     model
-        Um modelo armazena os dado de sua aplicacao.
+        Um modelo armazena os dado de sua aplicação.
 
         Veja :ref:`topics-db-models`.
 
@@ -43,27 +43,27 @@ Glossario
         Veja :ref:`mtv`.
 
     MVC
-        `Model-view-controller`__; e um padrao de software. O Django :ref:`segue
-        o padro MVC ate certo ponto <mtv>`.
+        `Model-view-controller`__;  é um padrão de software. O Django :ref:`segue
+        o padrão MVC até certo ponto <mtv>`.
 
         __ http://en.wikipedia.org/wiki/Model-view-controller
 
     project
-        Um pacote Python -- ou seja um diretorio de codigo -- que contem toda as
-        configuracoes para uma instancia do Django. Isto inclue configuracao de
-        banco de dados, Opcoes especificas do Django e configuracao especificas
-        das aplicacoes.
+        Um pacote Python -- ou seja um diretório de código -- que contem toda as
+        configurações para uma instancia do Django. Isto incluem configuração de
+        banco de dados, Opções especificas do Django e configuração especificas
+        das aplicações.
 
     property
-        Tambem conhecida como "atributos gerenciados", e tambem como uma
-        cacteristica do Python desde a versao 2.2. Retirado da `documentacao da
+        Também conhecida como "atributos gerenciados", e também como uma
+        característica do Python desde a versão 2.2. Retirado da `documentação da
         property`__:
 
             Propriedades sao o jeito mais decente de implementar atributos cujo
             seu uso se assemelha-se com o acesso a atributos, mais cujo sua
-            implementacao usa chamadas a metodos. [...] Voce pode fazer isto
+            implementação usa chamadas a métodos. [...] Você pode fazer isto
             apenas sobrescrevendo ``__getattr__`` e ``__setattr__``; mas
-            sobrescrevendo ``__setattr__`` deixara todas as atribuicoes de
+            sobrescrevendo ``__setattr__`` deixara todas as atribuições de
             atributos mais lentas consideravelmente, e sobrescrever
             ``__getattr__`` eh sempre um pouco complicado de fazer corretamente.
             propriedades deixam voce fazer isto descomplicadamente, sem ter que
@@ -78,15 +78,23 @@ Glossario
         Veja :ref:`topics-db-queries`.
 
     slug
-        Uma pequena etiqueta para alguma coisa, contendo apenas letras, numeros,
-        underscores ou hifens. Sao usados geralmnte em URLs. Por exemplo, em uma
+        Uma pequena etiqueta para alguma coisa, contendo apenas letras, números,
+        underscores ou hifens. São usados geralmente em URLs. Por exemplo, em uma
         URL tipica de uma pagina em um blog.
 
         .. parsed-literal::
-        
+       
             http://www.djangoproject.com/weblog/2008/apr/12/**spring**/
-            
+           
         a ultima parte (``spring``) eh a slug.
+
+    template
+        Um bloco de texto que separa a representação de um documento de seus dados.
+
+        Veja :ref:`topics-templates`.
+       
+    view
+        Uma função responsável por renderizar uma pagina.
 
     template
         Um bloco de texto que separa a represntacao de um documento de seus dados.
