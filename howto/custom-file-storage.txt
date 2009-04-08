@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Draft $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Igor Sobreira $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,16 +16,17 @@
 
 .. _howto-custom-file-storage:
 
-Writing a custom storage system
-===============================
+Escrevendo um sistema de armazenamento customizado
+==================================================
 
 .. currentmodule:: django.core.files.storage
 
-If you need to provide custom file storage -- a common example is storing files
-on some remote system -- you can do so by defining a custom storage class.
-You'll need to follow these steps:
+Se você precisar fornecer sistema de armazenamento customizado - um exemplo comum 
+é armazenar arquivos em algum sistema remoto - você pode fazê-lo, definindo uma
+classe de armazenamento customizada.
+Você precisará seguir esses passos:
 
-#. Your custom storage system must be a subclass of
+#. Seu mecanismo de amazenamento customizado deve ser uma subclasse de
    ``django.core.files.storage.Storage``::
 
         from django.core.files.storage import Storage
@@ -33,8 +34,9 @@ You'll need to follow these steps:
         class MyStorage(Storage):
             ...
 
-#. Django must be able to instantiate your storage system without any arguments.
-   This means that any settings should be taken from ``django.conf.settings``::
+#. O Django deve ser capaz de instanciar o seu sistema de armazenamento sem 
+   quaisquer argumentos. Isto significa que qualquer definicão deve ser obtida 
+   a partir de ``django.conf.settings``::
 
         from django.conf import settings
         from django.core.files.storage import Storage
@@ -45,15 +47,20 @@ You'll need to follow these steps:
                     option = settings.CUSTOM_STORAGE_OPTIONS
                 ...
 
-#. Your storage class must implement the ``_open()`` and ``_save()`` methods,
-   along with any other methods appropriate to your storage class. See below for
-   more on these methods.
+#. Sua classe de armazenamento deve implementar os métodos ``_open()`` e ``_save()``,
+   juntamente com quaisquer outros métodos adequados para sua classe. Veja
+	 abaixo mais informações sobre esses métodos.
 
    In addition, if your class provides local file storage, it must override
    the ``path()`` method.
 
-Your custom storage system may override any of the storage methods explained in
-:ref:`ref-files-storage`, but you **must** implement the following methods:
+	 Além disso, se a sua classe forcener um sistema de armazenamento local, ela 
+	 deve sobrescrever o método ``path()``.
+
+	
+Seu sistema de armazenamento personalizado pode sobrescrever qualquer um dos 
+métodos de armazenamento explicados em :ref: `ref-files-storage`, mas você 
+**deve** implementar os seguintes métodos:
 
     * :meth:`Storage.delete`
     * :meth:`Storage.exists`
@@ -61,44 +68,46 @@ Your custom storage system may override any of the storage methods explained in
     * :meth:`Storage.size`
     * :meth:`Storage.url`
 
-You'll also usually want to use hooks specifically designed for custom storage
-objects. These are:
+Geralmente você também vai querer usar ganchos concebidos especificamente para 
+objetos de armazenamento personalizados. São eles:
 
 ``_open(name, mode='rb')``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**Required**.
+**Obrigatório**.
 
-Called by ``Storage.open()``, this is the actual mechanism the storage class
-uses to open the file. This must return a ``File`` object, though in most cases,
-you'll want to return some subclass here that implements logic specific to the
-backend storage system.
+Chamado por ``Storage.open()``, esse é o verdadeiro mecanismo que a classe de 
+armazenamento usa para abrir o arquivo. Ele deve retornar um objeto ``File``,
+embora na maioria dos casos, você preferirá retornar alguma subclasse que 
+implemente a lógica específica do backend do sistema de armazenamento.
 
 ``_save(name, content)``
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Called by ``Storage.save()``. The ``name`` will already have gone through
-``get_valid_name()`` and ``get_available_name()``, and the ``content`` will be a
-``File`` object itself. No return value is expected.
+Chamado por ``Storage.save()``. O ``name`` já terá passado por ``get_valid_name()``
+e ``get_available_name()``, e o ``content`` será um objeto ``File`` em si. Nenhum
+valor de retorno é esperado
 
 ``get_valid_name(name)``
 ------------------------
 
-Returns a filename suitable for use with the underlying storage system. The
-``name`` argument passed to this method is the original filename sent to the
-server, after having any path information removed. Override this to customize
-how non-standard characters are converted to safe filenames.
+Retorna um nome de arquivo adequado para uso com o sistema de armazenamento 
+subjacente. O argumento ``name`` passado para este método é o nome de arquivo 
+original enviado para o servidor, depois de ter removido qualquer informação de 
+caminho. Sobrescreva este método para customizar como caracteres fora do padrão 
+são convertidos para nomes de arquivos válidos.
 
-The code provided on ``Storage`` retains only alpha-numeric characters, periods
-and underscores from the original filename, removing everything else.
+O código fornecido em ``Storage`` retém apenas caracteres alfanuméricos, pontos
+e sublinhas do arquivo original, removendo todo o resto.
 
 ``get_available_name(name)``
 ----------------------------
 
-Returns a filename that is available in the storage mechanism, possibly taking
-the provided filename into account. The ``name`` argument passed to this method
-will have already cleaned to a filename valid for the storage system, according
-to the ``get_valid_name()`` method described above.
+Retorna um nome de arquivo que está disponível no mecanismo de armazenamento,
+possivelmente levando em conta o nome de arquivo fornecido. O argumento ``name`` 
+passado para este método já terá sido validado para um nome de arquivo válido para
+o sistema de armazenamento, de acordo com o método ``get_valid_name()`` descrito
+acima.
 
-The code provided on ``Storage`` simply appends underscores to the filename
-until it finds one that's available in the destination directory.
+O código fornecido em ``Storage`` simplesmente adiciona sublinhas ao nome do 
+arquivo até encontrar um que esteja disponível no diretório de destino.
