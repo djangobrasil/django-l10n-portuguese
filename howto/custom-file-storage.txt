@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Draft $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 9368 $
 ..   $TranslationAuthors: Igor Sobreira $
 ..
@@ -35,7 +35,7 @@ Você precisará seguir esses passos:
             ...
 
 #. O Django deve ser capaz de instanciar o seu sistema de armazenamento sem 
-   quaisquer argumentos. Isto significa que qualquer definicão deve ser obtida 
+   quaisquer argumentos. Isto significa que qualquer definição deve ser obtida 
    a partir de ``django.conf.settings``::
 
         from django.conf import settings
@@ -49,17 +49,13 @@ Você precisará seguir esses passos:
 
 #. Sua classe de armazenamento deve implementar os métodos ``_open()`` e ``_save()``,
    juntamente com quaisquer outros métodos adequados para sua classe. Veja
-	 abaixo mais informações sobre esses métodos.
-
-   In addition, if your class provides local file storage, it must override
-   the ``path()`` method.
-
-	 Além disso, se a sua classe forcener um sistema de armazenamento local, ela 
-	 deve sobrescrever o método ``path()``.
+   abaixo mais informações sobre esses métodos.
+   Além disso, se a sua classe forcener um sistema de armazenamento local, ela 
+   deve sobrescrever o método ``path()``.
 
 	
 Seu sistema de armazenamento personalizado pode sobrescrever qualquer um dos 
-métodos de armazenamento explicados em :ref: `ref-files-storage`, mas você 
+métodos de armazenamento explicados em :ref:`ref-files-storage`, mas você 
 **deve** implementar os seguintes métodos:
 
     * :meth:`Storage.delete`
