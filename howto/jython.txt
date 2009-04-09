@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Igor Sobreira $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -17,7 +17,7 @@
 .. _howto-jython:
 
 ========================
-Running Django on Jython
+Rodando Django no Jython
 ========================
 
 .. index:: Jython, Java, JVM
@@ -26,14 +26,22 @@ Jython_ is an implementation of Python that runs on the Java platform (JVM).
 Django runs cleanly on Jython version 2.5 or later, which means you can deploy
 Django on any Java platform.
 
+Jython_ é uma implementação de Python que roda na plataforma Java (JVM). 
+Django roda cleanly no Jython a partir da versão 2.5, o que significa que você 
+pode deploy Django em qualquer plataforma Java.
+
 This document will get you up and running with Django on top of Jython.
+
+Esse documento vai get you up and running com Django no Jython.
 
 .. _jython: http://jython.org/
 
-Installing Jython
-=================
+Instalando o Jython
+===================
 
 Django works with Jython versions 2.5 and higher. 
+
+Django funciona a partir da versão 2.5 do Jython.
 
 .. warning::
 
@@ -44,24 +52,42 @@ Django works with Jython versions 2.5 and higher.
     In the meantime, you'll need to use the latest development version of Jython
     obtained from Jython's SVN repository.
 
+	No momento da escrita desse documento, a versão do Jython compatível com 
+	Django ainda não foi lançada. O forthcoming 2.5a2+ reselase será a primeira
+	cujo Django vai funcionar out of the box.
+
 Download Jython at http://jython.org/.
+
+Faça o download do Jython em http://jython.org/.
 
 Creating a servlet container
 ============================
+Criando um container com servlets
+=================================
 
 If you just want to experiment with Django, skip ahead to the next section;
 Django includes a lightweight Web server you can use for testing, so you won't
 need to set up anything else until you're ready to deploy Django in production.
 
+Se você só quiser fazer experimentos com Django, pule para a próxima seção;
+Django inclui um Web server lightweight que você pode usar para testes, para
+que você não precisa configurar nada até que esteja pronto para deploy Django 
+em produção
+
 If you want to use Django on a production site, use a Java servlet container,
 such as `Apache Tomcat`_. Full JavaEE applications servers such as `GlassFish`_
 or `JBoss`_ are also OK, if you need the extra features they include.
+
+Se você quiser usar Django num site em produção, use um container Java com 
+servlets, como o `Apache Tomcat`_. Aplicações JavaEE completas como o 
+`GlassFish`_ ou `JBoss`_ também funcionam, se você precisar das funcionalidades
+extras que eles incluem.
 
 .. _`Apache Tomcat`: http://tomcat.apache.org/
 .. _GlassFish: https://glassfish.dev.java.net/
 .. _JBoss: http://www.jboss.org/
 
-Installing Django
+Instalando o Django
 =================
 
 The next step is to install Django itself. This is exactly the same as
@@ -69,33 +95,58 @@ installing Django on standard Python, so see
 :ref:`removing-old-versions-of-django` and :ref:`install-django-code` for
 instructions.
 
+O próximo passo será instalar o Django. É exatamente da mesma maneira a instalar
+com o Python padrão, então veja :ref:`removing-old-versions-of-django`
+e :ref:`install-django-code` para mais instruções.
+
 Installing Jython platform support libraries
 ============================================
+Instalando as bibliotecas de suporte para a plataforma Jython
+=============================================================
 
 The `django-jython`_ project contains database backends and management commands
 for Django/Jython development. Note that the builtin Django backends won't work
 on top of Jython.
+
+O projeto `django-jython`_ contém backends de banco de dados e comandos de 
+genrência para o desenvolvimento com Django/Jython. Note que os backends 
+embutidos do Django não irão funcionar no Jython.
 
 .. _`django-jython`: http://code.google.com/p/django-jython/
 
 To install it, follow the `installation instructions`_ detailed on the project
 website. Also, read the `database backends`_ documentation there.
 
+Para instalá-lo, siga as `installation installation`_ detalhas no site do projeto.
+Também leia a documentação dos `database backends`_ lá.
+
 .. _`installation instructions`: http://code.google.com/p/django-jython/wiki/Install
 .. _`database backends`: http://code.google.com/p/django-jython/wiki/DatabaseBackends
 
 Differences with Django on Jython
 =================================
+Diferenças do Django no Jython
+===============================
 
 .. index:: JYTHONPATH
 
 At this point, Django on Jython should behave nearly identically to Django
 running on standard Python. However, are a few differences to keep in mind:
 
+Atualmente, Django no Jython deve parecer praticamente idêntico ao Django rodando
+no Python padrão. Porém, existem algumas diferenças a serem lembradas:
+
     * Remember to use the ``jython`` command instead of ``python``. The
       documentation uses ``python`` for consistancy, but if you're using Jython
       you'll want to mentally replace ``python`` with ``jython`` every time it
       occurs.
-     
+
+    * Lembre-se se usar o comando ``jython`` ao invés de ``python``. A documentação
+	  usa ``python`` por consistência, mas se você tiver usando Jython você 
+	  precisará trocar ``python`` por ``jython`` mentalmente em todas as ocorrências
+
     * Similarly, you'll need to use the ``JYTHONPATH`` environment variable
       instead of ``PYTHONPATH``.
+
+    * Similarmenet, você precisará usar a variável de ambiente ``JYTHONPATH`` ao
+	  invés de ``PYTHONPATH``.
