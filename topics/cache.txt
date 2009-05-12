@@ -276,7 +276,7 @@ entire site. You'll need to add
 
     No, that's not a typo: the "update" middleware must be first in the list,
     and the "fetch" middleware must be last. The details are a bit obscure, but
-    see `Order of MIDDLEWARE_CLASSES`_ below if you'd like the full story.
+    see `Ordem das MIDDLEWARE_CLASSES`_ below if you'd like the full story.
 
 Then, add the following required settings to your Django settings file:
 
@@ -317,7 +317,7 @@ time, rather than ``CACHE_MIDDLEWARE_SECONDS``. Using the decorators in
 the ``never_cache`` decorator). See the `using other headers`__ section for
 more on these decorators.
 
-__ `Controlling cache: Using other headers`_
+__ `Controlando o cache: Usando outros cabeçalhos`_
 
 O cache por visão
 =================
