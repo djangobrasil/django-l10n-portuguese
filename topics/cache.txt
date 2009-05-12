@@ -407,38 +407,38 @@ A interface básica é ``set(key, value, timeout_seconds)`` e ``get(key)``::
     >>> cache.get('my_key')
     'hello, world!'
 
-The ``timeout_seconds`` argument is optional and defaults to the ``timeout``
-argument in the ``CACHE_BACKEND`` setting (explained above).
+O argumento ``timeout_seconds`` é opcional e o seu padrão é o mesmo do argumento ``timeout``
+na configuração ``CACHE_BACKEND`` (explicada acima).
 
-If the object doesn't exist in the cache, ``cache.get()`` returns ``None``::
+Se o objeto não existe no cache, ``cache.get()`` retorna ``None``::
 
     >>> cache.get('some_other_key')
     None
 
-    # Wait 30 seconds for 'my_key' to expire...
+    # Espere 30 segundos para 'my_key' expirar...
 
     >>> cache.get('my_key')
     None
 
-get() can take a ``default`` argument::
+get() pode ter um argumento ``padrão``::
 
     >>> cache.get('my_key', 'has expired')
     'has expired'
 
 .. versionadded:: 1.0
 
-To add a key only if it doesn't already exist, use the ``add()`` method.
-It takes the same parameters as ``set()``, but it will not attempt to
-update the cache if the key specified is already present::
+Para adicionar uma cache somente se ela ainda não existir, use o método ``add()``.
+Ele recebe os mesmos parâmetros que ``set()``, mas não irá tentar atualizar o cache se a
+chave especificada já estiver presente::
 
     >>> cache.set('add_key', 'Initial value')
     >>> cache.add('add_key', 'New value')
     >>> cache.get('add_key')
     'Initial value'
 
-If you need to know whether ``add()`` stored a value in the cache, you can
-check the return value. It will return ``True`` if the value was stored,
-``False`` otherwise.
+Se você precisa saber se ``add()`` salvou um valor no cache, você pode
+verificar o valor retornado. O retorno será ``True`` se o valor foi gravado,
+e ``False`` se nada for gravado.
 
 There's also a ``get_many()`` interface that only hits the cache once.
 ``get_many()`` returns a dictionary with all the keys you asked for that
@@ -450,15 +450,15 @@ actually exist in the cache (and haven't expired)::
     >>> cache.get_many(['a', 'b', 'c'])
     {'a': 1, 'b': 2, 'c': 3}
 
-Finally, you can delete keys explicitly with ``delete()``. This is an easy way
-of clearing the cache for a particular object::
+Finalmente, você pode remover chaves diferentes com  ``delete()``. Essa é uma forma
+fácil de limpar o cache para um objeto em particular::
 
     >>> cache.delete('a')
 
-That's it. The cache has very few restrictions: You can cache any object that
-can be pickled safely, although keys must be strings.
+É isso. O cache tem muitas poucas restrições: você pode colocar em cache quaisquer
+objetos que possam ser 'pickled' seguramente, mas as chaves devem ser strings.
 
-Upstream caches
+Caches Upstream
 ===============
 
 So far, this document has focused on caching your *own* data. But another type
@@ -652,18 +652,17 @@ headers to ensure the response won't be cached by browsers or other caches. Exam
 Outras otimizações
 ==================
 
-Django comes with a few other pieces of middleware that can help optimize your
-apps' performance:
+O Django vem com alguns outros middlewares que podem ajudar a otimizar a performance
+do seu aplicativo:
 
-    * ``django.middleware.http.ConditionalGetMiddleware`` adds support for
-      conditional GET. This makes use of ``ETag`` and ``Last-Modified``
-      headers.
+    * ``django.middleware.http.ConditionalGetMiddleware`` adiciona suporte para
+      GET condicional. Isso faz uso dos cabeçalhos ``ETag`` e ``Last-Modified``.
 
-    * ``django.middleware.gzip.GZipMiddleware`` compresses content for browsers
-      that understand gzip compression (all modern browsers).
+    * ``django.middleware.gzip.GZipMiddleware`` comprime conteúdo para navegadores que
+      entendem a compressão gzip (todos os navegadores modernos).
 
 Ordem das MIDDLEWARE_CLASSES
-===========================
+============================
 
 If you use caching middleware, it's important to put each half in the right
 place within the ``MIDDLEWARE_CLASSES`` setting. That's because the cache
