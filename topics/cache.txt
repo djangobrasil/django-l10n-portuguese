@@ -19,12 +19,11 @@
 O framework de cache do Django
 ==============================
 
-A fundamental trade-off in dynamic Web sites is, well, they're dynamic. Each
-time a user requests a page, the Web server makes all sorts of calculations --
-from database queries to template rendering to business logic -- to create the
-page that your site's visitor sees. This is a lot more expensive, from a
-processing-overhead perspective, than your standard
-read-a-file-off-the-filesystem server arrangement.
+Uma dilema essencial dos sites dinâmicos vem a ser o próprio fato de serem dinâmicos. 
+Cada vez que um usuário requisita uma página, o servidor web faz todo o tipo de 
+cálculos -- consultas a bancos de dados, renderização de templates e lógica de negócio -- 
+para criar a página que o seu visitante vê. Isso tem um custo de processamento
+muito maior que apenas a leitura de arquivos estáticos no disco.
 
 Para a maior parte dos aplicativos Web, esse overhead não é um problema. A maior
 parte das aplicações Web não são o washingtonpost.com oouslashdot.org; são simplesmente sites
@@ -51,18 +50,18 @@ oferece diferentes níveis de granularidade de cache: Você pode fazer o cache d
 views específicas, você pode fazer o cache somente das partes que são difíceis de produzir, ou
 pode fazer o cache do site inteiro.
 
-Django also works well with "upstream" caches, such as Squid
-(http://www.squid-cache.org/) and browser-based caches. These are the types of
-caches that you don't directly control but to which you can provide hints (via
-HTTP headers) about which parts of your site should be cached, and how.
+O Django também trabalha com caches do tipo "upstream", como o Squid
+(http://www.squid-cache.org/) e cache baseado em navegador. Esses são tipos de cache
+que você não controla diretamente mas para os quais fornece dicas (via
+cabeçalhos HTTP) sobre quais partes do seu site devem ser mantidas em cache, e como.
 
 Configurando o cache
 ====================
 
-O sistema de cache requer uma pequena configuração. Namely, you have to tell it
-where your cached data should live -- whether in a database, on the filesystem
-or directly in memory. This is an important decision that affects your cache's
-performance; yes, some cache types are faster than others.
+O sistema de cache requer uma pequena configuração. Você deve informar
+ao Django onde os seus dados em cache estarão -- se em um banco de dados, no sistema de
+arquivos ou diretamente na memória. Essa é uma decisão importante que afeta a performance
+do seu cache; sim, algums tipos de cache são mais rápidos que outros.
 
 Sua preferência de cache vai na configuração ``CACHE_BACKEND`` no seu arquivo de
 configurações. Aqui vai uma explicação de todos os valores disponíveis para
@@ -83,7 +82,7 @@ uma interface -- um interface *super-ultra-rápida* -- para adição, busca e
 remoção de dados arbitrários do cache. Todos os dados são gravador diretamente na memória,
 então não existe sobrecarga de banco de dados ou uso do filesystem.
 
-Após a instakação do Memcached, você precisa instalar as bibliotecas do Memcached para
+Após a instalação do Memcached, você precisa instalar as bibliotecas do Memcached para
 Python. Duas versões estão disponíveis. Selecione e instale *um* dos
 seguintes módulos:
 
@@ -116,13 +115,13 @@ compartilhado por instâncias do  Memcached rodando nos endereços IP 172.19.26.
 
     CACHE_BACKEND = 'memcached://172.19.26.240:11211;172.19.26.242:11211/'
 
-O cache baseado em memória tem uma desvantagem: Because the cached data is stored in
-memory, the data will be lost if your server crashes. Clearly, memory isn't
-intended for permanent data storage, so don't rely on memory-based caching as
-your only data storage. Actually, none of the Django caching backends should be
-used for permanent storage -- they're all intended to be solutions for caching,
-not storage -- but we point this out here because memory-based caching is
-particularly temporary.
+O cache baseado em memória tem uma desvantagem: Como os dados em cache estão na
+memória, serão perdidos se o seu servidor travar. Claramente, a memória não
+foi feita para armazenamento permanente de dados, então não confie no cache em 
+memória como sua única fonte de armazenamento de dados. Na verdade, nenhum dos
+backends de cache do Django deve ser usado para armazenamento permanente -- 
+devem ser usados como soluções para cache, e não armazenamento -- mas
+reafirmamos isso aqui porque o cache em memória é realmente temporário.
 
 Cache em banco de dados
 -----------------------
@@ -150,77 +149,78 @@ e bem indexado.
 Cache em sistema de arquivos
 ----------------------------
 
-To store cached items on a filesystem, use the ``"file://"`` cache type for
-``CACHE_BACKEND``. For example, to store cached data in ``/var/tmp/django_cache``,
-use this setting::
+Para gravar os items em cache no sistema de arquivos, use o tipo de cache ``"file://"``
+para ``CACHE_BACKEND``. Por exemplo, para salvar os dados do cache em ``/var/tmp/django_cache``,
+use essa configuração::
 
     CACHE_BACKEND = 'file:///var/tmp/django_cache'
 
-Note that there are three forward slashes toward the beginning of that example.
-The first two are for ``file://``, and the third is the first character of the
-directory path, ``/var/tmp/django_cache``.
+Perceba que existem três barras próximas ao início do exemplo.
+As primeiras são para o ``file://``, e a terceira é o primeiro caractere do
+caminho do diretório, ``/var/tmp/django_cache``.
 
-The directory path should be absolute -- that is, it should start at the root
-of your filesystem. It doesn't matter whether you put a slash at the end of the
-setting.
+O caminho do diretório deve ser absoluto -- isso é, ele deve iniciar na raiz
+do seu sistema de arquivos. Não faz diferença se você põe a barra no final
+da configuração.
 
-Make sure the directory pointed-to by this setting exists and is readable and
-writable by the system user under which your Web server runs. Continuing the
-above example, if your server runs as the user ``apache``, make sure the
-directory ``/var/tmp/django_cache`` exists and is readable and writable by the
-user ``apache``.
+Assegure-se que o diretório apontado por essa configuração exista e tenha permissões
+de leitura e escrita pelo usuário do sistema que executa o seu servidor web. 
+Continuando o exemplo acima, se o seu servidor web roda como o usuário ``apache``, 
+tenha certeza que o diretório ``/var/tmp/django_cache`` exista e tenha permissão de
+leitura e escrita pelo usuário ``apache``.
 
 Cache em memória local
 ----------------------
 
-If you want the speed advantages of in-memory caching but don't have the
-capability of running Memcached, consider the local-memory cache backend. This
-cache is multi-process and thread-safe. To use it, set ``CACHE_BACKEND`` to
-``"locmem:///"``. For example::
+Se você quer as vantagens de velocidade de executar um cache em memória mas não
+pode executar o  Memcached, considere o backend de cache em memória local. Esse
+cache é multi-processo e thread-safe. Para usá-lo, configure o ``CACHE_BACKEND`` para
+``"locmem:///"``. Por exemplo::
 
     CACHE_BACKEND = 'locmem:///'
     
-Note that each process will have its own private cache instance, which means no
-cross-process caching is possible. This obviously also means the local memory
-cache isn't particularly memory-efficient, so it's probably not a good choice
-for production environments.
+Note que cada processo irá ter sua própria instância privada de cache, o que significa
+que nenhum cache entre processos é possível. Isso obviamente significa que o cache em
+memória local não é muito eficiente em termos de memória, então provavelmente não é
+uma boa escolha para um ambiente de produção.
 
-Dummy caching (for development)
--------------------------------
+Cache falso (para desenvolvimento)
+----------------------------------
 
-Finally, Django comes with a "dummy" cache that doesn't actually cache -- it
-just implements the cache interface without doing anything.
+Finalmente, o Django vem com um cache "falso" que não faz cache realmente -- ele
+apenas implementa a interface de cache sem fazer nada realmente.
 
-This is useful if you have a production site that uses heavy-duty caching in
-various places but a development/test environment on which you don't want to
-cache. As a result, your development environment won't use caching and your
-production environment still will. To activate dummy caching, set
-``CACHE_BACKEND`` like so::
+Isso é útil se você tem um site em produção que usa cacheamento pesado em
+vários lugares, mas em desenvolvimento ou no ambiente de testes você não quer
+usar cache. Como resultado, o seu ambiente de desenvolvimento não vai usar cache, 
+mas o seu ambiente de produção irá. Para ativar o cache falso, configure o
+``CACHE_BACKEND`` assim::
 
     CACHE_BACKEND = 'dummy:///'
 
-Using a custom cache backend
-----------------------------
+Usando um backend de cache personalizado
+----------------------------------------
 
 .. versionadded:: 1.0
 
-While Django includes support for a number of cache backends out-of-the-box,
-sometimes you might want to use a customized cache backend. To use an external
-cache backend with Django, use a Python import path as the scheme portion (the
-part before the initial colon) of the ``CACHE_BACKEND`` URI, like so::
+Apesar do Django suportar diversos sistemas de cache diferentes,
+algumas vezes você pode querer usar algum backend de cache personalizado. Para usar um
+backend externo de cache com o  Django, use um caminho de importação de módulos do Python
+como a parte do esquema (a parte que vem antes do dois pontos inicial) da URI do
+``CACHE_BACKEND``, assim::
 
     CACHE_BACKEND = 'path.to.backend://'
 
-If you're building your own backend, you can use the standard cache backends
-as reference implementations. You'll find the code in the
-``django/core/cache/backends/`` directory of the Django source.
+Se você está construindo o seu próprio backend, você pode usar os backends padrão
+de cache como implementações de referência. Você irá encontrar o código no diretório
+``django/core/cache/backends/`` dos fontes do Django.
 
-Note: Without a really compelling reason, such as a host that doesn't support
-them, you should stick to the cache backends included with Django. They've
-been well-tested and are easy to use.
+Nota: Você deveria usar os backends de cache incluídos com o Django, anão ser que você
+tenha uma razão muito boa, como um host que não os suporta. Eles foram
+bem testados e são fáceis de usar.
 
-CACHE_BACKEND arguments
------------------------
+argumentos do CACHE_BACKEND
+---------------------------
 
 Todos os tipos de cache podem receber argumentos. Eles são informados em um estilo  query-string
 semelhante a configuração ``CACHE_BACKEND``. Argumentos válidos são:
@@ -230,31 +230,31 @@ semelhante a configuração ``CACHE_BACKEND``. Argumentos válidos são:
         minutos (300 segundos).
 
     max_entries
-        For the simple and database backends, the maximum number of entries
-        allowed in the cache before it is cleaned. Defaults to 300.
+        Para o cache simples e em banco de dados, o número máximo de entradas
+        permitidas no cache antes dele ser limpo. O padrão é 300.
 
     cull_percentage
-        The percentage of entries that are culled when max_entries is reached.
-        The actual percentage is 1/cull_percentage, so set cull_percentage=3 to
-        cull 1/3 of the entries when max_entries is reached.
+        A porcentagem de entradas que são limpas do cache quando max_entries é atingido.
+        A porcentagem real é 1/cull_percentage, então configure o cull_percentage=3 para
+        limpar 1/3 das entradas quando o valor de max_entries é atingido.
 
-        A value of 0 for cull_percentage means that the entire cache will be
-        dumped when max_entries is reached. This makes culling *much* faster
-        at the expense of more cache misses.
+        Um valor de 0 fpara o cull_percentage significa que o cache todo
+        será limpo quando max_entries for atingido. Isso torna a limpeza *muito* mais rápida,
+	as custas de mais perdas no cache.
 
-In this example, ``timeout`` is set to ``60``::
+Nesse exemplo, o  ``timeout`` está configurado para ``60``::
 
     CACHE_BACKEND = "memcached://127.0.0.1:11211/?timeout=60"
 
-In this example, ``timeout`` is ``30`` and ``max_entries`` is ``400``::
+Nesse exemplo, o ``timeout`` é ``30`` e ``max_entries`` é ``400``::
 
     CACHE_BACKEND = "memcached://127.0.0.1:11211/?timeout=30&max_entries=400"
 
-Invalid arguments are silently ignored, as are invalid values of known
-arguments.
+Argumentos inválidos são silenciosamente ignorados, assim como valores inválidos para
+argumentos conhecidos.
 
-The per-site cache
-==================
+O cache por site
+================
 
 .. versionchanged:: 1.0
     (previous versions of Django only provided a single ``CacheMiddleware`` instead
