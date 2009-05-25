@@ -112,7 +112,7 @@ class DjangoHTMLTranslator(sphinx.htmlwriter.SmartyPantsHTMLTranslator):
     version_text = {
         'deprecated':       'Deprecated in Django %s',
         'versionchanged':   'Changed in Django %s',
-        'versionadded':     'New in Django %s',
+        'versionadded':     'Novo no Django %s',
     }
     
     def visit_versionmodified(self, node):
