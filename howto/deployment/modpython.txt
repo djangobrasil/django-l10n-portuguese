@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 9368 $
 ..   $TranslationAuthors: None $
 ..
@@ -17,24 +17,24 @@
 .. _howto-deployment-modpython:
 
 ============================================
-How to use Django with Apache and mod_python
+Como usar o Django com o Apache e mod_python
 ============================================
 
 .. highlight:: apache
 
-Apache_ with `mod_python`_ currently is the preferred setup for using Django
-on a production server.
+Apache_ com `mod_python`_ atualmente é a forma preferida de instalação do Django
+para uso em produção num servidor.
 
-mod_python is similar to (and inspired by) `mod_perl`_ : It embeds Python within
-Apache and loads Python code into memory when the server starts. Code stays in
-memory throughout the life of an Apache process, which leads to significant
-performance gains over other server arrangements.
+O mod_python é semelhante (e inspirado) ao `mod_perl`_ : Ele embute o Python dentro
+do Apache e carrega o código Python na memória quando o servidor inicia. o Código fica na memória
+durante o tempo de vida do processo Apache, que leva a ganhos de performance
+significantes sobre outras opções de disposição de servidor.
 
-Django requires Apache 2.x and mod_python 3.x, and you should use Apache's
-`prefork MPM`_, as opposed to the `worker MPM`_.
+O Django requer o Apache 2.x e o mod_python 3.x, e você deve usar o
+`prefork MPM`_, ao invés do `worker MPM`_.
 
-You may also be interested in :ref:`How to use Django with FastCGI, SCGI or AJP
-<howto-deployment-fastcgi>` (which also covers SCGI and AJP).
+Você pode também estar interessado em :ref:`Como usar o Django com FastCGI, SCGI ou AJP
+<howto-deployment-fastcgi>` (que também cobre o SCGI e o AJP).
 
 .. _Apache: http://httpd.apache.org/
 .. _mod_python: http://www.modpython.org/
@@ -42,13 +42,13 @@ You may also be interested in :ref:`How to use Django with FastCGI, SCGI or AJP
 .. _prefork MPM: http://httpd.apache.org/docs/2.2/mod/prefork.html
 .. _worker MPM: http://httpd.apache.org/docs/2.2/mod/worker.html
 
-Basic configuration
+Configuração Básica
 ===================
 
-To configure Django with mod_python, first make sure you have Apache installed,
-with the mod_python module activated.
+Para configurar o Django com o mod_python, verifique primeiro se você tem o Apache instalado,
+Com o módulo mod_python ativado.
 
-Then edit your ``httpd.conf`` file and add the following::
+Edite o arquivo ``httpd.conf`` e adicione o seguinte::
 
     <Location "/mysite/">
         SetHandler python-program
@@ -58,41 +58,41 @@ Then edit your ``httpd.conf`` file and add the following::
         PythonDebug On
     </Location>
 
-...and replace ``mysite.settings`` with the Python import path to your Django
-project's settings file.
+...e substitua o ``mysite.settings`` com o caminho de importação do Python para o seu
+arquivo de configuração do projeto Django.
 
-This tells Apache: "Use mod_python for any URL at or under '/mysite/', using the
-Django mod_python handler." It passes the value of :ref:`DJANGO_SETTINGS_MODULE
-<django-settings-module>` so mod_python knows which settings to use.
+Isso diz ao Apache: "Use o mod_python para qualquer URL em ou sobre '/mysite/', usando o 
+handler do mod_python do Django." Ele passa o valor do :ref:`DJANGO_SETTINGS_MODULE
+<django-settings-module>` para que o mod_python saiba quais configurações usar.
 
 .. versionadded:: 1.0
-    The ``PythonOption django.root ...`` is new in this version.
+    A ``PythonOption django.root ...`` é nova nessa versão.
 
-Because mod_python does not know we are
-serving this site from underneath the ``/mysite/`` prefix, this value needs to
-be passed through to the mod_python handler in Django, via the ``PythonOption
-django.root ...`` line. The value set on that line (the last item) should
-match the string given in the ``<Location ...>`` directive. The effect of this
-is that Django will automatically strip the ``/mysite`` string from the front
-of any URLs before matching them against your ``URLConf`` patterns. If you
-later move your site to live under ``/mysite2``, you will not have to change
-anything except the ``django.root`` option in the config file.
+Como o mod_python não sabe que estamos servido
+esse site a partir do prefixo ``/mysite/``, esse valor precisa ser passado
+para o Django através do manipulador do mod_python, pela linha ``PythonOption
+django.root ...``. O valor configurado nessa linha (o último item) deve ser igual
+ao texto informado na diretiva ``<Location ...>``. O efeito disso é que o
+Django irá automaticamente remover a string ``/mysite`` no início de quaisquer
+URLs antes de fazer a verificação deles com os seus padrões em ``URLConf``. Se você depois
+mudar o seu site para um endereço como ``/mysite2``, você não irá precisar alterar nada,
+exceto a opção ``django.root`` no arquivo de configuração.
 
-When using ``django.root`` you should make sure that what's left, after the
-prefix has been removed, begins with a slash. Your URLConf patterns that are
-expecting an initial slash will then work correctly. In the above example,
-since we want to send things like ``/mysite/admin/`` to ``/admin/``, we need
-to remove the string ``/mysite`` from the beginning, so that is the
-``django.root`` value. It would be an error to use ``/mysite/`` (with a
-trailing slash) in this case.
+Ao usar o ``django.root`` você deve assegurar-se que o que resta, após a
+remoção do prefixo, inicie com uma barra. Seus padrões do URLConf que esperar
+uma barra inicial funcionaram corretamente. No exemplo acima,
+supondo que queiramos enviar uma URL como ``/mysite/admin/`` para o ``/admin/``, precisamos
+remover a  string ``/mysite`` do início, então esse deve ser o valor do
+``django.root``. Seria um error usar o ``/mysite/`` (com uma
+barra final) nesse caso.
 
-Note that we're using the ``<Location>`` directive, not the ``<Directory>``
-directive. The latter is used for pointing at places on your filesystem,
-whereas ``<Location>`` points at places in the URL structure of a Web site.
-``<Directory>`` would be meaningless here.
+Repare que estamos usando a diretiva ``<Location>`` , não a diretiva ``<Directory>``. 
+Essa última é usada para apontar para lugares no sistema de arquivos,
+enquanto ``<Location>`` aponta para lugares específicos na estrutura de URL de um Web site.
+``<Directory>`` seria sem significado aqui.
 
-Also, if your Django project is not on the default ``PYTHONPATH`` for your
-computer, you'll have to tell mod_python where your project can be found:
+Além disso, se o seu projeto Django não está no ``PYTHONPATH`` padrão do seu 
+computador, você terá de dizer ao mod_python onde o seu projeto pode ser encontrado:
 
 .. parsed-literal::
 
@@ -156,8 +156,8 @@ the full URL.
 When deploying Django sites on mod_python, you'll need to restart Apache each
 time you make changes to your Python code.
 
-Multiple Django installations on the same Apache
-================================================
+Múltiplas instalações do Django no mesmo Apache
+===============================================
 
 It's entirely possible to run multiple Django installations on the same Apache
 instance. Just use ``VirtualHost`` for that, like so::
@@ -199,8 +199,8 @@ mess things up. Use the ``PythonInterpreter`` directive to give different
 The values of ``PythonInterpreter`` don't really matter, as long as they're
 different between the two ``Location`` blocks.
 
-Running a development server with mod_python
-============================================
+Executando um servidor de desenvolvimento com o mod_python
+==========================================================
 
 If you use mod_python for your development server, you can avoid the hassle of
 having to restart the server each time you make code changes. Just set
@@ -221,8 +221,8 @@ Or add the debugging information to the template of your page.
 
 .. _serving-media-files:
 
-Serving media files
-===================
+Servindo arquivos de mídia
+==========================
 
 Django doesn't serve media files itself; it leaves that job to whichever Web
 server you choose.
@@ -272,8 +272,8 @@ the ``media`` subdirectory and any URL that ends with ``.jpg``, ``.gif`` or
 
 .. _serving-the-admin-files:
 
-Serving the admin files
-=======================
+Servindo os arquivos da administração
+=====================================
 
 Note that the Django development server automagically serves admin media files,
 but this is not the case when you use any other server arrangement. You're
@@ -293,8 +293,8 @@ Here are two recommended approaches:
     2. Or, copy the admin media files so that they live within your Apache
        document root.
 
-Using "eggs" with mod_python
-============================
+Usando "eggs" com o mod_python
+==============================
 
 If you installed Django from a Python egg_ or are using eggs in your Django
 project, some extra configuration is required. Create an extra file in your
@@ -329,10 +329,10 @@ line is processed.
 .. _Egg: http://peak.telecommunity.com/DevCenter/PythonEggs
 .. _PythonImport: http://www.modpython.org/live/current/doc-html/dir-other-pimp.html
 .. _mod_python manual: PythonImport_
-__ `Multiple Django installations on the same Apache`_
+__ `Múltiplas instalações do Django no mesmo Apache`_
 
-Error handling
-==============
+Tratamento de erros
+===================
 
 When you use Apache/mod_python, errors will be caught by Django -- in other
 words, they won't propagate to the Apache level and won't appear in the Apache
