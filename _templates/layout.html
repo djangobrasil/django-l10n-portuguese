@@ -42,7 +42,7 @@
           <div class="yui-b" id="sidebar">
             {{ sidebar() }}
             {%- if last_updated %}
-              <h3>Last update:</h3>
+              <h3>Última atualização:</h3>
               <p class="topless">{{ last_updated }}</p>
             {%- endif %}
           </div> 
@@ -66,7 +66,7 @@
       <li>Next: <a href="{{ next.link }}">{{ next.title }}</a></li>
     {% endif %}
   </ul>
-  <h3>You are here:</h3>
+  <h3>Você está aqui:</h3>
   <ul>
       <li>
         <a href="{{ pathto('index') }}">{{ docstitle }}</a>
