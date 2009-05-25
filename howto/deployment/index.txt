@@ -21,8 +21,8 @@ Implantando o Django
 
 O Django possui uma série de atalhos para tornar a vida do desenvolvedor web 
 mais fácil, mas de nada vale se você não consegue realizar a implantação de seus 
-sites facilmente. Desde o início do Django trás o conceito, fácil 
-``implantação``, como um objetivo prioritário. E há um certo número de boas 
+sites facilmente. Desde o início do desenvolvimento do Django, o conceito de
+facilidade de implantação tem sido um alvo prioritário. Existem algumas boas
 soluções para se colocar um projeto Django em produção:
 
 .. toctree::
@@ -37,8 +37,8 @@ tiver certeza de qual solução você gostaria usar.
 
 .. seealso::
 
-    * No `capítulo 20 do Livro do Django`_ é discutido implantação e 
-      especialmente escalabilidade e mais detalhes.
+    * No `capítulo 20 do Livro do Django`_ é discutido a implantação e 
+      especialmente a escalabilidade mais detalhadamente.
 
     * O `mod_wsgi`_ é um novato no mundo de implantação com Python, mas ele 
       ganhou atenção muito rápido. Atualmente á poucos aros que você tem que 
