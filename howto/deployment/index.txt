@@ -28,23 +28,17 @@ soluções para se colocar um projeto Django em produção:
 .. toctree::
    :maxdepth: 1
    
+   modwsgi
    modpython
    fastcgi
    
-O método de implantação mais recomendado é com 
-:ref:`mod_python <howto-deployment-modpython>`; começe utilizando ele, se não 
-tiver certeza de qual solução você gostaria usar.
+Se você é novato na implantação do Django e/ou Python, nós recomentadmos que você tente o
+:ref:`mod_wsgi <howto-deployment-modwsgi>` primeiro. Na maioria dos casos ele é a opção de
+implantação mais fácil, rápida e estável.
 
 .. seealso::
 
-    * No `capítulo 20 do Livro do Django`_ é discutido a implantação e 
-      especialmente a escalabilidade mais detalhadamente.
+    * `O capítulo 12 do Django Book`_ discute a implantação e especialmente
+      a escalabilidade em maiores detalhes.
 
-    * O `mod_wsgi`_ é um novato no mundo de implantação com Python, mas ele 
-      ganhou atenção muito rápido. Atualmente á poucos aros que você tem que 
-      saltar através do `uso de mod_wsgi com Django`_, mas mod_wsgi tende a 
-      ficar vibrante com as opiniões de quem o utiliza.
-
-.. _capítulo 20 do Livro do Django: http://djangobook.com/en/1.0/chapter20/
-.. _mod_wsgi: http://code.google.com/p/modwsgi/
-.. _uso de mod_wsgi com Django: http://code.google.com/p/modwsgi/wiki/IntegrationWithDjango
+.. _O capítulo 12 do Django Book: http://djangobook.com/en/2.0/chapter12/

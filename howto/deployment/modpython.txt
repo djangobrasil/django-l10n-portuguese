@@ -33,24 +33,24 @@ durante o tempo de vida do processo Apache, que leva a ganhos de performance
 significantes sobre outras opções de disposição de servidor.
 
 O Django requer o Apache 2.x e o mod_python 3.x, e você deve usar o
-`prefork MPM`_, ao invés do `worker MPM`_.
+`MPM prefork`_, ao invés do `MPM worker`_.
 
 .. seealso::
 
-    * Apache is a big, complex animal, and this document only scratches the
-      surface of what Apache can do. If you need more advanced information about
-      Apache, there's no better source than `Apache's own official
-      documentation`_
+    * O apache é um animal grande e complexo, e esse documento dá apenas um 
+      panorama do que o Apache é capaz de fazer. Se você precisa de informação
+      mais avançado sobre o Apache, não há fonte de informação melhor que
+      `a própria documentação oficial do Apache`_
 
-     *Você pode também estar interessado em :ref:`Como usar o Django com FastCGI, SCGI
+    * Você pode também estar interessado em :ref:`Como usar o Django com FastCGI, SCGI
       ou AJP <howto-deployment-fastcgi>`.
 
 .. _Apache: http://httpd.apache.org/
 .. _mod_python: http://www.modpython.org/
 .. _mod_perl: http://perl.apache.org/
-.. _prefork MPM: http://httpd.apache.org/docs/2.2/mod/prefork.html
-.. _worker MPM: http://httpd.apache.org/docs/2.2/mod/worker.html
-.. _apache's own official documentation: http://httpd.apache.org/docs/
+.. _MPM prefork: http://httpd.apache.org/docs/2.2/mod/prefork.html
+.. _MPM worker: http://httpd.apache.org/docs/2.2/mod/worker.html
+.. _a própria documentação oficial do Apache: http://httpd.apache.org/docs/
 
 Configuração Básica
 ===================
@@ -123,9 +123,9 @@ do caminho do Python para uso iterativo. Sempre que você tenta importar algo,
 o Python irá percorrer todos os diretórios no ``sys.path`` em ordem,
 do primeiro ao último, e tentar importar de cada diretório até ter sucesso.
 
-Make sure that your Python source files' permissions are set such that the
-Apache user (usually named ``apache`` or ``httpd`` on most systems) will have
-read access to the files.
+Verique se as permissões dos seus arquivos de código Python estejam configuradas de forma que o usuário do
+Apache  (normalmente chamado de ``apache`` ou ``httpd`` na maioria dos sistemas) tenha acesso
+de leitura aos arquivos.
 
 Um exemplo que pode tornar isso mais claro: suponha que você tenha algumas aplicações em
 ``/usr/local/django-apps/`` (por exemplo, ``/usr/local/django-apps/weblog/`` e assim
