@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
-..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationStatus: In Progress $
+..   $OriginalRevision: 10838 $
+..   $TranslationAuthors: Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -17,16 +17,15 @@
 .. _howto-deployment-fastcgi:
 
 ===========================================
-How to use Django with FastCGI, SCGI or AJP
+Como usar o Django com FastCGI, SCGI ou AJP
 ===========================================
 
 .. highlight:: bash
 
 Although the current preferred setup for running Django is :ref:`Apache with
-mod_python <howto-deployment-modpython>`, many people use shared hosting, on
+mod_wsgi <howto-deployment-modwsgi>`, many people use shared hosting, on
 which protocols such as FastCGI, SCGI or AJP are the only viable options. In
-some setups, these protocols also allow better security -- and, possibly, better
-performance -- than mod_python_.
+some setups, these protocols may provide better performance than mod_wsgi_.
 
 .. admonition:: Note
 
@@ -44,10 +43,11 @@ served with no startup time. Unlike mod_python_ (or `mod_perl`_), a FastCGI
 process doesn't run inside the Web server process, but in a separate,
 persistent process.
 
-.. _mod_python: http://www.modpython.org/
+.. _mod_wsgi: http://code.google.com/p/modwsgi/
 .. _mod_perl: http://perl.apache.org/
+.. _mod_python: http://www.modpython.org/
 
-.. admonition:: Why run code in a separate process?
+.. admonition:: Porque rodar código em um processo separado?
 
     The traditional ``mod_*`` arrangements in Apache embed various scripting
     languages (most notably PHP, Python and Perl) inside the process space of
@@ -61,16 +61,16 @@ persistent process.
     security benefit on shared systems, because it means you can secure your
     code from other users.
 
-Prerequisite: flup
-==================
+Pré-requisito: flup
+===================
 
 Before you can start using FastCGI with Django, you'll need to install flup_, a
 Python library for dealing with FastCGI. Version 0.5 or newer should work fine.
 
 .. _flup: http://www.saddi.com/software/flup/
 
-Starting your FastCGI server
-============================
+Iniciando seu servidor FastCGI
+==============================
 
 FastCGI operates on a client-server model, and in most cases you'll be starting
 the FastCGI process on your own. Your Web server (be it Apache, lighttpd, or
@@ -103,8 +103,8 @@ You'll need to specify either a ``socket``, a ``protocol`` or both ``host`` and
 the host/port or socket you specified when starting the FastCGI server. See the
 examples_, below.
 
-Protocols
----------
+Protocolos
+----------
 
 Django supports all the protocols that flup_ does, namely fastcgi_, `SCGI`_ and
 `AJP1.3`_ (the Apache JServ Protocol, version 1.3). Select your preferred
@@ -119,7 +119,7 @@ runfcgi`` -- where ``<protocol_name>`` may be one of: ``fcgi`` (the default),
 .. _SCGI: http://python.ca/scgi/protocol.txt
 .. _AJP1.3: http://tomcat.apache.org/connectors-doc/ajp/ajpv13a.html
 
-Examples
+Exemplos
 --------
 
 Running a threaded server on a TCP port::
@@ -134,8 +134,8 @@ Run without daemonizing (backgrounding) the process (good for debugging)::
 
     ./manage.py runfcgi daemonize=false socket=/tmp/mysite.sock maxrequests=1
 
-Stopping the FastCGI daemon
----------------------------
+Parando o daemon FastCGI
+------------------------
 
 If you have the process running in the foreground, it's easy enough to stop it:
 Simply hitting ``Ctrl-C`` will stop and quit the FastCGI server. However, when
@@ -168,8 +168,8 @@ To easily restart your FastCGI daemon on Unix, try this small shell script::
       PYTHONPATH="../python:.." \
       ./manage.py runfcgi socket=$SOCKET pidfile=$PIDFILE
 
-Apache setup
-============
+Configuração do Apache
+======================
 
 To use Django with Apache and FastCGI, you'll need Apache installed and
 configured, with `mod_fastcgi`_ installed and enabled. Consult the Apache
@@ -185,8 +185,8 @@ things:
 
 .. _mod_fastcgi: http://www.fastcgi.com/mod_fastcgi/docs/mod_fastcgi.html
 
-Specifying the location of the FastCGI server
----------------------------------------------
+Especificando a localização do servidor FastCGI
+-----------------------------------------------
 
 The ``FastCGIExternalServer`` directive tells Apache how to find your FastCGI
 server. As the `FastCGIExternalServer docs`_ explain, you can specify either a
@@ -207,8 +207,8 @@ on this in the next section.)
 
 .. _FastCGIExternalServer docs: http://www.fastcgi.com/mod_fastcgi/docs/mod_fastcgi.html#FastCgiExternalServer
 
-Using mod_rewrite to point URLs at FastCGI
-------------------------------------------
+Usando o mod_rewrite para apontar URLs no FastCGI
+-------------------------------------------------
 
 The second step is telling Apache to use FastCGI for URLs that match a certain
 pattern. To do this, use the `mod_rewrite`_ module and rewrite URLs to
@@ -236,8 +236,8 @@ This is probably the most common case, if you're using Django's admin site:
 Django will automatically use the pre-rewrite version of the URL when
 constructing URLs with the ``{% url %}`` template tag (and similar methods).
 
-lighttpd setup
-==============
+Configuração do lighttpd
+========================
 
 lighttpd_ is a lightweight Web server commonly used for serving static files. It
 supports FastCGI natively and, thus, is a good choice for serving both static
@@ -266,7 +266,7 @@ Add the following to your lighttpd config file:
         ),
     )
     alias.url = (
-        "/media/" => "/home/user/django/contrib/admin/media/",
+        "/media" => "/home/user/django/contrib/admin/media/",
     )
 
     url.rewrite-once = (
@@ -275,8 +275,8 @@ Add the following to your lighttpd config file:
         "^(/.*)$" => "/mysite.fcgi$1",
     )
 
-Running multiple Django sites on one lighttpd
----------------------------------------------
+Executando múltiplos sites Django em um lighttpd
+------------------------------------------------
 
 lighttpd lets you use "conditional configuration" to allow configuration to be
 customized per host. To specify multiple FastCGI sites, just add a conditional
@@ -303,6 +303,19 @@ block around your FastCGI config for each site::
 You can also run multiple Django installations on the same site simply by
 specifying multiple entries in the ``fastcgi.server`` directive. Add one
 FastCGI host for each.
+
+Configuração do Cherokee
+========================
+
+Cherokee is a very fast, flexible and easy to configure Web Server. It
+supports the widespread technologies nowadays: FastCGI, SCGI, PHP, CGI, SSI,
+TLS and SSL encrypted connections, Virtual hosts, Authentication, on the fly
+encoding, Load Balancing, Apache compatible log files, Data Base Balancer,
+Reverse HTTP Proxy and much more.
+
+The Cherokee project provides a documentation to `setting up Django`_ with Cherokee.
+
+.. _setting up Django: http://www.cherokee-project.com/doc/cookbook_django.html
 
 Running Django on a shared-hosting provider with Apache
 =======================================================
@@ -361,16 +374,16 @@ easily by using the ``touch`` command::
 
     touch mysite.fcgi
 
-Serving admin media files
-=========================
+Servindo arquivos de mídia da administração
+===========================================
 
 Regardless of the server and configuration you eventually decide to use, you
 will also need to give some thought to how to serve the admin media files. The
 advice given in the :ref:`modpython <serving-the-admin-files>` documentation
 is also applicable in the setups detailed above.
 
-Forcing the URL prefix to a particular value
-============================================
+Forçando o prefixo de URL para um valor em particular
+=====================================================
 
 Because many of these fastcgi-based solutions require rewriting the URL at
 some point inside the webserver, the path information that Django sees may not
@@ -395,5 +408,3 @@ have different script names in this case, but that is a rare situation.
 As an example of how to use it, if your Django configuration is serving all of
 the URLs under ``'/'`` and you wanted to use this setting, you would set
 ``FORCE_SCRIPT_NAME = ''`` in your settings file.
-
-
