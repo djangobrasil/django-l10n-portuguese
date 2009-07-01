@@ -1,4 +1,4 @@
-	..
+..
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision. $
@@ -42,7 +42,7 @@ os detalhes sobre como usar o mod_wsgi. você provavalmente irá querer iniciar 
 Configuração Básica
 ===================
 
-Uma vez que você tenha o mod_wsgi instalado e ativado, edite o seu arquivo ``httpd.conf`` 
+Uma vez que você tenha o mod_wsgi instalado e ativado, edite o seu arquivo ``httpd.conf``
 e adicione::
 
     WSGIScriptAlias / /path/to/mysite/apache/django.wsgi
@@ -82,3 +82,4 @@ maior detalhamento, e lhe dá todas as possibilidades de opções que você tem
 ao fazer uma implantação no mod_wsgi.
 
 .. _documentação do mod_wsgi: http://code.google.com/p/modwsgi/wiki/IntegrationWithDjango
+

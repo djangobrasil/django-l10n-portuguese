@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Draft $
+..   $TranslationStatus: Done, Waiting for revision $
 ..   $OriginalRevision: 9368 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
@@ -22,7 +22,7 @@ Autenticando no Apache usuários do banco de dados do Django
 
 Fazer autenticação mantendo múltiplas bases de dados em sincronia é um problema
 comum quando se trabalha com o Apache, por isso você pode configurar o Apache
-para usar o :ref:`sistema de autenticação <topics-auth>` do Django diretamente. 
+para usar o :ref:`sistema de autenticação <topics-auth>` do Django diretamente.
 Por exemplo, você poderia:
 
     * Servir arquivos static/media diretamente do Apache somente para usuários
@@ -36,7 +36,7 @@ Por exemplo, você poderia:
 
 .. _Subversion: http://subversion.tigris.org/
 .. _mod_dav: http://httpd.apache.org/docs/2.0/mod/mod_dav.html
-      
+
 Configurando o Apache
 =====================
 
@@ -60,17 +60,17 @@ configurações do Apache, você precisará utilizar a diretiva
 
     Se você está usando Apache 2.2, você necessitará seguir alguns passos.
 
-    Você precisará se assegurar de que o ``mod_auth_basic`` e 
-    ``mod_authz_user`` estão carregados. Esses devem ser compilados 
+    Você precisará se assegurar de que o ``mod_auth_basic`` e
+    ``mod_authz_user`` estão carregados. Esses devem ser compilados
     estaticamente no Apache, ou você pode usar ``LoadModule`` para carregar
     dinamicamente (como demonstram os exemplos abaixo desta nota).
 
     Você também precisará inserir diretivas de configuração que impedem que o
     Apache tente utilizar outros módulos autenticação, bem como especificar a
-    diretiva ``AuthUserFile`` e apontá-la para ``/dev/null``. 
+    diretiva ``AuthUserFile`` e apontá-la para ``/dev/null``.
     Dependendo dos módulos de autenticação que você tenha carregado, você
     pode precisar ter uma ou mais das seguintes diretivas::
-    
+
     .. code-block:: apache
 
         AuthBasicAuthoritative Off
@@ -116,15 +116,15 @@ diretivas ``PythonOption`` para modificar esse comportamento:
 
                                       O padrão é ``on``.
 
-    ``DjangoRequireSuperuserStatus``  Se setado como ``on`` somente 
+    ``DjangoRequireSuperuserStatus``  Se setado como ``on`` somente
                                       super-usuários (i.e. aqueles com o flag
                                       ``is_superuser`` setado) serão permitidos.
 
                                       O padrão é ``off``.
 
-    ``DjangoPermissionName``          O nome de uma permissão de acesso a 
+    ``DjangoPermissionName``          O nome de uma permissão de acesso a
                                       exigir. Veja :ref:`custom permissions
-                                      <custom-permissions>` para mais 
+                                      <custom-permissions>` para mais
                                       informações.
 
                                       Por padrão não será exigida autorização
@@ -139,3 +139,4 @@ diretivas do Apache são equivalentes::
 
     SetEnv DJANGO_SETTINGS_MODULE mysite.settings
     PythonOption DJANGO_SETTINGS_MODULE mysite.settings
+

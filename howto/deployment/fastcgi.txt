@@ -31,7 +31,7 @@ some setups, these protocols may provide better performance than mod_wsgi_.
 
     This document primarily focuses on FastCGI. Other protocols, such as SCGI
     and AJP, are also supported, through the ``flup`` Python package. See the
-    Protocols_ section below for specifics about SCGI and AJP.
+    Protocolos_ section below for specifics about SCGI and AJP.
 
 Essentially, FastCGI is an efficient way of letting an external application
 serve pages to a Web server. The Web server delegates the incoming Web requests
@@ -101,7 +101,7 @@ display a list of all the available options.
 You'll need to specify either a ``socket``, a ``protocol`` or both ``host`` and
 ``port``. Then, when you set up your Web server, you'll just need to point it at
 the host/port or socket you specified when starting the FastCGI server. See the
-examples_, below.
+Exemplos_, below.
 
 Protocolos
 ----------
@@ -408,3 +408,4 @@ have different script names in this case, but that is a rare situation.
 As an example of how to use it, if your Django configuration is serving all of
 the URLs under ``'/'`` and you wanted to use this setting, you would set
 ``FORCE_SCRIPT_NAME = ''`` in your settings file.
+
