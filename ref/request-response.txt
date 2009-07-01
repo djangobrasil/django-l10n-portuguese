@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,47 +16,51 @@
 
 .. _ref-request-response:
 
-============================
-Request and response objects
-============================
+================================
+Objetos de requisição e resposta
+================================
 
 .. module:: django.http
-   :synopsis: Classes dealing with HTTP requests and responses.
+   :synopsis: Classes para trabalhar com requisições e respostas HTTP.
 
-Quick overview
-==============
+Visão Geral
+===========
 
-Django uses request and response objects to pass state through the system.
+O Django utiliza objetos de requisição e resposta para passar estado através
+do sistema.
 
-When a page is requested, Django creates an :class:`HttpRequest` object that
-contains metadata about the request. Then Django loads the appropriate view,
-passing the :class:`HttpRequest` as the first argument to the view function. Each
-view is responsible for returning an :class:`HttpResponse` object.
+Quando uma página é requisitada, o Django cria um objeto :class:`HttpRequest`
+que contém metadados sobre a requisição. Então o Django carrega a view
+apropriada, passando o :class:`HttpRequest` como o primeiro argumento para a
+função de view. Cada view é responsável por devolver um objeto
+:class:`HttpResponse`.
 
-This document explains the APIs for :class:`HttpRequest` and :class:`HttpResponse`
-objects.
+Este documento explica as APIs para os objetos :class:`HttpRequest` e
+:class:`HttpResponse`.
 
-HttpRequest objects
+
+Objetos HttpRequest
 ===================
 
 .. class:: HttpRequest
 
-Attributes
-----------
+Atributos
+---------
 
-All attributes except ``session`` should be considered read-only.
+Todos os atributos, exceto ``session``, devem ser considerados
+somente para leitura.
 
 .. attribute:: HttpRequest.path
 
-   A string representing the full path to the requested page, not including
-   the domain.
+    Uma string representando o caminho completo para a página requisitada,
+    não incluindo o domínio.
 
-   Example: ``"/music/bands/the_beatles/"``
+    Exemplo: ``"/music/bands/the_beatles/"``
 
 .. attribute:: HttpRequest.method
 
-    A string representing the HTTP method used in the request. This is
-    guaranteed to be uppercase. Example::
+    Uma string representando o método HTTP usado na requisição. Este valor
+    está sempre em maiúsculo. Exemplo::
 
         if request.method == 'GET':
             do_something()
@@ -67,6 +71,12 @@ All attributes except ``session`` should be considered read-only.
 
     .. versionadded:: 1.0
 
+    Uma string representando o valor atual de codificação utilizado para
+    decodificar o envio de dados de formulário (ou ``None``, que quer dizer
+    que o parâmetro de configuração ``DEFAULT_CHARSET`` é utilizado). Você
+    pode alterar este atributo para modificar a codificação usada quando
+    acessar os dados do formulário. Quaisquer acessos subseqüentesa atributos
+    (como ler de ``GET`` ou ``POST``) utilizará no novo valor de encodig
     A string representing the current encoding used to decode form submission
     data (or ``None``, which means the ``DEFAULT_CHARSET`` setting is used).
     You can write to this attribute to change the encoding used when accessing
@@ -303,7 +313,7 @@ a subclass of dictionary. Exceptions are outlined here:
     Just like the standard dictionary ``setdefault()`` method, except it uses
     ``__setitem__`` internally.
 
-.. method:: QueryDict.update(other_dict) 
+.. method:: QueryDict.update(other_dict)
 
     Takes either a ``QueryDict`` or standard dictionary. Just like the standard
     dictionary ``update()`` method, except it *appends* to the current
@@ -366,11 +376,11 @@ In addition, ``QueryDict`` has the following methods:
 
     Like :meth:`items()`, except it includes all values, as a list, for each
     member of the dictionary. For example::
-    
+
          >>> q = QueryDict('a=1&a=2&a=3')
          >>> q.lists()
          [('a', ['1', '2', '3'])]
-    
+
 .. method:: QueryDict.urlencode()
 
     Returns a string of the data in query-string format.
@@ -461,7 +471,7 @@ Methods
 -------
 
 .. method:: HttpResponse.__init__(content='', mimetype=None, status=200, content_type=DEFAULT_CONTENT_TYPE)
-    
+
     Instantiates an ``HttpResponse`` object with the given page content (a
     string) and MIME type. The ``DEFAULT_CONTENT_TYPE`` is ``'text/html'``.
 

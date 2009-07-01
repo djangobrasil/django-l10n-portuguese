@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,61 +16,65 @@
 
 .. _ref-contrib-formtools-form-preview:
 
-============
-Form preview
-============
+===============================
+Pré-visualização de formulários
+===============================
 
 .. module:: django.contrib.formtools
-    :synopsis: Displays an HTML form, forces a preview, then does something
-               with the submission.
+    :synopsis: Mostra um formulário HTML, força uma previsão, e então faz algo
+               com a submissão do formulário.
 
-Django comes with an optional "form preview" application that helps automate
-the following workflow:
+O Django vem acompanhado com uma aplicação opcional, "form preview", que ajuda
+a automatizar o seguinte workflow:
 
-"Display an HTML form, force a preview, then do something with the submission."
+"Mostrar um formulário HTML, forçar uma pré-visualização, somente então fazer
+algo com o enviado."
 
-To force a preview of a form submission, all you have to do is write a short
-Python class.
+Para forçar uma pré-visualização de um envio de formulário, todos devem
+escrever uma pequena classe Python.
 
-Overview
-=========
+Visão Geral
+===========
 
-Given a :class:`django.forms.Form` subclass that you define, this
-application takes care of the following workflow:
+Dada uma subclasse de :class:`django.forms.Form` que você define, esta aplicação
+se preocupa com o seguinte fluxo:
 
-   1. Displays the form as HTML on a Web page.
-   2. Validates the form data when it's submitted via POST.
-      a. If it's valid, displays a preview page.
-      b. If it's not valid, redisplays the form with error messages.
-   3. When the "confirmation" form is submitted from the preview page, calls
-      a hook that you define -- a
-      :meth:`~django.contrib.formtools.FormPreview.done()` method that gets
-      passed the valid data.
+    1. Mostrar o formulário como uma página HTML.
+    2. Validar os dados do formulário quando este é enviado via POST.
+       a. Se for válido, mostra uma pré-visualização da página.
+       b. Se não for válido, mostra novamente o formulário com as mensagens de
+       erro.
+    3. Quando a "confirmação" do formulário é submetida da página de previsão,
+       chame um hook que você define -- um método
+       :meth:`~django.contrib.formtools.FormPreview.done()` que captura os
+       dados válidos passados.
 
-The framework enforces the required preview by passing a shared-secret hash to
-the preview page via hidden form fields. If somebody tweaks the form parameters
-on the preview page, the form submission will fail the hash-comparison test.
+O framework fiscaliza a pré-visualização requisitada passando um hash de
+segredo compartilhado para a página de pré-visualização, por meio de campos
+hidden. Se alguém ajusta os parâmetros do formulário na página de
+pré-visualização, o envio do formulário pode falhar no momento da comparação
+com o hash.
 
-How to use ``FormPreview``
-==========================
+Como usar o ``FormPreview``
+===========================
 
-    1. Point Django at the default FormPreview templates. There are two ways to
-       do this:
+    1. Aponte o Django para os templates padrão do ``FormPreview``. Existem
+       duas maneiras de fazer isso:
 
-            * Add ``'django.contrib.formtools'`` to your
-              :setting:`INSTALLED_APPS` setting. This will work if your
-              :setting:`TEMPLATE_LOADERS` setting includes the
-              ``app_directories`` template loader (which is the case by
-              default). See the :ref:`template loader docs <template-loaders>`
-              for more.
+       * Adicione ``'django.contrib.formtools'`` em seu
+         :setting:`INSTALLED_APPS`. Isso funcionará se o seu
+         :setting:`TEMPLATE_LOADERS` incluir o carregador de templates (que vem
+         por padrão) ``app_directories``. Veja a
+         :ref:`documentação do carregador de templates <template-loaders>` para
+         saber mais.
 
-            * Otherwise, determine the full filesystem path to the
-              :file:`django/contrib/formtools/templates` directory, and add that
-              directory to your :setting:`TEMPLATE_DIRS` setting.
+       * De outra maneira, determine o caminho completo no sistema de arquivos
+         para o diretório :file:`django/contrib/formtools/templates` e
+         adicione-o no :setting:`TEMPLATE_DIRS` no arquivo settings.py.
 
-    2. Create a :class:`~django.contrib.formtools.FormPreview` subclass that
-       overrides the :meth:`~django.contrib.formtools.FormPreview.done()`
-       method::
+    2. Crie uma subclasse :class:`~django.contrib.formtools.FormPreview` que
+       sobrescreva o método
+       :meth:`~django.contrib.formtools.FormPreview.done()`::
 
            from django.contrib.formtools.preview import FormPreview
            from myapp.models import SomeModel
@@ -78,49 +82,52 @@ How to use ``FormPreview``
            class SomeModelFormPreview(FormPreview):
 
                def done(self, request, cleaned_data):
-                   # Do something with the cleaned_data, then redirect
-                   # to a "success" page.
+                   # Faça algo com o cleaned_data, e depois redirecione
+                   # para uma página de "sucesso".
                    return HttpResponseRedirect('/form/success')
 
-       This method takes an :class:`~django.http.HttpRequest` object and a
-       dictionary of the form data after it has been validated and cleaned.
-       It should return an :class:`~django.http.HttpResponseRedirect` that
-       is the end result of the form being submitted.
+       Este método recebe um objeto :class:`~django.http.HttpRequest` e um
+       dicionário de dados de formulário, depois de terem sido validados e
+       limpos. Podendo retornar um :class:`~django.http.HttpResponseRedirect`,
+       que é um resultado final de um fomulário que foi enviado.
 
-    3. Change your URLconf to point to an instance of your
-       :class:`~django.contrib.formtools.FormPreview` subclass::
+    3. Mude seu URLconf para apontar para uma instância de sua subclasse
+       :class:`~django.contrib.formtools.FormPreview`
+
 
            from myapp.preview import SomeModelFormPreview
-           from myapp.forms import SomeModelForm
+           from myapp.models import SomeModel
            from django import forms
 
-       ...and add the following line to the appropriate model in your URLconf::
+       ...e adicione a seguinte linha para o modelo apropriado em seu URLconf::
 
            (r'^post/$', SomeModelFormPreview(SomeModelForm)),
 
-       where ``SomeModelForm`` is a Form or ModelForm class for the model.
+       onde ``SomeModelForm`` é uma classe Form ou ModelForm.
 
-    4. Run the Django server and visit :file:`/post/` in your browser.
+    4. Rode o servidor do Django e visite :file:`/post/` no seu navegador.
 
-``FormPreview`` classes
+Classes ``FormPreview``
 =======================
 
-.. class:: FormPreview
+.. class: FormPreview
 
-A :class:`~django.contrib.formtools.FormPreview` class is a simple Python class
-that represents the preview workflow.
-:class:`~django.contrib.formtools.FormPreview` classes must subclass
-``django.contrib.formtools.preview.FormPreview`` and override the
-:meth:`~django.contrib.formtools.FormPreview.done()` method. They can live
-anywhere in your codebase.
+Uma classe :class:`~django.contrib.formtools.FormPreview` é uma simples classe
+Python que representa o fluxo da pré-visualização. As classes
+:class:`~django.contrib.formtools.FormPreview` devem ser subclasses de
+``django.contrib.formtools.preview.FormPreview`` e sobrescrever o método
+:meth:`~django.contrib.formtools.FormPreview.done()`. Elas podem ficar em
+qualquer parte da base de código.
 
-``FormPreview`` templates
+Templates ``FormPreview``
 =========================
 
-By default, the form is rendered via the template :file:`formtools/form.html`,
-and the preview page is rendered via the template :file:`formtools/preview.html`.
-These values can be overridden for a particular form preview by setting
-:attr:`~django.contrib.formtools.FormPreview.preview_template` and
-:attr:`~django.contrib.formtools.FormPreview.form_template` attributes on the
-FormPreview subclass. See :file:`django/contrib/formtools/templates` for the
-default templates.
+Por padrão, o formulário é renderizado por meio do template
+:file:`formtools/form.html`, e a página de previsão é renderizada por meio do
+template :file:`formtools.preview.html`. Esses valores podem ser sobrescritos
+por um formulário de pré-visualização configurando os atributos
+:attr:`~django.contrib.formtools.FormPreview.preview_template` e
+:attr:`~django.contrib.formtools.FormPreview.form_template` na subclasse
+FormPreview. Veja :file:`django/contrib/formtools/templates` para conhecer os
+templates padrões.
+

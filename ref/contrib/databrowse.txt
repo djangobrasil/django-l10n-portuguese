@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -21,40 +21,41 @@ Databrowse
 ==========
 
 .. module:: django.contrib.databrowse
-   :synopsis: Databrowse is a Django application that lets you browse your data.
+   :synopsis: Databrowse é uma aplicação Django que permite você navegar em seus dados.
 
-Databrowse is a Django application that lets you browse your data.
+Databrowse é uma aplicação Django que permite você navegar em seus dados.
 
-As the Django admin dynamically creates an admin interface by introspecting
-your models, Databrowse dynamically creates a rich, browsable Web site by
-introspecting your models.
+Assim como a administração do Django cria dinamicamente uma interface
+espionando os seus modelos, o Databrowse cria dinamicamente um rico e navegável
+website espionando-os também.
 
 .. admonition:: Note
 
-    Databrowse is **very** new and is currently under active development. It
-    may change substantially before the next Django release.
+    O Databrowse é **muito** novo e está em fase de desenvolvimento. Ele pode
+    mudar substancialmente antes do próximo release do Django.
 
-    With that said, it's easy to use, and it doesn't require writing any
-    code. So you can play around with it today, with very little investment in
-    time or coding.
+    Como foi dito, ele é fácil de usar e não requer qualquer código novo.
+    Então você pode brincar com ele hoje, com um pouco de investimento de
+    tempo ou código.
 
-How to use Databrowse
-=====================
+Como usar o Databrowse
+======================
 
-    1. Point Django at the default Databrowse templates. There are two ways to
-       do this:
+    1. Aponte o Django para os templates padrões do "Databrowse". Existem duas
+       maneiras de fazer isso:
 
-       * Add ``'django.contrib.databrowse'`` to your :setting:`INSTALLED_APPS`
-         setting. This will work if your :setting:`TEMPLATE_LOADERS` setting
-         includes the ``app_directories`` template loader (which is the case by
-         default). See the :ref:`template loader docs <template-loaders>` for
-         more.
+       * Adicione ``'django.contrib.databrowse'`` em seu
+         :setting:`INSTALLED_APPS`. Isso funcionará se seu
+         :setting:`TEMPLATE_LOADERS` incluir o carregador de
+         templates ``app_directories`` (que é o caso por padrão). Veja a
+         documentação do :ref:`carregor de templates <template-loaders>` para
+         saber mais.
 
-       * Otherwise, determine the full filesystem path to the
-         :file:`django/contrib/databrowse/templates` directory, and add that
-         directory to your :setting:`TEMPLATE_DIRS` setting.
+       * De outra forma, determine o caminho completo no sistema de arquivos
+         para o diretório :file:`django/contrib/databrowse/templates`, e o
+         adicione no :setting:`TEMPLATES_DIRS` do arquivo settings.py.
 
-    2. Register a number of models with the Databrowse site::
+    2. Registrar um número de modelos com o site Databrowse::
 
            from django.contrib import databrowse
            from myapp.models import SomeModel, SomeOtherModel
@@ -62,47 +63,49 @@ How to use Databrowse
            databrowse.site.register(SomeModel)
            databrowse.site.register(SomeOtherModel)
 
-       Note that you should register the model *classes*, not instances.
+       Note que você pode registrar a *classe* do modelo, não instâncias.
 
-       It doesn't matter where you put this, as long as it gets executed at some
-       point. A good place for it is in your :ref:`URLconf file
+       Não importa onde você coloque isto, desde que seja executado em algum
+       ponto. Um bom lugar para isso é seu arquivo :ref:`URLconf
        <topics-http-urls>` (``urls.py``).
 
-    3. Change your URLconf to import the :mod:`~django.contrib.databrowse` module::
+    3. Mude seu URLconf para importar o módulo :mod:`~django.contrib.databrowse`::
 
            from django.contrib import databrowse
 
-       ...and add the following line to your URLconf::
+       ...e adicione a seguinte linha em seu URLconf::
 
            (r'^databrowse/(.*)', databrowse.site.root),
 
-       The prefix doesn't matter -- you can use ``databrowse/`` or ``db/`` or
-       whatever you'd like.
+       O prefixo não importa -- você pode usar ``databrowse/`` ou ``db/`` ou o
+       que preferir.
 
-    4. Run the Django server and visit ``/databrowse/`` in your browser.
+    4. Rode o servidor do Django e visite ``/databrowse/`` em seu navegador.
 
-Requiring user login
-====================
+Requerindo login de usuário
+===========================
 
-You can restrict access to logged-in users with only a few extra lines of
-code. Simply add the following import to your URLconf::
+Você pode restringir o acesso para usuário logados com poucas linhas de código
+extra. Simplesmente adicione o seguinte import em seu URLconf::
 
     from django.contrib.auth.decorators import login_required
 
-Then modify the :ref:`URLconf <topics-http-urls>` so that the
-:func:`databrowse.site.root` view is decorated with
+Em seguida modifique o :ref:`URLconf <topics-http-urls>` a fim de que o view
+:func:`databrowse.site.root` seja afetado pelo decorador
 :func:`django.contrib.auth.decorators.login_required`::
 
     (r'^databrowse/(.*)', login_required(databrowse.site.root)),
 
-If you haven't already added support for user logins to your :ref:`URLconf
-<topics-http-urls>`, as described in the :ref:`user authentication docs
-<ref-contrib-auth>`, then you will need to do so now with the following
-mapping::
+Se você ainda não adicionou suporte para logins de usuários à sua :ref:`URLconf
+<topics-http-urls>`, como descrito na documentação de :ref:`autenticação de
+usuário <ref-contrib-auth>`, então você precisará fazer isso agora com o
+seguinte mapeamento::
 
     (r'^accounts/login/$', 'django.contrib.auth.views.login'),
 
-The final step is to create the login form required by
-:func:`django.contrib.auth.views.login`. The
-:ref:`user authentication docs <ref-contrib-auth>` provide full details and a
-sample template that can be used for this purpose.
+O passo final é criar o fomulário de login requerido pelo
+:func:`django.contrib.auth.views.login`. A
+documentação de :ref:`autenticação de usuário <ref-contrib-auth>` provê os
+detalhes completos e um template de exemplo que pode ser usado com este
+propósito.
+
