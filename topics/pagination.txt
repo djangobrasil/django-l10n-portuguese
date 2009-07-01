@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 9368 $
 ..   $TranslationAuthors: None $
 ..
@@ -17,25 +17,26 @@
 .. _topics-pagination:
 
 ==========
-Pagination
+Paginação
 ==========
 
 .. module:: django.core.paginator
-   :synopsis: Classes to help you easily manage paginated data.
+   :synopsis: Classes para ajudá-lo a gerenciar dados pagináveis.
 
 .. versionchanged:: 1.0
-   Pagination facilities have been almost fully reworked.
+   As fundações da paginação foram reformuladas, quase que por completo.
 
-Django provides a few classes that help you manage paginated data -- that is,
-data that's split across several pages, with "Previous/Next" links. These
-classes live in :file:`django/core/paginator.py`.
+O Django fornece algumas classes que ajudam a lidar com paginação de dados --
+isto é, dados que são divididos entre várias páginas, com links "Previous/Next".
+Essas classes estão contidas no módulo :file:`django/core/paginator.py`.
 
-Example
+
+Exemplo
 =======
 
-Give :class:`Paginator` a list of objects, plus the number of items you'd like to
-have on each page, and it gives you methods for accessing the items for each
-page::
+Dada a um :class:`Paginator` uma lista de objetos, mais um número de itens que você
+gostaria que aparececem em cada página, ele fornecerá os métodos necessários
+para acessar os itens de cada página::
 
     >>> from django.core.paginator import Paginator
     >>> objects = ['john', 'paul', 'george', 'ringo']
@@ -67,30 +68,29 @@ page::
     3
     >>> page2.previous_page_number()
     1
-    >>> page2.start_index() # The 1-based index of the first item on this page
+    >>> page2.start_index() # O índice iniciado em 1 do primeiro item nesta página
     3
-    >>> page2.end_index() # The 1-based index of the last item on this page
+    >>> page2.end_index() # O índice iniciado em 1 do último item nesta página
     4
 
     >>> p.page(0)
     Traceback (most recent call last):
     ...
-    EmptyPage: That page number is less than 1
+    InvalidPage
     >>> p.page(3)
     Traceback (most recent call last):
     ...
-    EmptyPage: That page contains no results
+    InvalidPage
 
 .. note::
 
-    Note that you can give ``Paginator`` a list/tuple, a Django ``QuerySet``, or
-    any other object with a ``count()`` or ``__len__()`` method. When
-    determining the number of objects contained in the passed object,
-    ``Paginator`` will first try calling ``count()``, then fallback to using
-    ``len()`` if the passed object has no ``count()`` method. This allows
-    objects such as Django's ``QuerySet`` to use a more efficient ``count()``
-    method when available.
-
+    Note que você pode dar a um paginador uma lista ou tupla ``Paginator``, uma
+    ``QuerySet`` do Django, ou qualquer objeto com um método ``count()`` ou
+    ``__len__()``. Ao determinar o número de objetos contidos no objeto passado,
+    o ``Paginator`` vai primeiro tentar chamar ``count()``, depois irá tentar
+    chamar ``len()`` se o objeto não tiver um método ``count()``. Isso permite a
+    objetos como o ``QuerySet`` do Django usarem um ``count()`` mais eficiente,
+    quando disponível.
 
 Using ``Paginator`` in a view
 ==============================
@@ -148,10 +148,10 @@ pages along with any interesting information from the objects themselves::
     </div>
 
 
-``Paginator`` objects
+Objetos ``Paginator``
 =====================
 
-The :class:`Paginator` class has this constructor:
+A classe :class:`Paginator` tem este construtor:
 
 .. class:: Paginator(object_list, per_page, orphans=0, allow_empty_first_page=True)
 
@@ -196,7 +196,7 @@ Attributes
 
 .. attribute:: Paginator.count
 
-    The total number of objects, across all pages.
+    O número total de objetos, através de todas as páginas.
 
     .. note::
 
@@ -209,7 +209,7 @@ Attributes
 
 .. attribute:: Paginator.num_pages
 
-    The total number of pages.
+    O número total de páginas.
 
 .. attribute:: Paginator.page_range
 
