@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 10174 $
 ..   $TranslationAuthors: Wiliam Alves de Souza $
 ..
@@ -23,14 +23,14 @@ Glossario
 .. glossary::
 
     field
-        Um atributo em um :term:`model`; um determinado campo que usualmente e
+        Um atributo em um :term:`model`; um determinado campo que usualmente é
         mapeado diretamente para uma única coluna em uma base dados.
 
         Veja :ref:`topics-db-models`.
 
     generic view
-        A higher-order :term:`view` function that abstracts common idioms and patterns
-        found in view development and abstracts them.
+        Uma função :term:`view` de alta-ordem que abstrai idiomas comuns e
+        padrões encontrados no desenvolvimento de um view.
 
         Veja :ref:`ref-generic-views`.
 
@@ -43,21 +43,21 @@ Glossario
         Veja :ref:`mtv`.
 
     MVC
-        `Model-view-controller`__;  é um padrão de software. O Django :ref:`segue
-        o padrão MVC até certo ponto <mtv>`.
+        `Model-view-controller`__;  é um padrão de software. O Django
+        :ref:`segue o padrão MVC até certo ponto <mtv>`.
 
         __ http://en.wikipedia.org/wiki/Model-view-controller
 
     project
-        Um pacote Python -- ou seja um diretório de código -- que contem toda as
-        configurações para uma instancia do Django. Isto incluem configuração de
-        banco de dados, Opções especificas do Django e configuração especificas
+        Um pacote Python -- ou seja um diretório de código -- que contém toda as
+        configurações para uma instância do Django. Isto incluem configuração de
+        banco de dados, opções especificas do Django e configurações especificas
         das aplicações.
 
     property
-        Também conhecida como "atributos gerenciados", e também como uma
-        característica do Python desde a versão 2.2. Retirado da `documentação da
-        property`__:
+        Também conhecida como "atributos gerenciados", e também uma
+        característica comum do Python desde a versão 2.2. Retirado da
+        `documentação da property`__:
 
             Propriedades sao o jeito mais decente de implementar atributos cujo
             seu uso se assemelha-se com o acesso a atributos, mais cujo sua
@@ -72,34 +72,27 @@ Glossario
         __ http://www.python.org/download/releases/2.2/descrintro/#property
 
     queryset
-        Um objeto representando alguma conjunto de linhas ah serem trazidas do
+        Um objeto representando algum conjunto de linhas à serem trazidas do
         banco de dados.
 
         Veja :ref:`topics-db-queries`.
 
     slug
-        Uma pequena etiqueta para alguma coisa, contendo apenas letras, números,
-        underscores ou hifens. São usados geralmente em URLs. Por exemplo, em uma
-        URL tipica de uma pagina em um blog.
+        Uma pequena etiqueta para algo, contendo apenas letras, números,
+        underscores ou hífens. São usados geralmente em URLs. Por exemplo, em uma
+        URL típica de uma página em um blog.
 
         .. parsed-literal::
-       
+
             http://www.djangoproject.com/weblog/2008/apr/12/**spring**/
-           
-        a ultima parte (``spring``) eh a slug.
+
+        a última parte (``spring``) é um slug.
 
     template
         Um bloco de texto que separa a representação de um documento de seus dados.
 
         Veja :ref:`topics-templates`.
-       
-    view
-        Uma função responsável por renderizar uma pagina.
 
-    template
-        Um bloco de texto que separa a represntacao de um documento de seus dados.
-
-        Veja :ref:`topics-templates`.
-        
     view
-        Uma funcao responsavel por renderizar uma pagina.
+        Uma função responsável por renderizar uma página.
+

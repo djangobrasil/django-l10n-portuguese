@@ -24,8 +24,8 @@ Bem vindo ao Django 1.0.2!
 Essa é a segunda versão de "bugfixes" na série 1.0 do Django,
 melhorando a estabilidade e performance da base de código do Django 1.0. Assim,
 o Django 1.0.2 não contém novas features (e, segundo a nossa
-:ref:`política de compatibilidade <misc-api-stability>`, mantém retro-compatibilidade com o Django 
-1.0.1), mas contém um número de correções e outras melhorias. 
+:ref:`política de compatibilidade <misc-api-stability>`, mantém retro-compatibilidade com o Django
+1.0.1), mas contém um número de correções e outras melhorias.
 O Django 1.0.2 é uma atualização recomendada para qualquer
 desenvolvimento ou deployment atualmente usando ou planejando usar o Django 1.0.
 
@@ -47,22 +47,21 @@ detalhes.
 
 Adicionamento, desde o Django 1.0.1 foram lançados:
 
-* Updated Hebrew and Danish translations have been added.
+* Atualizadas traduções para Hebreu e Dinamarquês foram adicionadas.
 
-* The default ``__repr__`` method of Django models has been made more
-  robust in the face of bad Unicode data coming from the
-  ``__unicode__`` method; rather than raise an exception in such
-  cases, ``repr()`` will now contain the string "[Bad Unicode data]"
-  in place of the invalid Unicode.
+* O método padrão ``__repr__`` dos models do Django estão mais robustos ao lidar
+  com dados Unicode mal formados vindos dos métodos ``__unicode__``; ao invés de
+  lançar uma exceção em alguns casos, ``repr()`` irá conter uma string "[Bad
+  Unicode data]" no lugar do Unicode inválido.
 
-* A bug involving the interaction of Django's ``SafeUnicode`` class
-  and the MySQL adapter has been resolved; ``SafeUnicode`` instances
-  (generated, for example, by template rendering) can now be assigned
-  to model attributes and saved to MySQL without requiring an explicit
-  intermediate cast to ``unicode``.
+* Um bug envolvendo a interação da classe do Django ``SafeUnicode`` e o
+  adaptador MySQL foi resolvido; Instâncias do ``SafeUnicode`` (gerados, por
+  exemplo, por uma renderização de template) podem agora ser atribuidos a
+  atributos de modelos e salvos no MySQL sem a necessidade de intermediação
+  explicita de transformações para ``unicode``.
 
-* A bug affecting filtering on a nullable ``DateField`` in SQLite has
-  been resolved.
+* Um bug que afetava a filtragem de ``DateField`` anulavél no SQLite foi
+  resolvido.
 
-* Several updates and improvements have been made to Django's
-  documentation.
+* Várias atualizações e melhorias foram feitas na documentação do Django.
+
