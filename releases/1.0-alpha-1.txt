@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,164 +16,161 @@
 
 .. _releases-1.0-alpha-1:
 
-================================
-Django 1.0 alpha release notes
-================================
+====================================
+Django 1.0 alpha notas de lançamento
+====================================
 
-Welcome to Django 1.0 alpha!
+Bem-vindo ao Django 1.0 alpha!
 
-This is the first in a series of preview/development releases leading
-up to the eventual release of Django 1.0, currently scheduled to take
-place in early September 2008. This release is primarily targeted at
-developers who are interested in testing the Django codebase and
-helping to identify and resolve bugs prior to the final 1.0 release.
+Este é o primeiro de uma série de releases de previsão/desenvolvimento
+conducentes à eventual liberação do Django 1.0, atualmente agendado para o
+início de setembro de 2008. Este release a princípio atinge desenvolvedores que
+estão estão interessados no código do Django e a ajudar a identificar e
+resolver bugs prioritários para o release 1.0 final.
 
-As such, this release is *not* intended for production use, and any
-such use is strongly discouraged.
+Dessa forma, este release *não* é destinado para uso em produção, e qualquer
+uso neste sentido é desencorajado.
 
+O que há de novo no Django 1.0 alpha
+====================================
 
-What's new in Django 1.0 alpha
-==============================
+O trunk do desenvolvimento do Django tem sido local de atividade quase
+constante durante o último ano, com a criação de várias novas funcionalidades
+desde o release 0.96. Alguns dos destaques incluem:
 
-Django's development trunk has been the site of nearly constant
-activity over the past year, with several major new features landing
-since the 0.96 release. Some of the highlights include:
+Aplicação admin refatorada (newforms-admin)
+    A interface administrativa do Django (``django.contrib.admin``) foi
+    completamente refatorada; definições do admin agora são completamente
+    dissociadas das definições dos modelos (nada de declaração ``class Admin``
+    nos seus modelos!), reescrito para usar a nova biblioteca form-handling do
+    Django (introduzido no release 0.96 como ``django.newforms``, e agora
+    disponível simplesmente como ``django.forms``) e replanejado tendo em mente
+    extensibilidade e customização. A documentação completa para a aplicação
+    admin está disponível online na documentação oficial do Django:
 
-Refactored admin application (newforms-admin)
-    The Django administrative interface (``django.contrib.admin``) has
-    been completely refactored; admin definitions are now completely
-    decoupled from model definitions (no more ``class Admin``
-    declaration in models!), rewritten to use Django's new
-    form-handling library (introduced in the 0.96 release as
-    ``django.newforms``, and now available as simply ``django.forms``)
-    and redesigned with extensibility and customization in mind. Full
-    documentation for the admin application is available online in the
-    official Django documentation:
+         :ref:`referência da administração <ref-contrib-admin>`
 
-        :ref:`admin reference <ref-contrib-admin>`
-
-Improved Unicode handling
-    Django's internals have been refactored to use Unicode throughout;
-    this drastically simplifies the task of dealing with
-    non-Western-European content and data in Django. Additionally,
-    utility functions have been provided to ease interoperability with
-    third-party libraries and systems which may or may not handle
-    Unicode gracefully. Details are available in Django's
-    Unicode-handling documentation:
+Manipulação de Unicode melhorada
+    Internamente o Django foi completamente refatorado para usar Unicode; isso
+    simplifica drasticamente a tarefa de lidar com conteúdos e dados não-
+    Western-European no Django. Adicionalmente, funções utilitárias foram
+    providas para facilitar interoperabilidade de bibliotecas e sistemas de
+    terceiros que podem ou não manipular Unicode graciosamente. Detalhes estão
+    disponíveis na documentação Manipulando Unicode:
 
          :ref:`unicode reference <ref-unicode>`
 
-An improved Django ORM
-    Django's object-relational mapper -- the component which provides
-    the mapping between Django model classes and your database, and
-    which mediates your database queries -- has been dramatically
-    improved by a massive refactoring. For most users of Django this
-    is backwards-compatible; the public-facing API for database
-    querying underwent a few minor changes, but most of the updates
-    took place in the ORM's internals. A guide to the changes,
-    including backwards-incompatible modifications and mentions of new
-    features opened up by this refactoring, is available on the Django
-    wiki:
-    
+Uma melhoria no ORM do Django
+    O mapeador objeto-relacional do Django -- o componente que provê o
+    mapeamento entre as classes de modelo do Django e seu banco de dados, e que
+    faz a mediação de suas consultas de banco de dados -- tem sido
+    dramaticamente melhorado por meio de uma massiva refatoração. Para a
+    maioria dos usuários do Django isso é compatível com versões anteriores; a
+    parte pública da API para consultas do banco de dados sofreu mudanças
+    menores, e a maior parte das atualizações foi feita nas partes internas do
+    ORM. Um guia das mudanças, incluindo as modificações incompatíveis com
+    versões anteriores e as menções às novas funcionalidades introduzidas por
+    tal refatoramento, está disponível no wiki do Django:
+
          http://code.djangoproject.com/wiki/QuerysetRefactorBranch
 
-Automatic escaping of template variables
-    To provide improved security against cross-site scripting (XSS)
-    vulnerabilities, Django's template system now automatically
-    escapes the output of variables. This behavior is configurable,
-    and allows both variables and larger template constructs to be
-    marked as safe (requiring no escaping) or unsafe (requiring
-    escaping). A full guide to this feature is in the documentation
-    for the :ttag:`autoescape` tag.
+Escape automático de variáveis de template
+    Para prover melhorias de segurança contra vulnerabilidades de cross-site
+    scripting (XSS), o sistema de templates do Django agora escapa a saída de
+    variáveis automaticamente. Esse comportamento é configurável, e permite
+    ambos, variáveis e grandes construções de templates serem marcados como
+    seguros (não necessitando de escape) ou não-seguro (necessitando de
+    escape). Um guia completo para essa funcionalidade está na documentação do
+    sistema da tag :ttag:`autoescape`.
 
-There are many more new features, many bugfixes and many enhancements
-to existing features from previous releases. The ``newforms`` library,
-for example, has undergone massive improvements including several
-useful add-ons in ``django.contrib`` which complement and build on
-Django's form-handling capabilities, and Django's file-uploading
-handlers have been refactored to allow finer-grained control over the
-uploading process as well as streaming uploads of large files.
+Há muitas outras funcionalidades, muitas correções de bugs e muitos
+aprimoramentos para funcionalidades existentes em releases anteriores. A
+biblioteca ``newforms``, por exemplo, tem sofrido massivas melhorias incluíndo
+vários add-ons usuais no ``django.contrib`` que complementam e constróem novas
+capacidades de manipulação de formulários no Django, e os manipuladores de
+upload de arquivos do Django têm sido refatorados para permitir um controle
+refinado sobre o processo de transferência, bem como upload stream de arquivos
+grandes.
 
-Along with these improvements and additions, we've made a number of
-of backwards-incompatible changes to the framework, as features have been
-fleshed out and APIs have been finalized for the 1.0 release. A
-complete guide to these changes will be available as part of the final
-Django 1.0 release, and a comprehensive list of backwards-incompatible
-changes is also available on the Django wiki for those who want to
-begin developing and testing their upgrade process:
+Junto com essas melhorias e acréscimos, nós fizemos um número de mudanças
+incompatíveis com versões anteriores do framework, à medida que novas
+funcionalidades tomaram forma e APIs foram finalizadas para o release 1.0. Um
+guia completo para essas mudanças estará disponível como parte do release final
+Django 1.0, e uma lista completa das mudanças que trouxeram incompatibilidades
+com versões anteriores também está disponível no wiki do Django para aqueles
+que desejam começar a desenvolver e testar seu processo de atualização:
 
     http://code.djangoproject.com/wiki/BackwardsIncompatibleChanges
 
 
-The Django 1.0 roadmap
-======================
+Roadmap do Django 1.0
+=====================
 
-One of the primary goals of this alpha release is to focus attention
-on the remaining features to be implemented for Django 1.0, and on the
-bugs that need to be resolved before the final release. Following
-this release, we'll be conducting a series of sprints building up to a
-series of beta releases and a release-candidate stage, followed soon
-after by Django 1.0. The timeline is projected to be:
+Um dos primeiros objetivos desta versão alpha é focar a atenção nos elementos
+a serem implementados para o Django 1.0, e sobre bugs que precisam ser
+resolvidos antes da versão final. Acompanhando esta versão, nós realizaremos
+uma série de sprints para concretizar uma série de versões beta e atingir um
+estágio release-candidate, logo em seguida virá o Django 1.0. A linha do tempo
+é projetada para ser:
 
-* August 1, 2008: Sprint (based in Washington, DC, and online).
+* 1 de agosto de 2008: Sprint (localizado em Washington, DC, e online).
 
-* August 5, 2008: Django 1.0 beta 1 release. This will also constitute
-  the feature freeze for 1.0. Any feature to be included in 1.0 must
-  be completed and in trunk by this time.
+* 5 de agosto de 2008: Versão beta do Django 1.0. É quando acontecerá o
+  congelamento de novidades para o 1.0. Qualquer funcionalidade que almeje ser
+  incluída no 1.0 deve ser completada no trunk neste prazo.
 
-* August 8, 2008: Sprint (based in Lawrence, KS, and online).
+* 8 de agosto de 2008: Sprint (localizado em Lawrence, KS, e online).
 
-* August 12, 2008: Django 1.0 beta 2 release.
+* 12 de agosto de 2008: Versão beta 2 do Django 1.0.
 
-* August 15, 2008: Sprint (based in Austin, TX, and online).
+* 15 de agosto de 2008: Sprint (localizado em Austin, TX, e online).
 
-* August 19, 2008: Django 1.0 release candidate 1.
+* 19 de agosto de 2008: Release-candidate 1 do Django 1.0.
 
-* August 22, 2008: Sprint (based in Portland, OR, and online).
+* 22 de agosto de 2008: Sprint (localizado em Portland, OR e online).
 
-* August 26, 2008: Django 1.0 release candidate 2.
+* 26 de agosto de 2008: Release-candidate 2 do Django 1.0
 
-* September 2, 2008: Django 1.0 final release. The official Django 1.0
-  release party will take place during the first-ever DjangoCon, to be
-  held in Mountain View, CA, September 6-7.
+* 2 de setembro de 2008: Versão final do Django 1.0. A festa da versão oficial
+  do Django 1.0 será durante a primeira DjangoCon, a ser realizada em Mountain
+  View, CA, nos dias 6 e 7 Setembro.
 
-Of course, like any estimated timeline, this is subject to change as
-requirements dictate. The latest information will always be available
-on the Django project wiki:
+É claro, como qualquer linha de tempo estimada, ela está sujeita a mudanças.
+A última informação sempre será disponibilizada no wiki do projeto Django:
 
     http://code.djangoproject.com/wiki/VersionOneRoadmap
 
 
-What you can do to help
-=======================
+O que você pode fazer para ajudar
+=================================
 
-In order to provide a high-quality 1.0 release, we need your
-help. Although this alpha release is, again, *not* intended for
-production use, you can help the Django team by trying out the alpha
-codebase in a safe test environment and reporting any bugs or issues
-you encounter. The Django ticket tracker is the central place to
-search for open issues:
+A fim de proporcionar uma versão 1.0 de alta qualidade, nós precisamos de
+ajuda. Embora esta versão alpha seja, novamente, *não*-recomendada para uso em
+produção, você pode ajudar o time do Django testando o código alpha em um
+ambiente seguro de testes e reportando qualquer bug ou problema que encontrar.
+O ticket tracker do Django é o lugar central para procurar por problemas não
+resolvidos:
 
     http://code.djangoproject.com/timeline
 
-Please open new tickets if no existing ticket corresponds to a problem
-you're running into.
+Por favor, crie novos tickets se não existir um ticket correspondente ao seu
+problema.
 
-Additionally, discussion of Django development, including progress
-toward the 1.0 release, takes place daily on the django-developers
-mailing list:
+Adicionalmente, discussões do desenvolvimento do Django, incluindo progressos
+rumo à versão 1.0, ocorrem diariamente na lista de desenvolvedores::
 
     http://groups.google.com/group/django-developers
 
-...and in the ``#django-dev`` IRC channel on ``irc.freenode.net``. If
-you're interested in helping out with Django's development, feel free
-to join the discussions there.
+...e no canal do IRC ``#django-dev`` na rede ``irc.freenode.net``. Se você está
+interessado em ajudar com o desenvolvimento do Django, sinta-se livre para se
+juntar às discussões.
 
-Django's online documentation also includes pointers on how to
-contribute to Django:
+A documentação online do Django também inclui pontos sobre como contribuir para
+o Django:
 
-    :ref:`contributing to Django <internals-contributing>`
+    :ref:`contribuíndo para o Django <internals-contributing>`
 
-Contributions on any level -- developing code, writing
-documentation or simply triaging tickets and helping to test proposed
-bugfixes -- are always welcome and appreciated.
+Contribuições de qualquer nível -- desenvolvendo código, escrevendo
+documentação ou simplesmente criando tickets e ajudando a testar corresções de
+bugs propostos -- são sempre bem-vindas e apreciadas.
+
