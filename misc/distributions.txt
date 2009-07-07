@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Draft $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 9368 $
 ..   $TranslationAuthors: Vinicius Martins, Robson Mendonça $
 ..
@@ -22,8 +22,8 @@ Distribuições de terceiros do Django
 
 Muitas distribuições de terceiros estão agora disponibilizando versões do Django
 integradas com seus sistemas de gerenciamento de pacotes. Isso pode tornar a
-instalação e atualização muito mais fácil para usuários do Django uma vez que a 
-integração inclui a possibilidade de instalação automática de dependências (como 
+instalação e atualização muito mais fácil para usuários do Django uma vez que a
+integração inclui a possibilidade de instalação automática de dependências (como
 drivers de bancos de dados) que o Django requer.
 
 Tipicamente estes pacotes são baseados na última versão estável do Django, então
@@ -52,7 +52,7 @@ Debian
 Uma `versão empacotada do Django`_ está disponível para `Debian GNU/Linux`_. A
 versão 0.95.1 está disponível no repositório "stable"; A versão 0.96 está
 disponível nos repositório "testing" e "unstable". Independentemente da sua
-escolha de repositório, você pode instalar o Django digitando 
+escolha de repositório, você pode instalar o Django digitando
 ``apt-get install python-django``.
 
 Quando você instalar esse pacote, ``apt`` recomendará a instalação de um driver
@@ -102,7 +102,7 @@ MacPorts
 --------
 
 Django 0.96 pode ser instalado pelo sistema `MacPorts`_. Se você está usando
-Python 2.4, digite ``sudo port install py-django-devel``. Para Python 2.5, digite 
+Python 2.4, digite ``sudo port install py-django-devel``. Para Python 2.5, digite
 ``sudo port install py25-django-devel``. MacPorts também pode ser usado para a
 instalação de um banco de dados e da interface Python para o banco escolhido.
 
@@ -121,3 +121,4 @@ de novos lançamentos do Django e importantes correções de bugs.
 
 .. _lista de discussão django-developers: http://groups.google.com/group/django-developers/
 .. _lista de discussão django-announce: http://groups.google.com/group/django-announce/
+
