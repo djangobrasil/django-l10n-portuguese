@@ -3,7 +3,7 @@
 ..
 ..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 9441 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -257,14 +257,14 @@ O cache por site
 ================
 
 .. versionchanged:: 1.0
-    (previous versions of Django only provided a single ``CacheMiddleware`` instead
-    of the two pieces described below).
+    (versões anteriores do Django forneciam apenas um único ``CacheMiddleware`` no lugar
+    das duas partes descritas abaixo).
 
-Once the cache is set up, the simplest way to use caching is to cache your
-entire site. You'll need to add
-``'django.middleware.cache.UpdateCacheMiddleware'`` and
-``'django.middleware.cache.FetchFromCacheMiddleware'`` to your
-``MIDDLEWARE_CLASSES`` setting, as in this example::
+Uma vez que o cache esteja configurado, a forma mais siples de usá-lo é fazer
+o cache do seu site inteiro. Você precisa adicionar
+``'django.middleware.cache.UpdateCacheMiddleware'`` e
+``'django.middleware.cache.FetchFromCacheMiddleware'`` as suas configurações de
+``MIDDLEWARE_CLASSES``, como nesse exemplo::
 
     MIDDLEWARE_CLASSES = (
         'django.middleware.cache.UpdateCacheMiddleware',
@@ -274,38 +274,38 @@ entire site. You'll need to add
 
 .. note::
 
-    No, that's not a typo: the "update" middleware must be first in the list,
-    and the "fetch" middleware must be last. The details are a bit obscure, but
-    see `Ordem das MIDDLEWARE_CLASSES`_ below if you'd like the full story.
+    No, isso não é um erro de digitação: o middleware "update" deve aparecer primeiro na list,
+    e o middleware "fetch" por último. Os detalhes são um pouco obscuros, mas
+    veja `Ordem das MIDDLEWARE_CLASSES`_ abaixo se você quiser entender os detalhes.
 
-Then, add the following required settings to your Django settings file:
+Então, adicione as configurações necessárias ao seu arquivo de configurações do Django:
 
-* ``CACHE_MIDDLEWARE_SECONDS`` -- The number of seconds each page should be
-  cached.
-* ``CACHE_MIDDLEWARE_KEY_PREFIX`` -- If the cache is shared across multiple
-  sites using the same Django installation, set this to the name of the site,
-  or some other string that is unique to this Django instance, to prevent key
-  collisions. Use an empty string if you don't care.
+* ``CACHE_MIDDLEWARE_SECONDS`` -- O número de segundos em que cada página deve permancecer
+  em cache.
+* ``CACHE_MIDDLEWARE_KEY_PREFIX`` -- Se o cache é compartilhado entre diversos
+  sites usando a mesma instalação do Django, configure isso para o nome do site,
+  ou alguma outra string única que identifique esse instância do Django, para previnir
+  colisões de cache. Use uma string vazia se você não se importa.
 
-The cache middleware caches every page that doesn't have GET or POST
-parameters. Optionally, if the ``CACHE_MIDDLEWARE_ANONYMOUS_ONLY`` setting is
-``True``, only anonymous requests (i.e., not those made by a logged-in user)
-will be cached. This is a simple and effective way of disabling caching for any
-user-specific pages (include Django's admin interface). Note that if you use
-``CACHE_MIDDLEWARE_ANONYMOUS_ONLY``, you should make sure you've activated
+O middleware de cache faz o cache de cada página que não tenha parâmetros de GET ou
+POST. Opcionalmente, se a configuração ``CACHE_MIDDLEWARE_ANONYMOUS_ONLY`` for
+``True``, somente requisições anônimas (i.e., aquelas feitas por usuários não autenticados)
+serão cacheadas. Esse é um modo simples e eficiente para desabilita o cache para quaisquer
+páginas específicas de usuários (incluindo a interface de administração do Django). Note que se você
+usou o ``CACHE_MIDDLEWARE_ANONYMOUS_ONLY``, você deve certificar-se de ter ativado o
 ``AuthenticationMiddleware``.
 
-Additionally, the cache middleware automatically sets a few headers in each
+Adicionalmente, o middleware de cache adiciona alguma cabeçalhos em cada
 ``HttpResponse``:
 
-* Sets the ``Last-Modified`` header to the current date/time when a fresh
-  (uncached) version of the page is requested.
-* Sets the ``Expires`` header to the current date/time plus the defined
+* Configura o cabeçalho ``Last-Modified`` para a data/hora atuais quando uma nova
+  versão da página (não cacheada) é resiquitada.
+* Configura o cabeçalho ``Expires`` para a hora atual mais o valor definido em
   ``CACHE_MIDDLEWARE_SECONDS``.
-* Sets the ``Cache-Control`` header to give a max age for the page -- again,
-  from the ``CACHE_MIDDLEWARE_SECONDS`` setting.
+* Configura o cabeçalho ``Cache-Control`` para dar um max age para a página -- novamente,
+  da configuração ``CACHE_MIDDLEWARE_SECONDS``.
 
-See :ref:`topics-http-middleware` for more on middleware.
+Veja :ref:`topics-http-middleware` para mais sobre middlewares.
 
 .. versionadded:: 1.0
 
