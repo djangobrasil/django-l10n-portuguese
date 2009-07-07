@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Draft $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 9573 $
 ..   $TranslationAuthors: Marinho Brandão, wiliamsouza $
 ..
@@ -518,3 +518,4 @@ Toda a aplicação poll preocupa-se com URLs relativas, e não com URLs absoluta
 Quando você estiver confortável em escrever views, leia a :ref:`a parte 4 deste
 tutorial <intro-tutorial04>` para aprender sobre processamento de formulários
 simples e sobre as views genéricas.
+
