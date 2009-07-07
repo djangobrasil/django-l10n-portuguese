@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,13 +16,13 @@
 
 .. _ref-templates-index:
 
-Template reference
-==================
+Referência do Template
+======================
 
-Django's template engine provides a powerful mini-language for defining the
-user-facing layer of your application, encouraging a clean separation of
-application and presentation logic. Templates can be maintained by anyone with
-an understanding of HTML; no knowledge of Python is required.
+O motor de template do Django provê uma poderosa mini-linguagem para definir as
+camadas de sua aplicação, encorajando uma separação limpa entre lógica e
+apresentação. Os templates podem ser mantidos por qualquer um que tenha
+conhecimento de HTML; não é necessário saber Python.
 
 .. toctree::
    :maxdepth: 2
@@ -32,5 +32,6 @@ an understanding of HTML; no knowledge of Python is required.
 
 .. seealso::
 
-    For information on writing your own custom tags and filters, see
+    Para informações de como criar suas próprias tags e filters, veja
     :ref:`howto-custom-template-tags`.
+
