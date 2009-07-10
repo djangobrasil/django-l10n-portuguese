@@ -440,9 +440,9 @@ Se você precisa saber se ``add()`` salvou um valor no cache, você pode
 verificar o valor retornado. O retorno será ``True`` se o valor foi gravado,
 e ``False`` se nada for gravado.
 
-There's also a ``get_many()`` interface that only hits the cache once.
-``get_many()`` returns a dictionary with all the keys you asked for that
-actually exist in the cache (and haven't expired)::
+Existe também uma interface chamada ``get_many()`` que acessa o cache apenas uma vez.
+``get_many()`` retorna um dicionário com todas as chaves que você pediu
+que estavam no cache e não estavem expiradas)::
 
     >>> cache.set('a', 1)
     >>> cache.set('b', 2)
@@ -461,56 +461,57 @@ objetos que possam ser 'pickled' seguramente, mas as chaves devem ser strings.
 Caches Upstream
 ===============
 
-So far, this document has focused on caching your *own* data. But another type
-of caching is relevant to Web development, too: caching performed by "upstream"
-caches. These are systems that cache pages for users even before the request
-reaches your Web site.
+Até agora, esse documento concentrou-se no cache de seus *próprios* dados. Mas outro tipo de
+cache é relevante para o desenvolvimento Web: o cache executado por cache
+"upstream". Esses são sistemas que fazem o cache de páginas para usuários antes mesmo da
+requisição chegar ao seu Web site.
 
-Here are a few examples of upstream caches:
+Aqui estão algumns exemplos de cache upstream:
 
-    * Your ISP may cache certain pages, so if you requested a page from
-      somedomain.com, your ISP would send you the page without having to access
-      somedomain.com directly.
+    * Seu ISP pode fazer o cache de certas páginas, então se você requisitou uma página de
+      somedomain.com, seu ISP poderia entiar a página sem ter de acessar o
+      somedomain.com diretamente.
 
-    * Your Django Web site may sit behind a Squid Web proxy
-      (http://www.squid-cache.org/) that caches pages for performance. In this
-      case, each request first would be handled by Squid, and it'd only be
-      passed to your application if needed.
+    * Seu Web site Django pode ficar atrás de um proxy Squid
+      (http://www.squid-cache.org/) que faz cache de páginas para performance. Nesse
+      caso, cada requisição seria tratada primeiramente pelo Squid, e somente seria passada para
+      a sua aplicação se necessário.
 
-    * Your Web browser caches pages, too. If a Web page sends out the right
-      headers, your browser will use the local (cached) copy for subsequent
-      requests to that page.
+    * Seu navegador web também faz cache. Se uma página envia os cabeçalhos
+      corretos, seu navegador irá usar a cópia local (em cache) para requisições
+      subsequentes para essa página.
 
-Upstream caching is a nice efficiency boost, but there's a danger to it:
-Many Web pages' contents differ based on authentication and a host of other
-variables, and cache systems that blindly save pages based purely on URLs could
-expose incorrect or sensitive data to subsequent visitors to those pages.
+Caches upstream são um potencializador de eficiência interessante, mas há um perigo nisso:
+muitos conteúdos de páginas web diferem baseados na autenticação e em diversas outras
+variáveis, e sistemas de cache que servem páginas baseadas em URL cegamente
+poderiam expor dados incorretos ou sensíveis para visitantes subsequentes a
+essas páginas.
 
-For example, say you operate a Web e-mail system, and the contents of the
-"inbox" page obviously depend on which user is logged in. If an ISP blindly
-cached your site, then the first user who logged in through that ISP would have
-his user-specific inbox page cached for subsequent visitors to the site. That's
-not cool.
+Por exemplo, digamos que você opere um serviço de webmail, e o conteúdo da página
+"inbox" obviamente depende do usuário que está logado. Se um ISP cegamente
+cacheia seu site, então o primeiro usuário que logou através desse ISP poderia ter
+seu conteúdo da caixa de entrada exposto aos próximos visitantes do site. Isso
+não é legal.
 
-Fortunately, HTTP provides a solution to this problem: A set of HTTP headers
-exist to instruct caching mechanisms to differ their cache contents depending
-on designated variables, and to tell caching mechanisms not to cache particular
-pages.
+Felizmente, o HTTP fornece uma solução para esse problema: um conjunto de cabeçalhos HTTP
+existem para instruir os diferentes mecanismos de cache de diferir seus conteúdos de cache
+de acordo com certas variáveis, e como dizer aos mecanismos de cache como 
+não cachear certas páginas em particular.
 
 Usando cabeçalhos Vary
 ======================
 
-One of these headers is ``Vary``. It defines which request headers a cache
-mechanism should take into account when building its cache key. For example, if
-the contents of a Web page depend on a user's language preference, the page is
-said to "vary on language."
+Um desses cabeçalhos é o ``Vary``. Ele define quais cabeçalhos da requisição
+um mecanismo de cache deve levar em conta ao construir sua chave de cache. 
+Por exemplo, se o conteúdo do site de uma págfina web depende da preferência de
+idioma do usuário, dizemos que a página "varia no idioma."
 
-By default, Django's cache system creates its cache keys using the requested
-path -- e.g., ``"/stories/2005/jun/23/bank_robbed/"``. This means every request
-to that URL will use the same cached version, regardless of user-agent
-differences such as cookies or language preferences.
+Por padrão, o sistema de cache do DJango cria suas chaves de acesso usando o caminho 
+da requisição -- e.g., ``"/stories/2005/jun/23/bank_robbed/"``. Isso significa que cada
+requisição a essa URL irá usar a mesma versão do cache, não importando as diferentes
+de agente de usuário, como cookies ou preferência de idioma.
 
-That's where ``Vary`` comes in.
+É onde entra o ``Vary``.
 
 If your Django-powered page outputs different content based on some difference
 in request headers -- such as a cookie, or language, or user-agent -- you'll
