@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,47 +16,49 @@
 
 .. _internals-documentation:
 
-How the Django documentation works
-==================================
+Como a documentação do Django funciona
+======================================
 
-\... and how to contribute.
+\... e como contribuir.
 
-Django's documentation uses the Sphinx__ documentation system, which in turn is
-based on docutils__. The basic idea is that lightly-formatted plain-text
-documentation is transformed into HTML, PDF, and any other output format.
+A documentação do Django usa o sistema de documentação Sphinx__, que por sua vez
+é baseado no docutils__. A idéia básica é ter uma documentação leve em formato
+de texto-plano, que seja transformada em HTML, PDF, ou qualquer outro formato.
 
 __ http://sphinx.pocoo.org/
 __ http://docutils.sf.net/
 
-To actually build the documentation locally, you'll currently need to install
-Sphinx -- ``easy_install Sphinx`` should do the trick.
+Na verdade para compilar a documentação localmente, você precisará instalar o
+Sphinx -- ``easy_install Sphinx`` deve fazer a mágica.
 
-Then, building the html is easy; just ``make html`` from the ``docs`` directory.
+Somente então, transforme tudo em html, para isso é só executar ``make html``
+dentro do diretório ``docs``.
 
-To get started contributing, you'll want to read the `ReStructuredText
-Primer`__. After that, you'll want to read about the `Sphinx-specific markup`__
-that's used to manage metadata, indexing, and cross-references.
+Para começar a contribuir, você precisará ler a `ReStructuredText Primer`__.
+Depois disso, você poderá ler sobre o `Sphinx-specific markup`__ que é
+utilizado para manipular os metadados, indexação, e cruzamento de referências.
 
 __ http://sphinx.pocoo.org/rest.html
 __ http://sphinx.pocoo.org/markup/
 
-The main thing to keep in mind as you write and edit docs is that the more
-semantic markup you can add the better. So::
+A principal coisa que você deve manter em mente quando escrever ou editar a
+documentação é, quanto mais semântica você puder colocar, melhor. Então::
 
-    Add ``django.contrib.auth`` to your ``INSTALLED_APPS``...
+    Adicione ``django.conrib.auth`` no seu ``INSTALLED_APPS``...
 
-Isn't nearly as helpful as::
+Não é tão útil quanto::
 
-    Add :mod:`django.contrib.auth` to your :setting:`INSTALLED_APPS`...
+    Adicione :mod:`django.contrib.auth` no seu :setting:`INSTALLED_APPS`...
 
-This is because Sphinx will generate proper links for the latter, which greatly
-helps readers. There's basically no limit to the amount of useful markup you can
-add.
+Isto porque o Sphinx irá gerar links durante a compilação, que ajudarão muito
+os leitores. Basicamente não há limites para a quantidade de markup que você
+pode adicionar.
 
-Django-specific markup
-----------------------
+Markup específica do Django
+---------------------------
 
-Besides the `Sphinx built-in markup`__, Django's docs defines some extra description units:
+Além das `markups built-in do Sphinx`__, a documentação do Django define algumas
+unidades de descrição extras:
 
 __ http://sphinx.pocoo.org/markup/desc.html
 
@@ -64,157 +66,160 @@ __ http://sphinx.pocoo.org/markup/desc.html
 
             .. setting:: INSTALLED_APPS
 
-      To link to a setting, use ``:setting:`INSTALLED_APPS```.
+      Para linkar o setting, use ``:setting:`INSTALLED_APPS```.
 
-    * Template tags::
+    * Tags de template::
 
             .. templatetag:: regroup
 
-      To link, use ``:ttag:`regroup```.
+      Para linkar, use ``:ttag:`regroup```.
 
-    * Template filters::
+    * Filtros de template::
 
             .. templatefilter:: linebreaksbr
 
-      To link, use ``:tfilter:`linebreaksbr```.
+      Para linkar, use ``:tfilter:`linebreaksbr```.
 
-    * Field lookups (i.e. ``Foo.objects.filter(bar__exact=whatever)``)::
+    * Lookups de campos (i.e. ``Foo.objects.filter(bar__exact=qualquercoisa)``)::
 
             .. fieldlookup:: exact
 
-      To link, use ``:lookup:`exact```.
+      Para linkar, use ``:lookup:`exact```.
 
-    * ``django-admin`` commands::
+    * Comandos do ``django-admin``::
 
             .. django-admin:: syncdb
 
-      To link, use ``:djadmin:`syncdb```.
+      Para linkar, use ``:djadmin:`syncdb```.
 
-    * ``django-admin`` command-line options::
+    * Opções de linha de comando do ``django-admin``::
 
             .. django-admin-option:: --traceback
 
-      To link, use ``:djadminopt:`--traceback```.
+      Para linkar, use ``:djadminopt:`--traceback```.
 
-An example
+Um Exemplo
 ----------
 
-For a quick example of how it all fits together, check this out:
+Para um exemplo rápido de como tudo se agrupa, dá uma olhada nisso:
 
-    * First, the ``ref/settings.txt`` document starts out like this::
+    * Primeiro, o documetno ``ref/settings.txt`` começa, dessa forma::
 
         .. _ref-settings:
 
-        Available settings
-        ==================
+        Configurações disponíveis
+        =========================
 
         ...
 
-    * Next, if you look at the ``topics/settings.txt`` document, you can see how
-      a link to ``ref/settings`` works::
+    * Em seguida se olharmos para o documento ``topics/settings, você pode ver
+      como um link para ``ref/settings`` funciona::
 
-        Available settings
-        ==================
+        Configurações disponíveis
+        =========================
 
-        For a full list of available settings, see the :ref:`settings reference
-        <ref-settings>`.
+        Para uma lista completa das configurações disponíveis, veja
+        :ref:`referencia do settings <ref-settings>`.
 
-    * Next, notice how the settings (right now just the top few) are annotated::
+    * Depois, note como o settings (bem agora, no início) está anotado::
 
         .. setting:: ADMIN_FOR
 
         ADMIN_FOR
         ---------
 
-        Default: ``()`` (Empty tuple)
+        Padrão: ``()`` (Tupla vazia)
 
-        Used for admin-site settings modules, this should be a tuple of settings
-        modules (in the format ``'foo.bar.baz'``) for which this site is an
-        admin.
+        Usado para definir módulos do site de administraçaõ. este deve ser uma
+        tupla de configurações de módulos (no formato ``'foo.bar.baz'``) para
+        que este site tenha uma amdinistração.
 
-        The admin site uses this in its automatically-introspected
-        documentation of models, views and template tags.
+        O site de administração usa isto em sua instrospecção automática da
+        documentação de models, views e tags de template.
 
-      This marks up the following header as the "canonical" target for the
-      setting ``ADMIN_FOR`` This means any time I talk about ``ADMIN_FOR``, I
-      can reference it using ``:setting:`ADMIN_FOR```.
+      Isto marca o seguinte cabeçalho como um alvo "canonico" para a
+      configuração ``ADMIN_FOR``. Isto significa que toda vez que você fores
+      mencionar ``ADMIN_FOR``, podes referenciá-lo utilizando
+      ``:setting:`ADMIN_FOR```.
 
-That's basically how everything fits together.
+Basicamente, é desta forma que tudo se encaixa.
 
 TODO
 ----
 
-The work is mostly done, but here's what's left, in rough order of priority.
+O trabalho está na maioria feito, mas aqui tem o que falta, em ordem de
+prioridade.
 
     * Fix up generic view docs: adapt Chapter 9 of the Django Book (consider
       this TODO item my permission and license) into
       ``topics/generic-views.txt``; remove the intro material from
       ``ref/generic-views.txt`` and just leave the function reference.
 
-    * Change the "Added/changed in development version" callouts to proper
-      Sphinx ``.. versionadded::`` or ``.. versionchanged::`` directives.
+    * Mudar o "Added/changed na versão de desenvolvimento" chamar a diretiva
+      adequada do Sphinx ``.. versionadded::`` ou ``.. versionchanged::``.
 
-    * Check for and fix malformed links. Do this by running ``make linkcheck``
-      and fix all of the 300+ errors/warnings.
+    * Checar links mal formados. Fazer isso rodando o ``make linkcheck`` e
+      concertar todos os mais 300 errors/warnings.
 
-      In particular, look at all the relative links; these need to be
-      changed to proper references.
+      Particularmente, olhar todos os links relativos; estes precisam ser
+      modificados para as referências apropriadas.
 
-    * Most of the various ``index.txt`` documents have *very* short or even
-      non-existent intro text. Each of those documents needs a good short intro
-      the content below that point.
+    * A maior parte dos documentos ``index.txt`` têm textos de introdução
+      *muito* curtos, ou quase inexistem. Cada um destes documentos precisar de
+      de um bom conteúdo de introdução.
 
-    * The glossary is very perfunctory. It needs to be filled out.
+    * O glossário é muito superficial. Ele precisa ser preenchido.
 
-    * Add more metadata targets: there's lots of places that look like::
+    * E mais alvos de metadados: há vários lugares que se parecem com isso::
 
             ``File.close()``
             ~~~~~~~~~~~~~~~~
 
-      \... these should be::
+      \... e deveria ser::
 
             .. method:: File.close()
 
-      That is, use metadata instead of titles.
+      Que é, usar os metadados no lugar de títulos.
 
-    * Add more links -- nearly everything that's an inline code literal
-      right now can probably be turned into a xref.
+    * Adicionar mais links -- quase tudo o que um código inline literal,
+      provavelmente pode ser transformado em um xref.
 
-      See the ``literals_to_xrefs.py`` file in ``_ext`` -- it's a shell script
-      to help do this work.
+      Veja o arquivo ``literals_to_xrefs.py`` no ``_ext`` -- este é um script
+      shell para ajudar no trabalho.
 
-      This will probably be a continuing, never-ending project.
+      Este será, ou provavelmente continuará sendo, um projeto sem fim.
 
-    * Add `info field lists`__ where appropriate.
+    * Adicionar `listas de informações de campos`__ onde for apropriado.
 
       __ http://sphinx.pocoo.org/markup/desc.html#info-field-lists
 
-    * Add ``.. code-block:: <lang>`` to literal blocks so that they get
-      highlighted.
+    * Adicionar ``.. code-block:: <lang>`` para blocos literais para que eles
+      sejam destacados.
 
-Hints
+Dicas
 -----
 
-Some hints for making things look/read better:
+Algumas dicas para fazer as coisas parecerem melhor:
 
-    * Whenever possible, use links. So, use ``:setting:`ADMIN_FOR``` instead of
-      ````ADMIN_FOR````.
+    * Sempre que possível, use links. Então, use ``:setting:`ADMIN_FOR``` ao
+      invés de ````ADMIN_FOR````.
 
-    * Some directives (``.. setting::``, for one) are prefix-style directives;
-      they go *before* the unit they're describing. These are known as
-      "crossref" directives. Others (``.. class::``, e.g.) generate their own
-      markup; these should go inside the section they're describing. These are
-      called "description units".
+    * Algumas diretivas (``.. setting::``, por exemplo) são diretivas de estilo
+      prefixado; elas vão *antes* da unidade que estão descrevendo. Estas são
+      conhecidas como diretivas "crossref". Já outras (``.. class::``, ex.)
+      geram suas próprias marcações; elas devem ir dentro da seção que estão
+      descrevendo. São chamadas "unidades de descrição".
 
-      You can tell which are which by looking at in :file:`_ext/djangodocs.py`;
-      it registers roles as one of the other.
+      Você pode dizer quem é quem olhando no :file:`_ext/djangodocs.py`; que
+      registra as regras tanto para uma quanto para outra.
 
-    * When referring to classes/functions/modules, etc., you'll want to use the
-      fully-qualified name of the target
+    * Quando estiver referindo-se a classes/funções/módulos, etc., você terá que
+      usar um nome completo para o alvo
       (``:class:`django.contrib.contenttypes.models.ContentType```).
 
-      Since this doesn't look all that awesome in the output -- it shows the
-      entire path to the object -- you can prefix the target with a ``~``
-      (that's a tilde) to get just the "last bit" of that path. So
-      ``:class:`~django.contrib.contenttypes.models.ContentType``` will just
-      display a link with the title "ContentType".
+      Uma vez que isto não pareça ser uma saída incrível -- ela mostra o caminho
+      completo para o objeto -- você pode prefixar o alto com um ``~`` para usar
+      somente o final do caminho. Então
+      ``:class:`~django.contrib.contenttypes.models.ContentType``` mostrará
+      somente um link com o título "ContentType".
+
