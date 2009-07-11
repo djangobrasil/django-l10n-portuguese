@@ -46,18 +46,19 @@ Argumentos opcionais
 	é chamável, a view irá chamá-lo antes de renderizar o template.
 
 ``context_instance``
-	Instância de contexto a ser renderizada com o template. De praxe, o
-	o template vai renderizar com uma instância de ``Context`` (preenchida com
-	valores	de ``dictionary``). Se você precisa usar o
-	:ref:`context processors <subclassing-context-requestcontext>`,
-	renderize o template com uma instância de ``RequestContext``. Seu código
-	pode ficar parecido com o seguinte::
+    Instância de contexto a ser renderizada com o template. Por padrão, o
+    o template vai renderizar com uma instância do ``Context`` (preenchida com
+    valores	de ``dicionário``). Se você precisa usar o :ref:`context processors
+    <subclassing-context-requestcontext>`, renderize o template com uma
+    instância de ``RequestContext``. Seu código pode ficar parecido com o
+    seguinte::
 
         return render_to_response('my_template.html',
                                   my_data_dictionary,
                                   context_instance=RequestContext(request))
 
 ``mimetype``
+
     .. versionadded:: 1.0
 
     O tipo MIME a ser usado para o documento resultante. Caso nenhum valor seja

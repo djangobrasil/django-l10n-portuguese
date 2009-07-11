@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,39 +16,40 @@
 
 .. _topics-db-transactions:
 
-==============================
-Managing database transactions
-==============================
+========================================
+Gerenciando transações de banco de dados
+========================================
 
-Django gives you a few ways to control how database transactions are managed,
-if you're using a database that supports transactions.
+O Django dá a você poucos caminhos para controlar como as transações de banco de
+dados são gerenciadas, isso se você estiver usando um banco de dados que suporta
+transações.
 
-Django's default transaction behavior
-=====================================
+Comportamento padrão de transações com Django
+=============================================
 
-Django's default behavior is to commit automatically when any built-in,
-data-altering model function is called. For example, if you call
-``model.save()`` or ``model.delete()``, the change will be committed
-immediately.
+O comportamento padrão do Django é comitar automaticamente quando quaisquer
+função interna que modifique a base de dados for chamada. Por exemplo,
+se você chamar ``model.save()`` ou ``model.delete()``, a mudança vai ser
+realizada imediatamente.
 
-This is much like the auto-commit setting for most databases. As soon as you
-perform an action that needs to write to the database, Django produces the
-``INSERT``/``UPDATE``/``DELETE`` statements and then does the ``COMMIT``.
-There's no implicit ``ROLLBACK``.
+Isso parece muito com a configuração auto-commit para a maioria dos bancos
+de dados. Tão logo você performe uma ação que precisa escrever no banco
+de dados, o Django produz um comando ``INSERT``/``UPDATE``/``DELETE`` e
+então faz um ``COMMIT``. Não há ``ROLLBACK`` implícito.
 
-Tying transactions to HTTP requests
-===================================
+Amarrando transações às requisições HTTP
+========================================
 
-The recommended way to handle transactions in Web requests is to tie them to
-the request and response phases via Django's ``TransactionMiddleware``.
+A forma recomendada de lidar com transações em requisições Web é amarrá-las
+às fases requisição/resposta através do ``TransactionMiddleware`` do Django.
 
-It works like this: When a request starts, Django starts a transaction. If the
-response is produced without problems, Django commits any pending transactions.
-If the view function produces an exception, Django rolls back any pending
-transactions.
+Funciona assim: quando uma requisição é iniciada, o Django começa uma transação.
+Se a resposta é produzida sem problemas, o Django commita quaisquer transações
+pendentes. Se a função view produz uma exceção, o Django faz um rollback de
+quaisquer transações pendentes.
 
-To activate this feature, just add the ``TransactionMiddleware`` middleware to
-your ``MIDDLEWARE_CLASSES`` setting::
+Para ativar esta funcionalidade, apenas adicione o ``TransactionMiddleware``
+middleware nos eu setting ``MIDDLEWARE_CLASSES``::
 
     MIDDLEWARE_CLASSES = (
         'django.contrib.sessions.middleware.SessionMiddleware',
@@ -57,35 +58,36 @@ your ``MIDDLEWARE_CLASSES`` setting::
         'django.middleware.transaction.TransactionMiddleware',
     )
 
-The order is quite important. The transaction middleware applies not only to
-view functions, but also for all middleware modules that come after it. So if
-you use the session middleware after the transaction middleware, session
-creation will be part of the transaction.
+A ordem é bastante importante. O middleware de transação se aplica não somente
+às funções da view, mas também a todos os módulos middleware que que vem após o
+mesmo. Então, se você usar o session middleware após o transaction middleware, a
+criação de sessões será parte da transação.
 
-An exception is ``CacheMiddleware``, which is never affected. The cache
-middleware uses its own database cursor (which is mapped to its own database
-connection internally).
+Uma exceção a isso seria o ``CacheMiddleware``, que nunca é afetado. O cache
+middleware usa seu próprio cursor de banco de dados (que é mapeado para a sua
+própria conexão de banco de dados internamente).
 
-Controlling transaction management in views
-===========================================
+Controlando o gerenciamento de transações direto nas views
+==========================================================
 
-For most people, implicit request-based transactions work wonderfully. However,
-if you need more fine-grained control over how transactions are managed, you
-can use Python decorators to change the way transactions are handled by a
-particular view function.
+Para a maioria das pessoas, transações baseadas em requisições funciona
+maravilhosamente bem. Contudo, se você precisa de um controle mais fino
+sobre como suas transações são gerenciadas, você pode usar os decoradores
+do Python para mudar a forma como as transações são lidadas por uma função
+view em particular.
 
 .. note::
 
-    Although the examples below use view functions as examples, these
-    decorators can be applied to non-view functions as well.
+    Mesmo os exemplos abaixo usando funções de view como exemplo, esses
+    decoradores também podem ser aplicados para funções que não view.
 
 ``django.db.transaction.autocommit``
 ------------------------------------
 
-Use the ``autocommit`` decorator to switch a view function to Django's default
-commit behavior, regardless of the global transaction setting.
+Use o decorador ``autocommit`` para mudar o comportamento padrão de commit de
+uma view, independente da configuração global das transações.
 
-Example::
+Exemplo::
 
     from django.db import transaction
 
@@ -93,15 +95,15 @@ Example::
     def viewfunc(request):
         ....
 
-Within ``viewfunc()``, transactions will be committed as soon as you call
-``model.save()``, ``model.delete()``, or any other function that writes to the
-database.
+Dentro de ``viewfunc()``, transações serão commitadas quão logo você chame
+``model.save()``, ``model.delete()``, ou qualquer outra função que escreva
+na base de dados.
 
 ``django.db.transaction.commit_on_success``
 -------------------------------------------
 
-Use the ``commit_on_success`` decorator to use a single transaction for
-all the work done in a function::
+Utilize o decorador ``commit_on_success`` para usar transações únicas para
+todo o trabalho feito em uma função::
 
     from django.db import transaction
 
@@ -109,31 +111,31 @@ all the work done in a function::
     def viewfunc(request):
         ....
 
-If the function returns successfully, then Django will commit all work done
-within the function at that point. If the function raises an exception, though,
-Django will roll back the transaction.
+Se a função retorna com sucesso, então o Django irá commitar todo o trabalho
+feito na função até aquele ponto. Se a função levanta uma exceção, todavia,
+o Django irá fazer um rollback na transação.
 
 ``django.db.transaction.commit_manually``
 -----------------------------------------
 
-Use the ``commit_manually`` decorator if you need full control over
-transactions. It tells Django you'll be managing the transaction on your own.
+Use o decorador ``commit_manually`` se você precisa de um controle completo
+sobre as transações. Ele diz ao Django que você mesmo irá gerenciar a trasação.
 
-If your view changes data and doesn't ``commit()`` or ``rollback()``, Django
-will raise a ``TransactionManagementError`` exception.
+Se seu view muda o dado e não executa um ``commit()`` ou ``rollback()``, o
+Django irá lançar uma exceção ``TransactionManagementError``.
 
-Manual transaction management looks like this::
+Gerenciamento manual de transações parece com isso::
 
     from django.db import transaction
 
     @transaction.commit_manually
     def viewfunc(request):
         ...
-        # You can commit/rollback however and whenever you want
+        # Você pode comitar/retroceder quando e onde quiser.
         transaction.commit()
         ...
 
-        # But you've got to remember to do it yourself!
+        # Mas terá de lembrar de fazê-lo você mesmo!
         try:
             ...
         except:
@@ -141,42 +143,44 @@ Manual transaction management looks like this::
         else:
             transaction.commit()
 
-.. admonition:: An important note to users of earlier Django releases:
+.. admonition:: Uma nota importante para usuários de versões anteriores do Django:
 
-    The database ``connection.commit()`` and ``connection.rollback()`` methods
-    (called ``db.commit()`` and ``db.rollback()`` in 0.91 and earlier) no
-    longer exist. They've been replaced by ``transaction.commit()`` and
-    ``transaction.rollback()``.
+    Os métodos de banco de dados ``connection.commit()`` e
+    ``connection.rollback()`` (chamados ``db.commit()`` e ``db.rollback`` na
+    versão 0.91 e anteriores) não existem mais. Eles foram substituídos por
+    ``transation.commit()`` e ``transation.rollback()``.
 
-How to globally deactivate transaction management
-=================================================
+Como desativar globalmente o gerenciamentod e transações
+========================================================
 
+Controladores obsecados, podem disabilitar totalmente todo gerenciamento de
+transações
 Control freaks can totally disable all transaction management by setting
 ``DISABLE_TRANSACTION_MANAGEMENT`` to ``True`` in the Django settings file.
 
-If you do this, Django won't provide any automatic transaction management
-whatsoever. Middleware will no longer implicitly commit transactions, and
-you'll need to roll management yourself. This even requires you to commit
-changes done by middleware somewhere else.
+Se você fizer isso, o Django não irá prover qualquer gerenciamento de transação
+automático qualquer. O middleware não irá implicitamente comitar as transações,
+e você precisará gerenciar os rollbacks. Isto requer que você mesmo comita as
+alterações feitas pelo middleware e algo a mais.
 
-Thus, this is best used in situations where you want to run your own
-transaction-controlling middleware or do something really strange. In almost
-all situations, you'll be better off using the default behavior, or the
-transaction middleware, and only modify selected functions as needed.
+Deste modo, é melhor usar isto em situações onde você precisa rodar o seu
+próprio middleware de controle de transações ou fazer algo realmente estranho.
+Em quase todas as situações, você se dará melhor usando o comportamento padrão,
+ou o middleware, e somente modificar as funções selecionadas caso precise.
 
-Transactions in MySQL
-=====================
+Transações no MySQL
+===================
 
-If you're using MySQL, your tables may or may not support transactions; it
-depends on your MySQL version and the table types you're using. (By
-"table types," we mean something like "InnoDB" or "MyISAM".) MySQL transaction
-peculiarities are outside the scope of this article, but the MySQL site has
-`information on MySQL transactions`_.
+Se você estiver usando o MySQL, suas tabelas podem ou não suportar transações;
+isto depende da versão do MySQL e do tipo de tabelas que você está usando. (Para
+"tipo de tabela," significa algo como "InnoDB" ou "MyISAM".) As peculiaridades
+de transações no MySQL são fora do escopo do artigo, mas o site do MySQL tem
+`informações sobre as transações no MySQL`_.
 
-If your MySQL setup does *not* support transactions, then Django will function
-in auto-commit mode: Statements will be executed and committed as soon as
-they're called. If your MySQL setup *does* support transactions, Django will
-handle transactions as explained in this document.
+Se sua instalação do MySQL *não* suporta transações, então o Django irá
+funcionar no modo auto-comit: As consultas serão executadas e comitadas logo que
+forem chamadas. Se sua instalação do MySQL *suporta* transações, o Django irá
+manipular as transações como explicado neste documento.
 
-.. _information on MySQL transactions: http://dev.mysql.com/doc/refman/5.0/en/sql-syntax-transactions.html
+.. _informações sobre as transações no MySQL: http://dev.mysql.com/doc/refman/5.0/en/sql-syntax-transactions.html
 
