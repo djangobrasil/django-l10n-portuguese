@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,13 +16,13 @@
 
 .. _ref-files-storage:
 
-File storage API
-================
+API de armazenamento de arquivos.
+=================================
 
 ``Storage.exists(name)``
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-``True`` if a file exists given some ``name``.
+``True`` se um determinado arquivo já existe com ``name``.
 
 ``Storage.path(name)``
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -31,40 +31,45 @@ The local filesystem path where the file can be opened using Python's standard
 ``open()``. For storage systems that aren't accessible from the local
 filesystem, this will raise ``NotImplementedError`` instead.
 
+O caminho do sistema de arquivos de onde o arquivo pode ser aberto usando a
+função padrão do Python, ``open()``. Para o sistemas de armazenamento que não
+são acessíveis do sistema de arquivo local, esta função irá gerar um erro
+``NotImplementedError``.
+
 ``Storage.size(name)``
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Returns the total size, in bytes, of the file referenced by ``name``.
+Retorna o tamanho total, em bytes, do arquivo referenciado por ``name``.
 
 ``Storage.url(name)``
 ~~~~~~~~~~~~~~~~~~~~~
 
-Returns the URL where the contents of the file referenced by ``name`` can be
-accessed.
+Retorna a URL onde o conteúdo do arquivo referenciado por ``name`` pode ser
+acessado.
 
 ``Storage.open(name, mode='rb')``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Opens the file given by ``name``. Note that although the returned file is
-guaranteed to be a ``File`` object, it might actually be some subclass. In the
-case of remote file storage this means that reading/writing could be quite slow,
-so be warned.
+Abre o arquivo dado por ``name``. Note que apesar do arquivo retornado ser mesmo
+um objeto ``File``, ele pode na verdade ser alguma subclasse. No caso de ser
+um sistema de armazenamento remoto, isto significa que a leitura/escrita pode
+ser lenta, então fique atento.
 
 ``Storage.save(name, content)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Saves a new file using the storage system, preferably with the name specified.
-If there already exists a file with this name ``name``, the storage system may
-modify the filename as necessary to get a unique name. The actual name of the
-stored file will be returned.
+Salva um novo arquivo usando o sistema de armazenamento, preferencialmente com o
+nome especificado. Se já existe um arquivo com este nome ``name``, o sistema
+pode modificar o nome para ter um nome único. O nome atual do arquivo armazenado
+será retornado.
 
-The ``content`` argument must be an instance of
-:class:`django.db.files.File` or of a subclass of
+O argumento ``content`` ponde ser uma instancia de
+:class:`django.db.files.File` ou de uma subclasse de
 :class:`~django.db.files.File`.
 
 ``Storage.delete(name)``
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Deletes the file referenced by ``name``. This method won't raise an exception if
-the file doesn't exist.
+Deleta o arquivo referenciado por ``name``. Este método não irá lançar uma
+exceção caso o arquivo não exista.
 
