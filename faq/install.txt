@@ -1,8 +1,8 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, waiting for revision $
-..   $OriginalRevision: 9368 $
+..   $TranslationStatus: In Progress $
+..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: Italo Maia, Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -31,22 +31,20 @@ Como eu começo?
 .. _`Baixe o código`: http://www.djangoproject.com/download/
 .. _pergunte: http://www.djangoproject.com/community/
 
-Como eu corrijo o erro "install a later version of setuptools"?
----------------------------------------------------------------
-
-Apenas execute o  script ``ez_setup.py`` na distribuição do Django.
-
 Quais são os pré requisitos para se executar o Django?
 ------------------------------------------------------
 
-O Django requer Python_ 2.3 ou superior. Nenhuma outra biblioteca Python é requerida
+O Django requer o Python_ 2.3, especificamente qualquer versão do Python desde o 2.3
+até o 2.6. Nenhuma outra biblioteca Python é requerida
 para o uso básico do Django.
 
 Para um ambiente de desenvolvimento -- se você apenas quer experimentar o Django --
 você não precisa ter um servidor web separado; o Django vem com o seu próprio
-servidor leve de desenvolvimento. Para um ambiente de produção, nós recomendamos
-`Apache 2`_ e mod_python_, mas o Django seque a especificação WSGI_ spec, o que
-significa que ele pode rodar sobre uma ampla variedade de plataformas de servidores.
+servidor leve de desenvolvimento. Para um ambiente de produção, o Django seque a especificação WSGI_,
+o que significa que ele pode rodar sobre uma ampla variedade de plataformas de servidores.  Veja
+:ref:`Implantando o Django <howto-deployment-index>` para algumas
+anternativas populares.  Além disso, a página `server arrangements wiki page`_ contém
+detalhes para algumas estratégias de implantação.
 
 Se você quer usar o Django com um banco de dados, que é o caso provável, você irá
 também precisar de um servidor de banco de dados. O PostgreSQL_ é recomendado, porque somos
@@ -56,53 +54,49 @@ fãs do PostgreSQL, e o MySQL_, `SQLite 3`_, e Oracle_ são suportados também.
 .. _Apache 2: http://httpd.apache.org/
 .. _mod_python: http://www.modpython.org/
 .. _WSGI: http://www.python.org/peps/pep-0333.html
+.. _server arrangements wiki page: http://code.djangoproject.com/wiki/ServerArrangements
 .. _PostgreSQL: http://www.postgresql.org/
 .. _MySQL: http://www.mysql.com/
 .. _`SQLite 3`: http://www.sqlite.org/
 .. _Oracle: http://www.oracle.com/
 
-Eu perco algo se eu rodar o Django com uma versão antiga do Python, com a 2.3, em vez de usar a 2.5, por exemplo?
------------------------------------------------------------------------------------------------------------------
+Eu perco algo se eu rodar o Django com uma a versão 2.3 do Python em vez de usar a 2.5?
+---------------------------------------------------------------------------------------
 
-Não, o Django funciona com qualquer versão do Python superior ao 2.3.
+Not in the core framework. Currently, Django itself officially
+supports any version of Python from 2.3 through 2.6,
+inclusive. However, some add-on components may require a more recent
+Python version; the ``django.contrib.gis`` component, for example,
+requires at least Python 2.4, and third-party applications for use
+with Django are, of course, free to set their own version
+requirements.
 
-Se você usar uma versão mais nova que a 2.3 obviamente, você poderá
-tomar vantagem das novas características do Python no seu próprio código, junto com as melhorias
-de velocidade e outras otimizações que têm sido feitas na linguagem Python em si.
-Mas o framework Django em si deve funcionar igualmente bem nas versões 2.3, 2.4 ou 2.5 do Python.
+Please note, however, that over the next year or two Django will begin
+dropping support for older Python versions as part of a migration
+which will end with Django running on Python 3.0 (see next question
+for details). So if you're just starting out with Python, it's
+recommended that you use the latest 2.x release (currently, Python
+2.6). This will let you take advantage of the numerous improvements
+and optimizations to the Python language since version 2.3, and will
+help ease the process of dropping support for older Python versions on
+the road to Python 3.0.
 
-Eu tenho de usar mod_python?
-----------------------------
+Can I use Django with Python 3.0?
+---------------------------------
 
-Nós recomendamos o uso do mod_python para produção, mas graças ao padrão WSGI_,
-você não é obrigado a usá-lo. O Django pode falar com qualquer servidor
-compatível com o WSGI. Outras configurações de deployment além do mod_python são
-FastCGI, SCGI ou AJP. Veja :ref:`Como usar o Django com, SCGI ou AJP <howto-deployment-fastcgi>`
-para mais informações.
+Not at the moment. Python 3.0 introduced a number of
+backwards-incompatible changes to the Python language, and although
+these changes are generally a good thing for Python's future, it will
+be a while before most Python software catches up and is able to run
+on Python 3.0. For larger Python-based software like Django, the
+transition is expected to take at least a year or two (since it
+involves dropping support for older Python releases and so must be
+done gradually).
 
-Veja também a `página do wiki de opções de configuração de servidores`_ para outras
-estratégias de deployment.
-
-Se você quer apenas testar e desenvolver coisas em seu computador local, use o
-servidor Web de desenvolvimento que vem com o Django.
-
-.. _WSGI: http://www.python.org/peps/pep-0333.html
-.. _página do wiki de opções de configuração de servidores: http://code.djangoproject.com/wiki/ServerArrangements
-
-Como eu instalo o mod_python no Windows?
------------------------------------------
-
-    * Para o Python 2.4, obtenha o mod_python de `build win32 do mod_python para Python 2.4`_.
-    * Para o Python 2.4, verifique o `howto do Django no Windows`_.
-    * Para o Python 2.3, obtenha o mod_python de http://www.modpython.org/ e leia
-      `Running mod_python on Apache on Windows2000`_.
-    * Também, tente esse guia (não específico do Windows) `guide to getting mod_python
-      working`_.
-
-.. _`build win32 do mod_python para Python 2.4`: http://www.lehuen.com/nicolas/index.php/2005/02/21/39-win32-build-of-mod_python-314-for-python-24
-.. _`howto do Django no Windows`: http://thinkhole.org/wp/django-on-windows/
-.. _`Running mod_python on Apache on Windows2000`: http://groups-beta.google.com/group/comp.lang.python/msg/139af8c83a5a9d4f
-.. _`guide to getting mod_python working`: http://www.dscpl.com.au/articles/modpython-001.html
+In the meantime, Python 2.x releases will be supported and provided
+with bug fixes and security updates by the Python development team, so
+continuing to use a Python 2.x release during the transition should
+not present any risk.
 
 O Django executará em hosts compartilhados (como TextDrive ou o Dreamhost)?
 ----------------------------------------------------------------------------
