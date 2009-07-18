@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, waiting for revision. $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 9441 $
 ..   $TranslationAuthors: Walter Cruz $
 ..
@@ -309,13 +309,13 @@ Veja :ref:`topics-http-middleware` para mais sobre middlewares.
 
 .. versionadded:: 1.0
 
-If a view sets its own cache expiry time (i.e. it has a ``max-age`` section in
-its ``Cache-Control`` header) then the page will be cached until the expiry
-time, rather than ``CACHE_MIDDLEWARE_SECONDS``. Using the decorators in
-``django.views.decorators.cache`` you can easily set a view's expiry time
-(using the ``cache_control`` decorator) or disable caching for a view (using
-the ``never_cache`` decorator). See the `using other headers`__ section for
-more on these decorators.
+Se uma visão configura o seu próprio tempo de expiração de cache (i.e. tem uma seção ``max-age``
+no seu cabeçalho ``Cache-Control``) então a página será mantida em cache até o tempo de
+edxpiração, ao invés de ``CACHE_MIDDLEWARE_SECONDS``. Usando os decoradores em
+``django.views.decorators.cache`` você pode facilmente configurar o tempo de expiração de
+uma visão(usando o decorador ``cache_control``) ou desabilitar o cache para uma visão (usando
+o decorador ``never_cache``). Veja a seção `usando outros cabeçalhos`__ para mais
+informações sobre esses decoradores.
 
 __ `Controlando o cache: Usando outros cabeçalhos`_
 
