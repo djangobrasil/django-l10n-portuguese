@@ -97,7 +97,7 @@ E mais:
 -------
 
     * :ref:`Autenticação <topics-auth>`
-    * :ref:`Caching <topics-cache>`
+    * :ref:`Cache <topics-cache>`
     * :ref:`E-mail <topics-email>`
     * :ref:`APIs de acesso a arquivo <topics-files>`
     * :ref:`Internacionalização <topics-i18n>`

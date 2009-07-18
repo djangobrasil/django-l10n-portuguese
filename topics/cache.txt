@@ -322,10 +322,10 @@ __ `Controlando o cache: Usando outros cabeçalhos`_
 O cache por visão
 =================
 
-A more granular way to use the caching framework is by caching the output of
-individual views. ``django.views.decorators.cache`` defines a ``cache_page``
-decorator that will automatically cache the view's response for you. It's easy
-to use::
+Uma forma mais granular de usar o framework de cache é fazer o cache da saída
+de visões individuais. ``django.views.decorators.cache`` define um decorador
+``cache_page`` que ierá automaticamente fazer o cache da resposta da visão para você. 
+É fácil de usar::
 
     from django.views.decorators.cache import cache_page
 
@@ -334,58 +334,58 @@ to use::
 
     slashdot_this = cache_page(slashdot_this, 60 * 15)
 
-Or, using Python 2.4's decorator syntax::
+Ou, usando a sintaxe de decorador do Python 2.4::
 
     @cache_page(60 * 15)
     def slashdot_this(request):
         ...
 
-``cache_page`` takes a single argument: the cache timeout, in seconds. In the
-above example, the result of the ``slashdot_this()`` view will be cached for 15
-minutes.
+``cache_page`` recebe um único argumento: o timeout do cache, em segundos. No exemplo 
+acima, o resultado da visão ``slashdot_this()`` será mantido em cache por 15
+minutos.
 
 Cache de fragmento de template
 ==============================
 
 .. versionadded:: 1.0
 
-If you're after even more control, you can also cache template fragments using
-the ``cache`` template tag. To give your template access to this tag, put
-``{% load cache %}`` near the top of your template.
+Se você quer ainda mais controle, você pode também fazer cache de fragmentos de
+template usando a tag de template ``cache``. Para permitir que seu template use essa tag, coloque
+``{% load cache %}`` perto do topo do seu template.
 
-The ``{% cache %}`` template tag caches the contents of the block for a given
-amount of time. It takes at least two arguments: the cache timeout, in seconds,
-and the name to give the cache fragment. For example::
+A tag de template ``{% cache %}`` faz o cache do conteúdo do bloco por um certo período
+de tempo. Recebe ao menos dois argumentos: o timeout do cache, em segundos,
+e o nome que será dado ao cache de fragmento. Por exemplo::
 
     {% load cache %}
     {% cache 500 sidebar %}
         .. sidebar ..
     {% endcache %}
 
-Sometimes you might want to cache multiple copies of a fragment depending on
-some dynamic data that appears inside the fragment. For example, you might want a
-separate cached copy of the sidebar used in the previous example for every user
-of your site. Do this by passing additional arguments to the ``{% cache %}``
-template tag to uniquely identify the cache fragment::
+Algumas vezes você pode querer adicionar ao cache diversas cópias de um fragmento dependendo de
+algum dado dinâmico que apareça dentro do fragmento. Por exemplo, você pode querer uma
+cópia separada da barra lateral usada no exemplo anterior para cada usuário
+do seu site. Faça isso passando argumentos adicionais a template tag ``{% cache %}``
+que unicamente identifiquem esse cache de fragmento::
 
     {% load cache %}
     {% cache 500 sidebar request.user.username %}
         .. sidebar for logged in user ..
     {% endcache %}
 
-It's perfectly fine to specify more than one argument to identify the fragment.
-Simply pass as many arguments to ``{% cache %}`` as you need.
+É perfeitamente válido especificar mais de um argumento para identificar o fragmento.
+Simplesmente passe tantos argumentos quanto você precisar para ``{% cache %}``.
 
-The cache timeout can be a template variable, as long as the template variable
-resolves to an integer value. For example, if the template variable
-``my_timeout`` is set to the value ``600``, then the following two examples are
-equivalent::
+O timeout de cache pode ser uma variável de template, desde que a variável de template seja um 
+valor inteiro. Por exemplo, se a variável de template
+``my_timeout`` está configurada para o valor ``600``, então os dois exemplos a seguir são
+equivalentes::
 
     {% cache 600 sidebar %} ... {% endcache %}
     {% cache my_timeout sidebar %} ... {% endcache %}
 
-This feature is useful in avoiding repetition in templates. You can set the
-timeout in a variable, in one place, and just reuse that value.
+Essa característica é útil para evitar repetição em seus templates. Você pode configurar o
+timeout em uma variável, em um lugar, e apenas reutilizar esse valor.
 
 A API de baixo nível do cache
 =============================
@@ -523,12 +523,12 @@ assim::
 
     from django.views.decorators.vary import vary_on_headers
 
-    # Python 2.3 syntax.
+    # Sintaxe do Python 2.3.
     def my_view(request):
         ...
     my_view = vary_on_headers(my_view, 'User-Agent')
 
-    # Python 2.4 decorator syntax.
+    # Sintaxe de decorador do Python 2.4.
     @vary_on_headers('User-Agent')
     def my_view(request):
         ...

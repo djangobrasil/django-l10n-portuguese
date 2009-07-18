@@ -110,8 +110,8 @@ class DjangoHTMLTranslator(sphinx.htmlwriter.SmartyPantsHTMLTranslator):
     # that work and I think it'll require Sphinx 0.5 anyway.
     #
     version_text = {
-        'deprecated':       'Deprecated in Django %s',
-        'versionchanged':   'Changed in Django %s',
+        'deprecated':       'Tornado obsoleto no Django %s',
+        'versionchanged':   'Alterado no Django %s',
         'versionadded':     'Novo no Django %s',
     }
     
