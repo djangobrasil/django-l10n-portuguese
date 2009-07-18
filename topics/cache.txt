@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 9441 $
 ..   $TranslationAuthors: Walter Cruz $
 ..
@@ -513,13 +513,13 @@ de agente de usuário, como cookies ou preferência de idioma.
 
 É onde entra o ``Vary``.
 
-If your Django-powered page outputs different content based on some difference
-in request headers -- such as a cookie, or language, or user-agent -- you'll
-need to use the ``Vary`` header to tell caching mechanisms that the page output
-depends on those things.
+Se o seu site baseado em Django exibe diferentes conteúdos baseados em alguma diferença
+dos cabeçalhos de requisição -- como o cookie, idioma, ou agente de usuário -- você irá
+precisar usar o cabeçalho ``Vary`` para dizer aos mecanismos de cache que a saída da página
+depende dessas coisas.
 
-To do this in Django, use the convenient ``vary_on_headers`` view decorator,
-like so::
+Para fazer isso no Django, use o decorador de visão de conveniência ``vary_on_headers``,
+assim::
 
     from django.views.decorators.vary import vary_on_headers
 
@@ -533,22 +533,22 @@ like so::
     def my_view(request):
         ...
 
-In this case, a caching mechanism (such as Django's own cache middleware) will
-cache a separate version of the page for each unique user-agent.
+Nesse caso, um mecanismo de cache (como o próprio middleware de cache do Django) irá
+cachear uma versão diferente da página para cada agente de usuário único.
 
-The advantage to using the ``vary_on_headers`` decorator rather than manually
-setting the ``Vary`` header (using something like
-``response['Vary'] = 'user-agent'``) is that the decorator adds to the ``Vary``
-header (which may already exist) rather than setting it from scratch.
+A vantage de usar o decorador ``vary_on_headers``  ao invés de configurar o cabeçalho
+``Vary`` manualmente (usando algo como
+``response['Vary'] = 'user-agent'``) é que o decorador adiciona algo ao cabeçalho ``Vary``
+(que pode já existir) ao invés de sobrescrevê-lo.
 
-You can pass multiple headers to ``vary_on_headers()``::
+Você pode passar diversos cabeçalhos para ``vary_on_headers()``::
 
     @vary_on_headers('User-Agent', 'Cookie')
     def my_view(request):
         ...
 
-Because varying on cookie is such a common case, there's a ``vary_on_cookie``
-decorator. These two views are equivalent::
+Como a variação baseada em cookie é um caso comum, existe um decorador ``vary_on_cookie``.
+Essas duas views são equivalentes::
 
     @vary_on_cookie
     def my_view(request):
@@ -558,11 +558,11 @@ decorator. These two views are equivalent::
     def my_view(request):
         ...
 
-Also note that the headers you pass to ``vary_on_headers`` are not case
-sensitive. ``"User-Agent"`` is the same thing as ``"user-agent"``.
+Note também que os abeçalhos que você passa para ``vary_on_headers`` não são
+sensíveis a caso. ``"User-Agent"`` é a mesma coisa que ``"user-agent"``.
 
-You can also use a helper function, ``django.utils.cache.patch_vary_headers``,
-directly::
+Você pode também usar uma função auxiliar, ``django.utils.cache.patch_vary_headers``,
+diretamente::
 
     from django.utils.cache import patch_vary_headers
     def my_view(request):
@@ -571,57 +571,56 @@ directly::
         patch_vary_headers(response, ['Cookie'])
         return response
 
-``patch_vary_headers`` takes an ``HttpResponse`` instance as its first argument
-and a list/tuple of header names as its second argument.
+``patch_vary_headers`` recebe uma instância de ``HttpResponse`` como seu primeiro argumento
+e uma lista/tupla de nomes de cabeçalho como seu segundo argumento.
 
-For more on Vary headers, see the `official Vary spec`_.
+Para mais sobre os cabeçalhos Vary, veja a `especificação oficial do Vary`_.
 
-.. _`official Vary spec`: http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.44
+.. _`especificação oficial do Vary`: http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.44
 
 Controlando o cache: Usando outros cabeçalhos
 =============================================
 
-Another problem with caching is the privacy of data and the question of where
-data should be stored in a cascade of caches.
+Outro problema com o cache é a privacidade de dados e a questão de onde 
+os dados devem ser armazenados em uma cascada de caches.
 
-A user usually faces two kinds of caches: his own browser cache (a private
-cache) and his provider's cache (a public cache). A public cache is used by
-multiple users and controlled by someone else. This poses problems with
-sensitive data: You don't want, say, your banking-account number stored in a
-public cache. So Web applications need a way to tell caches which data is
-private and which is public.
+Um usuário normalmente encontra dois tipos de cache: o do seu próprio navegador (um cache
+privado) e o do seu provedor (um cache público). Um cache público é usado por
+muitos usuários e controlado por mais alguém. Isso coloca problemas com
+dados sensíveis: você não quer, por exemplo, que o número da sua conta bancária seja gravada em um
+cache público. Assim, aplicações web precisam de uma forma de dizer aos caches quais dados são
+privados e quais dados são públicos.
 
-The solution is to indicate a page's cache should be "private." To do this in
-Django, use the ``cache_control`` view decorator. Example::
+A solução é indicar que o cache de página seja "particular". Para fazer isso no
+Django, use o decorador de visão ``cache_control``. Exemplo::
 
     from django.views.decorators.cache import cache_control
     @cache_control(private=True)
     def my_view(request):
         ...
 
-This decorator takes care of sending out the appropriate HTTP header behind the
-scenes.
+Esse decorador cuida de enviar o cabeçalho HTTP apropriado nos bastidores.
 
-There are a few other ways to control cache parameters. For example, HTTP
-allows applications to do the following:
+Existem algumas outras formas de controlar os parâmetros de cache. Por exemplo, o HTTP
+permite que aplicações façam o seguinte:
 
-    * Define the maximum time a page should be cached.
-    * Specify whether a cache should always check for newer versions, only
-      delivering the cached content when there are no changes. (Some caches
-      might deliver cached content even if the server page changed -- simply
-      because the cache copy isn't yet expired.)
+    * Defina o tempo máximo que uma página deva permanecer em cache.
+    * Especifica se um cache deve sempre verificar por novas versões da página, 
+      exibindo o conteúdo em cache apenas quando não houve mudanças. (Alguns caches
+      podem entregar conteúdo em cache mesmo se a página no servidor mudou -- simplesmente
+      porque a cópia do cache ainda não expirou.)
 
-In Django, use the ``cache_control`` view decorator to specify these cache
-parameters. In this example, ``cache_control`` tells caches to revalidate the
-cache on every access and to store cached versions for, at most, 3600 seconds::
+No Django, use o decorador de visão ``cache_control`` para especificar esses parâmetros
+de cache. Nesse exemplo, ``cache_control`` diz ao cache para revalidar o
+cache em cada acesso e para guardar versões em cache em no máximo por 3600 segundos::
 
     from django.views.decorators.cache import cache_control
     @cache_control(must_revalidate=True, max_age=3600)
     def my_view(request):
         ...
 
-Any valid ``Cache-Control`` HTTP directive is valid in ``cache_control()``.
-Here's a full list:
+Qualquer diretiva HTTP ``Cache-Control`` é válida em ``cache_control()``.
+Aqui está uma lista completa:
 
     * ``public=True``
     * ``private=True``
@@ -632,23 +631,23 @@ Here's a full list:
     * ``max_age=num_seconds``
     * ``s_maxage=num_seconds``
 
-For explanation of Cache-Control HTTP directives, see the `Cache-Control spec`_.
+Para explicação das diretivas HTTP de Cache-Control, veja a `Especificação de Cache-Control`_.
 
-(Note that the caching middleware already sets the cache header's max-age with
-the value of the ``CACHE_MIDDLEWARE_SETTINGS`` setting. If you use a custom
-``max_age`` in a ``cache_control`` decorator, the decorator will take
-precedence, and the header values will be merged correctly.)
+(Note que o middleware  de cache já configura o tempo máximo (max-age) do cache com
+o valor da configuração ``CACHE_MIDDLEWARE_SETTINGS``. Se você usa um ``max_age``
+personalizado no decorador ``cache_control``, o decorador terá precedência sobre a configuração,
+e os valores do cabeçalho serão mesclados corretamente.)
 
-If you want to use headers to disable caching altogether,
-``django.views.decorators.cache.never_cache`` is a view decorator that adds
-headers to ensure the response won't be cached by browsers or other caches. Example::
+Se você quer usar cabeçalhos para desabilitar todo o cache,
+``django.views.decorators.cache.never_cache`` é um decorador de visão que adiciona
+cabeçalhos que garantem que a resposta não será posta em cache por navegadores ou outros caches. Exemplo::
 
     from django.views.decorators.cache import never_cache
     @never_cache
     def myview(request):
         ...
 
-.. _`Cache-Control spec`: http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9
+.. _`Especificação de Cache-Control`: http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9
 
 Outras otimizações
 ==================
@@ -665,23 +664,23 @@ do seu aplicativo:
 Ordem das MIDDLEWARE_CLASSES
 ============================
 
-If you use caching middleware, it's important to put each half in the right
-place within the ``MIDDLEWARE_CLASSES`` setting. That's because the cache
-middleware needs to know which headers by which to vary the cache storage.
-Middleware always adds something to the ``Vary`` response header when it can.
+Se você está usando o middleware de cache, é importador colocar cada parte dentro do lugar correto nas
+configurações de ``MIDDLEWARE_CLASSES``. Isso porque o cabeçalho de cache
+precisa saber por quais cabeçalhos ele irá variar o armazenamento de cache.
+Middleware sempre adiciona algo ao cabeçalho ``Vary`` quando ele pode.
 
-``UpdateCacheMiddleware`` runs during the response phase, where middleware is
-run in reverse order, so an item at the top of the list runs *last* during the
-response phase. Thus, you need to make sure that ``UpdateCacheMiddleware``
-appears *before* any other middleware that might add something to the ``Vary``
-header. The following middleware modules do so:
+``UpdateCacheMiddleware`` executa durante a fase de resposta, onde os middlewares são
+executados em ordem reversa, então um item no topo da lista sempre executa *por último* durante
+a fase de resposta. Assim, você precisa garantir que ``UpdateCacheMiddleware``
+apareça *antes* de quaisquer outros middlewares que possam adicionar algo ao cabeçalho ``Vary``.
+Os seguintes módulos de middleware fazem isso so:
 
-    * ``SessionMiddleware`` adds ``Cookie``
-    * ``GZipMiddleware`` adds ``Accept-Encoding``
-    * ``LocaleMiddleware`` adds ``Accept-Language``
+    * ``SessionMiddleware`` adiciona ``Cookie``
+    * ``GZipMiddleware`` adiciona ``Accept-Encoding``
+    * ``LocaleMiddleware`` adiciona ``Accept-Language``
 
-``FetchFromCacheMiddleware``, on the other hand, runs during the request phase,
-where middleware is applied first-to-last, so an item at the top of the list
-runs *first* during the request phase. The ``FetchFromCacheMiddleware`` also
-needs to run after other middleware updates the ``Vary`` header, so
-``FetchFromCacheMiddleware`` must be *after* any item that does so.
+``FetchFromCacheMiddleware``, por outro lado, executa durante a fase de requisição,
+onde os middlewares são aplicados do primeiro ao último, então um item no topo da lista
+execute *primeiro* durante a fase de requisição. O ``FetchFromCacheMiddleware`` também
+precisa edxecutar depois de alguns outros middlewares atualizarem o cabeçalho ``Vary``, assim
+``FetchFromCacheMiddleware`` deve ser configurado *após* qualquer item que faça isso.
