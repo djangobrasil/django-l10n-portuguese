@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: Walter Cruz $
 ..
@@ -447,14 +447,29 @@ timeout em uma variável, em um lugar, e apenas reutilizar esse valor.
 A API de baixo nível do cache
 =============================
 
-Algumas vezes, o cache de uma página completa renderizada não é de grande valor.
+Algumas vezes, o cache de uma página completa renderizada não é de grande valor, é pode
+ser até inconveniente.
+
+Talvez, por exemplo, o seu site inclua uma visão cujos resultados dependam de algumas
+consultas intensivas ao banco de dados, cujos resultados mudem em diferentes intervalos.
+Nesse caso, não seria ideal usar o cache completo de página que as estratégias de cache
+por site ou por visão oferecem, porque você não quer fazer o cache do resultado
+completo (já que alguns dados mudam frequentemente), mas você ainda gostaria
+de manter em cache os resultados que mudam com menos frequência.
+
+Para casos como esse, o Django expõe uma API simples de baixo nível de cache. Você pode usar
+essa API para guardar objetos no cache com quaisquer níveis de granularidade que você quiser.
+Você pode cacher quaisquer objetos Python que podem ser serializados com segurança: strings,
+dicionários, listas ou objetos do modelo, e por aí vai. (A maioria dos objetos comum
+do Python podem ser serializados através de pickle; veja a documentação do Python para mais informações
+sobre o pickling.)
+
 Por exemplo, você pode descobrir que basta fazer o cache do resultado de uma consulta
 intensiva ao banco de dados. Em casos assim, você pode usar a API de baixo nível
 de cache para guardar os objetos em qualquer nível de granularidade que você quiser.
 
-A API de cache é simples. O módulo de cache, ``django.core.cache``, exporta um
-objeto ``cache`` que é criado automaticamente a partir da configuração
-``CACHE_BACKEND``::
+O módulo de cache, ``django.core.cache`` tem um objeto ``cache``que é
+criado automaticamente a partir da configuração ``CACHE_BACKEND``::
 
     >>> from django.core.cache import cache
 
@@ -469,15 +484,17 @@ na configuração ``CACHE_BACKEND`` (explicada acima).
 
 Se o objeto não existe no cache, ``cache.get()`` retorna ``None``::
 
-    >>> cache.get('some_other_key')
-    None
-
     # Espere 30 segundos para 'my_key' expirar...
 
     >>> cache.get('my_key')
     None
 
-get() pode ter um argumento ``padrão``::
+We advise against storing the literal value ``None`` in the cache, because you
+won't be able to distinguish between your stored ``None`` value and a cache
+miss signified by a return value of ``None``.
+
+``cache.get()`` pode ter um argumento ``padrão``. Isso especifica qual valor retornar
+se o objeto não existe no cache::
 
     >>> cache.get('my_key', 'has expired')
     'has expired'
@@ -512,8 +529,32 @@ fácil de limpar o cache para um objeto em particular::
 
     >>> cache.delete('a')
 
-É isso. O cache tem muitas poucas restrições: você pode colocar em cache quaisquer
-objetos que possam ser 'pickled' seguramente, mas as chaves devem ser strings.
+.. versionadded:: 1.1
+
+Você pode também incrementar ou decrementar uma chave que já existe usando os métodos
+``incr()`` ou ``decr()``, respectivamente. Por padrão, o valor existente em cache
+será incrementado ou decrementado em 1. Outros valores para incremento/decremento
+podem ser especificados fornecendo um argumento para a chamada increment/decrement. Um
+ValueError será lançado se você tentar incrementar ou decrementar uma
+chave de cache não existente.::
+
+    >>> cache.set('num', 1)
+    >>> cache.incr('num')
+    2
+    >>> cache.incr('num', 10)
+    12
+    >>> cache.decr('num')
+    11
+    >>> cache.decr('num', 5)
+    6
+
+.. note::
+
+    ``incr()``/``decr()`` não tem garantia de serem atômicos. Nos
+    backends que suportam incremento/decremento atômico (mais notavelmente, o
+    backend memcached), operações de incremento e decremento serão atômicas.
+    Porém, se o backend não provê nativamente uma operação de incremento/decremento,
+    ela será implementada usando uma operação obter/atualizar de dois passos.
 
 Caches Upstream
 ===============
@@ -526,17 +567,20 @@ requisição chegar ao seu Web site.
 Aqui estão algumns exemplos de cache upstream:
 
     * Seu ISP pode fazer o cache de certas páginas, então se você requisitou uma página de
-      somedomain.com, seu ISP poderia entiar a página sem ter de acessar o
-      somedomain.com diretamente.
+      http://example.com/, seu ISP poderia enviar a página sem ter de acessar o
+      example.com diretamente. Os mantenedores de example.com não tem
+      conhecimento desse cache; O ISP fica entre example.com e o seu navegador
+      Web, lidando com todo o cache de forma transparente.
 
-    * Seu Web site Django pode ficar atrás de um proxy Squid
-      (http://www.squid-cache.org/) que faz cache de páginas para performance. Nesse
-      caso, cada requisição seria tratada primeiramente pelo Squid, e somente seria passada para
-      a sua aplicação se necessário.
+    * Seu Web site Django pode ficar atrás de um *proxy cache* como o proxy Squid
+      (http://www.squid-cache.org/), que faz cache de páginas para performance. Nesse
+      caso, cada requisição seria tratada primeiramente pelo proxy
+      e seria passada para a sua aplicação somente se necessário.
 
     * Seu navegador web também faz cache. Se uma página envia os cabeçalhos
-      corretos, seu navegador irá usar a cópia local (em cache) para requisições
-      subsequentes para essa página.
+      apropriados, seu navegador irá usar a cópia local (em cache) para requisições
+      subsequentes para essa página, sem nem mesmo contatar a página Web
+      novamente paraver se o conteúdo mudou.
 
 Caches upstream são um potencializador de eficiência interessante, mas há um perigo nisso:
 muitos conteúdos de páginas web diferem baseados na autenticação e em diversas outras
@@ -550,30 +594,26 @@ cacheia seu site, então o primeiro usuário que logou através desse ISP poderi
 seu conteúdo da caixa de entrada exposto aos próximos visitantes do site. Isso
 não é legal.
 
-Felizmente, o HTTP fornece uma solução para esse problema: um conjunto de cabeçalhos HTTP
-existem para instruir os diferentes mecanismos de cache de diferir seus conteúdos de cache
-de acordo com certas variáveis, e como dizer aos mecanismos de cache como 
-não cachear certas páginas em particular.
+Felizmente, o HTTP fornece uma solução para esse problema: um número de cabeçalhos HTTP
+existem para instruir os cache upstream a diferir seus conteúdos de cache dependendo de 
+certas variáveis definidas, e como dizer aos mecanismos de cache como 
+não cachear páginas particulares. Veremos alguns desses cabeçalhos na seção a seguir.
 
 Usando cabeçalhos Vary
 ======================
 
-Um desses cabeçalhos é o ``Vary``. Ele define quais cabeçalhos da requisição
+O cabeçalho ``Vary`` define quais cabeçalhos de requisição
 um mecanismo de cache deve levar em conta ao construir sua chave de cache. 
 Por exemplo, se o conteúdo do site de uma págfina web depende da preferência de
 idioma do usuário, dizemos que a página "varia no idioma."
 
 Por padrão, o sistema de cache do DJango cria suas chaves de acesso usando o caminho 
-da requisição -- e.g., ``"/stories/2005/jun/23/bank_robbed/"``. Isso significa que cada
+da requisição (ex: ``"/stories/2005/jun/23/bank_robbed/"``). Isso significa que cada
 requisição a essa URL irá usar a mesma versão do cache, não importando as diferentes
-de agente de usuário, como cookies ou preferência de idioma.
-
-É onde entra o ``Vary``.
-
-Se o seu site baseado em Django exibe diferentes conteúdos baseados em alguma diferença
-dos cabeçalhos de requisição -- como o cookie, idioma, ou agente de usuário -- você irá
-precisar usar o cabeçalho ``Vary`` para dizer aos mecanismos de cache que a saída da página
-depende dessas coisas.
+de agente de usuário, como cookies ou preferência de idioma.  Porém, se essa página
+produz conteúdos diferentes baseados em alguma diferença de cabeçalhos de requisição -- como
+um cookie, ou um idioma, ou um agente de usuário -- você irá precisar usar o cabeçalho ``Vary``
+para dizer aos mecanismos de cache que a saída da página depende dessas coisas.
 
 Para fazer isso no Django, use o decorador de visão de conveniência ``vary_on_headers``,
 assim::
@@ -582,54 +622,61 @@ assim::
 
     # Sintaxe do Python 2.3.
     def my_view(request):
-        ...
+        # ...
     my_view = vary_on_headers(my_view, 'User-Agent')
 
-    # Sintaxe de decorador do Python 2.4.
+    # Sintaxe de decorador do Python 2.4 ou superior.
     @vary_on_headers('User-Agent')
     def my_view(request):
-        ...
+        # ...
 
 Nesse caso, um mecanismo de cache (como o próprio middleware de cache do Django) irá
 cachear uma versão diferente da página para cada agente de usuário único.
 
-A vantage de usar o decorador ``vary_on_headers``  ao invés de configurar o cabeçalho
+A vantagem de usar o decorador ``vary_on_headers`` ao invés de configurar o cabeçalho
 ``Vary`` manualmente (usando algo como
-``response['Vary'] = 'user-agent'``) é que o decorador adiciona algo ao cabeçalho ``Vary``
-(que pode já existir) ao invés de sobrescrevê-lo.
+``response['Vary'] = 'user-agent'``) é que o decorador *adiciona* algo ao cabeçalho ``Vary``
+(que pode já existir), ao invés de sobrescrevê-lo
+e potencialmente apagar algo que já estava lá.
 
 Você pode passar diversos cabeçalhos para ``vary_on_headers()``::
 
     @vary_on_headers('User-Agent', 'Cookie')
     def my_view(request):
-        ...
+        # ...
+
+Isso diz aos cache upstream  para variar em *ambos* os cabeçalhos, o que significa que cada combinação de
+agente de usuário e cookie irá ter seu próprio valor de cache. Por exemplo, uma requisição com 
+o agente de usuário ``Mozilla`` e o valor de cookie ``foo=bar`` será considerado
+diferente de uma requisição com um agente de usuário ``Mozilla`` e o valor de cookie
+``foo=ham``.
 
 Como a variação baseada em cookie é um caso comum, existe um decorador ``vary_on_cookie``.
 Essas duas views são equivalentes::
 
     @vary_on_cookie
     def my_view(request):
-        ...
+        # ...
 
     @vary_on_headers('Cookie')
     def my_view(request):
-        ...
+        # ...
 
-Note também que os abeçalhos que você passa para ``vary_on_headers`` não são
+Os cabeçalhos que você passa para ``vary_on_headers`` não são
 sensíveis a caso. ``"User-Agent"`` é a mesma coisa que ``"user-agent"``.
 
 Você pode também usar uma função auxiliar, ``django.utils.cache.patch_vary_headers``,
-diretamente::
+diretamente. Essa função configura ou adiciona ao ``cabeçalho Vary``. Por exemplo::
 
     from django.utils.cache import patch_vary_headers
     def my_view(request):
-        ...
+        # ...
         response = render_to_response('template_name', context)
         patch_vary_headers(response, ['Cookie'])
         return response
 
 ``patch_vary_headers`` recebe uma instância de ``HttpResponse`` como seu primeiro argumento
-e uma lista/tupla de nomes de cabeçalho como seu segundo argumento.
+e uma lista/tupla de nomes de cabeçalho não sensíveis a caso como seu segundo argumento.
 
 Para mais sobre os cabeçalhos Vary, veja a `especificação oficial do Vary`_.
 
@@ -638,13 +685,13 @@ Para mais sobre os cabeçalhos Vary, veja a `especificação oficial do Vary`_.
 Controlando o cache: Usando outros cabeçalhos
 =============================================
 
-Outro problema com o cache é a privacidade de dados e a questão de onde 
+Outros problemas com o cache são a privacidade de dados e a questão de onde 
 os dados devem ser armazenados em uma cascada de caches.
 
 Um usuário normalmente encontra dois tipos de cache: o do seu próprio navegador (um cache
 privado) e o do seu provedor (um cache público). Um cache público é usado por
 muitos usuários e controlado por mais alguém. Isso coloca problemas com
-dados sensíveis: você não quer, por exemplo, que o número da sua conta bancária seja gravada em um
+dados sensíveis--você não quer, por exemplo, que o número da sua conta bancária seja gravada em um
 cache público. Assim, aplicações web precisam de uma forma de dizer aos caches quais dados são
 privados e quais dados são públicos.
 
@@ -652,16 +699,18 @@ A solução é indicar que o cache de página seja "particular". Para fazer isso
 Django, use o decorador de visão ``cache_control``. Exemplo::
 
     from django.views.decorators.cache import cache_control
+
     @cache_control(private=True)
     def my_view(request):
-        ...
+        # ...
 
 Esse decorador cuida de enviar o cabeçalho HTTP apropriado nos bastidores.
 
 Existem algumas outras formas de controlar os parâmetros de cache. Por exemplo, o HTTP
 permite que aplicações façam o seguinte:
 
-    * Defina o tempo máximo que uma página deva permanecer em cache.
+    * Define o tempo máximo que uma página deva permanecer em cache.
+
     * Especifica se um cache deve sempre verificar por novas versões da página, 
       exibindo o conteúdo em cache apenas quando não houve mudanças. (Alguns caches
       podem entregar conteúdo em cache mesmo se a página no servidor mudou -- simplesmente
@@ -672,9 +721,10 @@ de cache. Nesse exemplo, ``cache_control`` diz ao cache para revalidar o
 cache em cada acesso e para guardar versões em cache em no máximo por 3600 segundos::
 
     from django.views.decorators.cache import cache_control
+
     @cache_control(must_revalidate=True, max_age=3600)
     def my_view(request):
-        ...
+        # ...
 
 Qualquer diretiva HTTP ``Cache-Control`` é válida em ``cache_control()``.
 Aqui está uma lista completa:
@@ -697,12 +747,13 @@ e os valores do cabeçalho serão mesclados corretamente.)
 
 Se você quer usar cabeçalhos para desabilitar todo o cache,
 ``django.views.decorators.cache.never_cache`` é um decorador de visão que adiciona
-cabeçalhos que garantem que a resposta não será posta em cache por navegadores ou outros caches. Exemplo::
+cabeçalhos que garantem que a resposta não será posta em cache por navegadores ou outros caches.
 
     from django.views.decorators.cache import never_cache
+
     @never_cache
     def myview(request):
-        ...
+        # ...
 
 .. _`Especificação de Cache-Control`: http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9
 
@@ -713,10 +764,11 @@ O Django vem com alguns outros middlewares que podem ajudar a otimizar a perform
 do seu aplicativo:
 
     * ``django.middleware.http.ConditionalGetMiddleware`` adiciona suporte para
-      GET condicional. Isso faz uso dos cabeçalhos ``ETag`` e ``Last-Modified``.
+      GET condicional em navegadores modernos, baseado nos cabeçalhos ``ETag``
+      e ``Last-Modified``.
 
-    * ``django.middleware.gzip.GZipMiddleware`` comprime conteúdo para navegadores que
-      entendem a compressão gzip (todos os navegadores modernos).
+    * ``django.middleware.gzip.GZipMiddleware`` comprime conteúdo para todos os navegadores
+      modernos reduzindo o uso de banda e o tempo de transferência.
 
 Ordem das MIDDLEWARE_CLASSES
 ============================
