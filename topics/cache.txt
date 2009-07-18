@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: In Progress $
-..   $OriginalRevision: 9441 $
+..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -65,7 +65,7 @@ do seu cache; sim, algums tipos de cache são mais rápidos que outros.
 
 Sua preferência de cache vai na configuração ``CACHE_BACKEND`` no seu arquivo de
 configurações. Aqui vai uma explicação de todos os valores disponíveis para
-CACHE_BACKEND.
+``CACHE_BACKEND``.
 
 Memcached
 ---------
@@ -73,18 +73,18 @@ Memcached
 De longe, o mais rápido e mais eficiente tipo de cache disponível no Django, Memcached
 é um framework de cache inteiramente baseado em memória originalmente desenvolvido para
 lidar com as altas cargas no LiveJournal.com e subsequentemente tornada open-sourced pela Danga 
-Interactive. É usado por sites como o Slashdot ou Wikipedia para reduzir o acesso a banco de dados
+Interactive. É usado por sites como o Facebook ou Wikipedia para reduzir o acesso a banco de dados
 e aumentar a performance do site drasticamente.
 
 O Memcached está disponível de graça em http://danga.com/memcached/ . Ele executa como um
 daemon, para o qual é alocada uma quantidade específica de RAM. Tudo o que ele faz é fornecer
-uma interface -- um interface *super-ultra-rápida* -- para adição, busca e
-remoção de dados arbitrários do cache. Todos os dados são gravador diretamente na memória,
-então não existe sobrecarga de banco de dados ou uso do filesystem.
+uma interface rápida para adição, busca e remoção de dados arbitrários do cache.
+Todos os dados são gravados diretamente na memória, então não existe sobrecarga 
+de banco de dados ou uso do filesystem.
 
 Após a instalação do Memcached, você precisa instalar as bibliotecas do Memcached para
-Python. Duas versões estão disponíveis. Selecione e instale *um* dos
-seguintes módulos:
+Python, que não estão empacotadas com o Django. Duas versões estão
+disponíveis. Selecione e instale *um* dos seguintes módulos:
 
     * A opção mais rápida é um módulo chamado ``cmemcache``, disponível
       em http://gijsbert.org/cmemcache/ .
@@ -108,12 +108,16 @@ Nesse exemplo, o Memcached está rodando em localhost (127.0.0.1) na porta 11211
     CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 
 Uma característica excelente do Memcached é sua habilidade de compartilhar o cache
-em diversos servidores. Para aproveitar essa funcionalidade, inclua todos os endereços 
-de servidores em ``CACHE_BACKEND``, separados por ponto e vírgula. Nesse exemplo, o cache é
-compartilhado por instâncias do  Memcached rodando nos endereços IP 172.19.26.240 e
-172.19.26.242, ambos na porta 11211::
+em diversos servidores. Isso significa que você pode executar daemons do Memcached em diversas máquinas,e
+o programa irá tratar o grupo de máquinas como um *único* cache, sem a necessidade de duplicar
+os valores do cache em cada máquina.Para aproveitar essa funcionalidade, inclua todos os endereços 
+de servidores em ``CACHE_BACKEND``, separados por ponto e vírgula.
 
-    CACHE_BACKEND = 'memcached://172.19.26.240:11211;172.19.26.242:11211/'
+Nesse exemplo, o cache é compartilhado por instâncias do  Memcached rodando nos endereços IP
+172.19.26.240 (porta 11211) e 172.19.26.242 (port 11212), e
+172.19.26.244 (porta 11213)::
+
+    CACHE_BACKEND = 'memcached://172.19.26.240:11211;172.19.26.242:11212;172.19.26.244:11213/'
 
 O cache baseado em memória tem uma desvantagem: Como os dados em cache estão na
 memória, serão perdidos se o seu servidor travar. Claramente, a memória não
@@ -143,6 +147,9 @@ Nesse exemplo, o nome da tabela de cache é ``my_cache_table``::
 
     CACHE_BACKEND = 'db://my_cache_table'
 
+O cache em banco de dados usará o mesmo banco de dados especificado em seu
+arquivo de configuração. Você não pode usar um banco de dados diferente para sua tabela de cache.
+
 O cache em banco de dados funciona melhor se você tem um servidor de banco de dados rápido
 e bem indexado.
 
@@ -157,7 +164,10 @@ use essa configuração::
 
 Perceba que existem três barras próximas ao início do exemplo.
 As primeiras são para o ``file://``, e a terceira é o primeiro caractere do
-caminho do diretório, ``/var/tmp/django_cache``.
+caminho do diretório, ``/var/tmp/django_cache``. Se você está no Windows, coloque
+a letra do drive após o ``file://``, dessa forma::
+
+    file://c:/foo/bar
 
 O caminho do diretório deve ser absoluto -- isso é, ele deve iniciar na raiz
 do seu sistema de arquivos. Não faz diferença se você põe a barra no final
@@ -168,6 +178,11 @@ de leitura e escrita pelo usuário do sistema que executa o seu servidor web.
 Continuando o exemplo acima, se o seu servidor web roda como o usuário ``apache``, 
 tenha certeza que o diretório ``/var/tmp/django_cache`` exista e tenha permissão de
 leitura e escrita pelo usuário ``apache``.
+
+Cada valor de cache será gravado em um arquivo separado cujos conteúdos
+são os dados servidos pelo cache em um formato serializado ("pickled"), 
+usando o módulo ``pickle`` do Python. Cada nome de arquivo é a chave do cache,
+escapado para uso seguro em sistema de arquivos.
 
 Cache em memória local
 ----------------------
@@ -182,7 +197,7 @@ cache é multi-processo e thread-safe. Para usá-lo, configure o ``CACHE_BACKEND
 Note que cada processo irá ter sua própria instância privada de cache, o que significa
 que nenhum cache entre processos é possível. Isso obviamente significa que o cache em
 memória local não é muito eficiente em termos de memória, então provavelmente não é
-uma boa escolha para um ambiente de produção.
+uma boa escolha para um ambiente de produção. É bom para desenvolvimento.
 
 Cache falso (para desenvolvimento)
 ----------------------------------
@@ -192,9 +207,8 @@ apenas implementa a interface de cache sem fazer nada realmente.
 
 Isso é útil se você tem um site em produção que usa cacheamento pesado em
 vários lugares, mas em desenvolvimento ou no ambiente de testes você não quer
-usar cache. Como resultado, o seu ambiente de desenvolvimento não vai usar cache, 
-mas o seu ambiente de produção irá. Para ativar o cache falso, configure o
-``CACHE_BACKEND`` assim::
+usar cache e não quer mudar o código para lidar com o última caso em especial. Para 
+ativar o cache falso, configure o ``CACHE_BACKEND`` assim::
 
     CACHE_BACKEND = 'dummy:///'
 
@@ -219,28 +233,27 @@ Nota: Você deveria usar os backends de cache incluídos com o Django, anão ser
 tenha uma razão muito boa, como um host que não os suporta. Eles foram
 bem testados e são fáceis de usar.
 
-argumentos do CACHE_BACKEND
+Argumentos do CACHE_BACKEND
 ---------------------------
 
-Todos os tipos de cache podem receber argumentos. Eles são informados em um estilo  query-string
-semelhante a configuração ``CACHE_BACKEND``. Argumentos válidos são:
+Cada tipo de cache pode receber argumentos. Eles são informados em um estilo semelhante a 
+query-string na configuração ``CACHE_BACKEND``. Os seguintes argumentos são válidos:
 
-    timeout
-        Timeout padrão, em segundos, a ser usado para o cache. O padrão é 5
-        minutos (300 segundos).
+    * ``timeout``: O timeout padrão, em segundos, a ser usado para o cache. O padrão é 300
+	segundos (5 minutos).
 
-    max_entries
-        Para o cache simples e em banco de dados, o número máximo de entradas
-        permitidas no cache antes dele ser limpo. O padrão é 300.
+    * ``max_entries``: Para os backends ``locmem``,  ``filesystem`` e ``database``,
+	o número máximo de entradas permitidas no cache antes dos valores antigos serem
+	removidos. O valor padrão desse argumento é 300.
 
-    cull_percentage
-        A porcentagem de entradas que são limpas do cache quando max_entries é atingido.
-        A porcentagem real é 1/cull_percentage, então configure o cull_percentage=3 para
-        limpar 1/3 das entradas quando o valor de max_entries é atingido.
+    * ``cull_frequency``: A fração de entradas que são limpas do cache quando
+	``max_entries`` é atingido. A razão real é ``1/cull_percentage``, então
+	configure o ``cull_percentage=2`` para limpar metadae das entradas quando o valor de ``max_entries``
+	for atingido.
 
-        Um valor de 0 fpara o cull_percentage significa que o cache todo
-        será limpo quando max_entries for atingido. Isso torna a limpeza *muito* mais rápida,
-	as custas de mais perdas no cache.
+        Um valor de ``0`` para o ``cull_frequency`` significa que o cache todo
+        será limpo quando ``max_entries`` for atingido. Isso torna a limpeza *muito* mais rápida,
+	a custa de mais perdas no cache.
 
 Nesse exemplo, o  ``timeout`` está configurado para ``60``::
 
@@ -248,7 +261,7 @@ Nesse exemplo, o  ``timeout`` está configurado para ``60``::
 
 Nesse exemplo, o ``timeout`` é ``30`` e ``max_entries`` é ``400``::
 
-    CACHE_BACKEND = "memcached://127.0.0.1:11211/?timeout=30&max_entries=400"
+    CACHE_BACKEND = "locmem:///?timeout=30&max_entries=400"
 
 Argumentos inválidos são silenciosamente ignorados, assim como valores inválidos para
 argumentos conhecidos.
@@ -298,12 +311,12 @@ usou o ``CACHE_MIDDLEWARE_ANONYMOUS_ONLY``, você deve certificar-se de ter ativ
 Adicionalmente, o middleware de cache adiciona alguma cabeçalhos em cada
 ``HttpResponse``:
 
-* Configura o cabeçalho ``Last-Modified`` para a data/hora atuais quando uma nova
-  versão da página (não cacheada) é resiquitada.
-* Configura o cabeçalho ``Expires`` para a hora atual mais o valor definido em
-  ``CACHE_MIDDLEWARE_SECONDS``.
-* Configura o cabeçalho ``Cache-Control`` para dar um max age para a página -- novamente,
-  da configuração ``CACHE_MIDDLEWARE_SECONDS``.
+    * Configura o cabeçalho ``Last-Modified`` para a data/hora atuais quando uma nova
+      versão da página (não cacheada) é resiquitada.
+    * Configura o cabeçalho ``Expires`` para a hora atual mais o valor definido em
+      ``CACHE_MIDDLEWARE_SECONDS``.
+    * Configura o cabeçalho ``Cache-Control`` para dar um max age para a página -- novamente,
+      da configuração ``CACHE_MIDDLEWARE_SECONDS``.
 
 Veja :ref:`topics-http-middleware` para mais sobre middlewares.
 
@@ -329,10 +342,10 @@ de visões individuais. ``django.views.decorators.cache`` define um decorador
 
     from django.views.decorators.cache import cache_page
 
-    def slashdot_this(request):
+    def my_view(request):
         ...
 
-    slashdot_this = cache_page(slashdot_this, 60 * 15)
+    my_view = cache_page(slashdot_this, 60 * 15)
 
 Ou, usando a sintaxe de decorador do Python 2.4::
 
@@ -342,7 +355,51 @@ Ou, usando a sintaxe de decorador do Python 2.4::
 
 ``cache_page`` recebe um único argumento: o timeout do cache, em segundos. No exemplo 
 acima, o resultado da visão ``slashdot_this()`` será mantido em cache por 15
-minutos.
+minutos. (Note que escrevemos isso como ``60 * 15`` visando legibilidade.
+``60 * 15`` será avaliado para ``900`` -- isso é, 15 minutos multiplicados
+por 60 segundos por minuto.)
+
+O cache por visão, como o cache por site, é indexado de acordo com a URL. Se
+múltiplas URLs apontam para a mesma visão, cada URL será cacheada separadamente.
+Continuando o exemplo ``my_view``, se o seu URLconf for semelhante a isso::
+
+    urlpatterns = ('',
+        (r'^foo/(\d{1,2})/$', my_view),
+    )
+
+então requisições para ``/foo/1/`` e ``/foo/23/`` serão cacheadas separadamente, conforme
+você pode esperar. Mas uma vez que uma URL em particular (ex: ``/foo/23/``) tenha sido
+requisitada, acessos subsequentes a essa URL usarão o cache.
+
+Especificando o cache por visão no URLconf
+------------------------------------------
+
+Os exemplos na seção anterior tem hard-coded o fato que a visão é
+cacheada, porque ``cache_page`` altera a função ``my_view`` in place. Esse
+método acopla suas visões ao sistema de cache, o que não é o ideal por diversas
+razões. Por exemplo, você pode querer reusar as funções de visão em outro site,
+sem cache, ou você pode querer distribuir suas visões para pessoas que podem
+querer usá-las sem cache. A solução para esses problemas é
+especificar o cache por visão no URLconf ao invés de configurá-lo nas
+próprias funções.
+
+Fazer isso é fácil: simplemente embrulhe a função de visão com ``cache_page`` quando você
+se referir a ela no URLconf. Aqui está a nossa já conhecida URLconf::
+
+    urlpatterns = ('',
+        (r'^foo/(\d{1,2})/$', my_view),
+    )
+
+Aqui está a mesma coisa, com ``my_view`` embrulhada em ``cache_page``::
+
+    from django.views.decorators.cache import cache_page
+
+    urlpatterns = ('',
+        (r'^foo/(\d{1,2})/$', cache_page(my_view, 60 * 15)),
+    )
+
+Se você usar esse método, não se esqueça de importar ``cache_page`` dentro de seu
+URLconf.
 
 Cache de fragmento de template
 ==============================
