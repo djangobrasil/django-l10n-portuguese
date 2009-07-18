@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: Italo Maia, Walter Cruz $
 ..
@@ -43,7 +43,7 @@ você não precisa ter um servidor web separado; o Django vem com o seu próprio
 servidor leve de desenvolvimento. Para um ambiente de produção, o Django seque a especificação WSGI_,
 o que significa que ele pode rodar sobre uma ampla variedade de plataformas de servidores.  Veja
 :ref:`Implantando o Django <howto-deployment-index>` para algumas
-anternativas populares.  Além disso, a página `server arrangements wiki page`_ contém
+anternativas populares.  Além disso, a `página wiki de opções de arranjo do servidor`_ contém
 detalhes para algumas estratégias de implantação.
 
 Se você quer usar o Django com um banco de dados, que é o caso provável, você irá
@@ -54,7 +54,7 @@ fãs do PostgreSQL, e o MySQL_, `SQLite 3`_, e Oracle_ são suportados também.
 .. _Apache 2: http://httpd.apache.org/
 .. _mod_python: http://www.modpython.org/
 .. _WSGI: http://www.python.org/peps/pep-0333.html
-.. _server arrangements wiki page: http://code.djangoproject.com/wiki/ServerArrangements
+.. _página wiki de opções de arranjo do servidor: http://code.djangoproject.com/wiki/ServerArrangements
 .. _PostgreSQL: http://www.postgresql.org/
 .. _MySQL: http://www.mysql.com/
 .. _`SQLite 3`: http://www.sqlite.org/
@@ -63,40 +63,40 @@ fãs do PostgreSQL, e o MySQL_, `SQLite 3`_, e Oracle_ são suportados também.
 Eu perco algo se eu rodar o Django com uma a versão 2.3 do Python em vez de usar a 2.5?
 ---------------------------------------------------------------------------------------
 
-Not in the core framework. Currently, Django itself officially
-supports any version of Python from 2.3 through 2.6,
-inclusive. However, some add-on components may require a more recent
-Python version; the ``django.contrib.gis`` component, for example,
-requires at least Python 2.4, and third-party applications for use
-with Django are, of course, free to set their own version
-requirements.
+Não no framework. Atualmente, o Django suporta oficialmente
+quaiquer versões do Python da 2.3 até a 2.6,
+inclusive. Porém, alguns componentes adicionais podem precisar de uma versão mais
+recente do Python; o componente ``django.contrib.gis``, por exemplo,
+requer pelo menos o Python 2.4, e aplicações de terceiros para uso com o 
+Django são, é claro, livres para escolher seus próprios
+requerimentos de versão.
 
-Please note, however, that over the next year or two Django will begin
-dropping support for older Python versions as part of a migration
-which will end with Django running on Python 3.0 (see next question
-for details). So if you're just starting out with Python, it's
-recommended that you use the latest 2.x release (currently, Python
-2.6). This will let you take advantage of the numerous improvements
-and optimizations to the Python language since version 2.3, and will
-help ease the process of dropping support for older Python versions on
-the road to Python 3.0.
+Note porém que no próximo ano e talvez no outro o Django irá começar a
+remover suporte para versões antigas do Python como parte da migração
+que culminará com o Django rodando no Python 3.0 (veja a próxima questão
+para detalhes). Assim, se você está começando com o Python, é
+recomendado que você use a última versão da série 2.x (atualmente,o Python
+2.6). Isso irá permitir que você tome proveito de numerosas melhorias
+e otimizações na linguagem Python desde a versão 2.3, e irá
+ajusar a facilitar o processo de remoção do suporte para versões antigas do Python
+no caminho para o Python 3.0.
 
-Can I use Django with Python 3.0?
----------------------------------
+Posso usar o Django com o Python 3.0?
+-------------------------------------
 
-Not at the moment. Python 3.0 introduced a number of
-backwards-incompatible changes to the Python language, and although
-these changes are generally a good thing for Python's future, it will
-be a while before most Python software catches up and is able to run
-on Python 3.0. For larger Python-based software like Django, the
-transition is expected to take at least a year or two (since it
-involves dropping support for older Python releases and so must be
-done gradually).
+Não agora. O Python 3.0 introduziu um número de mudanças
+não retro compatíveis na linguagem Python, e apesar
+dessas mudanças serem algo bom para o futuro do Python, irá
+demorar um pouco até que a maior dos softwares Python atualizem e sejam
+capazes de rodar no Python 3.0. Para bases grandes de código Python, como é
+o caso do Django, a expectativa é que a transição leve
+pelo menos um ano ou dois (já que envolve a remoção de suporte para
+versões mais antigas do Python e por isso deve ser feita gradualmente).
 
-In the meantime, Python 2.x releases will be supported and provided
-with bug fixes and security updates by the Python development team, so
-continuing to use a Python 2.x release during the transition should
-not present any risk.
+Enquanto isso, versões da série 2.x do Python serão suportadas e receberão 
+correções de bug e atualizações de segurança da equipe de desenvolvimento
+do Python, assim, continuar a usar a série 2.x do Python 2.x  durante o 
+período de transição não deve representar nenhum risco.
 
 O Django executará em hosts compartilhados (como TextDrive ou o Dreamhost)?
 ----------------------------------------------------------------------------

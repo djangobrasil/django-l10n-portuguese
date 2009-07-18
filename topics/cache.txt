@@ -748,6 +748,7 @@ e os valores do cabeçalho serão mesclados corretamente.)
 Se você quer usar cabeçalhos para desabilitar todo o cache,
 ``django.views.decorators.cache.never_cache`` é um decorador de visão que adiciona
 cabeçalhos que garantem que a resposta não será posta em cache por navegadores ou outros caches.
+Exemplo::
 
     from django.views.decorators.cache import never_cache
 
