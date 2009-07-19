@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: Italo Maia, Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -39,6 +39,10 @@ o seguinte::
 
 ``connection.queries`` inclui todas as declarações SQL -- INSERTs, UPDATES,
 SELECTs, etc. Cada vez que o seu app aciona o banco de dados, a consulta será gravada.
+Note que os SQL brutos logados em ``connection.queries`` podem não incluir
+os parâmetros entre aspas. A colocação de aspas nos parâmatros é executada pelo backend
+específico de banco de dados, e nem todos os backends fornecem uma forma de obter o SQL depois
+de colocadas as aspas.
 
 Eu posso usar o Django com um banco de dados pré-existente?
 ------------------------------------------------------------
@@ -96,7 +100,7 @@ Por que o Django está vazando memória?
 
 O Django não é conhecido por vazar memória. Se você descobrir que seus
 processos Django estão alocando mais e mais memória, sem nenhum sinal de
-liberação, verifique se o ``DEBUG`` está habilitado. Se o ``DEBUG`` é ``True``,
+liberação, verifique se o ``DEBUG`` está configurado para ``False``. Se o ``DEBUG`` é ``True``,
 então o Django salva uma cópia de cada declaração SQL que ele executou.
 
 (As consultas são salvas em ``django.db.connection.queries``. Veja
