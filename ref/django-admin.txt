@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Not started $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: None $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -67,13 +67,9 @@ Getting runtime help
 
 .. django-admin-option:: --help
 
-In Django 0.96, run ``django-admin.py --help`` to display a help message that
-includes a terse list of all available subcommands and options.
-
-In the Django development version, run ``django-admin.py help`` to display a
-list of all available subcommands. Run ``django-admin.py help <subcommand>``
-to display a description of the given subcommand and a list of its available
-options.
+Run ``django-admin.py help`` to display a list of all available subcommands.
+Run ``django-admin.py help <subcommand>`` to display a description of the
+given subcommand and a list of its available options.
 
 App names
 ---------
@@ -237,7 +233,7 @@ the output, you would call::
 If you want to exclude multiple applications, use multiple ``--exclude``
 directives::
 
-    django-admin.py dumpdata --exclude=auth --exclude=contenttype
+    django-admin.py dumpdata --exclude=auth --exclude=contenttypes
 
 
 .. django-admin-option:: --format <fmt>
@@ -261,13 +257,6 @@ Returns the database to the state it was in immediately after syncdb was
 executed. This means that all data will be removed from the database, any
 post-synchronization handlers will be re-executed, and the ``initial_data``
 fixture will be re-installed.
-
-The behavior of this command has changed in the Django development version.
-Previously, this command cleared *every* table in the database, including any
-table that Django didn't know about (i.e., tables that didn't have associated
-models and/or weren't in ``INSTALLED_APPS``). Now, the command only clears
-tables that are represented by Django models and are activated in
-``INSTALLED_APPS``.
 
 .. django-admin-option:: --noinput
 
@@ -364,6 +353,9 @@ directories will be included in the search path. For example::
 would search ``<appname>/fixtures/foo/bar/mydata.json`` for each installed
 application,  ``<dirname>/foo/bar/mydata.json`` for each directory in
 ``FIXTURE_DIRS``, and the literal path ``foo/bar/mydata.json``.
+
+When fixture files are processed, the data is saved to the database as is.
+Model defined ``save`` methods and ``pre_save`` signals are not called.
 
 Note that the order in which fixture files are processed is undefined. However,
 all fixture data is installed as a single transaction, so data in
@@ -488,8 +480,10 @@ supports the FastCGI protocol. See the :ref:`FastCGI deployment documentation
 
 .. _flup: http://www.saddi.com/software/flup/
 
-runserver [optional port number, or ipaddr:port]
-------------------------------------------------
+runserver
+---------
+
+.. django-admin:: runserver [port or ipaddr:port]
 
 Starts a lightweight development Web server on the local machine. By default,
 the server runs on port 8000 on the IP address 127.0.0.1. You can pass in an
@@ -521,8 +515,7 @@ machines on your network. To make your development server viewable to other
 machines on the network, use its own IP address (e.g. ``192.168.2.1``) or
 ``0.0.0.0``.
 
---adminmedia
-~~~~~~~~~~~~
+.. django-admin-option:: --adminmedia
 
 Use the ``--adminmedia`` option to tell Django where to find the various CSS
 and JavaScript files for the Django admin interface. Normally, the development
@@ -533,8 +526,7 @@ Example usage::
 
     django-admin.py runserver --adminmedia=/tmp/new-admin-style/
 
---noreload
-~~~~~~~~~~
+.. django-admin-option:: --noreload
 
 Use the ``--noreload`` option to disable the use of the auto-reloader. This
 means any Python code changes you make while the server is running will *not*
@@ -570,14 +562,6 @@ Serving static files with the development server
 By default, the development server doesn't serve any static files for your site
 (such as CSS files, images, things under ``MEDIA_URL`` and so forth). If
 you want to configure Django to serve static media, read :ref:`howto-static-files`.
-
-Turning off auto-reload
-~~~~~~~~~~~~~~~~~~~~~~~
-
-To disable auto-reloading of code while the development server is running, use the
-``--noreload`` option, like so::
-
-    django-admin.py runserver --noreload
 
 shell
 -----
@@ -649,7 +633,11 @@ sqlsequencereset <appname appname ...>
 
 Prints the SQL statements for resetting sequences for the given app name(s).
 
-See http://simon.incutio.com/archive/2004/04/21/postgres for more information.
+Sequences are indexes used by some database engines to track the next available
+number for automatically incremented fields.
+
+Use this command to generate SQL which will fix cases where a sequence is out
+of sync with its automatically incremented field data.
 
 startapp <appname>
 ------------------
