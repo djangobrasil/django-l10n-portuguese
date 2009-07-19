@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Not started $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: None $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -51,7 +51,7 @@ You can evaluate a ``QuerySet`` in the following ways:
 
     * **Slicing.** As explained in :ref:`limiting-querysets`, a ``QuerySet`` can
       be sliced, using Python's array-slicing syntax. Usually slicing a
-      ``QuerySet`` returns another (unevaluated ) ``QuerySet``, but Django will
+      ``QuerySet`` returns another (unevaluated) ``QuerySet``, but Django will
       execute the database query if you use the "step" parameter of slice
       syntax.
 
@@ -170,7 +170,7 @@ In SQL terms, that evaluates to::
 
     SELECT ...
     WHERE NOT pub_date > '2005-1-3'
-    AND NOT headline = 'Hello'
+    OR NOT headline = 'Hello'
 
 Note the second example is more restrictive.
 
@@ -582,6 +582,8 @@ call, since they are conflicting options.
 Both the ``depth`` argument and the ability to specify field names in the call
 to ``select_related()`` are new in Django version 1.0.
 
+.. _extra:
+
 ``extra(select=None, where=None, params=None, tables=None, order_by=None, select_params=None)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -632,7 +634,7 @@ of the arguments is required, but you should use at least one of them.
 
     The resulting SQL of the above example would be::
 
-        SELECT blog_blog.*, (SELECT COUNT(*) FROM blog_entry WHERE blog_entry.blog_id = blog_blog.id)
+        SELECT blog_blog.*, (SELECT COUNT(*) FROM blog_entry WHERE blog_entry.blog_id = blog_blog.id) AS entry_count
         FROM blog_blog;
 
     Note that the parenthesis required by most database engines around
@@ -975,10 +977,10 @@ SQL equivalents::
     SELECT ... WHERE id IS NULL;
 
 .. versionchanged:: 1.0
-   The semantics of ``id__exact=None`` have
-   changed in the development version. Previously, it was (intentionally)
-   converted to ``WHERE id = NULL`` at the SQL level, which would never match
-   anything. It has now been changed to behave the same as ``id__isnull=True``.
+   The semantics of ``id__exact=None`` have changed in Django 1.0. Previously,
+   it was (intentionally) converted to ``WHERE id = NULL`` at the SQL level,
+   which would never match anything. It has now been changed to behave the
+   same as ``id__isnull=True``.
 
 .. admonition:: MySQL comparisons
 
@@ -1002,8 +1004,15 @@ SQL equivalent::
 
     SELECT ... WHERE name ILIKE 'beatles blog';
 
-Note this will match ``'Beatles Blog'``, ``'beatles blog'``,
-``'BeAtLes BLoG'``, etc.
+Note this will match ``'Beatles Blog'``, ``'beatles blog'``, ``'BeAtLes
+BLoG'``, etc.
+
+.. admonition:: SQLite users
+
+    When using the SQLite backend and Unicode (non-ASCII) strings, bear in
+    mind the :ref:`database note <sqlite-string-matching>` about string
+    comparisons. SQLite does not do case-insensitive matching for Unicode
+    strings.
 
 contains
 ~~~~~~~~
@@ -1036,6 +1045,12 @@ Example::
 SQL equivalent::
 
     SELECT ... WHERE headline ILIKE '%Lennon%';
+
+.. admonition:: SQLite users
+
+    When using the SQLite backend and Unicode (non-ASCII) strings, bear in
+    mind the :ref:`database note <sqlite-string-matching>` about string
+    comparisons.
 
 in
 ~~
@@ -1125,6 +1140,12 @@ SQL equivalent::
 
     SELECT ... WHERE headline ILIKE 'Will%';
 
+.. admonition:: SQLite users
+
+    When using the SQLite backend and Unicode (non-ASCII) strings, bear in
+    mind the :ref:`database note <sqlite-string-matching>` about string
+    comparisons.
+
 endswith
 ~~~~~~~~
 
@@ -1153,6 +1174,12 @@ Example::
 SQL equivalent::
 
     SELECT ... WHERE headline ILIKE '%will'
+
+.. admonition:: SQLite users
+
+    When using the SQLite backend and Unicode (non-ASCII) strings, bear in
+    mind the :ref:`database note <sqlite-string-matching>` about string
+    comparisons.
 
 range
 ~~~~~
@@ -1241,8 +1268,18 @@ search
 A boolean full-text search, taking advantage of full-text indexing. This is
 like ``contains`` but is significantly faster due to full-text indexing.
 
+Example::
+    
+    Entry.objects.filter(headline__search="+Django -jazz Python")
+
+SQL equivalent::
+
+    SELECT ... WHERE MATCH(tablename, headline) AGAINST (+Django -jazz Python IN BOOLEAN MODE);
+
 Note this is only available in MySQL and requires direct manipulation of the
-database to add the full-text index.
+database to add the full-text index. By default Django uses BOOLEAN MODE for
+full text searches. `Please check MySQL documentation for additional details. <http://dev.mysql.com/doc/refman/5.1/en/fulltext-boolean.html>`_
+
 
 regex
 ~~~~~
