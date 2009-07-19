@@ -184,13 +184,13 @@ Referência
 E mais:
 -------
 
-    * :ref:`Notas sobre banco de dados suportados <ref-databases>`
-    * :ref:`django-admin.py e manage.py <ref-django-admin>`
-    * :ref:`Referência da manipulação de arquivos <ref-files-index>`
-    * :ref:`Views genéricas <ref-generic-views>`
-    * :ref:`Referência dos middlewares embutidos <ref-middleware>`
-    * :ref:`Referência do template <ref-templates-index>`
-    * :ref:`Dados Unicode em Django <ref-unicode>`
+    * :ref:`ref-databases`
+    * :ref:`ref-django-admin`
+    * :ref:`ref-files-index`
+    * :ref:`ref-generic-views`
+    * :ref:`ref-middleware`
+    * :ref:`ref-templates-index`
+    * :ref:`ref-unicode`
 
 E o restante
 ============

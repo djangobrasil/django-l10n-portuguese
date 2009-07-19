@@ -2,8 +2,8 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, wainting for revision. $
-..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: Vinicius Martins, Robson Mendonça $
+..   $OriginalRevision: 11268 $
+..   $TranslationAuthors: Vinicius Martins, Robson Mendonça, Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -27,9 +27,9 @@ Django, por si só, não serve arquivos estáticos (media), como imagens, folhas
 de estilo (CSS), ou vídeo. Esse trabalho é deixado para o servidor Web de sua
 escolha.
 
-O motivo para isso é que servidores Web padrões, como Apache e lighttpd_, são
-muito mais apropriados para servir arquivos estáticos do que um framework de
-aplicações web.
+O motivo para isso é que servidores Web comuns, como Apache e lighttpd_ e
+Cherokee_, são muito mais apropriados para servir arquivos estáticos do que um
+framework de aplicações web.
 
 Dito isso, Django suporta arquivos estáticos **durante o desenvolvimento**. Você
 pode usar a view :func:`django.views.static.serve` para servir arquivos 
@@ -37,6 +37,12 @@ estáticos.
 
 .. _Apache: http://httpd.apache.org/
 .. _lighttpd: http://www.lighttpd.net/
+.. _Cherokee: http://www.cherokee-project.com/
+
+.. seealso::
+
+    Se você precisa servir mídia administrativa de uma localização não padrão, veja 
+    o parâmetro :djadminopt:`--adminmedia` para :djadmin:`runserver`.
 
 Não diga que não avisamos
 =========================
@@ -86,8 +92,13 @@ se nós tivermos uma linha no ``settings.py`` que diz::
 ...nós poderiamos escrever uma entrada :ref:`URLconf <topics-http-urls>` desta
 forma::
 
+    from django.conf import settings
+    ...
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
             {'document_root': settings.STATIC_DOC_ROOT}),
+
+Tome cuidado para não usar o mesmo caminho da sua configuração :setting:`ADMIN_MEDIA_PREFIX` (cujo padrão
+é ``/media/``) já que isso irá sobrescrever sua entrada na configuração de URL.
 
 Listagem de diretórios
 ======================
@@ -106,7 +117,7 @@ Você pode customizar a exibição do índice criando um template chamado
     * ``directory`` -- o nome do diretório (como string)
     * ``file_list`` -- a lista de nomes de arquivos (como strings) no diretório
 
-Aqui está o template ``static/directory_index`` padrão:
+Aqui está o template ``static/directory_index.html`` padrão:
 
 .. code-block:: html+django
 
@@ -127,6 +138,14 @@ Aqui está o template ``static/directory_index`` padrão:
         </ul>
     </body>
     </html>
+
+.. versionchanged:: 1.0.3
+    Antes do Django 1.0.3, havia um bug na visão que fornecia listagem de
+    diretórios. O template que era carregado tinha de ser chamado
+    ``static/directory_listing`` (sem extensão ``.html``). Para compatibilidade
+    retroativa, o Django ainda carrega templates com o nome
+    antigo (sem extensão), mas irá preferir a versão
+    ``directory_index.html``, com extensão.
     
 Limitando o uso para DEBUG=True
 ===============================
