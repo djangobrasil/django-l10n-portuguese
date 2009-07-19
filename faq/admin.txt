@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: Italo Maia, Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -53,22 +53,19 @@ Configure a :setting:`CACHE_MIDDLEWARE_ANONYMOUS_ONLY` para ``True``. Veja a
 Como eu configuro automaticamente o valor de um campo para o usuário que editou o objeto por último na administração?
 ---------------------------------------------------------------------------------------------------------------------
 
-Em seu estado atual, o Django não tem uma forma oficial de fazer isso. Mas é
-uma funcionalidade pedida freqüentemente, então nós estamos discutindo como
-implementá-la. O problema é que não queremos acoplar a camada de modelo com a
-camada administrativa e a camada de requisição (para obter o usuário atual). É
-um problema complexo.
-
-Uma pessoa hackeou uma `solução que não requer modificar o Django`_, mas note
-que é uma solução não-oficial, e não há garantias que ela não irá quebrar em
-algum ponto.
-
-.. _solução que não requer modificar o Django: http://lukeplant.me.uk/blog.php?id=1107301634
+A classe :class:`ModelAdmin` fornece ganchos de customização que permitem que você transforme
+um objeto quando ele é salvo, usando detalhes obtidos da requisição. Ao extrair o usuário atual
+da requisição, e personalizar o gancho :meth:`ModelAdmin.save_model`, você pode atualizar
+um objeto para refletir o usuário que o editou. Veja :ref:`a documentação sobre os métodos do
+ModelAdmin <model-admin-methods>` para um exemplo.
 
 Como eu restrinjo a edição de objetos na administração a apenas os usuários que os criaram?
 -------------------------------------------------------------------------------------------
 
-Veja a resposta à questão anterior.
+A classe :class:`ModelAdmin` também fornece ganchos de customização que permitem que você controle a
+visibilidade e editabilidade dos objetos na administração. Usando o mesmo truque de extrair
+o usuário da requisição, :meth:`ModelAdmin.queryset` e :meth:`ModelAdmin.has_change_permission`
+podem ser usados para controlar a visibilidade e editabilidade de objetos ba administração.
 
 Minhas imagens e CSS do site administrativo funcionam no servidor de desenvolvimento, mas não aparecem ao executar no mod_python.
 ---------------------------------------------------------------------------------------------------------------------------------
@@ -111,12 +108,3 @@ editando a folha de estilos e/ou as imagens assossiadas. O site é construído
 usando HTML semântico e está cheio de hooks de CSS, assim, qualquer mudança
 quer você quiser fazer é possível pela edição da folha de estilos. Nós
 escrevemos um :ref:`guia para o CSS usado na administração <obsolete-admin-css>` para auxiliá-lo.
-
-Como eu crio usuários sem tem de editar os hashes de senha?
------------------------------------------------------------
-
-Se você gostaria de usar o site administrativo para criar usuários, atualize
-para a versão de desenvolvimento do Django, onde esse problema foi resolvido em
-4 de agosto de 2006.
-
-Você pode usar também a API Python. Veja :ref:`criando usuários <topics-auth-creating-users>` para mais informações.
