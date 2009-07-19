@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Not started $
-..   $OriginalRevision: 9441 $
+..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: None $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -154,10 +154,11 @@ and execute those lines while checking that the results match.
 In the case of model tests, note that the test runner takes care of creating
 its own test database. That is, any test that accesses a database -- by
 creating and saving model instances, for example -- will not affect your
-production database. Each doctest begins with a "blank slate" -- a fresh
-database containing an empty table for each model. (See the section on
-fixtures, below, for more on this.) Note that to use this feature, the database
-user Django is connecting as must have ``CREATE DATABASE`` rights.
+production database. However, the database is not refreshed between doctests,
+so if your doctest requires a certain state you should consider flushing the
+database or loading a fixture. (See the section on fixtures, below, for more
+on this.) Note that to use this feature, the database user Django is connecting
+as must have ``CREATE DATABASE`` rights.
 
 For more details about how doctest works, see the `standard library
 documentation for doctest`_.
@@ -202,12 +203,12 @@ test utility is to find all the test cases (that is, subclasses of
 ``unittest.TestCase``) in ``models.py`` and ``tests.py``, automatically build a
 test suite out of those test cases, and run that suite.
 
-In the Django development version, there is a second way to define the test
-suite for a module: if you define a function called ``suite()`` in either
-``models.py`` or ``tests.py``, the Django test runner will use that function
-to construct the test suite for that module. This follows the `suggested
-organization`_ for unit tests. See the Python documentation for more details on
-how to construct a complex test suite.
+There is a second way to define the test suite for a module: if you define a
+function called ``suite()`` in either ``models.py`` or ``tests.py``, the
+Django test runner will use that function to construct the test suite for that
+module. This follows the `suggested organization`_ for unit tests. See the
+Python documentation for more details on how to construct a complex test
+suite.
 
 For more details about ``unittest``, see the `standard library unittest
 documentation`_.
@@ -494,7 +495,7 @@ arguments at time of construction:
     Once you have a ``Client`` instance, you can call any of the following
     methods:
 
-    .. method:: Client.get(path, data={})
+    .. method:: Client.get(path, data={}, **extra)
 
         Makes a GET request on the provided ``path`` and returns a ``Response``
         object, which is documented below.
@@ -509,7 +510,18 @@ arguments at time of construction:
 
             /customers/details/?name=fred&age=7
 
-    .. method:: Client.post(path, data={}, content_type=MULTIPART_CONTENT)
+        The ``extra`` keyword arguments parameter can be used to specify
+        headers to be sent in the request. For example::
+
+            >>> c = Client()
+            >>> c.get('/customers/details/', {'name': 'fred', 'age': 7},
+            ...       HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+        ...will send the HTTP header ``HTTP_X_REQUESTED_WITH`` to the
+        details	view, which is a good way to test code paths that use the
+        :meth:`django.http.HttpRequest.is_ajax()` method.
+
+    .. method:: Client.post(path, data={}, content_type=MULTIPART_CONTENT, **extra)
 
         Makes a POST request on the provided ``path`` and returns a
         ``Response`` object, which is documented below.
@@ -560,6 +572,8 @@ arguments at time of construction:
         Note that you should manually close the file after it has been provided
         to ``post()``.
 
+        The ``extra`` argument acts the same as for :meth:`Client.get`.
+
     .. method:: Client.login(**credentials)
 
         .. versionadded:: 1.0
@@ -598,7 +612,13 @@ arguments at time of construction:
         user accounts that are valid on your production site will not work
         under test conditions. You'll need to create users as part of the test
         suite -- either manually (using the Django model API) or with a test
-        fixture.
+        fixture. Remember that if you want your test user to have a password,
+        you can't set the user's password by setting the password attribute
+        directly -- you must use the
+        :meth:`~django.contrib.auth.models.User.set_password()` function to
+        store a correctly hashed password. Alternatively, you can use the
+        :meth:`~django.contrib.auth.models.UserManager.create_user` helper
+        method to create a new user with a correctly hashed password.
 
     .. method:: Client.logout()
 
@@ -671,7 +691,7 @@ Exceptions
 ~~~~~~~~~~
 
 If you point the test client at a view that raises an exception, that exception
-will be visible in the test case. You can then use a standard ``try...catch``
+will be visible in the test case. You can then use a standard ``try...except``
 block or ``unittest.TestCase.assertRaises()`` to test for exceptions.
 
 The only exceptions that are not visible to the test client are ``Http404``,
@@ -817,9 +837,10 @@ See the :djadmin:`dumpdata documentation<dumpdata>` for more details.
     Fixtures with other names can always be installed manually using the
     ``manage.py loaddata`` command.
 
-Once you've created a fixture and placed it somewhere in your Django project,
-you can use it in your unit tests by specifying a ``fixtures`` class attribute
-on your ``django.test.TestCase`` subclass::
+Once you've created a fixture and placed it in a ``fixtures`` directory in one
+of your :setting:`INSTALLED_APPS`, you can use it in your unit tests by
+specifying a ``fixtures`` class attribute on your ``django.test.TestCase``
+subclass::
 
     from django.test import TestCase
     from myapp.models import Animal
@@ -914,7 +935,7 @@ applications:
     Asserts that a ``Response`` instance produced the given ``status_code`` and
     that ``text`` does not appears in the content of the response.
 
-.. method:: assertFormError(response, form, field, errors)
+.. method:: TestCase.assertFormError(response, form, field, errors)
 
     Asserts that a field on a form raises the provided list of errors when
     rendered on the form.
@@ -929,19 +950,19 @@ applications:
     ``errors`` is an error string, or a list of error strings, that are
     expected as a result of form validation.
 
-.. method:: assertTemplateUsed(response, template_name)
+.. method:: TestCase.assertTemplateUsed(response, template_name)
 
     Asserts that the template with the given name was used in rendering the
     response.
 
     The name is a string such as ``'admin/index.html'``.
 
-.. method:: assertTemplateNotUsed(response, template_name)
+.. method:: TestCase.assertTemplateNotUsed(response, template_name)
 
     Asserts that the template with the given name was *not* used in rendering
     the response.
 
-.. method:: assertRedirects(response, expected_url, status_code=302, target_status_code=200)
+.. method:: TestCase.assertRedirects(response, expected_url, status_code=302, target_status_code=200)
 
     Asserts that the response return a ``status_code`` redirect status, it
     redirected to ``expected_url`` (including any GET data), and the subsequent
