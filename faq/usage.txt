@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: Italo Maia, Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -24,8 +24,8 @@ Por que acontece um erro ao importar o DJANGO_SETTINGS_MODULE?
 
 Certifique-se de que:
 
-    * A variável de ambiente DJANGO_SETTINGS_MODULE está configurada para um módulo Python
-      totalmente qualificado (ex:. "mysite.settings").
+    * A variável de ambiente DJANGO_SETTINGS_MODULE está configurada para
+      um módulo Python totalmente qualificado (ex:. "mysite.settings").
 
     * O módulo está em ``sys.path`` (``import mysite.settings`` deve funcionar).
 
@@ -64,15 +64,15 @@ Como eu uso os campos de imagem e arquivos?
 O uso de um :class:`~django.db.models.FileField` ou um 
 :class:`~django.db.models.ImageField` em modelo requer alguns passos:
 
-    #. No seu arquivo de configurações, defina o :setting:`MEDIA_ROOT` como o caminho completo
-       para o diretório onde você gostaria que o Django salvasse os arquivos enviados. (Para
-       melhor performance, esses arquivos não são guardados em um banco de dados.) Defina o
-       :setting:`MEDIA_URL` como a URL pública para esse diretório. Assegure-se de que esse
-       diretório tenha permissão de escrita para o usuário do servidor Web.
+    #. No seu arquivo de configurações, defina o :setting:`MEDIA_ROOT` como o
+       caminho completo para o diretório onde você gostaria que o Django salvasse os arquivos
+       enviados. (Para melhor performance, esses arquivos não são guardados em um banco de dados.)
+       Defina o :setting:`MEDIA_URL` como a URL pública para esse diretório.
+       Assegure-se de que esse diretório tenha permissão de escrita para o usuário do servidor Web.
 
     #. Adicione o :class:`~django.db.models.FileField` ou 
        :class:`~django.db.models.ImageField` a seu modelo, definindo
-       a opção :attr:`~django.db.models.FileField.upload_to` para dizer 
+       a opção :attr:`~django.db.models.FileField.upload_to` para instruir
        ao Django para qual subdiretório do :setting:`MEDIA_ROOT` ele deve
        enviar os arquivos.
 
@@ -82,3 +82,14 @@ O uso de um :class:`~django.db.models.FileField` ou um
        Django. Por exemplo, se o seu :class:`~django.db.models.ImageField` é
        chamado ``mug_shot``, você pode obter a URL absoluta para a sua imagem em um
        template com ``{{ object.mug_shot_url }}``.
+
+Como eu torno uma variável disponível em todos os meus templates?
+-----------------------------------------------------------------
+
+Algumas vezes seus templates precisam todos da mesma coisa. Um exemplo comum seria
+manus gerados dinamicamente. À primeira vista, parece lógico simplesmente
+adicionar um dicionário comum ao contexto do template.
+
+A solução correta é usar um ``RequestContext``. Detalhes em como fazer isso
+estão aqui: :ref:`subclassing-context-requestcontext`.
+
