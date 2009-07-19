@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done $
 ..   $OriginalRevision: 11268 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça, Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -45,7 +45,7 @@ O ``File`` do Django tem os seguintes atributos e métodos:
     A URL onde o arquivo pode ser obtido. Isso é frequentemente útil em
     :ref:`templates <topics-templates>`; por exemplo, um snippet de um template
     para exibir um ``Car`` (veja abaixo) poderia ser assim:
-    
+
     .. code-block:: html+django
 
         <img src='{{ car.photo.url }}' alt='{{ car.name }}' />
@@ -60,7 +60,7 @@ O ``File`` do Django tem os seguintes atributos e métodos:
     O argumento ``mode`` segue os mesmos valores do ``open()`` padrão
     do Python.
 
-    Ao reabrir um arquivo, o ``mode`` irá sobrescrever o modo com quem o 
+    Ao reabrir um arquivo, o ``mode`` irá sobrescrever o modo com quem o
     arquivo foi originalmente aberto; ``None`` significa reabrir no modo original.
 
 .. method:: File.read(num_bytes=None)
@@ -77,8 +77,9 @@ O ``File`` do Django tem os seguintes atributos e métodos:
     Itera sobre o arquivo retornando "pedaços" de um dado tamanho. O padrão para
     ``chunk_size``é 64 KB.
 
-    This is especially useful with very large files since it allows them to be
-    streamed off disk and avoids storing the whole file in memory.
+    Isto é especialmente útil com arquivos muito grandes, desde que os permitem
+    serem enviados por stream para o disco, evitando o armazenamento de todo o
+    arquivo na memória.
 
 .. method:: File.multiple_chunks(chunk_size=None)
 
@@ -99,7 +100,7 @@ Atributos adicionais de ``ImageField``
 --------------------------------------
 
 .. attribute:: File.width
-    
+
     Tamanho da imagem.
 
 .. attribute:: File.height
@@ -120,14 +121,14 @@ no exemplo acima) irá ter algums métodos extras:
     substituir o arquivo original, mas criar um novo arquivo e atualizar o objeto
     para apontar pra ele. Se ``save`` é ``True``, o método ``save()`` do modelo irá
     ser chamado assim que o arquivo é salvo. Assim, essas duas linhas::
-    
+
         >>> car.photo.save('myphoto.jpg', contents, save=False)
         >>> car.save()
-    
+
     são o mesmo que essa única linha::
-    
+
         >>> car.photo.save('myphoto.jpg', contents, save=True)
-    
+
     Note que o argumento ``content`` deve ser uma instância da classe
     :class:`File` ou uma subclasse de :class:`File`.
 
@@ -135,3 +136,4 @@ no exemplo acima) irá ter algums métodos extras:
 
     Remove o arquivo da instância do modelo e deleta o arquivo em si. O argumento
     ``save`` funciona como acima.
+
