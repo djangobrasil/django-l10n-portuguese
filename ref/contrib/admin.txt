@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Not started $
-..   $OriginalRevision: 9441 $
+..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: None $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -22,6 +22,8 @@ The Django admin site
 
 .. module:: django.contrib.admin
    :synopsis: Django's admin site.
+
+.. currentmodule:: django.contrib.admin
 
 One of the most powerful parts of Django is the automatic admin interface. It
 reads metadata in your model to provide a powerful and production-ready
@@ -55,8 +57,15 @@ There are five steps in activating the Django admin site:
 
     5. Hook the ``AdminSite`` instance into your URLconf.
 
+.. seealso::
+
+    For information about serving the media files (images, JavaScript, and CSS)
+    associated with the admin in production, see :ref:`serving-media-files`.
+
 ``ModelAdmin`` objects
 ======================
+
+.. class:: ModelAdmin
 
 The ``ModelAdmin`` class is the representation of a model in the admin
 interface. These are stored in a file named ``admin.py`` in your application.
@@ -80,9 +89,9 @@ Let's take a look at a very simple example of the ``ModelAdmin``::
 
         from django.contrib import admin
         from myproject.myapp.models import Author
-    
+
         admin.site.register(Author)
-    
+
 ``ModelAdmin`` Options
 ----------------------
 
@@ -93,8 +102,7 @@ subclass::
     class AuthorAdmin(admin.ModelAdmin):
         date_hierarchy = 'pub_date'
 
-``date_hierarchy``
-~~~~~~~~~~~~~~~~~~
+.. attribute:: ModelAdmin.date_hierarchy
 
 Set ``date_hierarchy`` to the name of a ``DateField`` or ``DateTimeField`` in
 your model, and the change list page will include a date-based drilldown
@@ -104,8 +112,7 @@ Example::
 
     date_hierarchy = 'pub_date'
 
-``form``
-~~~~~~~~
+.. attribute:: ModelAdmin.form
 
 By default a ``ModelForm`` is dynamically created for your model. It is used
 to create the form presented on both the add/change pages. You can easily
@@ -114,8 +121,7 @@ add/change pages.
 
 For an example see the section `Adding custom validation to the admin`_.
 
-``fieldsets``
-~~~~~~~~~~~~~
+.. attribute:: ModelAdmin.fieldsets
 
 Set ``fieldsets`` to control the layout of admin "add" and "change" pages.
 
@@ -154,13 +160,13 @@ The ``field_options`` dictionary can have the following keys:
     * ``fields``
         A tuple of field names to display in this fieldset. This key is
         required.
-        
+
         Example::
-        
+
             {
             'fields': ('first_name', 'last_name', 'address', 'city', 'state'),
             }
-            
+
         To display multiple fields on the same line, wrap those fields in
         their own tuple. In this example, the ``first_name`` and ``last_name``
         fields will display on the same line::
@@ -171,9 +177,9 @@ The ``field_options`` dictionary can have the following keys:
 
     * ``classes``
         A list containing extra CSS classes to apply to the fieldset.
-        
+
         Example::
-        
+
             {
             'classes': ['wide', 'extrapretty'],
             }
@@ -194,8 +200,7 @@ The ``field_options`` dictionary can have the following keys:
         ``django.utils.html.escape()`` to escape any HTML special
         characters.
 
-``fields``
-~~~~~~~~~~
+.. attribute:: ModelAdmin.fields
 
 Use this option as an alternative to ``fieldsets`` if the layout does not
 matter and if you want to only show a subset of the available fields in the
@@ -214,8 +219,7 @@ displayed, sequentially, in the form.
     dictionary key that is within the ``fieldsets`` option, as described in
     the previous section.
 
-``exclude``
-~~~~~~~~~~~
+.. attribute:: ModelAdmin.exclude
 
 This attribute, if given, should be a list of field names to exclude from the
 form.
@@ -229,10 +233,10 @@ For example, let's consider the following model::
 
 If you want a form for the ``Author`` model that includes only the ``name``
 and ``title`` fields, you would specify ``fields`` or ``exclude`` like this::
-    
+
     class AuthorAdmin(admin.ModelAdmin):
         fields = ('name', 'title')
-    
+
     class AuthorAdmin(admin.ModelAdmin):
         exclude = ('birth_date',)
 
@@ -240,22 +244,19 @@ Since the Author model only has three fields, ``name``, ``title``, and
 ``birth_date``, the forms resulting from the above declarations will contain
 exactly the same fields.
 
-``filter_horizontal``
-~~~~~~~~~~~~~~~~~~~~~
+.. attribute:: ModelAdmin.filter_horizontal
 
 Use a nifty unobtrusive JavaScript "filter" interface instead of the
 usability-challenged ``<select multiple>`` in the admin form. The value is a
 list of fields that should be displayed as a horizontal filter interface. See
 ``filter_vertical`` to use a vertical interface.
 
-``filter_vertical``
-~~~~~~~~~~~~~~~~~~~
+.. attribute:: ModelAdmin.filter_vertical
 
 Same as ``filter_horizontal``, but is a vertical display of the filter
 interface.
 
-``list_display``
-~~~~~~~~~~~~~~~~
+.. attribute:: ModelAdmin.list_display
 
 Set ``list_display`` to control which fields are displayed on the change list
 page of the admin.
@@ -270,30 +271,30 @@ that displays the ``__unicode__()`` representation of each object.
 You have four possible values that can be used in ``list_display``:
 
     * A field of the model. For example::
-    
+
           class PersonAdmin(admin.ModelAdmin):
               list_display = ('first_name', 'last_name')
-    
+
     * A callable that accepts one parameter for the model instance. For
       example::
-    
+
           def upper_case_name(obj):
               return ("%s %s" % (obj.first_name, obj.last_name)).upper()
           upper_case_name.short_description = 'Name'
-        
+
           class PersonAdmin(admin.ModelAdmin):
               list_display = (upper_case_name,)
-    
+
     * A string representing an attribute on the ``ModelAdmin``. This behaves
       same as the callable. For example::
-      
+
           class PersonAdmin(admin.ModelAdmin):
               list_display = ('upper_case_name',)
-              
+
               def upper_case_name(self, obj):
                 return ("%s %s" % (obj.first_name, obj.last_name)).upper()
               upper_case_name.short_description = 'Name'
-    
+
     * A string representing an attribute on the model. This behaves almost
       the same as the callable, but ``self`` in this context is the model
       instance. Here's a full model example::
@@ -327,7 +328,7 @@ A few special cases to note about ``list_display``:
       callable, Django will HTML-escape the output by default. If you'd rather
       not escape the output of the method, give the method an ``allow_tags``
       attribute whose value is ``True``.
-      
+
       Here's a full example model::
 
           class Person(models.Model):
@@ -354,7 +355,7 @@ A few special cases to note about ``list_display``:
               birthday = models.DateField()
 
               def born_in_fifties(self):
-                  return self.birthday.strftime('%Y')[:3] == 5
+                  return self.birthday.strftime('%Y')[:3] == '195'
               born_in_fifties.boolean = True
 
           class PersonAdmin(admin.ModelAdmin):
@@ -392,8 +393,7 @@ A few special cases to note about ``list_display``:
       The above will tell Django to order by the ``first_name`` field when
       trying to sort by ``colored_first_name`` in the admin.
 
-``list_display_links``
-~~~~~~~~~~~~~~~~~~~~~~
+.. attribute:: ModelAdmin.list_display_links
 
 Set ``list_display_links`` to control which fields in ``list_display`` should
 be linked to the "change" page for an object.
@@ -416,11 +416,7 @@ the change list page::
         list_display = ('first_name', 'last_name', 'birthday')
         list_display_links = ('first_name', 'last_name')
 
-Finally, note that in order to use ``list_display_links``, you must define
-``list_display``, too.
-
-``list_filter``
-~~~~~~~~~~~~~~~
+.. attribute:: ModelAdmin.list_filter
 
 Set ``list_filter`` to activate filters in the right sidebar of the change list
 page of the admin. This should be a list of field names, and each specified
@@ -440,14 +436,12 @@ The above code results in an admin change list page that looks like this:
 
 (This example also has ``search_fields`` defined. See below.)
 
-``list_per_page``
-~~~~~~~~~~~~~~~~~
+.. attribute:: ModelAdmin.list_per_page
 
 Set ``list_per_page`` to control how many items appear on each paginated admin
 change list page. By default, this is set to ``100``.
 
-``list_select_related``
-~~~~~~~~~~~~~~~~~~~~~~~
+.. attribute:: ModelAdmin.list_select_related
 
 Set ``list_select_related`` to tell Django to use ``select_related()`` in
 retrieving the list of objects on the admin change list page. This can save you
@@ -461,13 +455,11 @@ if one of the ``list_display`` fields is a ``ForeignKey``.
 For more on ``select_related()``, see
 :ref:`the select_related() docs <select-related>`.
 
-``inlines``
-~~~~~~~~~~~
+.. attribute:: ModelAdmin.inlines
 
 See ``InlineModelAdmin`` objects below.
 
-``ordering``
-~~~~~~~~~~~~
+.. attribute:: ModelAdmin.ordering
 
 Set ``ordering`` to specify how objects on the admin change list page should be
 ordered. This should be a list or tuple in the same format as a model's
@@ -480,8 +472,7 @@ If this isn't provided, the Django admin will use the model's default ordering.
     Django will only honor the first element in the list/tuple; any others
     will be ignored.
 
-``prepopulated_fields``
-~~~~~~~~~~~~~~~~~~~~~~~
+.. attribute:: ModelAdmin.prepopulated_fields
 
 Set ``prepopulated_fields`` to a dictionary mapping field names to the fields
 it should prepopulate from::
@@ -499,8 +490,7 @@ dashes for spaces).
 ``prepopulated_fields`` doesn't accept ``DateTimeField``, ``ForeignKey``, nor
 ``ManyToManyField`` fields.
 
-``radio_fields``
-~~~~~~~~~~~~~~~~
+.. attribute:: ModelAdmin.radio_fields
 
 By default, Django's admin uses a select-box interface (<select>) for
 fields that are ``ForeignKey`` or have ``choices`` set. If a field is present
@@ -516,8 +506,7 @@ You have the choice of using ``HORIZONTAL`` or ``VERTICAL`` from the
 Don't include a field in ``radio_fields`` unless it's a ``ForeignKey`` or has
 ``choices`` set.
 
-``raw_id_fields``
-~~~~~~~~~~~~~~~~~
+.. attribute:: ModelAdmin.raw_id_fields
 
 By default, Django's admin uses a select-box interface (<select>) for
 fields that are ``ForeignKey``. Sometimes you don't want to incur the
@@ -530,8 +519,7 @@ into a ``Input`` widget for either a ``ForeignKey`` or ``ManyToManyField``::
     class ArticleAdmin(admin.ModelAdmin):
         raw_id_fields = ("newspaper",)
 
-``save_as``
-~~~~~~~~~~~
+.. attribute:: ModelAdmin.save_as
 
 Set ``save_as`` to enable a "save as" feature on admin change forms.
 
@@ -544,8 +532,7 @@ rather than the old object.
 
 By default, ``save_as`` is set to ``False``.
 
-``save_on_top``
-~~~~~~~~~~~~~~~
+.. attribute:: ModelAdmin.save_on_top
 
 Set ``save_on_top`` to add save buttons across the top of your admin change
 forms.
@@ -555,8 +542,7 @@ Normally, the save buttons appear only at the bottom of the forms. If you set
 
 By default, ``save_on_top`` is set to ``False``.
 
-``search_fields``
-~~~~~~~~~~~~~~~~~
+.. attribute:: ModelAdmin.search_fields
 
 Set ``search_fields`` to enable a search box on the admin change list page.
 This should be set to a list of field names that will be searched whenever
@@ -613,11 +599,49 @@ with an operator:
     Performs a full-text match. This is like the default search method but uses
     an index. Currently this is only available for MySQL.
 
+.. attribute:: ModelAdmin.change_list_template
+
+Path to a custom template that will be used by the model objects "change list"
+view. Templates can override or extend base admin templates as described in
+`Overriding Admin Templates`_.
+
+If you don't specify this attribute, a default template shipped with Django
+that provides the standard appearance is used.
+
+.. attribute:: ModelAdmin.change_form_template
+
+Path to a custom template that will be used by both the model object creation
+and change views. Templates can override or extend base admin templates as
+described in `Overriding Admin Templates`_.
+
+If you don't specify this attribute, a default template shipped with Django
+that provides the standard appearance is used.
+
+.. attribute:: ModelAdmin.object_history_template
+
+Path to a custom template that will be used by the model object change history
+display view. Templates can override or extend base admin templates as
+described in `Overriding Admin Templates`_.
+
+If you don't specify this attribute, a default template shipped with Django
+that provides the standard appearance is used.
+
+.. attribute:: ModelAdmin.delete_confirmation_template
+
+Path to a custom template that will be used by the view responsible of showing
+the confirmation page when the user decides to delete one or more model
+objects. Templates can override or extend base admin templates as described in
+`Overriding Admin Templates`_.
+
+If you don't specify this attribute, a default template shipped with Django
+that provides the standard appearance is used.
+
+.. _model-admin-methods:
+
 ``ModelAdmin`` methods
 ----------------------
 
-``save_model(self, request, obj, form, change)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. method:: ModelAdmin.save_model(self, request, obj, form, change)
 
 The ``save_model`` method is given the ``HttpRequest``, a model instance,
 a ``ModelForm`` instance and a boolean value based on whether it is adding or
@@ -630,8 +654,7 @@ For example to attach ``request.user`` to the object prior to saving::
             obj.user = request.user
             obj.save()
 
-``save_formset(self, request, form, formset, change)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. method:: ModelAdmin.save_formset(self, request, form, formset, change)
 
 The ``save_formset`` method is given the ``HttpRequest``, the parent
 ``ModelForm`` instance and a boolean value based on whether it is adding or
@@ -647,6 +670,56 @@ model instance::
                 instance.user = request.user
                 instance.save()
             formset.save_m2m()
+
+Other methods
+~~~~~~~~~~~~~
+
+.. method:: ModelAdmin.add_view(self, request, form_url='', extra_context=None)
+
+Django view for the model instance addition page. See note below.
+
+.. method:: ModelAdmin.change_view(self, request, object_id, extra_context=None)
+
+Django view for the model instance edition page. See note below.
+
+.. method:: ModelAdmin.changelist_view(self, request, extra_context=None)
+
+Django view for the model instances change list/actions page. See note below.
+
+.. method:: ModelAdmin.delete_view(self, request, object_id, extra_context=None)
+
+Django view for the model instance(s) deletion confirmation page. See note below.
+
+.. method:: ModelAdmin.history_view(self, request, object_id, extra_context=None)
+
+Django view for the page that shows the modification history for a given model
+instance.
+
+Unlike the hook-type ``ModelAdmin`` methods detailed in the previous section,
+these five methods are in reality designed to be invoked as Django views from
+the admin application URL dispatching handler to render the pages that deal
+with model instances CRUD operations. As a result, completely overriding these
+methods will significantly change the behavior of the admin application.
+
+One comon reason for overriding these methods is to augment the context data
+that is provided to the template that renders the view. In the following
+example, the change view is overridden so that the rendered template is
+provided some extra mapping data that would not otherwise be available::
+
+    class MyModelAdmin(admin.ModelAdmin):
+
+        # A template for a very customized change view:
+        change_form_template = 'admin/myapp/extras/openstreetmap_change_form.html'
+
+        def get_osm_info(self):
+            # ...
+
+        def change_view(self, request, object_id, extra_context=None):
+            my_context = {
+                'osm_data': self.get_osm_info(),
+            }
+            return super(MyModelAdmin, self).change_view(request, object_id,
+                extra_context=my_context)
 
 ``ModelAdmin`` media definitions
 --------------------------------
@@ -669,7 +742,7 @@ Adding custom validation to the admin
 -------------------------------------
 
 Adding custom validation of data in the admin is quite easy. The automatic admin
-interfaces reuses :mod:`django.forms`, and the ``ModelAdmin`` class gives you
+interface reuses :mod:`django.forms`, and the ``ModelAdmin`` class gives you
 the ability define your own form::
 
     class ArticleAdmin(admin.ModelAdmin):
@@ -678,18 +751,20 @@ the ability define your own form::
 ``MyArticleAdminForm`` can be defined anywhere as long as you import where
 needed. Now within your form you can add your own custom validation for
 any field::
-    
+
     class MyArticleAdminForm(forms.ModelForm):
         class Meta:
             model = Article
-        
+
         def clean_name(self):
             # do something that validates your data
             return self.cleaned_data["name"]
 
 It is important you use a ``ModelForm`` here otherwise things can break. See the
 :ref:`forms <ref-forms-index>` documentation on :ref:`custom validation
-<ref-forms-validation>` for more information.
+<ref-forms-validation>` and, more specifically, the
+:ref:`model form validation notes <overriding-modelform-clean-method>` for more
+information.
 
 .. _admin-inlines:
 
@@ -697,8 +772,17 @@ It is important you use a ``ModelForm`` here otherwise things can break. See the
 ============================
 
 The admin interface has the ability to edit models on the same page as a
-parent model. These are called inlines. You can add them to a model by
-specifying them in a ``ModelAdmin.inlines`` attribute::
+parent model. These are called inlines. Suppose you have these two models::
+
+     class Author(models.Model):
+        name = models.CharField(max_length=100)
+
+     class Book(models.Model):
+        author = models.ForeignKey(Author)
+        title = models.CharField(max_length=100)
+
+You can edit the books authored by an author on the author page. You add
+inlines to a model by specifying them in a ``ModelAdmin.inlines``::
 
     class BookInline(admin.TabularInline):
         model = Book
@@ -743,7 +827,7 @@ many possibilities of customization. Inlines are built around
 ``form``
 ~~~~~~~~
 
-The value for ``form`` is inherited from ``ModelAdmin``. This is what is
+The value for ``form`` defaults to ``BaseModelForm``. This is what is
 passed through to ``formset_factory`` when creating the formset for this
 inline.
 
@@ -821,7 +905,7 @@ Working with Many-to-Many Intermediary Models
 By default, admin widgets for many-to-many relations will be displayed inline
 on whichever model contains the actual reference to the ``ManyToManyField``.
 However, when you specify an intermediary model using the ``through``
-argument to a ``ManyToManyField``, the admin will not display a widget by 
+argument to a ``ManyToManyField``, the admin will not display a widget by
 default. This is because each instance of that intermediary model requires
 more information than could be displayed in a single widget, and the layout
 required for multiple widgets will vary depending on the intermediate model.
@@ -832,7 +916,7 @@ models::
 
     class Person(models.Model):
         name = models.CharField(max_length=128)
-    
+
     class Group(models.Model):
         name = models.CharField(max_length=128)
         members = models.ManyToManyField(Person, through='Membership')
@@ -863,7 +947,7 @@ Now create admin views for the ``Person`` and ``Group`` models::
         inlines = (MembershipInline,)
 
 Finally, register your ``Person`` and ``Group`` models with the admin site::
-    
+
     admin.site.register(Person, PersonAdmin)
     admin.site.register(Group, GroupAdmin)
 
@@ -881,7 +965,7 @@ you have the following models::
         content_type = models.ForeignKey(ContentType)
         object_id = models.PositiveIntegerField()
         content_object = generic.GenericForeignKey("content_type", "object_id")
-    
+
     class Product(models.Model):
         name = models.CharField(max_length=100)
 
@@ -892,17 +976,17 @@ example app::
 
     from django.contrib import admin
     from django.contrib.contenttypes import generic
-    
+
     from myproject.myapp.models import Image, Product
-    
+
     class ImageInline(generic.GenericTabularInline):
         model = Image
-    
+
     class ProductAdmin(admin.ModelAdmin):
         inlines = [
             ImageInline,
         ]
-    
+
     admin.site.register(Product, ProductAdmin)
 
 ``django.contrib.contenttypes.generic`` provides both a ``GenericTabularInline``
@@ -983,7 +1067,7 @@ directory, our link would appear on every model's change form.
 Templates which may be overridden per app or model
 --------------------------------------------------
 
-Not every template in ``contrib\admin\templates\admin`` may be overridden per
+Not every template in ``contrib/admin/templates/admin`` may be overridden per
 app or per model. The following can:
 
     * ``change_form.html``
@@ -1006,9 +1090,10 @@ and 500 pages.
 Root and login templates
 ------------------------
 
-If you wish to change the index or login templates, you are better off creating
-your own ``AdminSite`` instance (see below), and changing the ``index_template``
-or ``login_template`` properties.
+If you wish to change the index or login templates, you are better off
+creating your own ``AdminSite`` instance (see below), and changing the
+:attr:`AdminSite.index_template` or :attr:`AdminSite.login_template`
+properties.
 
 ``AdminSite`` objects
 =====================
@@ -1025,13 +1110,27 @@ or add anything you like. Then, simply create an instance of your
 Python class), and register your models and ``ModelAdmin`` subclasses
 with it instead of using the default.
 
+``AdminSite`` attributes
+------------------------
+
+.. attribute:: AdminSite.index_template
+
+Path to a custom template that will be used by the admin site main index view.
+Templates can override or extend base admin templates as described in
+`Overriding Admin Templates`_.
+
+.. attribute:: AdminSite.login_template
+
+Path to a custom template that will be used by the admin site login view.
+Templates can override or extend base admin templates as described in
+`Overriding Admin Templates`_.
 
 Hooking ``AdminSite`` instances into your URLconf
 -------------------------------------------------
 
 The last step in setting up the Django admin is to hook your ``AdminSite``
 instance into your URLconf. Do this by pointing a given URL at the
-``AdminSite.root`` method.
+``AdminSite.urls`` method.
 
 In this example, we register the default ``AdminSite`` instance
 ``django.contrib.admin.site`` at the URL ``/admin/`` ::
