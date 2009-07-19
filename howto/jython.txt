@@ -2,8 +2,8 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision $
-..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: Igor Sobreira, Robson Mendonça $
+..   $OriginalRevision: 11268 $
+..   $TranslationAuthors: Igor Sobreira, Robson Mendonça, Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -28,27 +28,16 @@ pode fazer o deploy do Django em qualquer plataforma Java.
 
 Esse documento vai orientá-lo em como executar o Django no Jython.
 
-.. _jython: http://jython.org/
+.. _jython: http://www.jython.org/
 
 Instalando o Jython
 ===================
 
-Django funciona a partir da versão 2.5 do Jython.
-
-.. warning::
-
-    No momento da escrita desse documento, a versão do Jython compatível com
-    Django ainda não foi lançada. O release 2.5a2+ por vir a primeira
-    versão do Jython com a qual o Django vai funcionar out of the box.
-
-    Enquanto isso, você irá precisar usar a última versão de desenvolvimento do
-    Jython, obtida através do repositório SVN.
-
-Faça o download do Jython em http://jython.org/.
+Django funciona a partir da versão 2.5b3 do Jython. Baixe o Jython em
+http://www.jython.org/.
 
 Criando um container com servlets
 =================================
-
 
 Se você só quiser fazer experimentos com Django, pule para a próxima seção;
 Django inclui um servidor web leve que você pode usar para testes, para
