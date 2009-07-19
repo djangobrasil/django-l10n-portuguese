@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, waiting for revision. $
-..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: Robson Mendonça $
+..   $TranslationStatus: Done $
+..   $OriginalRevision: 11268 $
+..   $TranslationAuthors: Robson Mendonça, Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -27,12 +27,8 @@ API de armazenamento de arquivos.
 ``Storage.path(name)``
 ~~~~~~~~~~~~~~~~~~~~~~
 
-The local filesystem path where the file can be opened using Python's standard
-``open()``. For storage systems that aren't accessible from the local
-filesystem, this will raise ``NotImplementedError`` instead.
-
 O caminho do sistema de arquivos de onde o arquivo pode ser aberto usando a
-função padrão do Python, ``open()``. Para o sistemas de armazenamento que não
+função padrão do Python, ``open()``. Para sistemas de armazenamento que não
 são acessíveis do sistema de arquivo local, esta função irá gerar um erro
 ``NotImplementedError``.
 
@@ -60,12 +56,12 @@ ser lenta, então fique atento.
 
 Salva um novo arquivo usando o sistema de armazenamento, preferencialmente com o
 nome especificado. Se já existe um arquivo com este nome ``name``, o sistema
-pode modificar o nome para ter um nome único. O nome atual do arquivo armazenado
+pode modificar o nome para ter um nome único. O nome real do arquivo armazenado
 será retornado.
 
 O argumento ``content`` ponde ser uma instancia de
-:class:`django.db.files.File` ou de uma subclasse de
-:class:`~django.db.files.File`.
+:class:`django.core.files.File` ou de uma subclasse de
+:class:`~django.core.files.File`.
 
 ``Storage.delete(name)``
 ~~~~~~~~~~~~~~~~~~~~~~~~
