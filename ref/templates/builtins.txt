@@ -771,9 +771,6 @@ existir. Na pratica você usará isto para linkar views que são opcionais::
 widthratio
 ~~~~~~~~~~
 
-For creating bar charts and such, this tag calculates the ratio of a given value
-to a maximum value, and then applies that ratio to a constant.
-
 Para criar barras de gráficos e tal, esta tag calcula a razão entre um dado
 valor e o máximo valor, e então aplica esta proporção a uma constante.
 
@@ -792,10 +789,7 @@ with
 
 .. versionadded:: 1.0
 
-Caches a complex variable under a simpler name. This is useful when accessing
-an "expensive" method (e.g., one that hits the database) multiple times.
-
-Cacheia uma variável complexa sob um nome simples. Isto é usual quando se acessa
+Cacheia uma variável complexa sob um simples nome. Isto é usual quando se acessa
 um método muito "custoso" (e.g, um que consulta o banco de dados) múltiplas
 vezes.
 
@@ -1445,19 +1439,19 @@ que está num futuro relativo ao ponto de comparação.
 timeuntil
 ~~~~~~~~~
 
-Similar to ``timesince``, except that it measures the time from now until the
-given date or datetime. For example, if today is 1 June 2006 and
-``conference_date`` is a date instance holding 29 June 2006, then
-``{{ conference_date|timeuntil }}`` will return "4 weeks".
+Similar ao ``timesince``, exceto que ele mede o tempo de agora até a data ou
+datetime dada. Por exemplo, se hoje é 1 June 2006 e ``conference_date`` é uma
+instância de date marcando 29 June 2006, então
+``{{ conference_date|timeuntil}}`` retornará "4 semanas".
 
-Takes an optional argument that is a variable containing the date to use as
-the comparison point (instead of *now*). If ``from_date`` contains 22 June
-2006, then ``{{ conference_date|timeuntil:from_date }}`` will return "1 week".
+Recebe um argumento opcional que é uma variável contendo a data a ser usada como
+o ponto de comparação (ao invés de *now*). Se ``from_date`` contém 22 June 2006,
+então ``{{ conference_date|timeuntil:from_date }}`` retornará "1 week".
 
 Comparing offset-naive and offset-aware datetimes will return an empty string.
 
-Minutes is the smallest unit used, and "0 minutes" will be returned for any
-date that is in the past relative to the comparison point.
+Minutos são a menor unidade usada, e "0 minutos" será retornado por qualquer data
+que estiver num passado relativo ao ponto de comparação.
 
 .. templatefilter:: title
 
@@ -1471,42 +1465,42 @@ Converte uma string em titlecase.
 truncatewords
 ~~~~~~~~~~~~~
 
-Truncates a string after a certain number of words.
+Trunca uma string depois de um certo número de palavras.
 
-**Argument:** Number of words to truncate after
+**Argumento:** Número de palavras para trucar depois.
 
-For example::
+Por exemplo::
 
     {{ value|truncatewords:2 }}
 
-If ``value`` is ``"Joel is a slug"``, the output will be ``"Joel is ..."``.
+Se ``value`` é ``"Joel is a slug"``, a saída será ``"Joel is ..."``.
 
 .. templatefilter:: truncatewords_html
 
 truncatewords_html
 ~~~~~~~~~~~~~~~~~~
 
-Similar to ``truncatewords``, except that it is aware of HTML tags. Any tags
-that are opened in the string and not closed before the truncation point, are
-closed immediately after the truncation.
+Semelhante ao ``truncatewords``, exceto que ele se preocupa com as tags HTML.
+Qualquer tag que estiver aberta na string, e não foi fechada antes do ponto de
+corte, serão fechadas imediatamente após o truncament.
 
-This is less efficient than ``truncatewords``, so should only be used when it
-is being passed HTML text.
+Isto é menos eficiente que ``truncatewords``, então deve ser usado somente
+quando estiver sendo passado textos HTML.
 
 .. templatefilter:: unordered_list
 
 unordered_list
 ~~~~~~~~~~~~~~
 
-Recursively takes a self-nested list and returns an HTML unordered list --
-WITHOUT opening and closing <ul> tags.
+Recursivamente recebe uma lista auto-aninhada e retorna uma lista HTML
+não-ordenada -- SEM abrir e fechar tags <ul>.
 
 .. versionchanged:: 1.0
-   The format accepted by ``unordered_list`` has changed to be easier to understand.
+   O formato aceito por  ``unordered_list`` mudou para facilitar o entendimento.
 
-The list is assumed to be in the proper format. For example, if ``var`` contains
-``['States', ['Kansas', ['Lawrence', 'Topeka'], 'Illinois']]``, then
-``{{ var|unordered_list }}`` would return::
+A lista é para ser assumida no formato correto. Por exemplo, se ``var`` contém
+``['States', ['Kansas', ['Lawrence', 'Topeka'], 'Illinois']]``, então
+``{{ var|unordered_list }}`` retornaria::
 
     <li>States
     <ul>
@@ -1520,7 +1514,7 @@ The list is assumed to be in the proper format. For example, if ``var`` contains
     </ul>
     </li>
 
-Note: the previous more restrictive and verbose format is still supported:
+Nota: o formato anterior mais restritivo e verboso ainda é suportado:
 ``['States', [['Kansas', [['Lawrence', []], ['Topeka', []]]], ['Illinois', []]]]``,
 
 .. templatefilter:: upper
@@ -1528,36 +1522,37 @@ Note: the previous more restrictive and verbose format is still supported:
 upper
 ~~~~~
 
-Converts a string into all uppercase.
+Converte uma string em maiúsculo.
 
-For example::
+Por exemplo::
 
     {{ value|upper }}
 
-If ``value`` is ``"Joel is a slug"``, the output will be ``"JOEL IS A SLUG"``.
+Se ``value`` é ``"Joel is a slug"``, a saída será ``"JOEL IS A SLUG"``.
 
 .. templatefilter:: urlencode
 
 urlencode
 ~~~~~~~~~
 
-Escapes a value for use in a URL.
+Escapa um valor para ser usado em uma URL.
 
 .. templatefilter:: urlize
 
 urlize
 ~~~~~~
 
-Converts URLs in plain text into clickable links.
+Converte URLs em texto plano dentro de links clicáveis.
 
-Note that if ``urlize`` is applied to text that already contains HTML markup,
-things won't work as expected. Apply this filter only to *plain* text.
+Note que se ``urlize`` é aplicado em um texto que já contém marcação HTML,
+as coisas não irão funcionar como esperado. Aplique este filtro somente no
+texto *plano*.
 
-For example::
+Por exemplo::
 
     {{ value|urlize }}
 
-If ``value`` is ``"Check out www.djangoproject.com"``, the output will be
+Se ``value`` é ``"Check out www.djangoproject.com"``, a saída será
 ``"Check out <a
 href="http://www.djangoproject.com">www.djangoproject.com</a>"``.
 
@@ -1566,18 +1561,18 @@ href="http://www.djangoproject.com">www.djangoproject.com</a>"``.
 urlizetrunc
 ~~~~~~~~~~~
 
-Converts URLs into clickable links, truncating URLs longer than the given
-character limit.
+Converte URLs dentro de links clicáveis, truncando URLs mais longas que um
+determinado limite de caracteres.
 
-As with urlize_, this filter should only be applied to *plain* text.
+Como em urlize_, este filtro deve ser somente aplicado em texto *plano*.
 
-**Argument:** Length to truncate URLs to
+**Argumento:** Comprimento que as URLs devem ter
 
-For example::
+Por exemplo::
 
     {{ value|urlizetrunc:15 }}
 
-If ``value`` is ``"Check out www.djangoproject.com"``, the output would be
+Se ``value`` é ``"Check out www.djangoproject.com"``, a saída seria
 ``'Check out <a
 href="http://www.djangoproject.com">www.djangopr...</a>'``.
 
@@ -1586,22 +1581,22 @@ href="http://www.djangoproject.com">www.djangopr...</a>'``.
 wordcount
 ~~~~~~~~~
 
-Returns the number of words.
+Retorna o número de palavras.
 
 .. templatefilter:: wordwrap
 
 wordwrap
 ~~~~~~~~
 
-Wraps words at specified line length.
+Quebra palavras em um comprimento de linha específico.
 
-**Argument:** number of characters at which to wrap the text
+**Argumento:** número de caracteres em que ocorrerá a quebra do texto
 
-For example::
+Por exemplo::
 
     {{ value|wordwrap:5 }}
 
-If ``value`` is ``Joel is a slug``, the output would be::
+Se ``value`` é ``Joel is a slug``, a saída seria::
 
     Joel
     is a
@@ -1612,46 +1607,50 @@ If ``value`` is ``Joel is a slug``, the output would be::
 yesno
 ~~~~~
 
-Given a string mapping values for true, false and (optionally) None,
-returns one of those strings according to the value:
+Dada uma string de mapeamento de valores true, false e (opcionalmente) None,
+retorna uma destas strings, de acordo com o valor:
 
 ==========  ======================  ==================================
-Value       Argument                Outputs
+Valor       Argumento               Saída
 ==========  ======================  ==================================
 ``True``    ``"yeah,no,maybe"``     ``yeah``
 ``False``   ``"yeah,no,maybe"``     ``no``
 ``None``    ``"yeah,no,maybe"``     ``maybe``
-``None``    ``"yeah,no"``           ``"no"`` (converts None to False
-                                    if no mapping for None is given)
+``None``    ``"yeah,no"``           ``"no"`` (converte None para False
+                                    se nenhum mapeamento para None for
+                                    dado)
 ==========  ======================  ==================================
 
-Other tags and filter libraries
-===============================
+Outras bibliotecas de tags e filtros
+====================================
 
-Django comes with a couple of other template-tag libraries that you have to
-enable explicitly in your ``INSTALLED_APPS`` setting and enable in your
-template with the ``{% load %}`` tag.
+O Django vem com algumas outras bibliotecas de tags de templates, que você tem
+de habilitar explicitamente em seu :setting:`INSTALLED_APPS` e habilitar em seu
+template com a tag ``{% load %}``.
+
 
 django.contrib.humanize
 -----------------------
 
-A set of Django template filters useful for adding a "human touch" to data. See
-:ref:`ref-contrib-humanize`.
+Um conjunto de filtros de templates Django usuais para adicionar um "toque
+humano" aos dados. Veja :ref:`ref-contrib-humanize`.
 
 django.contrib.markup
 ---------------------
 
-A collection of template filters that implement these common markup languages:
+Uma coleção de filtros de templates que implementam estas linguagens de marcação
+comuns:
 
     * Textile
     * Markdown
     * ReST (ReStructured Text)
 
-See :ref:`ref-contrib-markup`.
+Veja :ref:`ref-contrib-markup`.
 
 django.contrib.webdesign
 ------------------------
 
-A collection of template tags that can be useful while designing a website,
-such as a generator of Lorem Ipsum text. See :ref:`ref-contrib-webdesign`.
+Uma coleção de tags de template que podem ser úteis quando se faz o design de um
+website, como um gerador de texto Lorem Ipsum. Veja
+:ref:`ref-contrib-webdesign`.
 
