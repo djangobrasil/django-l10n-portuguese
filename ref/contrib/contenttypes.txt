@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
@@ -320,15 +320,14 @@ receber seus ``TaggedItems`` associados::
     >>> b.tags.all()
     [<TaggedItem: django>, <TaggedItem: python>]
 
-Just as :class:`django.contrib.contenttypes.generic.GenericForeignKey`
-accepts the names of the content-type and object-ID fields as
-arguments, so too does ``GenericRelation``; if the model which has the
-generic foreign key is using non-default names for those fields, you
-must pass the names of the fields when setting up a
-``GenericRelation`` to it. For example, if the ``TaggedItem`` model
-referred to above used fields named ``content_type_fk`` and
-``object_primary_key`` to create its generic foreign key, then a
-``GenericRelation`` back to it would need to be defined like so::
+Assim como :class:`django.contrib.contenttypes.generic.GenericForeignKey` aceita
+os nomes dos campos content-type e object-ID como argumentos, para construir uma
+``GenericRelation``; se o model que possui a chave estrangeira genérica está
+usando nomes diferentes do padrão, para estes campos, você deve passar os nomes
+dos campos quando estiver configurando uma ``GenericRelation``. Por exemplo, se
+o model ``TaggedItem`` referido acima usasse campos com nomes
+``content_type_fk`` e ``object_primary_key`` para criar suas chaves primárias
+genéricas, então uma ``GenericRelation`` teria de ser definida como::
 
     tags = generic.GenericRelation(TaggedItem, content_type_field='content_type_fk', object_id_field='object_primary_key')
 
@@ -341,10 +340,11 @@ os mesmos tipo de busca manualmente::
     ...                           object_id=b.id)
     [<TaggedItem: django>, <TaggedItem: python>]
 
-Note that if the model with a :class:`~django.contrib.contenttypes.generic.GenericForeignKey`
-that you're referring to uses a non-default value for ``ct_field`` or ``fk_field``
-(e.g. the :mod:`django.contrib.comments` app uses ``ct_field="object_pk"``),
-you'll need to pass ``content_type_field`` and ``object_id_field`` to
+Note que se o model com uma
+:class:`~django.contrib.contenttypes.generic.GenericForeignKey` que você está
+referenciando usa um valor diferente do padrão para ``ct_field`` ou ``fk_field``
+(e.g. a aplicação :mod:`django.contrib.comments` usa ``ct_field="object_pk"``),
+você precisará passar ``content_type_field`` e ``object_id_field`` para
 :class:`~django.contrib.contenttypes.generic.GenericRelation`.::
 
 	comments = generic.GenericRelation(Comment, content_type_field="content_type", object_id_field="object_pk")
