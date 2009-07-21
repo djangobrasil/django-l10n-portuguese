@@ -3,7 +3,7 @@
 ..
 ..   $TranslationStatus: Not started $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -21,87 +21,91 @@ django.contrib.humanize
 ========================
 
 .. module:: django.contrib.humanize
-   :synopsis: A set of Django template filters useful for adding a "human
-              touch" to data.
+   :synopsis: Um conjunto de filtros de templates do Django úteis para adicinoar
+              um "toque humano" aos dados.
 
-A set of Django template filters useful for adding a "human touch" to data.
+Um conjunto de filtros de templates do Django úteis para adicinoar um
+"toque humano" aos dados.
 
-To activate these filters, add ``'django.contrib.humanize'`` to your
-:setting:`INSTALLED_APPS` setting. Once you've done that, use
-``{% load humanize %}`` in a template, and you'll have access to these filters:
+Para ativar estes filtros, adicione ``'django.contrib.humanize'`` no seu
+:setting:`INSTALLED_APPS`. Uma vez que feito isso, use ``{% load humanize %}``
+em um template, e você terá acesso a estes filtros:
 
 apnumber
 --------
 
-For numbers 1-9, returns the number spelled out. Otherwise, returns the
-number. This follows Associated Press style.
+Para números 1-9, retorna o número como se fala. Do contrário, retorna o próprio
+número. Este segue o estilo Associated Press.
 
-Examples:
+Exemplos:
 
-    * ``1`` becomes ``'one'``.
-    * ``2`` becomes ``'two'``.
-    * ``10`` becomes ``10``.
+    * ``1`` torna-se ``'one'``.
+    * ``2`` torna-se ``'two'``.
+    * ``10`` torna-se ``10``.
 
-You can pass in either an integer or a string representation of an integer.
+Você pode passar um inteiro ou mesmo uma representação em string de um inteiro.
 
 intcomma
 --------
 
-Converts an integer to a string containing commas every three digits.
+Converte um inteiro em uma string contendo vírgulas a cada três dígitos.
 
-Examples:
+Exemplos:
 
-    * ``4500`` becomes ``'4,500'``.
-    * ``45000`` becomes ``'45,000'``.
-    * ``450000`` becomes ``'450,000'``.
-    * ``4500000`` becomes ``'4,500,000'``.
+    * ``4500`` torna-se ``'4,500'``.
+    * ``45000`` torna-se ``'45,000'``.
+    * ``450000`` torna-se ``'450,000'``.
+    * ``4500000`` torna-se ``'4,500,000'``.
 
-You can pass in either an integer or a string representation of an integer.
+Você pode passar um inteiro ou mesmo uma representação em string de um inteiro.
 
 intword
 -------
 
-Converts a large integer to a friendly text representation. Works best for
-numbers over 1 million.
+Converte um inteiro grande em uma representação textual agradável. Funciona
+melhor com números acima de 1 milhão.
 
-Examples:
+Exemplos:
 
-    * ``1000000`` becomes ``'1.0 million'``.
-    * ``1200000`` becomes ``'1.2 million'``.
-    * ``1200000000`` becomes ``'1.2 billion'``.
+    * ``1000000`` torna-se ``'1.0 million'``.
+    * ``1200000`` torna-se ``'1.2 million'``.
+    * ``1200000000`` torna-se ``'1.2 billion'``.
 
-Values up to 1000000000000000 (one quadrillion) are supported.
+Valores acima de 1000000000000000 (um quadrilhão) são suportados.
 
-You can pass in either an integer or a string representation of an integer.
+Você pode passar um inteiro ou mesmo uma representação em string de um inteiro.
 
 ordinal
 -------
 
-Converts an integer to its ordinal as a string.
+Converte um inteiro em seu ordinal como uma string.
 
-Examples:
+Exemplos:
 
-    * ``1`` becomes ``'1st'``.
-    * ``2`` becomes ``'2nd'``.
-    * ``3`` becomes ``'3rd'``.
+    * ``1`` torna-se ``'1st'``.
+    * ``2`` torna-se ``'2nd'``.
+    * ``3`` torna-se ``'3rd'``.
 
-You can pass in either an integer or a string representation of an integer.
+Você pode passar um inteiro ou mesmo uma representação em string de um inteiro.
 
 naturalday
 ----------
 
 .. versionadded:: 1.0
 
-For dates that are the current day or within one day, return "today",
-"tomorrow" or "yesterday", as appropriate. Otherwise, format the date using
-the passed in format string.
+Para datas que são o dia atual ou dentro de um dia, retorna "today", "tomorrow"
+ou "yesterday", como for apropriado. Do contrário, formata a data usando o
+formato passado.
 
-**Argument:** Date formatting string as described in the :ttag:`now` tag.
+**Argumento:** String de formato da data como descrito na tag :ttag:`now`.
 
-Examples (when 'today' is 17 Feb 2007):
+Exemplos (quando 'today' é 17 Feb 2007):
 
-    * ``16 Feb 2007`` becomes ``yesterday``.
-    * ``17 Feb 2007`` becomes ``today``.
-    * ``18 Feb 2007`` becomes ``tomorrow``.
+    * ``16 Feb 2007`` torna-se ``yesterday``.
+    * ``17 Feb 2007`` torna-se ``today``.
+    * ``18 Feb 2007`` torna-se ``tomorrow``.
     * Any other day is formatted according to given argument or the
       :setting:`DATE_FORMAT` setting if no argument is given.
+    * Qualquer outro dia é formatado de acordo com o argumento fornecido ou pela
+      configuração :setting:`DATE_FORMAT`, se não houver argumentos informados.
+
