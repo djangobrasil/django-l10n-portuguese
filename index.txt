@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, waiting for revision. $
+..   $TranslationStatus: Done $
 ..   $OriginalRevision:  9141 $
 ..   $TranslationAuthors: Wiliam Alves de Souza, semente $
 ..
@@ -29,10 +29,10 @@ Documentação do Django
    informações, visite a `página do grupo de localização
    <http://code.google.com/p/django-l10n-portuguese/>`_.
 
-Conseguindo ajuda
-=================
+Obtendo ajuda
+=============
 
-Tendo problemas? Nós gostaríamos de ajudar!
+Está com problemas? Nós gostaríamos de ajudar!
 
 * Tente a :ref:`FAQ <faq-index>` -- Para obter respostas para muitas
   perguntas comuns.
@@ -41,15 +41,15 @@ Tendo problemas? Nós gostaríamos de ajudar!
   :ref:`modindex` ou a :ref:`tabela de conteúdo detalhada <contents>`.
 
 * Procure por informações no `arquivo do grupo de discussão da Django Brasil`_,
-  ou `poste uma pergunta`_.
+  ou `publique uma pergunta`_.
 
 * Faça uma pergunta no `canal de IRC #django-br`_, ou procure nos `logs do IRC`_
   para ver se esta pergunta já não foi respondida anteriormente.
 
-* Reporte *bugs* do Django no `ticket tracker`_.
+* Relate *bugs* do Django no `ticket tracker`_.
 
 .. _arquivo do grupo de discussão da Django Brasil: http://groups.google.com.br/group/django-brasil
-.. _poste uma pergunta: http://groups.google.com.br/group/django-brasil/post
+.. _publique uma pergunta: http://groups.google.com.br/group/django-brasil/post
 .. _canal de IRC #django-br: irc://irc.freenode.net/django-br
 .. _logs do IRC: http://oebfare.com/logger/django-br/
 .. _ticket tracker: http://code.djangoproject.com/
@@ -58,7 +58,8 @@ Primeiros passos
 ================
 
 :ref:`Visão geral <intro-overview>`
-    Veja como e escrever uma aplicação Web dirigida a banco de dados com Django.
+    Veja como escrever uma aplicação Web dirigida a banco de dados à
+    maneira Django.
 
 :ref:`Instalação <intro-install>`
     Tenha o Django instalado em seu computador.
@@ -161,7 +162,7 @@ E mais:
     * :ref:`Escrevendo o seu sistema de armazenamento <howto-custom-file-storage>`
     * :ref:`Escrevendo seus comandos do django-admin <howto-custom-management-commands>`
     * :ref:`Escrevendo novos campos de model <howto-custom-model-fields>`
-    * :ref:`Acompanhe erros no codigo por e-mail <howto-error-reporting>`
+    * :ref:`Acompanhe erros no código por e-mail <howto-error-reporting>`
     * :ref:`Fornecendo dados iniciais aos models <howto-initial-data>`
     * :ref:`Rodando Django no Jython <howto-jython>`
     * :ref:`Servindo arquivos estáticos <howto-static-files>`
