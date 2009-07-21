@@ -1,8 +1,8 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, waiting for revision. $
-..   $OriginalRevision: 10174 $
+..   $TranslationStatus: Done $
+..   $OriginalRevision: 10306 $
 ..   $TranslationAuthors: Wiliam Alves de Souza $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -17,7 +17,7 @@
 .. _glossary:
 
 =========
-Glossario
+Glossário
 =========
 
 .. glossary::
@@ -29,8 +29,9 @@ Glossario
         Veja :ref:`topics-db-models`.
 
     generic view
-        Uma função :term:`view` de alta-ordem que abstrai idiomas comuns e
-        padrões encontrados no desenvolvimento de um view.
+        Uma função :term:`view` de ordem superior que fornece uma implementação
+        abstrata/genérica de um padrão comum encontrado no desenvolvimento de
+        uma view.
 
         Veja :ref:`ref-generic-views`.
 
@@ -48,39 +49,39 @@ Glossario
 
         __ http://en.wikipedia.org/wiki/Model-view-controller
 
-    project
-        Um pacote Python -- ou seja um diretório de código -- que contém toda as
-        configurações para uma instância do Django. Isto incluem configuração de
-        banco de dados, opções especificas do Django e configurações especificas
-        das aplicações.
+    projeto
+        Um pacote Python -- ou seja, um diretório de código -- que contém todas
+        as configurações para uma instância do Django. Isto inclui a
+        configuração do banco de dados, opções específicas do Django e
+        configurações específicas das aplicações.
 
     property
         Também conhecida como "atributos gerenciados", e também uma
         característica comum do Python desde a versão 2.2. Retirado da
         `documentação da property`__:
 
-            Propriedades sao o jeito mais decente de implementar atributos cujo
-            seu uso se assemelha-se com o acesso a atributos, mais cujo sua
-            implementação usa chamadas a métodos. [...] Você pode fazer isto
-            apenas sobrescrevendo ``__getattr__`` e ``__setattr__``; mas
-            sobrescrevendo ``__setattr__`` deixara todas as atribuições de
-            atributos mais lentas consideravelmente, e sobrescrever
-            ``__getattr__`` eh sempre um pouco complicado de fazer corretamente.
-            propriedades deixam voce fazer isto descomplicadamente, sem ter que
+            Properties (propriedades) são o modo mais decente de implementar
+            atributos dos quais seu uso assemelha-se com o acesso a atributos,
+            mas cujo a implementação usa chamadas a métodos. [...] Você pode
+            fazer isto apenas sobrescrevendo ``__getattr__`` e ``__setattr__``;
+            mas sobrescrevendo ``__setattr__`` deixará todas as atribuições de
+            atributos consideravelmente mais lentas, e sobrescrever
+            ``__getattr__`` é sempre um pouco complicado de fazer corretamente.
+            Properties deixam você fazer isto sem complicações, sem ter que
             sobrescrever ``__getattr__`` ou ``__setattr__``.
 
         __ http://www.python.org/download/releases/2.2/descrintro/#property
 
     queryset
-        Um objeto representando algum conjunto de linhas à serem trazidas do
+        Um objeto representando algum conjunto de linhas à serem obtidas do
         banco de dados.
 
         Veja :ref:`topics-db-queries`.
 
     slug
-        Uma pequena etiqueta para algo, contendo apenas letras, números,
-        underscores ou hífens. São usados geralmente em URLs. Por exemplo, em uma
-        URL típica de uma página em um blog.
+        Uma pequena etiqueta para alguma coisa, contendo apenas letras,
+        números, underscores (sublinhados) ou hifens. São usados geralmente em
+        URLs. Por exemplo, em uma típica URL de uma página de blog:
 
         .. parsed-literal::
 
@@ -89,7 +90,9 @@ Glossario
         a última parte (``spring``) é um slug.
 
     template
-        Um bloco de texto que separa a representação de um documento de seus dados.
+        Um fragmento de texto que se comporta como formatador para
+        representação de dados. Um template ajuda a abstrair a apresentação dos
+        dados à partir dos mesmos.
 
         Veja :ref:`topics-templates`.
 
