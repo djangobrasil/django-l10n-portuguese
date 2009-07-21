@@ -75,7 +75,7 @@ O ``File`` do Django tem os seguintes atributos e métodos:
 .. method:: File.chunks(chunk_size=None)
 
     Itera sobre o arquivo retornando "pedaços" de um dado tamanho. O padrão para
-    ``chunk_size``é 64 KB.
+    ``chunk_size`` é 64 KB.
 
     Isto é especialmente útil com arquivos muito grandes, desde que os permitem
     serem enviados por stream para o disco, evitando o armazenamento de todo o
