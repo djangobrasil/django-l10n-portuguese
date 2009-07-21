@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 9368 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
