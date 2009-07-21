@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,17 +16,17 @@
 
 .. _ref-contrib-comments-signals:
 
-================================
-Signals sent by the comments app
-================================
+=======================================
+Sinais enviados pela aplicação comments
+=======================================
 
 .. module:: django.contrib.comments.signals
-   :synopsis: Signals sent by the comment module.
+   :synopsis: Sinais enviados pelo módulo comment.
 
-The comment app sends a series of :ref:`signals <topics-signals>` to allow for
-comment moderation and similar activities. See :ref:`the introduction to signals
-<topics-signals>` for information about how to register for and receive these
-signals.
+A aplicação comment envia uma série de :ref:`sinais (signals) <topics-signals>`
+para permitir a moderação de comentários em atividades semelhantes. Veja
+:ref:`a introdução aos sinais <topics-signals>` para mais informações sobre como
+registar e receber estes sinais.
 
 comment_will_be_posted
 ======================
@@ -34,49 +34,50 @@ comment_will_be_posted
 .. data:: django.contrib.comments.signals.comment_will_be_posted
    :module:
 
-Sent just before a comment will be saved, after it's been sanity checked and
-submitted. This can be used to modify the comment (in place) with posting
-details or other such actions.
+Enviado somente depois que um comentário foi salvo, depois de checada sua
+sanidade e submetido. Este pode ser usado para modificar o comentário (in place)
+com detalhes da postagem, ou outroas ações.
 
-If any receiver returns ``False`` the comment will be discarded and a 403 (not
-allowed) response will be returned.
+Se qualquer receptor retorna ``False`` o comentário será descartado e uma
+resposta 403 (not allowed) será retornada.
 
-This signal is sent at more or less the same time (just before, actually) as the
-``Comment`` object's :data:`~django.db.models.signals.pre_save` signal.
+Este sinal é enviado mais ou menos ao mesmo tempo (pouco antes, na verdade) que
+o sinal :data:`~django.db.models.signals.pre_save` do objeto ``Comment``.
 
-Arguments sent with this signal:
-    
+Argumentos enviados com este sinal:
+
     ``sender``
-        The comment model.
-        
+        O model comment.
+
     ``comment``
-        The comment instance about to be posted. Note that it won't have been
-        saved into the database yet, so it won't have a primary key, and any
-        relations might not work correctly yet.
-        
+        A instância de comment que foi postada. Note que ela não deve ter sido
+        salva no banco de dados ainda, então ela não tem uma chave primária, e
+        quaisquer relações pode não funcionar corretamente ainda.
+
     ``request``
-        The :class:`~django.http.HttpRequest` that posted the comment.
-        
+        O :class:`~django.http.HttpRequest` que foi postado no comentário.
+
 comment_was_posted
 ==================
 
 .. data:: django.contrib.comments.signals.comment_was_posted
    :module:
-   
-Sent just after the comment is saved.
 
-Arguments sent with this signal:
-    
+Enviado logo após o comentário ser salvo.
+
+Argumentos enviados com este sinal:
+
     ``sender``
-        The comment model.
-        
+        O model comment.
+
     ``comment``
-        The comment instance that was posted. Note that it will have already
-        been saved, so if you modify it you'll need to call
-        :meth:`~django.db.models.Model.save` again.
-        
+        A instância de comment que foi postada. Note que ela já foi salva, então
+        se você modificá-la, precisará chamar o método
+        :meth:`~django.db.models.Model.save` novamente.
+
     ``request``
-        The :class:`~django.http.HttpRequest` that posted the comment.
+        O :class:`~django.http.HttpRequest` que foi postado no comentário.
+
 
 comment_was_flagged
 ===================
@@ -84,26 +85,28 @@ comment_was_flagged
 .. data:: django.contrib.comments.signals.comment_was_flagged
    :module:
 
-Sent after a comment was "flagged" in some way. Check the flag to see if this
-was a user requesting removal of a comment, a moderator approving/removing a
-comment, or some other custom user flag.
+Enviado após um comentário ter sido "flagged" de alguma forma. Checa o flag para
+ver se isto foi uma requisição de remoção de um comentário feito por um usuário,
+um moderador aprovando/removendo um comentário, ou algum outro flag de usuário
+customizado.
 
-Arguments sent with this signal:
-    
+Argumentos enviados com este sinal:
+
     ``sender``
-        The comment model.
-        
+        O model comment.
+
     ``comment``
-        The comment instance that was posted. Note that it will have already
-        been saved, so if you modify it you'll need to call
-        :meth:`~django.db.models.Model.save` again.
-        
+        A instância do comentário que foi postada. Note que ela já está salva,
+        então se você modificá-la, precisará chamar o método
+        :meth:`~django.db.models.Model.save` novamente.
+
     ``flag``
-        The :class:`~django.contrib.comments.models.CommentFlag` that's been
-        attached to the comment.
-        
+        O :class:`~django.contrib.comments.models.CommentFlag` que foi atachado
+        ao comentário.
+
     ``created``
-        ``True`` if this is a new flag; ``False`` if it's a duplicate flag.
-        
+        ``True`` se este é um novo flag; ``False`` se este é um flag duplicado.
+
     ``request``
-        The :class:`~django.http.HttpRequest` that posted the comment.
+        O :class:`~django.http.HttpRequest` que foi postado no comentário.
+
