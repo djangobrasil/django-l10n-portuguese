@@ -1,8 +1,8 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, wainting for revision $
-..   $OriginalRevision: 9368 $
+..   $TranslationStatus: Done $
+..   $OriginalRevision: 11274 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
