@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 11268 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Luiz Fernando Barbosa Vital $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,46 +16,46 @@
 
 .. _topics-testing:
 
-===========================
-Testing Django applications
-===========================
+==========================
+Testando aplicações Django
+==========================
 
 .. module:: django.test
-   :synopsis: Testing tools for Django applications.
+   :synopsis: Ferramentas de teste de aplicações Django.
 
-Automated testing is an extremely useful bug-killing tool for the modern
-Web developer. You can use a collection of tests -- a **test suite** -- to
-solve, or avoid, a number of problems:
+O teste automatizado é uma ferramenta extremamente útil para eliminar bugs
+utilizada pelo desenvolvedor Web moderno. Você pode usar uma coleção de testes
+-- uma **test suite** -- para resolver, ou evitar, vários problemas:
 
-    * When you're writing new code, you can use tests to validate your code
-      works as expected.
+    * Quando você está escrevendo um código novo, pode usar os testes para
+      verificar se seu código funciona como esperado.
 
-    * When you're refactoring or modifying old code, you can use tests to
-      ensure your changes haven't affected your application's behavior
-      unexpectedly.
+    * Quando está refatorando ou modificando um código antigo, você pode usar os
+      testes para garantir que suas mudanças não afetaram inesperadamente o
+      comportamento de sua aplicação.
 
-Testing a Web application is a complex task, because a Web application is made
-of several layers of logic -- from HTTP-level request handling, to form
-validation and processing, to template rendering. With Django's test-execution
-framework and assorted utilities, you can simulate requests, insert test data,
-inspect your application's output and generally verify your code is doing what
-it should be doing.
+Testar uma aplicação Web é uma tarefa complexa, porque uma aplicação Web é
+feita de várias camadas de lógica -- da manipulação de uma requisição em nível
+HTTP, para a validação e processamento de formulário, para a renderização de
+template. Com o framework de teste-execução do Django e outros utilitários,
+você pode simular requisições, inserir dados de teste, inspecionar a saída de
+sua aplicação e freqüentemente verificar se seu código está fazendo o que
+deveria.
 
-The best part is, it's really easy.
+A melhor parte é que isso tudo é muito fácil.
 
-This document is split into two primary sections. First, we explain how to
-write tests with Django. Then, we explain how to run them.
+Este documento é dividido em duas duas seções. Na primeira, explicamos como
+escrever testes com Django e, posteriormente, explicamos como rodá-los.
 
-Writing tests
-=============
+Escrevendo testes
+=================
 
-There are two primary ways to write tests with Django, corresponding to the
-two test frameworks that ship in the Python standard library. The two
-frameworks are:
+Existem duas maneiras de se escrever testes com Django, correspondendo com os
+dois frameworks de teste que estão na biblioteca padrão do Python, que são:
 
-    * **Doctests** -- tests that are embedded in your functions' docstrings and
-      are written in a way that emulates a session of the Python interactive
-      interpreter. For example::
+    * **Doctests** -- os testes estão embutidos nas docstrings (strings de
+      documentação) de suas funções e são escritas de tal maneira a emular uma
+      sessão do interpretador interativo do Python. Por exemplo::
 
           def my_func(a_list, idx):
               """
@@ -67,8 +67,9 @@ frameworks are:
               """
               return a_list[idx]
 
-    * **Unit tests** -- tests that are expressed as methods on a Python class
-      that subclasses ``unittest.TestCase``. For example::
+    * **Unit tests** -- (Testes unitários) são testes que são expressados como
+      métodos em uma classe Python que é uma subclasse de ``unittest.TestCase``.
+      Por exemplo::
 
           import unittest
 
@@ -78,50 +79,54 @@ frameworks are:
                   self.assertEquals(my_func(a, 0), 'larry')
                   self.assertEquals(my_func(a, 1), 'curly')
 
-You can choose the test framework you like, depending on which syntax you
-prefer, or you can mix and match, using one framework for some of your code and
-the other framework for other code. You can also use any *other* Python test
-frameworks, as we'll explain in a bit.
+Você pode escolher o framework de teste que te agrade, dependendo da sintaxe
+que preferir, ou você pode misturar os dois, utilizando um framework para parte
+de seu código e outro framework para outra parte. Você também pode usar
+qualquer *outro* framework de testes Python, como explicaremos adiante.
 
-Writing doctests
-----------------
+Escrevendo doctests
+-------------------
 
-Doctests use Python's standard doctest_ module, which searches your docstrings
-for statements that resemble a session of the Python interactive interpreter.
-A full explanation of how doctest works is out of the scope of this document;
-read Python's official documentation for the details.
+Os doctests usam o módulo doctest_ padrão do Python, que procura em suas
+docstrings por instruções que se pareçam com uma sessão do interpretador
+interativo do Python. Uma explicação completa de como funciona o doctest está
+fora do escopo deste documento; leia a documentação oficial do Python para
+maiores detalhes.
 
-.. admonition:: What's a **docstring**?
 
-    A good explanation of docstrings (and some guidelines for using them
-    effectively) can be found in :pep:`257`:
+.. admonition:: O que é uma **docstring**?
 
-        A docstring is a string literal that occurs as the first statement in
-        a module, function, class, or method definition.  Such a docstring
-        becomes the ``__doc__`` special attribute of that object.
+    Uma boa explicação de docstrings (e algumas diretrizes para utilizá-la
+    de maneira completa) pode ser encontrada em :pep:`257`:
 
-    For example, this function has a docstring that describes what it does::
+        Uma docstring é uma literal de string que ocorre como a primeira
+        instrução em um módulo, função, classe, ou definição de método. Esta
+        docstring torna-se o atributo especial ``__doc__`` do objeto em questão.
+
+    Por exemplo, esta função possui uma docstring que descreve o que ela faz::
 
         def add_two(num):
-          "Return the result of adding two to the provided number."
-           return num + 2
+            "Retorna o resultado da adição de dois ao número informado."
+            return num + 2
 
-    Because tests often make great documentation, putting tests directly in
-    your docstrings is an effective way to document *and* test your code.
+    Pelo motivo de que testes freqüentemente geram uma boa documentação,
+    colocar testes diretamente nas suas docstrings é uma maneira eficiente de
+    documentar *e* testar o seu código.
 
-For a given Django application, the test runner looks for doctests in two
-places:
+Para uma dada aplicação Django, o executor de testes procura por doctests em
+dois lugares:
 
-    * The ``models.py`` file. You can define module-level doctests and/or a
-      doctest for individual models. It's common practice to put
-      application-level doctests in the module docstring and model-level
-      doctests in the model docstrings.
+    * No arquivo ``models.py``. Você pode definir doctests para o módulo todo
+      e/ou um doctest para cada modelo. É uma pratica comum colocar doctests
+      de nível de aplicação numa docstring do módulo e doctests de nível de
+      modelo em docstrings de modelos.
 
-    * A file called ``tests.py`` in the application directory -- i.e., the
-      directory that holds ``models.py``. This file is a hook for any and all
-      doctests you want to write that aren't necessarily related to models.
+    * Um arquivo chamado ``tests.py`` no diretório da aplicação -- ou seja, o
+      diretório que contém ``models.py``. Esse arquivo é um ``hook`` para todos
+      e quaisquer doctests que você queira escrever que não sejam
+      necessariamente relacionados a modelos.
 
-Here is an example model doctest::
+Aqui vai um exemplo de doctest de modelo::
 
     # models.py
 
@@ -147,44 +152,45 @@ Here is an example model doctest::
         def speak(self):
             return 'The %s says "%s"' % (self.name, self.sound)
 
-When you :ref:`run your tests <running-tests>`, the test runner will find this
-docstring, notice that portions of it look like an interactive Python session,
-and execute those lines while checking that the results match.
 
-In the case of model tests, note that the test runner takes care of creating
-its own test database. That is, any test that accesses a database -- by
-creating and saving model instances, for example -- will not affect your
-production database. However, the database is not refreshed between doctests,
-so if your doctest requires a certain state you should consider flushing the
-database or loading a fixture. (See the section on fixtures, below, for more
-on this.) Note that to use this feature, the database user Django is connecting
-as must have ``CREATE DATABASE`` rights.
+Quando você :ref:`roda seus testes <running-tests>`, o executor de testes irá
+encontrar essa docstring -- note que pedaços dela parecem uma sessão interativa
+de Python -- e executar suas linhas verificando se os resultados batem.
 
-For more details about how doctest works, see the `standard library
-documentation for doctest`_.
+No caso de testes de modelo, note que o executor de testes cuida de criar seu
+próprio banco de dados. Ou seja, qualquer teste que acesse banco de dados --
+criando e gravando instâncias de modelos, por exemplo -- não afetará seu banco
+de dados em produção. Cada doctest inicia com um banco de dados novo contendo
+uma tabela vazia para cada modelo. (Veja a seção de fixtures, abaixo, para mais
+detalhes.) Note que para usar esse recurso, o usuário que o Django utiliza para
+se conectar ao banco de dados deve ter direito de criar novos bancos ``CREATE
+DATABASE``.
+
+Para mais detalhes sobre como funciona o doctest, veja a `documentação da
+biblioteca padrão para doctest`_
 
 .. _doctest: http://docs.python.org/lib/module-doctest.html
-.. _standard library documentation for doctest: doctest_
+.. _documentação da biblioteca padrão para doctest: doctest_
 
-Writing unit tests
-------------------
+Escrevendo testes unitários
+---------------------------
 
-Like doctests, Django's unit tests use a standard library module: unittest_.
-This module uses a different way of defining tests, taking a class-based
-approach.
+Como doctests, os testes unitários do Django usam um módulo da biblioteca
+padrão: unittest_. Esse módulo usa uma maneira diferente de definir testes,
+utilizando um método baseado em classes.
 
-As with doctests, for a given Django application, the test runner looks for
-unit tests in two places:
+Como nos doctests, para uma dada aplicação Django, o executor de testes procura
+por testes unitários em dois lugares:
 
-    * The ``models.py`` file. The test runner looks for any subclass of
-      ``unittest.TestCase`` in this module.
+    * O arquivo ``models.py``. O executor de testes procura por qualquer
+      subclasse de ``unittest.TestCase`` nesse módulo.
 
-    * A file called ``tests.py`` in the application directory -- i.e., the
-      directory that holds ``models.py``. Again, the test runner looks for any
-      subclass of ``unittest.TestCase`` in this module.
+    * Um arquivo chamado ``tests.py`` no diretório da aplicação -- o mesmo que
+      contém ``models.py``. Novamente, o executor de testes procura por
+      qualquer subclasse de ``unittest.TestCase`` nesse módulo.
 
-This example ``unittest.TestCase`` subclass is equivalent to the example given
-in the doctest section above::
+Este exemplo de subclasse de ``unittest.TestCase`` é equivalente ao exemplo
+dado na seção de doctest acima::
 
     import unittest
     from myapp.models import Animal
@@ -198,129 +204,131 @@ in the doctest section above::
             self.assertEquals(self.lion.speak(), 'The lion says "roar"')
             self.assertEquals(self.cat.speak(), 'The cat says "meow"')
 
-When you :ref:`run your tests <running-tests>`, the default behavior of the
-test utility is to find all the test cases (that is, subclasses of
-``unittest.TestCase``) in ``models.py`` and ``tests.py``, automatically build a
-test suite out of those test cases, and run that suite.
+Quando você :ref:`roda seus testes <running-tests>`, o comportamento padrão do
+utilitário de teste é encontrar todos os test cases (ou seja, subclasses de
+``unittest.TestCase``) nos arquivos ``models.py`` e ``tests.py``,
+automaticamente montar uma test suite (conjunto de testes) destes test cases, e
+rodá-la.
 
-There is a second way to define the test suite for a module: if you define a
-function called ``suite()`` in either ``models.py`` or ``tests.py``, the
-Django test runner will use that function to construct the test suite for that
-module. This follows the `suggested organization`_ for unit tests. See the
-Python documentation for more details on how to construct a complex test
-suite.
+Há uma segunda maneira de se definir um test suite para um módulo: se você
+define uma função chamada ``suite()`` seja em ``models.py`` ou ``tests.py``, o
+executor de testes do Django usará essa função para construir a test suite para
+o módulo. Isso segue a `organização sugerida`_ para testes unitários. Veja a
+documentação do Python para mais detalhes de como construir uma test suite
+complexa.
 
-For more details about ``unittest``, see the `standard library unittest
-documentation`_.
+Para mais detalhes sobre ``unittest``, veja a `documentação de unittest da
+biblioteca padrão`_.
 
 .. _unittest: http://docs.python.org/lib/module-unittest.html
-.. _standard library unittest documentation: unittest_
-.. _suggested organization: http://docs.python.org/lib/organizing-tests.html
+.. _documentação de unittest da biblioteca padrão: unittest_
+.. _organização sugerida: http://docs.python.org/lib/organizing-tests.html
 
-Which should I use?
--------------------
+Qual devo usar?
+---------------
 
-Because Django supports both of the standard Python test frameworks, it's up to
-you and your tastes to decide which one to use. You can even decide to use
-*both*.
+Pelo motivo de o Django suportar ambos os frameworks de testes padrão do
+Python, cabe a você, de acordo com seu gosto, decidir qual utilizar. Você pode
+até mesmo decidir usar *ambos*.
 
-For developers new to testing, however, this choice can seem confusing. Here,
-then, are a few key differences to help you decide which approach is right for
-you:
+Para desenvolvedores novatos em testes, essa escolha pode parecer confusa. Aqui
+estão algumas diferenças chave para ajudá-lo a decidir qual método é melhor:
 
-    * If you've been using Python for a while, ``doctest`` will probably feel
-      more "pythonic". It's designed to make writing tests as easy as possible,
-      so it requires no overhead of writing classes or methods. You simply put
-      tests in docstrings. This has the added advantage of serving as
-      documentation (and correct documentation, at that!).
+    * Se você já utiliza Python por algum tempo, o ``doctest`` provavelmente
+      parecerá mais "pythônico". Ele foi projetado para tornar a escrita de
+      testes o mais fácil possível, então não requer nenhum esforço extra de
+      escrever classes ou métodos. Você simplesmente coloca seus testes em
+      docstrings. Isso tem a vantagem adicional de servir como documentação
+      (e documentação correta!).
 
-      If you're just getting started with testing, using doctests will probably
-      get you started faster.
+      Se você está iniciando com testes, utilizar doctests farão com que você
+      obtenha resultados mais rapidamente.
 
-    * The ``unittest`` framework will probably feel very familiar to developers
-      coming from Java. ``unittest`` is inspired by Java's JUnit, so you'll
-      feel at home with this method if you've used JUnit or any test framework
-      inspired by JUnit.
+    * O framework ``unittest`` provavelmente será bem familiar para
+      desenvolvedores vindos do Java. O ``unittest`` é inspirado pelo JUnit
+      do Java, então você se sentirá em casa com esse método se você já usou
+      o JUnit ou qualquer outro framework de testes inspirado no JUnit.
 
-    * If you need to write a bunch of tests that share similar code, then
-      you'll appreciate the ``unittest`` framework's organization around
-      classes and methods. This makes it easy to abstract common tasks into
-      common methods. The framework also supports explicit setup and/or cleanup
-      routines, which give you a high level of control over the environment
-      in which your test cases are run.
+    * Se você precisa escrever muitos testes que compartilham código parecido,
+      então você vai gostar da organização baseada em classes e métodos do
+      framework ``unittest``. Ele facilita abstrair tarefas comuns em métodos
+      comuns. O framework também suporta configuração explícita e/ou
+      limpeza de rotinas, que te dão um alto nível de controle sobre o ambiente
+      no qual seus testes são executados.
 
-Again, remember that you can use both systems side-by-side (even in the same
-app). In the end, most projects will eventually end up using both. Each shines
-in different circumstances.
+De novo, lembre-se de que você pode usar ambos os sistemas lado a lado (até
+mesmo em uma mesma aplicação). No final, a maioria dos projetos provavelmente
+acabará utilizando ambos. Cada um se destaca em diferentes circunstâncias.
 
 .. _running-tests:
 
-Running tests
-=============
+Rodando os testes
+=================
 
-Once you've written tests, run them using your project's ``manage.py``
-utility::
+Uma vez que você escreveu os testes, execute-os utilizando o utilitário do seu
+projeto ``manage.py``::
 
     $ ./manage.py test
 
-By default, this will run every test in every application in
-:setting:`INSTALLED_APPS`. If you only want to run tests for a particular
-application, add the application name to the command line. For example, if your
-:setting:`INSTALLED_APPS` contains ``'myproject.polls'`` and
-``'myproject.animals'``, you can run the ``myproject.animals`` unit tests alone
-with this command::
+Por padrão, isso executará cada teste em cada aplicação em
+:setting:`INSTALLED_APPS`. Se você só quer rodar os testes para uma aplicação em
+particular, adicione o nome da aplicação à linha de comando. Por exemplo, se seu
+:setting:`INSTALLED_APPS` contém ``'myproject.polls'`` e
+``'myproject.animals'``, você pode rodar somente os testes unitários de
+``myproject.animals`` com este comando::
 
-    $ ./manage.py test animals
+    # ./manage.py test animals
 
-Note that we used ``animals``, not ``myproject.animals``.
+Note que utilizamos ``animals``, e não ``myproject.animals``.
 
 .. versionadded:: 1.0
-   You can now choose which test to run.
+   Agora você pode escolher qual teste rodar.
 
-If you use unit tests, as opposed to
-doctests, you can be even *more* specific in choosing which tests to execute.
-To run a single test case in an application (for example, the
-``AnimalTestCase`` described in the "Writing unit tests" section), add the
-name of the test case to the label on the command line::
+Se você utiliza testes unitários, em vez de doctests, você pode ser ainda *mais*
+específico na escolha de quais testes executar. Para rodar um único teste em uma
+aplicação (por exemplo, o ``AnimalTestCase`` descrito na seção "Escrevendo
+testes unitários"), adicione o nome do test case à linha de comando::
 
     $ ./manage.py test animals.AnimalTestCase
 
-And it gets even more granular than that! To run a *single* test method inside
-a test case, add the name of the test method to the label::
+E pode ficar ainda mais granular que isso! Para rodar um *único* método de
+teste dentro de um test case, adicione o nome do método de teste::
 
     $ ./manage.py test animals.AnimalTestCase.testFluffyAnimals
 
-The test database
------------------
+O banco de dados de teste
+-------------------------
 
-Tests that require a database (namely, model tests) will not use your "real"
-(production) database. A separate, blank database is created for the tests.
+Testes que necessitam de uma base de dados (nomeadamente, testes de modelo) não
+usarão seu banco de dados "real" (produção). Um banco de dados vazio é criado
+em separado para os testes.
 
-Regardless of whether the tests pass or fail, the test database is destroyed
-when all the tests have been executed.
+Independentemente de os testes passarem ou falharem, o banco de dados de teste
+é destruído quando todos os testes forem executados.
 
-By default this test database gets its name by prepending ``test_`` to the
-value of the :setting:`DATABASE_NAME` setting. When using the SQLite database
-engine the tests will by default use an in-memory database (i.e., the database
-will be created in memory, bypassing the filesystem entirely!). If you want to
-use a different database name, specify the :setting:`TEST_DATABASE_NAME`
-setting.
+Por padrão, o nome deste banco de dados de teste é o valor da configuração
+:setting:`DATABASE_NAME` adicionando o prefixo ``test_``. Quando um banco de
+dados SQLite é utilizado, os testes usarão bancos de dados na memória (ou seja,
+todo o banco será criado somente na memória, não utilizando nada do sistema de
+arquivos). Se você quiser usar um nome diferente para o banco de dados de teste,
+especifique o parâmetro de configuração :setting:`TEST_DATABASE_NAME`.
 
-Aside from using a separate database, the test runner will otherwise use all of
-the same database settings you have in your settings file:
+Além de utilizar um banco de dados separado, o executor de testes usará os
+mesmos parâmetros de banco de dados do seu arquivo de configuração:
 :setting:`DATABASE_ENGINE`, :setting:`DATABASE_USER`, :setting:`DATABASE_HOST`,
-etc. The test database is created by the user specified by
-:setting:`DATABASE_USER`, so you'll need to make sure that the given user
-account has sufficient privileges to create a new database on the system.
+etc. O banco de dados de teste é criado pelo usuário especificado em
+:setting:`DATABASE_USER`, então é necessário garantir que esta conta de usuário
+tem privilégios suficientes para criar um novo banco de dados no sistema.
 
 .. versionadded:: 1.0
 
-For fine-grained control over the
-character encoding of your test database, use the
-:setting:`TEST_DATABASE_CHARSET` setting. If you're using MySQL, you can also
-use the :setting:`TEST_DATABASE_COLLATION` setting to control the particular
-collation used by the test database. See the :ref:`settings documentation
-<ref-settings>` for details of these advanced settings.
+Para um controle apurado sobre a codificação de caractere de seu banco de dados
+de teste, use o parâmetro de configuração :setting:`TEST_DATABASE_CHARSET`. Se
+você está utilizando MySQL, você pode também usar o parâmetro
+:setting:`TEST_DATABASE_COLLATION` para controlar uma collation particular
+utilizada pelo banco de dados de teste. Veja a
+:ref:`documentação de configurações <ref-settings>` para mais detalhes dessas
+configurações avançadas.
 
 Other test conditions
 ---------------------
@@ -330,12 +338,14 @@ file, all Django tests run with :setting:`DEBUG=False`. This is to ensure that
 the observed output of your code matches what will be seen in a production
 setting.
 
-Understanding the test output
------------------------------
+.. _configurações: ../settings/
 
-When you run your tests, you'll see a number of messages as the test runner
-prepares itself. You can control the level of detail of these messages with the
-``verbosity`` option on the command line::
+Entendendo a saída do teste
+---------------------------
+
+Quando roda seus testes, você visualiza um número de mensagens à medida que o
+executor de testes se prepara. Você pode controlar o nível de detalhe dessas
+mensagens com a opção de linha de comando ``verbosity``::
 
     Creating test database...
     Creating table myapp_animal
@@ -343,19 +353,20 @@ prepares itself. You can control the level of detail of these messages with the
     Loading 'initial_data' fixtures...
     No fixtures found.
 
-This tells you that the test runner is creating a test database, as described
-in the previous section.
+Isso informa que o executor de testes está criando um banco de teste, como
+descrito na seção anterior.
 
-Once the test database has been created, Django will run your tests.
-If everything goes well, you'll see something like this::
+Uma vez que o banco de testes foi criado, o Django rodará os seus testes.
+Se tudo correr bem, você verá algo do tipo::
+
 
     ----------------------------------------------------------------------
     Ran 22 tests in 0.221s
 
     OK
 
-If there are test failures, however, you'll see full details about which tests
-failed::
+Se existirem falhas, entretanto, você verá os detalhes completos sobre quais
+testes falharam::
 
     ======================================================================
     FAIL: Doctest: ellington.core.throttle.models
@@ -380,61 +391,63 @@ failed::
 
     FAILED (failures=1)
 
-A full explanation of this error output is beyond the scope of this document,
-but it's pretty intuitive. You can consult the documentation of Python's
-``unittest`` library for details.
 
-Note that the return code for the test-runner script is the total number of
-failed and erroneous tests. If all the tests pass, the return code is 0. This
-feature is useful if you're using the test-runner script in a shell script and
-need to test for success or failure at that level.
+Uma explicação completa sobre essa saída de erro está fora do escopo deste
+documento, mas ela é bem intuitiva. Você pode consultar a documentação da
+biblioteca ``unittest`` do Python para maiores detalhes.
 
-Testing tools
-=============
+Note que o código retornado pelo script executor de testes é o número total de
+testes que falharam. Se todos os testes passarem, o código de retorno é 0. Este
+recurso é útil se você está usando script executor de testes em um script shell
+e precisa verificar o sucesso ou falha naquele nível.
 
-Django provides a small set of tools that come in handy when writing tests.
+Ferramentas de teste
+====================
 
-The test client
----------------
+O Django provê um pequeno conjunto de ferramentas que são uma verdadeira mão-
+na-roda na hora de escrever os testes.
+
+O cliente de teste
+------------------
 
 .. module:: django.test.client
    :synopsis: Django's test client.
 
-The test client is a Python class that acts as a dummy Web browser, allowing
-you to test your views and interact with your Django-powered application
-programmatically.
+O cliente de teste é uma classe Python que age como um navegador Web,
+permitindo a você testar suas views e interagir com suas aplicações feitas em
+Django programaticamente.
 
-Some of the things you can do with the test client are:
+Algumas das coisas que você pode fazer com o cliente de teste são:
 
-    * Simulate GET and POST requests on a URL and observe the response --
-      everything from low-level HTTP (result headers and status codes) to
-      page content.
+    * Simular requisições GET e POST em uma URL e observar a resposta --
+      tudo desde o nível baixo do HTTP (os cabeçalhos de resultado e códigos de
+      status) até o conteúdo da página.
 
-    * Test that the correct view is executed for a given URL.
+    * Testar se a view correta é executada para uma dada URL.
 
-    * Test that a given request is rendered by a given Django template, with
-      a template context that contains certain values.
+    * Testar que uma dada requisição é gerada por um determinado template,
+      com um determinado contexto de template que contém certos valores.
 
-Note that the test client is not intended to be a replacement for Twill_,
-Selenium_, or other "in-browser" frameworks. Django's test client has
-a different focus. In short:
+Note que este cliente de teste não tem o propósito de ser um substituto para
+Twill_, Selenium_, ou outros frameworks "in-browser". O cliente de teste do
+Django tem um foco diferente. Em resumo:
 
-    * Use Django's test client to establish that the correct view is being
-      called and that the view is collecting the correct context data.
+    * Use o cliente de teste do Django para atestar que a view correta está
+      sendo chamada e que a view está recebendo os dados de contexto corretos.
 
-    * Use in-browser frameworks such as Twill and Selenium to test *rendered*
-      HTML and the *behavior* of Web pages, namely JavaScript functionality.
+    * Use frameworks in-browser como Twill e Selenium para testar HTML gerados
+      e *comportamento* de páginas Web, ou seja, funcionalidade JavaScript.
 
-A comprehensive test suite should use a combination of both test types.
+Uma test suite completa deve usar uma combinação de ambos tipos de testes.
 
 .. _Twill: http://twill.idyll.org/
 .. _Selenium: http://www.openqa.org/selenium/
 
-Overview and a quick example
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Visão geral e um exemplo rápido
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To use the test client, instantiate ``django.test.client.Client`` and retrieve
-Web pages::
+Para usar o cliente de teste, instancie ``django.test.client.Client`` e acesse
+páginas Web::
 
     >>> from django.test.client import Client
     >>> c = Client()
@@ -445,68 +458,68 @@ Web pages::
     >>> response.content
     '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 ...'
 
-As this example suggests, you can instantiate ``Client`` from within a session
-of the Python interactive interpreter.
+Como esse exemplo sugere, você pode instanciar ``Client`` de dentro de uma
+sessão do interpretador interativo do Python.
 
-Note a few important things about how the test client works:
+Note algumas coisas importantes sobre como o cliente de teste funciona:
 
-    * The test client does *not* require the Web server to be running. In fact,
-      it will run just fine with no Web server running at all! That's because
-      it avoids the overhead of HTTP and deals directly with the Django
-      framework. This helps make the unit tests run quickly.
+    * O cliente de teste *não* requer que o servidor Web esteja rodando. Aliás,
+      ele rodará muito bem sem nenhum servidor Web! Isso se deve ao fato de que
+      ele evita o esforço extra do HTTP e lida diretamente com o framework
+      Django. Isso faz com que os testes unitários rodem bem mais rápido.
 
-    * When retrieving pages, remember to specify the *path* of the URL, not the
-      whole domain. For example, this is correct::
+    * Ao acessar as páginas, lembre-se de especificar o *caminho* da URL, e não
+      todo o domínio. Por exemplo, isto é correto::
 
           >>> c.get('/login/')
 
-      This is incorrect::
+      E isto incorreto::
 
           >>> c.get('http://www.example.com/login/')
 
-      The test client is not capable of retrieving Web pages that are not
-      powered by your Django project. If you need to retrieve other Web pages,
-      use a Python standard library module such as urllib_ or urllib2_.
+      O cliente de testes não é capaz de acessar páginas Web que não fazem parte
+      do seu projeto Django. Se você precisa acessar outras páginas Web, utilize
+      algum módulo da biblioteca padrão do Python como urllib_ ou urllib2_.
 
-    * To resolve URLs, the test client uses whatever URLconf is pointed-to by
-      your :setting:`ROOT_URLCONF` setting.
+    * Para resolver URLs, o cliente de testes usa o URLconf que está
+      especificado no parâmetro de configuração :setting:`ROOT_URLCONF`.
 
-    * Although the above example would work in the Python interactive
-      interpreter, some of the test client's functionality, notably the
-      template-related functionality, is only available *while tests are
-      running*.
+    * Apesar de o exemplo acima funcionar no interpretador interativo do
+      Python, algumas funcionalidades do cliente de teste, notadamente as
+      relacionadas a templates, somente estão disponíveis *enquanto os testes
+      estão sendo rodados*.
 
-      The reason for this is that Django's test runner performs a bit of black
-      magic in order to determine which template was loaded by a given view.
-      This black magic (essentially a patching of Django's template system in
-      memory) only happens during test running.
+      O motivo disso é porque o executor de testes do Django faz um pouco de
+      magia negra para determinar qual template foi carregado por uma
+      determinada view. Essa magia negra (essencialmente um patch no sistema
+      de templates na memória) acontece somente durante a execução dos testes.
 
 .. _urllib: http://docs.python.org/lib/module-urllib.html
 .. _urllib2: http://docs.python.org/lib/module-urllib2.html
 
-Making requests
-~~~~~~~~~~~~~~~
+Fazendo requisições
+~~~~~~~~~~~~~~~~~~~
 
-Use the ``django.test.client.Client`` class to make requests. It requires no
-arguments at time of construction:
+Use a classe ``django.test.client.Client`` para fazer as requisições. Ela não
+requer argumentos em sua contrução:
 
 .. class:: Client()
 
-    Once you have a ``Client`` instance, you can call any of the following
-    methods:
+    Uma vez que você tenha uma instância de ``Client``, você pode chamar
+    qualquer um dos seguintes métodos:
 
     .. method:: Client.get(path, data={}, **extra)
 
-        Makes a GET request on the provided ``path`` and returns a ``Response``
-        object, which is documented below.
+        Faz uma requisição GET no ``path`` informado e devolve um objeto
+        ``Response``, que está documentado abaixo.
 
-        The key-value pairs in the ``data`` dictionary are used to create a GET
-        data payload. For example::
+        Os pares de chave-valor no dicionário ``data`` são usados para criar os
+        dados que serão enviados via GET. Por exemplo::
 
             >>> c = Client()
             >>> c.get('/customers/details/', {'name': 'fred', 'age': 7})
 
-        ...will result in the evaluation of a GET request equivalent to::
+        ...resultará em uma requisição GET equivalente a::
 
             /customers/details/?name=fred&age=7
 
@@ -521,56 +534,58 @@ arguments at time of construction:
         details	view, which is a good way to test code paths that use the
         :meth:`django.http.HttpRequest.is_ajax()` method.
 
+
     .. method:: Client.post(path, data={}, content_type=MULTIPART_CONTENT, **extra)
 
-        Makes a POST request on the provided ``path`` and returns a
-        ``Response`` object, which is documented below.
+        Faz uma requisição POST no ``path`` informado e devolve um objeto
+        ``Response``, que está documentado abaixo.
 
-        The key-value pairs in the ``data`` dictionary are used to submit POST
-        data. For example::
+        Os pares de chave-valor no dicionário ``data`` são usados para enviar os
+        dados via POST. Por exemplo::
 
             >>> c = Client()
             >>> c.post('/login/', {'name': 'fred', 'passwd': 'secret'})
 
-        ...will result in the evaluation of a POST request to this URL::
+        ...resultará em uma requisição POST a esta URL::
 
             /login/
 
-        ...with this POST data::
+        ...com estes dados de POST::
 
             name=fred&passwd=secret
 
-        If you provide ``content_type`` (e.g., ``text/xml`` for an XML
-        payload), the contents of ``data`` will be sent as-is in the POST
-        request, using ``content_type`` in the HTTP ``Content-Type`` header.
+        Se você informa o ``content_type`` (ex: ``text/xml`` para um XML), o
+        conteúdo de ``data`` será enviado como está na requisição POST,
+        utilizando ``content_type`` no cabeçalho HTTP ``Content-Type``.
 
-        If you don't provide a value for ``content_type``, the values in
-        ``data`` will be transmitted with a content type of
-        ``multipart/form-data``. In this case, the key-value pairs in ``data``
-        will be encoded as a multipart message and used to create the POST data
-        payload.
+        Se você não informa um valor para ``content_type``, os valores em
+        ``data`` serão transmitidos como um tipo de conteúdo
+        ``multipart/form-data``. Nesse caso, os pares chave-valor em ``data``
+        serão codificados como uma mensagem multipart e usados para criar os
+        dados de POST.
 
-        To submit multiple values for a given key -- for example, to specify
-        the selections for a ``<select multiple>`` -- provide the values as a
-        list or tuple for the required key. For example, this value of ``data``
-        would submit three selected values for the field named ``choices``::
+        Para enviar múltiplos valores para uma chave -- por exemplo, para
+        especificar as seleções para um ``<select multiple>`` -- informe os
+        valores como uma lista ou tupla para a chave. Por exemplo, este valor de
+        ``data`` enviará três valores selecionados para o campo de nome
+        ``choices``::
 
             {'choices': ('a', 'b', 'd')}
 
-        Submitting files is a special case. To POST a file, you need only
-        provide the file field name as a key, and a file handle to the file you
-        wish to upload as a value. For example::
+        Enviar arquivos é um caso especial. Para postar um arquivo, você só
+        precisa informar o nome do campo como chave, e um manipulador de arquivo
+        apontando para o arquivo que deseja postar como valor. Por exemplo::
 
             >>> c = Client()
             >>> f = open('wishlist.doc')
             >>> c.post('/customers/wishes/', {'name': 'fred', 'attachment': f})
             >>> f.close()
 
-        (The name ``attachment`` here is not relevant; use whatever name your
-        file-processing code expects.)
+        (O nome ``attachment`` aqui não é relevante; use qualquer nome que o seu
+        código de processamento de arquivo espera.)
 
-        Note that you should manually close the file after it has been provided
-        to ``post()``.
+        Perceba que você deve fechar o arquivo manualmente depois que ele foi
+        informado para o ``post()``.
 
         The ``extra`` argument acts the same as for :meth:`Client.get`.
 
@@ -578,41 +593,43 @@ arguments at time of construction:
 
         .. versionadded:: 1.0
 
-        If your site uses Django's :ref:`authentication system<topics-auth>`
-        and you deal with logging in users, you can use the test client's
-        ``login()`` method to simulate the effect of a user logging into the
-        site.
+        Se seu site Django usa o :ref:`sistema de autenticação <topics-auth>` e
+        você precisa logar usuários, você pode usar o método ``login()`` do
+        cliente de testes para simular o efeito de um usuário logando no site.
 
-        After you call this method, the test client will have all the cookies
-        and session data required to pass any login-based tests that may form
-        part of a view.
+        Depois de chamar este método, o cliente de testes terá todos os cookies
+        e dados de sessão necessários para passar a qualquer teste baseado em
+        login que faça parte de uma view.
 
-        The format of the ``credentials`` argument depends on which
-        :ref:`authentication backend <authentication-backends>` you're using
-        (which is configured by your :setting:`AUTHENTICATION_BACKENDS`
-        setting). If you're using the standard authentication backend provided
-        by Django (``ModelBackend``), ``credentials`` should be the user's
-        username and password, provided as keyword arguments::
+        O formato do argumento ``credentials`` depende de qual :ref:`backend de
+        autenticação <authentication-backends>` você está usando (que é
+        configurado pelo parâmetro de configuração
+        :setting:`AUTHENTICATION_BACKENDS`). Se você está usando o backend
+        padrão de autenticação do Django (``ModelBackend``), ``credentials``
+        deve ser o nome do usuário e a senha, informados como argumentos
+        nomeados::
 
             >>> c = Client()
             >>> c.login(username='fred', password='secret')
+            >>> # Agora você pode acessar a view que somente está disponível
+            >>> # para usuários logados.
 
-            # Now you can access a view that's only available to logged-in users.
+        Se você está usando um backend de autenticação diferente, este método
+        requer credenciais diferentes. Ele requer as mesmas credenciais que o
+        método ``authenticate()`` do backend.
 
-        If you're using a different authentication backend, this method may
-        require different credentials. It requires whichever credentials are
-        required by your backend's ``authenticate()`` method.
+        ``login()`` devolve ``True`` se as credenciais foram aceitas e o login
+        ocorreu com sucesso.
 
-        ``login()`` returns ``True`` if it the credentials were accepted and
-        login was successful.
+        Finalmente, você precisa lembrar-se de criar contas de usuários antes de
+        utilizar este método. Como explicado acima, o executor de testes utiliza
+        uma base de dados de teste, que não contém usuários criados. Como
+        resultado, contas que são válidas no seu site em produção não
+        funcionarão nas condições de teste. Você precisa criar os usuários como
+        parte de sua test suite -- tanto manualmente (utilizando a API de
+        modelos do Django) ou com uma test fixture.
 
-        Finally, you'll need to remember to create user accounts before you can
-        use this method. As we explained above, the test runner is executed
-        using a test database, which contains no users by default. As a result,
-        user accounts that are valid on your production site will not work
-        under test conditions. You'll need to create users as part of the test
-        suite -- either manually (using the Django model API) or with a test
-        fixture. Remember that if you want your test user to have a password,
+        Remember that if you want your test user to have a password,
         you can't set the user's password by setting the password attribute
         directly -- you must use the
         :meth:`~django.contrib.auth.models.User.set_password()` function to
@@ -624,128 +641,135 @@ arguments at time of construction:
 
         .. versionadded:: 1.0
 
-        If your site uses Django's :ref:`authentication system<topics-auth>`,
-        the ``logout()`` method can be used to simulate the effect of a user
-        logging out of your site.
+        Se o seu site usa o :ref:`sistema de autenticação <topics-auth>` do
+        Django, o método ``logout()`` pode ser utilizado para simular o efeito
+        de um usuário se deslogar do seu site.
 
-        After you call this method, the test client will have all the cookies
-        and session data cleared to defaults. Subsequent requests will appear
-        to come from an AnonymousUser.
+        Depois de chamar este método, o cliente de teste terá todos os cookies e
+        dados de sessão retornados para os valores padrões. Requisições
+        subseqüentes parecerão vir de um usuário anônimo AnonymousUser.
 
-Testing responses
-~~~~~~~~~~~~~~~~~
+Testando as respostas
+~~~~~~~~~~~~~~~~~~~~~
 
-The ``get()`` and ``post()`` methods both return a ``Response`` object. This
-``Response`` object is *not* the same as the ``HttpResponse`` object returned
-Django views; the test response object has some additional data useful for
-test code to verify.
+Ambos os métodos ``get()`` e ``post()`` devolvem um objeto ``Response``. Este
+objeto ``Response`` *não* é o mesmo que o objeto ``HttpResponse`` retornado
+pelas views do Django; o objeto de resposta do teste tem dados adicionais
+úteis para serem verificados pelo código de teste.
 
-Specifically, a ``Response`` object has the following attributes:
+Especificamente, o objeto ``Response`` tem os seguintes atributos:
 
 .. class:: Response()
 
     .. attribute:: client
 
-        The test client that was used to make the request that resulted in the
-        response.
+        O cliente de teste que foi usado para fazer a requisição que resultou na
+        resposta.
 
     .. attribute:: content
 
-        The body of the response, as a string. This is the final page content as
-        rendered by the view, or any error message.
+        O corpo da resposta, como uma string. Este é o conteúdo final da página
+        que foi gerada pela view, ou alguma mensagem de erro.
 
     .. attribute:: context
 
-        The template ``Context`` instance that was used to render the template that
-        produced the response content.
+        A instância ``Context`` que foi utilizada pelo template para produzir o
+        conteúdo da resposta.
 
-        If the rendered page used multiple templates, then ``context`` will be a
-        list of ``Context`` objects, in the order in which they were rendered.
+        Se a página gerada utilizou múltiplos templates, então o ``context``
+        será uma lista de objetos ``Context``, na ordem em que foram utilizados.
 
     .. attribute:: request
 
-        The request data that stimulated the response.
+        Os dados da requisição que provocaram a resposta.
 
     .. attribute:: status_code
 
-        The HTTP status of the response, as an integer. See RFC2616_ for a full
-        list of HTTP status codes.
+        O status da resposta HTTP, como um inteiro. Veja RFC2616_ para uma lista
+        completa de códigos de status HTTP.
 
     .. attribute:: template
 
-        The ``Template`` instance that was used to render the final content. Use
-        ``template.name`` to get the template's file name, if the template was
-        loaded from a file. (The name is a string such as ``'admin/index.html'``.)
+        A instância de ``Template`` que foi utilizada para gerar o conteúdo
+        final. Use ``template.name`` para obter o nome do arquivo do template,
+        se o template foi carregado de um arquivo. (O nome é uma string como
+        ``'admin/index.html'``.)
 
-        If the rendered page used multiple templates -- e.g., using :ref:`template
-        inheritance<template-inheritance>` -- then ``template`` will be a list of
-        ``Template`` instances, in the order in which they were rendered.
+        Se a página gerada utilizou vários templates -- ex: utilizando
+        :ref:`herança de templates <template-inheritance>` -- então ``template``
+        será uma lista de instâncias de ``Template``, na ordem em que eles foram
+        utilizados.
 
-You can also use dictionary syntax on the response object to query the value
-of any settings in the HTTP headers. For example, you could determine the
-content type of a response using ``response['Content-Type']``.
+Você pode também usar uma sintaxe de dicionário no objeto de resposta para
+obter o valor de qualquer configuração nos cabeçalhos HTTP. Por exemplo, você
+pode determinar o conteúdo de uma resposta usando ``response['Content-Type']``.
 
 .. _RFC2616: http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 
-Exceptions
-~~~~~~~~~~
+Exceções
+~~~~~~~~
 
-If you point the test client at a view that raises an exception, that exception
-will be visible in the test case. You can then use a standard ``try...except``
-block or ``unittest.TestCase.assertRaises()`` to test for exceptions.
+Se você aponta o cliente de testes para uma view que lança uma exceção, esta
+exceção estará visível no test case. Você pode então usar blocos ``try...catch``
+ou ``unittest.TestCase.assertRaises()`` para testar por exceções.
 
-The only exceptions that are not visible to the test client are ``Http404``,
-``PermissionDenied`` and ``SystemExit``. Django catches these exceptions
-internally and converts them into the appropriate HTTP response codes. In these
-cases, you can check ``response.status_code`` in your test.
+As únicas exceções que não estão visíveis ao cliente de teste são ``Http404``,
+``PermissionDenied`` e ``SystemExit``. O Django captura estas exceções
+internamente e converte-as em códigos de resposta HTTP adequados. Nesses casos,
+você pode verificar ``response.status_code`` no seu código.
 
-Persistent state
-~~~~~~~~~~~~~~~~
 
-The test client is stateful. If a response returns a cookie, then that cookie
-will be stored in the test client and sent with all subsequent ``get()`` and
-``post()`` requests.
+Estado persistente (persistent state)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Expiration policies for these cookies are not followed. If you want a cookie
-to expire, either delete it manually or create a new ``Client`` instance (which
-will effectively delete all cookies).
+O cliente de teste é "stateful", ou seja, mantém o estado. Se uma resposta
+retorna um cookie, então esse cookie será armazenado no cliente de teste e
+enviado com todas as requisições subseqüentes de ``get()`` e ``post()``.
 
-A test client has two attributes that store persistent state information. You
-can access these properties as part of a test condition.
+Políticas de expiração desses cookies não são seguidas. Se você quiser que um
+cookie expire, delete-o manualmente ou crie uma nova instância de ``Client``
+(o que irá deletar todos os cookies).
+
+Um cliente de teste possui dois atributos que armazenam informações de estado
+persistente. Você pode acessar essas propriedades como parte de uma condição
+de teste.
 
 .. attribute:: Client.cookies
 
-    A Python ``SimpleCookie`` object, containing the current values of all the
-    client cookies. See the `Cookie module documentation`_ for more.
+    Um objeto ``SimpleCookie`` Python, contendo os valores atuais de todos os
+    cookies do cliente. Veja a `Documentação do módulo cookie`_ para saber mais.
 
 .. attribute:: Client.session
 
     A dictionary-like object containing session information. See the
     :ref:`session documentation<topics-http-sessions>` for full details.
+    Um objeto que se comporta como dicionário contendo informações da sessão.
+    Veja a :ref:`documentação da sessão<topics-http-sessions>` para maiores
+    detalhes.
 
-.. _Cookie module documentation: http://docs.python.org/lib/module-Cookie.html
+.. _Documentação do módulo cookie: http://docs.python.org/lib/module-Cookie.html
 
-Example
+Exemplo
 ~~~~~~~
 
-The following is a simple unit test using the test client::
+Segue um teste unitário simples usando o cliente de teste::
 
     import unittest
     from django.test.client import Client
 
     class SimpleTest(unittest.TestCase):
         def setUp(self):
-            # Every test needs a client.
+            # Cada teste precisa de um cliente.
             self.client = Client()
 
         def test_details(self):
-            # Issue a GET request.
+            # Faz uma requisição GET.
             response = self.client.get('/customer/details/')
 
-            # Check that the response is 200 OK.
+            # Verifica se a resposta foi 200 OK.
             self.failUnlessEqual(response.status_code, 200)
 
-            # Check that the rendered context contains 5 customers.
+            # Verifica se o contexto utilizado contém 5 customers.
             self.failUnlessEqual(len(response.context['customers']), 5)
 
 TestCase
@@ -767,19 +791,19 @@ just change the base class of your test from ``unittest.TestCase`` to
 will continue to be available, but it will be augmented with some useful
 additions.
 
-Default test client
-~~~~~~~~~~~~~~~~~~~
+O cliente de teste default
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. versionadded:: 1.0
 
 .. attribute:: TestCase.client
 
-Every test case in a ``django.test.TestCase`` instance has access to an
-instance of a Django test client. This client can be accessed as
-``self.client``. This client is recreated for each test, so you don't have to
-worry about state (such as cookies) carrying over from one test to another.
+Cada teste em uma instância de ``django.test.TestCase`` tem acesso a uma
+instância do cliente de testes do Django. Esse cliente pode ser acessado como
+``self.client``. O cliente é recriado para cada teste, então você não tem de
+se preocupar sobre o estado (como os cookies) ser levado de um teste a outro.
 
-This means, instead of instantiating a ``Client`` in each test::
+Isso significa que, em vez de instanciar um ``Client`` em cada teste::
 
     import unittest
     from django.test.client import Client
@@ -795,7 +819,7 @@ This means, instead of instantiating a ``Client`` in each test::
             response = client.get('/customer/index/')
             self.failUnlessEqual(response.status_code, 200)
 
-...you can just refer to ``self.client``, like so::
+...você só precisa se referir a ``self.client``, como::
 
     from django.test import TestCase
 
@@ -810,37 +834,39 @@ This means, instead of instantiating a ``Client`` in each test::
 
 .. _topics-testing-fixtures:
 
-Fixture loading
-~~~~~~~~~~~~~~~
+
+Carga de fixture
+~~~~~~~~~~~~~~~~
 
 .. attribute:: TestCase.fixtures
 
-A test case for a database-backed Web site isn't much use if there isn't any
-data in the database. To make it easy to put test data into the database,
-Django's custom ``TestCase`` class provides a way of loading **fixtures**.
+Um teste para um site Web com banco de dados não tem muita utilidade se não
+existir dados no banco. Para facilitar a carga destes dados no banco, a classe
+``TestCase`` do Django proporciona uma maneira de carregar **fixtures**.
 
-A fixture is a collection of data that Django knows how to import into a
-database. For example, if your site has user accounts, you might set up a
-fixture of fake user accounts in order to populate your database during tests.
+Uma fixture é uma coleção de dados que o Django sabe como importar para um
+banco de dados. Por exemplo, se o seu site tem contas de usuários, você pode
+configurar uma fixture de usuários no intuito de popular seu banco durante
+os testes.
 
-The most straightforward way of creating a fixture is to use the ``manage.py
-dumpdata`` command. This assumes you already have some data in your database.
-See the :djadmin:`dumpdata documentation<dumpdata>` for more details.
+O método mais simples e direto de criar uma fixture é usar o comando
+``manage.py dumpdata``. Isso assume que você já tem algum dado em seu banco.
+Veja a :ref:`documentação do dumpdata<dumpdata>` para mais detalhes.
 
 .. note::
-    If you've ever run ``manage.py syncdb``, you've already used a fixture
-    without even knowing it! When you call ``syncdb`` in the database for
-    the first time, Django installs a fixture called ``initial_data``.
-    This gives you a way of populating a new database with any initial data,
-    such as a default set of categories.
+    Se você já rodou alguma vez o ``manage.py syncdb``, você já usou fixture
+    sem nem mesmo saber! Quando você dá um ``syncdb`` no banco de dados pela
+    primeira vez, o Django instala uma fixture chamada ``initial_data``.
+    Isso dá a possibilidade de popular um banco de dados novo com qualquer dado
+    relacional, como um conjunto padrão de categorias, por exemplo.
 
-    Fixtures with other names can always be installed manually using the
-    ``manage.py loaddata`` command.
+    Fixtures com outros nomes podem sempre ser instaladas manualmente usando
+    o comando ``manage.py loaddata``.
 
-Once you've created a fixture and placed it in a ``fixtures`` directory in one
-of your :setting:`INSTALLED_APPS`, you can use it in your unit tests by
-specifying a ``fixtures`` class attribute on your ``django.test.TestCase``
-subclass::
+Uma vez que você criou uma fixture e colocou em algum lugar em seu projeto
+Django, você pode utilizá-la nos seus testes unitários especificando um
+atributo de classe ``fixtures`` na sua subclasse de ``django.test.TestCase``::
+
 
     from django.test import TestCase
     from myapp.models import Animal
@@ -849,47 +875,46 @@ subclass::
         fixtures = ['mammals.json', 'birds']
 
         def setUp(self):
-            # Test definitions as before.
+            # Definições de testes como anteriormente.
 
         def testFluffyAnimals(self):
-            # A test that uses the fixtures.
+            # Um teste que usa fixtures.
 
-Here's specifically what will happen:
+Eis o que acontecerá nesse caso:
 
-    * At the start of each test case, before ``setUp()`` is run, Django will
-      flush the database, returning the database to the state it was in
-      directly after ``syncdb`` was called.
+    * No início de cada test case, antes de ``setUp()`` ser rodado, o Django
+      limpará o banco de dados, retornando um banco de dados no estado que
+      estava diretamente após a chamada de ``syncdb``.
 
-    * Then, all the named fixtures are installed. In this example, Django will
-      install any JSON fixture named ``mammals``, followed by any fixture named
-      ``birds``. See the :djadmin:`loaddata documentation<loaddata>` for more
-      details on defining and installing fixtures.
+    * Em seguida, todas as fixtures nomeadas são instaladas. Nesse exemplo, o
+      Django instalará qualquer fixture JSON chamada ``mammals``, seguida por
+      qualquer fixture chamada ``birds``. Veja a :djadmin:`documentação do
+      loaddata` para mais detalhes sobre a definição e a instalação de fixtures.
 
-This flush/load procedure is repeated for each test in the test case, so you
-can be certain that the outcome of a test will not be affected by another test,
-or by the order of test execution.
+Esse procedimento de limpeza/carga é repetido para cada teste no test case,
+então você pode ter certeza de que o resultado de um teste não será afetado por
+outro teste, ou pela ordem de execução dos testes.
 
-URLconf configuration
-~~~~~~~~~~~~~~~~~~~~~
+Configuração do URLconf
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. versionadded:: 1.0
 
 .. attribute:: TestCase.urls
 
-If your application provides views, you may want to include tests that use the
-test client to exercise those views. However, an end user is free to deploy the
-views in your application at any URL of their choosing. This means that your
-tests can't rely upon the fact that your views will be available at a
-particular URL.
+Se a sua aplicação possui views, você pode querer incluir testes que utilizam
+o cliente de testes para exercitá-las. Entretanto, um usuário final é livre
+para configurar as views em sua aplicação em qualquer URL de sua preferência.
+Isso significa que seus testes não podem contar com o fato de que suas views
+estarão disponíveis em uma URL em particular.
 
-In order to provide a reliable URL space for your test,
-``django.test.TestCase`` provides the ability to customize the URLconf
-configuration for the duration of the execution of a test suite. If your
-``TestCase`` instance defines an ``urls`` attribute, the ``TestCase`` will use
-the value of that attribute as the ``ROOT_URLCONF`` for the duration of that
-test.
+A fim de proporcionar URLs confiáveis para seu teste, ``django.test.TestCase``
+tem a capacidade de customizar a configuração do URLconf pelo período de
+execução dos testes. Se sua instância de ``TestCase`` define o atributo
+``urls``, o ``TestCase`` usará os valores deste atributo como o
+``ROOT_URLCONF`` pelo período de execução do teste.
 
-For example::
+Por exemplo::
 
     from django.test import TestCase
 
@@ -897,263 +922,271 @@ For example::
         urls = 'myapp.test_urls'
 
         def testIndexPageView(self):
-            # Here you'd test your view using ``Client``.
+            # Aqui você testará sua view usando ``Client``.
 
-This test case will use the contents of ``myapp.test_urls`` as the
-URLconf for the duration of the test case.
+Esse test case utilizará o conteúdo de ``myapp.test_urls`` como o URLconf
+durante a execução do teste.
 
 .. _emptying-test-outbox:
 
-Emptying the test outbox
-~~~~~~~~~~~~~~~~~~~~~~~~
+Esvaziando a caixa de saída de teste
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. versionadded:: 1.0
 
-If you use Django's custom ``TestCase`` class, the test runner will clear the
-contents of the test e-mail outbox at the start of each test case.
+Se você usa a classe Django ``TestCase``, o executor de testes limpará o
+conteúdo da caixa de saída de e-mail no início de cada teste.
 
-For more detail on e-mail services during tests, see `E-mail services`_.
+Para mais detalhes sobre os serviços de e-mail durante os teste, veja
+`Serviços de e-mail`_.
 
 Assertions
 ~~~~~~~~~~
 
 .. versionadded:: 1.0
 
-As Python's normal ``unittest.TestCase`` class implements assertion methods
-such as ``assertTrue`` and ``assertEquals``, Django's custom ``TestCase`` class
-provides a number of custom assertion methods that are useful for testing Web
-applications:
+Como numa classe Python ``unittest.TestCase`` normal que implementa métodos de
+asserção como ``assertTrue`` e ``assertEquals``, a classe customizada
+``TestCase`` do Django disponibiliza alguns métodos de asserção customizados
+que são úteis para testar aplicações Web:
 
 .. method:: TestCase.assertContains(response, text, count=None, status_code=200)
 
-    Asserts that a ``Response`` instance produced the given ``status_code`` and
-    that ``text`` appears in the content of the response. If ``count`` is
-    provided, ``text`` must occur exactly ``count`` times in the response.
+    Testa se uma instância de ``Response`` produziu o ``status_code`` informado
+    e que o ``text`` aparece no conteúdo da resposta. Se ``count`` é fornecido,
+    ``text`` deve ocorrer exatamente ``count`` vezes na resposta.
 
 .. method:: TestCase.assertNotContains(response, text, status_code=200)
 
-    Asserts that a ``Response`` instance produced the given ``status_code`` and
-    that ``text`` does not appears in the content of the response.
+    Testa se uma instância de ``Response`` produziu o ``status_code`` informado
+    e que o ``text`` não aparece no conteúdo da resposta.
 
 .. method:: TestCase.assertFormError(response, form, field, errors)
 
-    Asserts that a field on a form raises the provided list of errors when
-    rendered on the form.
+    Testa se um campo no formulário lança a lista de erros fornecida quando
+    gerado no formulário.
 
-    ``form`` is the name the ``Form`` instance was given in the template
-    context.
+    ``form`` é o nome da instância de ``Form`` informada ao contexto do
+    template.
 
-    ``field`` is the name of the field on the form to check. If ``field``
-    has a value of ``None``, non-field errors (errors you can access via
-    ``form.non_field_errors()``) will be checked.
+    ``field`` é o nome do campo no formulário para verificar. Se ``field``
+    tem um valor de ``None``, erros não relacionados a campos (erros que você
+    pode acessar via ``form.non_field_errors()``) serão verificados.
 
-    ``errors`` is an error string, or a list of error strings, that are
-    expected as a result of form validation.
+    ``errors`` é uma string de erro, ou uma lista de strings de erro, que
+    são esperados como resultado da validação do formulário.
 
 .. method:: TestCase.assertTemplateUsed(response, template_name)
+    Testa se o template com o nome informado foi usado na geração da resposta.
 
-    Asserts that the template with the given name was used in rendering the
-    response.
-
-    The name is a string such as ``'admin/index.html'``.
+    O nome é uma string como ``'admin/index.html'``.
 
 .. method:: TestCase.assertTemplateNotUsed(response, template_name)
 
-    Asserts that the template with the given name was *not* used in rendering
-    the response.
+    Testa se o template com o nome informado *não* foi usado na geração da
+    resposta.
 
 .. method:: TestCase.assertRedirects(response, expected_url, status_code=302, target_status_code=200)
 
-    Asserts that the response return a ``status_code`` redirect status, it
-    redirected to ``expected_url`` (including any GET data), and the subsequent
-    page was received with ``target_status_code``.
+    Teste se a resposta devolve um status de redirecionamento ``status_code``,
+    se redirecionou para a URL ``expected_url``  (incluindo quaisquer dados
+    GET), e a página subseqüente foi recebida com o ``target_status_code``.
 
-E-mail services
----------------
+Serviços de e-mail
+------------------
 
 .. versionadded:: 1.0
 
-If any of your Django views send e-mail using :ref:`Django's e-mail
-functionality <topics-email>`, you probably don't want to send e-mail each time
-you run a test using that view. For this reason, Django's test runner
-automatically redirects all Django-sent e-mail to a dummy outbox. This lets you
-test every aspect of sending e-mail -- from the number of messages sent to the
-contents of each message -- without actually sending the messages.
+Se alguma de suas views manda e-mail usando a :ref:`Funcionalidade de e-mail do
+Django <topics-email>`, você provavelmente não quer mandar e-mail cada vez que
+você roda um teste utilizando a view. Por esse motivo, o executor de testes do
+Django automaticamente redireciona todos e-mails enviados por meio do Django
+para uma caixa de saída fictícia. Isso deixa você testar cada aspecto do envio
+de e-mail -- do númeto de mensagens enviadas ao conteúdo de cada mensagem -- sem
+ter de enviar as mensagens de verdade.
 
-The test runner accomplishes this by transparently replacing the normal
-:class:`~django.core.mail.SMTPConnection` class with a different version.
-(Don't worry -- this has no effect on any other e-mail senders outside of
-Django, such as your machine's mail server, if you're running one.)
+O executor de testes consegue fazer isso de forma transparente trocando a
+classe :class:`<~django.core.mail.SMTPConnection>` normal por uma versão
+diferente. (Não se preocupe -- isso não tem efeito em quaisquer outros meios de
+envio de e-mail fora do Django, como o servidor de e-mail de sua máquina, se
+estiver rodando um).
 
 .. currentmodule:: django.core.mail
 
 .. data:: django.core.mail.outbox
 
-During test running, each outgoing e-mail is saved in
-``django.core.mail.outbox``. This is a simple list of all
-:class:`<~django.core.mail.EmailMessage>` instances that have been sent.
-It does not exist under normal execution conditions, i.e., when you're not
-running unit tests. The outbox is created during test setup, along with the
-dummy :class:`<~django.core.mail.SMTPConnection>`. When the test framework is
-torn down, the standard :class:`<~django.core.mail.SMTPConnection>` class is
-restored, and the test outbox is destroyed.
+Durante a execução dos testes, cada e-mail de saída é gravado em
+``django.core.mail.outbox``. Esta é uma lista simples de todas as instâncias
+de :class:`<~django.core.mail.EmailMessage>` que foram enviadas. Ela não existem
+nas condições normais de execução, ou seja, quando você não está rodando testes
+unitários. A caixa de saída é criada durante a configuração do teste, junto com
+a :class:`<~django.core.mail.SMTPConnection>` fictícia. Quando o framework de
+teste é encerrado, a classe :class:`<~django.core.mail.SMTPConnection>` padrão é
+restaurada, e a caixa de saída de teste é destruída.
 
 The ``outbox`` attribute is a special attribute that is created *only* when
 the tests are run. It doesn't normally exist as part of the
 :mod:`django.core.mail` module and you can't import it directly. The code
 below shows how to access this attribute correctly.
 
-Here's an example test that examines ``django.core.mail.outbox`` for length
-and contents::
+Aqui vai um exemplo de teste que verifica o tamanho e conteúdo de
+``django.core.mail.outbox``::
 
     from django.core import mail
     from django.test import TestCase
 
     class EmailTest(TestCase):
         def test_send_email(self):
-            # Send message.
-            mail.send_mail('Subject here', 'Here is the message.',
+            # Envia mensagem.
+            mail.send_mail('Assunto aqui', 'Aqui vai a mensagem.',
                 'from@example.com', ['to@example.com'],
                 fail_silently=False)
 
-            # Test that one message has been sent.
-            self.assertEquals(len(mail.outbox), 1)
+            # Verifica se uma mensagem foi enviada.
+            self.assertEqual(len(mail.outbox), 1)
 
-            # Verify that the subject of the first message is correct.
-            self.assertEquals(mail.outbox[0].subject, 'Subject here')
+            # Verifica se o assunto da mensagem é igual
+            self.assertEqual(mail.outbox[0].subject, 'Assunto aqui')
 
-As noted :ref:`previously <emptying-test-outbox>`, the test outbox is emptied
-at the start of every test in a Django ``TestCase``. To empty the outbox
-manually, assign the empty list to ``mail.outbox``::
+Como dito :ref:`anteriormente <emptying-test-outbox>`, a caixa de saída de teste
+é esvaziada no início de cada teste em um ``TestCase`` Django. Para esvaziar a
+caixa de saída manualmente, atribua uma lista vazia para ``mail.outbox``::
 
     from django.core import mail
 
-    # Empty the test outbox
+    # Esvazia a caixa de saída
     mail.outbox = []
 
-Using different testing frameworks
-==================================
+Utilizando frameworks de testes diferentes
+==========================================
 
-Clearly, ``doctest`` and ``unittest`` are not the only Python testing
-frameworks. While Django doesn't provide explicit support for alternative
-frameworks, it does provide a way to invoke tests constructed for an
-alternative framework as if they were normal Django tests.
+Obviamente, ``doctest`` e ``unittest`` não são os únicos frameworks de testes
+Python. Apesar de o Django não suportar explicitamente frameworks alternativos,
+ele provê uma maneira de invocar testes construídos para um framework
+alternativo como se fossem testes Django normais.
 
-When you run ``./manage.py test``, Django looks at the :setting:`TEST_RUNNER`
-setting to determine what to do. By default, :setting:`TEST_RUNNER` points to
-``'django.test.simple.run_tests'``. This method defines the default Django
-testing behavior. This behavior involves:
+Quando você roda ``./manage.py test``, o Django procura a configuração
+:setting:`TEST_RUNNER` para determinar o que fazer. Por padrão, o
+:setting:`TEST_RUNNER` aponta para ``'django.test.simple.run_tests'``. Este
+método define o comportamento padrão dos testes no Django. Esse comportamento
+envolve:
 
-    #. Performing global pre-test setup.
+    #. Fazer uma configuração global antes do teste.
 
-    #. Creating the test database.
+    #. Criar o banco de dados de teste.
 
-    #. Running ``syncdb`` to install models and initial data into the test
-       database.
+    #. Executar ``syncdb`` para instalar os modelos e dados iniciais no banco
+       de dados de teste.
 
-    #. Looking for unit tests and doctests in the ``models.py`` and
-       ``tests.py`` files in each installed application.
+    #. Procurar testes unitários e doctests nos arquivos ``models.py`` e
+       ``tests.py`` em cada aplicação instalada.
 
-    #. Running the unit tests and doctests that are found.
+    #. Rodar os testes unitários e doctests que forem encontrados.
 
-    #. Destroying the test database.
+    #. Destruir o banco de dados de teste.
 
-    #. Performing global post-test teardown.
+    #. Executar um encerramento global após o término dos testes.
 
-If you define your own test runner method and point :setting:`TEST_RUNNER` at
-that method, Django will execute your test runner whenever you run
-``./manage.py test``. In this way, it is possible to use any test framework
-that can be executed from Python code.
+Se você define seu próprio método executor de testes e aponta o
+:setting:`TEST_RUNNER` para este método, o Django rodará o seu executor de
+testes toda vez que você rodar ``./manage.py test``. Desta maneira, é possível
+usar qualquer framework de testes que possa ser executado a partir de um código
+Python.
 
-Defining a test runner
-----------------------
+Definindo o executor de testes
+------------------------------
 
 .. versionadded:: 1.0
 
 .. currentmodule:: django.test.simple
 
-By convention, a test runner should be called ``run_tests``. The only strict
-requirement is that it has the same arguments as the Django test runner:
+Por convenção, um executor de testes deve ser chamado ``run_tests``. O único
+requisito é que ele tenha os mesmos argumentos que o executor de testes do
+Django:
 
 .. function:: run_tests(test_labels, verbosity=1, interactive=True, extra_tests=[])
 
-    ``test_labels`` is a list of strings describing the tests to be run. A test
-    label can take one of three forms:
+    ``test_labels``  é uma lista de strings descrevendo os testes a serem
+    rodados. Cada string pode ter uma das três formas a seguir:
 
-        * ``app.TestCase.test_method`` -- Run a single test method in a test
-          case.
-        * ``app.TestCase`` -- Run all the test methods in a test case.
-        * ``app`` -- Search for and run all tests in the named application.
+        * ``app.TestCase.test_method`` -- Executa um único método de teste em
+          um test case.
+        * ``app.TestCase`` -- Executa todos os métodos de teste em um test case.
+        * ``app`` -- Procura e roda todos os testes na aplicação nomeada.
 
-    If ``test_labels`` has a value of ``None``, the test runner should run
-    search for tests in all the applications in :setting:`INSTALLED_APPS`.
+    Se ``test_labels`` tem o valor ``None``, o executor de testes deve procurar
+    e rodar os testes para todas as aplicações em :setting:`INSTALLED_APPS`.
 
-    ``verbosity`` determines the amount of notification and debug information
-    that will be printed to the console; ``0`` is no output, ``1`` is normal
-    output, and ``2`` is verbose output.
+    ``verbosity`` determina a quantidade de notificações e informações de
+    debug que serão apresentadas no console; ``0`` significa sem saída, ``1``
+    é saída normal, e ``2`` é saída detalhada.
 
-    If ``interactive`` is ``True``, the test suite has permission to ask the
-    user for instructions when the test suite is executed. An example of this
-    behavior would be asking for permission to delete an existing test
-    database. If ``interactive`` is ``False``, the test suite must be able to
-    run without any manual intervention.
+    Se ``interactive`` é ``True``, a test suite tem permissão para pedir ao
+    usuário por instruções quando é executada. Um exemplo desse comportamento
+    seria pedir permissão para excluir um teste existente do banco de dados.
+    Se ``interactive`` é ``False``, a test suite deve ser capaz de rodar
+    sozinha, sem intervenção manual.
 
-    ``extra_tests`` is a list of extra ``TestCase`` instances to add to the
-    suite that is executed by the test runner. These extra tests are run
-    in addition to those discovered in the modules listed in ``module_list``.
+    ``extra_tests`` é uma lista de instâncias extra de ``TestCase`` para
+    adicionar à suite, que é rodada pelo executor de testes. Esses testes extras
+    são executados além dos descobertos nos módulos listados em ``module_list``.
 
-    This method should return the number of tests that failed.
+    Este método deve retornar o número de testes que falharam.
 
-Testing utilities
------------------
+Utilitários de testes
+---------------------
 
 .. module:: django.test.utils
    :synopsis: Helpers to write custom test runners.
 
-To assist in the creation of your own test runner, Django provides a number of
-utility methods in the ``django.test.utils`` module.
+Para ajudar na criação de seu próprio executor de testes, o Django possui
+alguns métodos utilitários no módulo ``django.test.utils``.
 
 .. function:: setup_test_environment()
 
-    Performs any global pre-test setup, such as the installing the
-    instrumentation of the template rendering system and setting up the dummy
-    ``SMTPConnection``.
+    Executa quaisquer configurações prévias aos testes, como a instalação de
+    instrumentação para o sistema de templates e a configuração do
+    ``SMTPConnection`` fictício.
 
 .. function:: teardown_test_environment()
 
-    Performs any global post-test teardown, such as removing the black magic
-    hooks into the template system and restoring normal e-mail services.
+    Executa quaisquer tarefas globais de encerramento após o término dos testes,
+    como remover a magia negra do sistema de templates e restaurar os serviços
+    normais de e-mail.
 
-The creation module of the database backend (``connection.creation``) also
-provides some utilities that can be useful during testing.
+    The creation module of the database backend (``connection.creation``) also
+    provides some utilities that can be useful during testing.
 
 .. function:: create_test_db(verbosity=1, autoclobber=False)
 
-    Creates a new test database and runs ``syncdb`` against it.
+    Cria um novo banco de dados e roda o ``syncdb`` nele.
 
-    ``verbosity`` has the same behavior as in ``run_tests()``.
+    ``verbosity`` tem o mesmo comportamento que em ``run_tests()``.
 
-    ``autoclobber`` describes the behavior that will occur if a database with
-    the same name as the test database is discovered:
+    ``autoclobber`` descreve o comportamento que acontecerá se um banco de dados
+    com o mesmo nome que o banco de teste é encontrado:
 
-        * If ``autoclobber`` is ``False``, the user will be asked to approve
-          destroying the existing database. ``sys.exit`` is called if the user
-          does not approve.
+        * Se ``autoclobber`` é ``False``, será pedido ao usuário para aprovar
+          a destruição do banco de dados existente. ``sys.exit`` é chamado se
+          o usuário não aprovar.
 
-        * If autoclobber is ``True``, the database will be destroyed without
-          consulting the user.
+        * Se ``autoclobber`` é ``True``, o banco de dados será destruído sem
+          consultar o usuário.
 
     Returns the name of the test database that it created.
 
-    ``create_test_db()`` has the side effect of modifying
-    ``settings.DATABASE_NAME`` to match the name of the test database.
+    ``create_test_db()`` tem o efeito colateral de modificar
+    ``settings.DATABASE_NAME`` para bater com o nome do banco de dados de
+    teste.
 
     .. versionchanged:: 1.0
-       ``create_test_db()`` now returns the name of the test database.
+       ``create_test_db()`` agora retorna o nome do banco de dados de teste.
 
 .. function:: destroy_test_db(old_database_name, verbosity=1)
 
-    Destroys the database whose name is in the :setting:`DATABASE_NAME` setting
-    and restores the value of :setting:`DATABASE_NAME` to the provided name.
+    Destrói o banco de dados cujo nome está no parâmetro de configuração
+    :setting:`DATABASE_NAME` e restaura o valor de :setting:`DATABASE_NAME` para
+    o nome fornecido.
 
-    ``verbosity`` has the same behavior as in ``run_tests()``.
+    ``verbosity`` tem o mesmo comportamento que em ``run_tests()``.
+
