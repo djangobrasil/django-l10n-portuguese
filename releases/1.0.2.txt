@@ -1,7 +1,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision. $
-..   $OriginalRevision: 9497 $
+..   $OriginalRevision: 11298 $
 ..   $TranslationAuthors: Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -25,7 +25,7 @@ Essa é a segunda versão de "bugfixes" na série 1.0 do Django,
 melhorando a estabilidade e performance da base de código do Django 1.0. Assim,
 o Django 1.0.2 não contém novas features (e, segundo a nossa
 :ref:`política de compatibilidade <misc-api-stability>`, mantém retro-compatibilidade com o Django
-1.0.1), mas contém um número de correções e outras melhorias.
+1.0.0), mas contém um número de correções e outras melhorias.
 O Django 1.0.2 é uma atualização recomendada para qualquer
 desenvolvimento ou deployment atualmente usando ou planejando usar o Django 1.0.
 
