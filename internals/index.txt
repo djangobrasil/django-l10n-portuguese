@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11298 $
 ..   $TranslationAuthors: Robson Mendonça, semente $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -33,8 +33,9 @@ ele funciona "por baixo dos panos".
 
 .. toctree::
    :maxdepth: 1
-   
+
    contributing
    documentation
    committers
    release-process
+   deprecation
