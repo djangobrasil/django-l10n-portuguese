@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: Luiz Fernando Barbosa Vital, Robson Mendonça, WalterCruz $
 ..
@@ -502,7 +502,7 @@ Alternativamente, você pode criar uma subclasse que defina o ``self.queryset`` 
             self.queryset = Author.objects.filter(name__startswith='O')
             super(BaseAuthorFormSet, self).__init__(*args, **kwargs)
 
-Then, pass your ``BaseAuthorFormSet`` class to the factory function::
+Então, passe sua classe ``BaseAuthorFormSet`` para a função factory::
 
     >>> AuthorFormSet = modelformset_factory(Author, formset=BaseAuthorFormSet)
 
@@ -516,8 +516,8 @@ do formset::
     >>> AuthorFormSet = modelformset_factory(Author, fields=('name', 'title'))
 
 Usando ``fields`` você irá restringir o formset para usar somente os campos
-fornecidos. Alternatively, you can take an "opt-out" approach, specifying which fields to
-exclude::
+fornecidos. Alternativamente, você pode ter uma abordagem de "out-put",
+especificando quais campos serão excluídos::
 
     >>> AuthorFormSet = modelformset_factory(Author, exclude=('birth_date',))
 
@@ -528,8 +528,8 @@ Usando ``exclude`` você irá evistar que dados campos sejam usados em um formse
 Gravando objetos num formset
 ----------------------------
 
-Como num ``ModelForm`` você pode gravar os dados no objeto do modelo. Isso é feito com
-o método ``save()`` do formset::
+Como num ``ModelForm`` você pode gravar os dados no objeto do modelo. Isso é
+feito com o método ``save()`` do formset::
 
     # Cria uma instância de formset com os dados do POST.
     >>> formset = AuthorFormSet(request.POST)
@@ -572,9 +572,9 @@ somente o máximo de objetos necessários::
     >>> formset.initial
     [{'id': 1, 'name': u'Charles Baudelaire'}, {'id': 3, 'name': u'Paul Verlaine'}]
 
-If the value of ``max_num`` is higher than the number of objects returned, up to
-``extra`` additional blank forms will be added to the formset, so long as the
-total number of forms does not exceed ``max_num``::
+Se o valor de ``max_num`` é maior que o número de objetos retornados,
+formulários em branco ``extra`` serão adicionados ao formset, tão logo o total
+de formulários não exceda ``max_num``::
 
     >>> AuthorFormSet = modelformset_factory(Author, max_num=4, extra=2)
     >>> formset = AuthorFormSet(queryset=Author.objects.order_by('name'))
@@ -609,27 +609,29 @@ de como usar um formset "normal". A única diferença é que nos chamamos
 ``formset.save()`` para salvar os dados no banco de dados. (Isto foi descrito acima em
 :ref:`saving-objects-in-the-formset`.)
 
-Overiding ``clean()`` on a ``model_formset``
---------------------------------------------
+Sobrescrevendo o ``clean()`` sobre um ``model_formset``
+-------------------------------------------------------
 
-Just like with ``ModelForms``, by default the ``clean()`` method of a
-``model_formset`` will validate that none of the items in the formset violate
-the unique constraints on your model (either ``unique``, ``unique_together`` or
-``unique_for_date|month|year``).  If you want to overide the ``clean()`` method
-on a ``model_formset`` and maintain this validation, you must call the parent
-class's ``clean`` method::
+Assim como com ``ModelForms``, por padrão o método ``clean()`` de um
+``model_formset`` irá validar se nenhum dos ítens do formset viola as restrições
+de unicidade do seu model (qualquer uma ``unique``, ``unique_together`` ou
+``unique_for_date|month|year``). Se você quiser sobrescrever o método
+``clean()`` de um ``model_formset`` e manter esta validação, você deve chamar
+o método ``clean`` da classe pai::
+
 
     class MyModelFormSet(BaseModelFormSet):
         def clean(self):
             super(MyModelFormSet, self).clean()
-            # example custom validation across forms in the formset:
+            # exemplo de validação customizada de forms do formset:
             for form in self.forms:
                 # your custom formset validation
+                # sua validação personalizada de formset
 
-Using a custom queryset
------------------------
+Usando um queryset customizado
+------------------------------
 
-As stated earlier, you can override the default queryset used by the model
+Como já foi dito, você pode sobrescrever o queryset padrão usado pelo model
 formset::
 
     def manage_authors(request):
@@ -639,31 +641,31 @@ formset::
                                     queryset=Author.objects.filter(name__startswith='O'))
             if formset.is_valid():
                 formset.save()
-                # Do something.
+                # Faça algo.
         else:
             formset = AuthorFormSet(queryset=Author.objects.filter(name__startswith='O'))
         return render_to_response("manage_authors.html", {
             "formset": formset,
         })
 
-Note that we pass the ``queryset`` argument in both the ``POST`` and ``GET``
-cases in this example.
+Note que nós passamos o argumento ``queryset`` em ambos os casos ``POST`` e
+``GET`` neste exemplo.
 
-Using the formset in the template
----------------------------------
+Usando o formset no template
+----------------------------
 
 .. highlight:: html+django
 
-There are three ways to render a formset in a Django template.
+Já três formas de renderizar um formset num template Django.
 
-First, you can let the formset do most of the work::
+Primeiro, você pode deixar o formset fazer a maior parte do trabalho::
 
     <form method="POST" action="">
         {{ formset }}
     </form>
 
-Second, you can manually render the formset, but let the form deal with
-itself::
+Segundo, você pode manualmente renderizar o formset, mas deixe o form trabalhar
+por contra própria
 
     <form method="POST" action="">
         {{ formset.management_form }}
@@ -672,11 +674,11 @@ itself::
         {% endfor %}
     </form>
 
-When you manually render the forms yourself, be sure to render the management
-form as shown above. See the :ref:`management form documentation
-<understanding-the-managementform>`.
+Quando você renderizar formulários manualmente, certifique-se de renderizar o
+*management_form* como mostrado acima. Veja a :ref:`documentação do
+management form <understanding-the-managementform>`.
 
-Third, you can manually render each field::
+Terceiro, você pode renderizar manualmente cada campo::
 
     <form method="POST" action="">
         {{ formset.management_form }}
@@ -687,9 +689,9 @@ Third, you can manually render each field::
         {% endfor %}
     </form>
 
-If you opt to use this third method and you don't iterate over the fields with
-a ``{% for %}`` loop, you'll need to render the primary key field. For example,
-if you were rendering the ``name`` and ``age`` fields of a model::
+Se você optar por usar este terceiro método e você não iterar sobre os campos
+com um loop ``{% for %}``, você precisará renderizar a chave primária.
+Por exemplo, se você renderizou os campos ``name`` e ``age`` de um model::
 
     <form method="POST" action="">
         {{ formset.management_form }}
@@ -702,19 +704,19 @@ if you were rendering the ``name`` and ``age`` fields of a model::
         {% endfor %}
     </form>
 
-Notice how we need to explicitly render ``{{ form.id }}``. This ensures that
-the model formset, in the ``POST`` case, will work correctly. (This example
-assumes a primary key named ``id``. If you've explicitly defined your own
-primary key that isn't called ``id``, make sure it gets rendered.)
+Observe como é preciso, explicitamente, renderizar ``{{form.id}}``. Isto garante
+que o formset do model, no caso do ``POST``, irá funcionar perfeitamente. (Este
+exemplo assume uma chave primária chamada ``id``, certifique-se de
+renderizá-la.)
 
 .. highlight:: python
 
-Inline formsets
-===============
+Formsets em linha (*inline*)
+==========================
 
-Inline formsets is a small abstraction layer on top of model formsets. These
-simplify the case of working with related objects via a foreign key. Suppose
-you have these two models::
+Formsets em linha é uma pequena camada de abstração sobre os formsets de model.
+Este simplificam o caso de trabalhar com objetos relacionados através de uma
+chave estrangeira. Suponhamos que você tenha dois models::
 
     class Author(models.Model):
         name = models.CharField(max_length=100)
@@ -723,8 +725,8 @@ you have these two models::
         author = models.ForeignKey(Author)
         title = models.CharField(max_length=100)
 
-If you want to create a formset that allows you to edit books belonging to
-a particular author, you could do this::
+Se você quiser criar um formset que permita editar books pertencentes a um
+author em particular, você pode fazer isto::
 
     >>> from django.forms.models import inlineformset_factory
     >>> BookFormSet = inlineformset_factory(Author, Book)
@@ -732,30 +734,30 @@ a particular author, you could do this::
     >>> formset = BookFormSet(instance=author)
 
 .. note::
-    ``inlineformset_factory`` uses ``modelformset_factory`` and marks
+    ``inlineformset_factory`` usa ``modelformset_factory`` e marca
     ``can_delete=True``.
 
-More than one foreign key to the same model
--------------------------------------------
+Mais de uma chave estrangeira para o mesmo model
+------------------------------------------------
 
-If your model contains more than one foreign key to the same model, you'll
-need to resolve the ambiguity manually using ``fk_name``. For example, consider
-the following model::
+Se o seu model contém mais de uma chave estrangeira para o mesmo model, você
+precisará resolver a ambiguidade manualmente utilizando ``fk_name``. Por
+exemplo, considere o seguinte model::
 
     class Friendship(models.Model):
         from_friend = models.ForeignKey(Friend)
         to_friend = models.ForeignKey(Friend)
         length_in_months = models.IntegerField()
 
-To resolve this, you can use ``fk_name`` to ``inlineformset_factory``::
+Para resolver isto, você pode usar ``fk_name`` para ``inlineformset_factory``::
 
     >>> FriendshipFormSet = inlineformset_factory(Friend, Friendship, fk_name="from_friend")
 
-Using an inline formset in a view
----------------------------------
+Usando um formset em linha em um view
+-------------------------------------
 
-You may want to provide a view that allows a user to edit the related objects
-of a model. Here's how you can do that::
+Você pode querer prover um view que permite um usuário editar os objetos
+relacionados de um model. Aqui tem uma maneira de se fazer isso::
 
     def manage_books(request, author_id):
         author = Author.objects.get(pk=author_id)
@@ -771,5 +773,5 @@ of a model. Here's how you can do that::
             "formset": formset,
         })
 
-Notice how we pass ``instance`` in both the ``POST`` and ``GET`` cases.
+Observe como passamos ``instance`` em ambos os casos ``POST`` e ``GET``.
 
