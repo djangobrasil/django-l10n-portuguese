@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision. $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11298 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -29,12 +29,12 @@ Em toda parte
 
 .. _loose-coupling:
 
-Loose coupling
---------------
+Baixo acoplamento
+-----------------
 
 .. index:: coupling; loose
 
-Um objetivo fundamental da pilha do Django é `loose coupling and tight cohesion`_.
+Um objetivo fundamental da pilha do Django é `baixo acoplamento e alta coesão`_.
 As várias camadas do framework não devem saber saber sobre si, a menos que seja
 absolutamente necessário.
 
@@ -42,18 +42,18 @@ Por exemplo, o sistema de template não saber nada sobre requisição Web, a cam
 de banco de dados não sabe nada sobre visualização e sistema de visualização não
 se preocupa com que sistema de template o programador está usando.
 
-Apesar do Django vir com uma pilha completa por conveniencia, as peçãs de uma 
-pilha são independentes de qualquer outra que possa existir.
+Apesar do Django vir com uma pilha completa por conveniência, as peças da pilha
+são independentes de quaisquer outras sempre que possível.
 
-.. _`loose coupling and tight cohesion`: http://c2.com/cgi/wiki?CouplingAndCohesion
+.. _`baixo acoplamento e alta coesão`: http://c2.com/cgi/wiki?CouplingAndCohesion
 
 .. _less-code:
 
 Menos código
 ------------
 
-Aplicações Django deveriam, se possível, usar menos código; elas deveriam fugir
-do padrão. O Django deveria tirar pleno proveito das capacidades dinâmicas do 
+Aplicações Django deveriam, se possível, usar menos código; elas deveriam ter pouco
+'código boilerplate'. O Django deve tirar pleno proveito das capacidades dinâmicas do 
 Python, tais como a introspecção.
 
 .. _quick-development:
@@ -77,8 +77,8 @@ Não repita a si mesmo - `Don't repeat yourself` (DRY)
 Todo conceito distinto e/ou pedaço de dado deve existir em um, e somente em um, 
 lugar. Redundância é ruim. Normalização é bom.
 
-O framework, por uma razão, deve deduzir tão bem quanto possível as pequenas
-possibilidades.
+O framework, dentro do razoável, deve deduzir o máximo possível do menor número
+de informação possível.
 
 .. seealso::
 
@@ -123,7 +123,7 @@ Domínio incluem todas as lógicas
 --------------------------------
 
 Modelos devem encapsular todo aspecto de um "objeto", seguindo o padrão de 
-desenho do Martin Fowler `Active Record`_.
+projeto do Martin Fowler `Active Record`_.
 
 É assim porquê ambos, dado representado por um modelo e informação sobre ele 
 (seu nome legível por humanos, opções como ordenamento padrão, etc.), são 
@@ -151,8 +151,8 @@ Esta também é a razão dos métodos ``selecte_related()`` ``QuerySet`` existir
 É como um otimizador opcional de performance para o caso comum de selecionar
 "tudo que está relacionado a um objeto".
 
-Lapidar, poderosa sintaxe
--------------------------
+Sintaxe poderosa e concisa
+--------------------------
 
 A API de banco de dados deve permitir ricas, expressivas consultas em uma 
 sintaxe mais simples possível. Ela não deve depender de outros módulos ou 
@@ -174,8 +174,8 @@ chamada da API.
 Design de URL
 =============
 
-Loose coupling
---------------
+Baixo acoplamento
+-----------------
 
 URLs nas aplicações Django não devem ser acopladas a códigos Python subjacentes.
 Subordinando URLs a nomes de funções do Python é uma coisa ruim e feia de se
@@ -325,8 +325,8 @@ view, ao invés da função view ter quer acessar o request de uma variável glo
 Isto se faz leve, limpo e fácil de testar visões passando-a objetos de 
 requisição "falsos".
 
-Loose coupling
---------------
+Baixo acoplamento
+-----------------
 
 Um view deveria se preocupar sobre qual sistema de template o desenvolvedor 
 utiliza -- ou mesmo se ele usa algum sistema de template --.
