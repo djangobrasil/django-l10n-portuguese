@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision. $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11298 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -150,10 +150,10 @@ TODO
 O trabalho está na maioria feito, mas aqui tem o que falta, em ordem de
 prioridade.
 
-    * Fix up generic view docs: adapt Chapter 9 of the Django Book (consider
-      this TODO item my permission and license) into
-      ``topics/generic-views.txt``; remove the intro material from
-      ``ref/generic-views.txt`` and just leave the function reference.
+    * Corrigir a documentação das generic views: adaptar o capítulo 9 do Django Book (considerar
+      esse item de TODO minha permissão e licença) em
+      ``topics/generic-views.txt``; remover o material de introdução de
+      ``ref/generic-views.txt`` e apenas deixar a referência de funções.
 
     * Mudar o "Added/changed na versão de desenvolvimento" chamar a diretiva
       adequada do Sphinx ``.. versionadded::`` ou ``.. versionchanged::``.
