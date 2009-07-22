@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 11268 $
-..   $TranslationAuthors: Luiz Fernando Barbosa Vital $
+..   $TranslationAuthors: Luiz Fernando Barbosa Vital, Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -330,13 +330,13 @@ utilizada pelo banco de dados de teste. Veja a
 :ref:`documentação de configurações <ref-settings>` para mais detalhes dessas
 configurações avançadas.
 
-Other test conditions
----------------------
+Outras condições de testes
+--------------------------
 
-Regardless of the value of the :setting:`DEBUG` setting in your configuration
-file, all Django tests run with :setting:`DEBUG=False`. This is to ensure that
-the observed output of your code matches what will be seen in a production
-setting.
+Independentemente do valor do :setting:`DEBUG` do seu arquivo de configuração,
+todos os testes do Django rodam com :setting:`DEBUG=False`. Isto é para
+assegurar que a saída observada de seu código seja igual ao da aplicação em
+produção.
 
 .. _configurações: ../settings/
 
@@ -629,13 +629,14 @@ requer argumentos em sua contrução:
         parte de sua test suite -- tanto manualmente (utilizando a API de
         modelos do Django) ou com uma test fixture.
 
-        Remember that if you want your test user to have a password,
-        you can't set the user's password by setting the password attribute
-        directly -- you must use the
-        :meth:`~django.contrib.auth.models.User.set_password()` function to
-        store a correctly hashed password. Alternatively, you can use the
-        :meth:`~django.contrib.auth.models.UserManager.create_user` helper
-        method to create a new user with a correctly hashed password.
+        Lembre-se que se você quiser que seu usuários de teste tenha uma senha,
+        você não pode setar a senha do usuário usando o atributo password
+        diretamente -- você deve usar a função
+        :meth:`~django.contrib.auth.models.User.set_password()` para armazenar
+        corretamente uma senha criptografada. Alternativamente, você pode usar o
+        método helper
+        :meth:`~django.contrib.auth.models.UserManager.create_user` para criar
+        um novo usuário com a senha criptografada corretamente.
 
     .. method:: Client.logout()
 
@@ -777,19 +778,18 @@ TestCase
 
 .. currentmodule:: django.test
 
-Normal Python unit test classes extend a base class of ``unittest.TestCase``.
-Django provides an extension of this base class:
+Uma classe de teste unitário normal do Python extende uma classe base
+``unittest.TestCase``. O Djagno provê uma extensão desta classe:
 
 .. class:: TestCase()
 
-This class provides some additional capabilities that can be useful for testing
-Web sites.
+Esta classe provê algumas capacidades adicionais qeu podem ser úteis para testar
+site Web.
 
-Converting a normal ``unittest.TestCase`` to a Django ``TestCase`` is easy:
-just change the base class of your test from ``unittest.TestCase`` to
-``django.test.TestCase``. All of the standard Python unit test functionality
-will continue to be available, but it will be augmented with some useful
-additions.
+Converter um ``unittest.TestCase`` normal para um Django ``TestCase`` é fácil:
+basta mudar a classe base de seu teste de ``unittest.TestCase`` para
+``django.test.TestCase``. Todas as funcionalidades padrões de teste unitário do
+Python continuarão disponíveis, mas serão aumentadas com algumas adições úteis.
 
 O cliente de teste default
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
