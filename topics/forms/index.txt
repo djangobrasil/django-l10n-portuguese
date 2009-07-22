@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Not started $
-..   $OriginalRevision: 9391 $
+..   $OriginalRevision: 11298 $
 ..   $TranslationAuthors: None $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -34,9 +34,9 @@ While it is possible to process form submissions just using Django's
 number of common form-related tasks. Using it, you can:
 
     1. Display an HTML form with automatically generated form widgets.
-    2. Checking submitted data against a set of validation rules.
-    3. Redisplaying a form in the case of validation errors.
-    4. Converting submitted form data to the relevant Python data types.
+    2. Check submitted data against a set of validation rules.
+    3. Redisplay a form in the case of validation errors.
+    4. Convert submitted form data to the relevant Python data types.
 
 Overview
 ========
@@ -142,6 +142,12 @@ they went wrong.
 
 See :ref:`ref-forms-api-bound-unbound` for further information on the
 differences between bound and unbound forms.
+
+Handling file uploads with a form
+---------------------------------
+
+To see how to handle file uploads with your form see
+:ref:`binding-uploaded-files` for more information.
 
 Processing the data from a form
 -------------------------------
@@ -259,7 +265,7 @@ over them::
 
     {% if form.subject.errors %}
         <ol>
-        {% for error in form.message.errors %}
+        {% for error in form.subject.errors %}
             <li><strong>{{ error|escape }}</strong></li>
         {% endfor %}
         </ol>
