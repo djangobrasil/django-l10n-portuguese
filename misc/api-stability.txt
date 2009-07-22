@@ -1,8 +1,8 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, wainting for revision. $
-..   $OriginalRevision: 11298 $
+..   $TranslationStatus: Done $
+..   $OriginalRevision: 9368 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -20,19 +20,20 @@
 Estabilidade de API
 ===================
 
-:ref:`O release do Django 1.0 <releases-1.0>` vem com a promessa de estabilidade
-de API e compatibilidade futura. Em resumo, isto significa que o código que você
-contriur utilizando o Django 1.0 irá funcionar com 1.1 sem mudanças, e você 
-precisará fazer somente pequenas mudanças para qualquer release 1.x.
+:ref:`O release do Django 1.0 <releases-1.0>` vem com a promessa de
+estabilidade de API e compatibilidade futura. Em resumo, isto significa que o
+código que você construir utilizando o Django 1.0 irá funcionar com 1.1 sem
+mudanças, e você precisará fazer somente pequenas mudanças para qualquer
+release 1.x.
 
 O que "stable" significa
 ========================
 
 Neste contexto, "stable" significa:
 
-   - Todas as APIs públicas -- tudo que está documentado nos links abaixo, e 
-     todos os métodos que não comecem com um underscore -- não serão nem
-     movidas nem renomeadas sem fornecer aliases de compatibilidade anterior.
+   - Todas as APIs públicas -- tudo que está documentado nos links abaixo, e
+     todos os métodos que não comecem com um underscore -- não serão movidas
+     nem renomeadas sem fornecer aliases de compatibilidade anterior.
      
    - Se novas funcionalidades são adicionadas a essas APIs -- o que é bem
      possível -- elas não irão quebrar ou mudar o significado dos métodos
@@ -40,9 +41,9 @@ Neste contexto, "stable" significa:
      "completo".
 
    - Se, por alguma razão, uma API declarada "stable" tiver que ser removida ou
-     substituída, ela será declarada "deprecated", porém irá permanecer até,
-     pelo menos, a versão 1.1. Avisos serão feitos quando um método
-     "deprecated" for chamado.
+     substituída, ela será declarada obsoleta, porém irá permanecer até, pelo
+     menos, duas novas versões secundárias. Avisos serão feitos quando um
+     método obsoleto for chamado.
 
      Veja :ref:`official-releases` para mais detalhes de como a numeração das
      versões do Django funciona, e como as funcionalidades entrarão em desuso.
@@ -71,8 +72,8 @@ inclui estas APIs:
     - :ref:`Formulários <topics-forms-index>`
     
     - :ref:`Manipulação de requisições/respostas HTTP <topics-http-index>`, 
-      incluíndo upload de arquivos, middleware, sessions, resolução de URL, 
-      view, e shortcut APIs.
+      incluíndo  envio de arquivos, middleware, sessões, resolução de URL, 
+      view, e "shortcut" APIs.
     
     - :ref:`Generic views <topics-http-generic-views>`.
 
@@ -84,44 +85,45 @@ inclui estas APIs:
     
     - :ref:`Signals <topics-signals>`
 
-    - :ref:`Templates <topics-templates>`, incluíndo a linguagem, 
-      :ref:`APIs de template <ref-templates-index>` a nível do Python, e 
-      :ref:`bibliotecas e tags customizadas de template <howto-custom-template-tags>`. 
-      Nós podemos adicionar novas tags de template no futuro, e os nomes podem
-      inadivertidamente chocar-se com tags de template externas. Antes de 
+    - :ref:`Templates <topics-templates>`, incluíndo a linguagem, :ref:`APIs de
+      template <ref-templates-index>` a nível do Python, e :ref:`bibliotecas e
+      tags customizadas de template <howto-custom-template-tags>`.  Nós podemos
+      adicionar novas tags de template no futuro, e os nomes podem
+      inadvertidamente chocar-se com tags de template externas. Antes de
       adicionar algo como tags, esteja seguro de que o Django mostrará um erro
       caso tente carregar tags com nomes duplicados.
 
-    - :ref:`Testing <topics-testing>`
+    - :ref:`Testes <topics-testing>`
 
     - :ref:`Utilitário django-admin <ref-django-admin>`.
     
-    - :ref:`Built-in middleware <ref-middleware>`
+    - :ref:`Middleware embutido <ref-middleware>`
     
     - :ref:`Objetos request/response <ref-request-response>`.
     
-    - :ref:`Settings <ref-settings>`. Note, embora a :ref:`lista de 
-      configurações <ref-settings>` possa ser conciderada completa, nós 
-      podemos -- e provavelmente iremos -- adicionar novas configurações nas 
-      versões futuras. Este é um dos muitos lugares onde "'stable' não significa
+    - :ref:`Settings <ref-settings>`. Note, embora a :ref:`lista de
+      configurações <ref-settings>` possa ser conciderada completa, nós podemos
+      -- e provavelmente iremos -- adicionar novas configurações nas versões
+      futuras. Este é um dos muitos lugares onde "'stable' não significa
       'completo'".
 
-    - :ref:`Built-in signals <ref-signals>`. Como settings, nós iremos 
+    - :ref:`Signals embutidos <ref-signals>`. Como nas settings, nós iremos 
       provavelmente adicionar novos sinais no futuro, mas os existentes não 
       devem quebrar.
       
-    - :ref:`Manipulação unicode <ref-unicode>`.
+    - :ref:`Manipulação de unicode <ref-unicode>`.
         
-    - Tudo coberto pelo :ref:`guia HOWTO <howto-index>`.
+    - Tudo coberto pelos :ref:`guias HOWTO <howto-index>`.
     
 ``django.utils``
 ----------------
 
-A maioria dos módulos em ``django.utils`` são projetados para uso interno. 
-Somente as seguintes partes do ``django.utils`` podem ser consideradas estáveis:
+A maioria dos módulos em ``django.utils`` são projetados para uso interno.
+Somente as seguintes partes do ``django.utils`` podem ser consideradas
+estáveis:
 
     - ``django.utils.cache``
-    - ``django.utils.datastructures.SortedDict`` -- somente está classe em 
+    - ``django.utils.datastructures.SortedDict`` -- somente está classe em
       particular; o resto do módulo é para uso interno.
     - ``django.utils.encoding``
     - ``django.utils.feedgenerator``
@@ -133,47 +135,48 @@ Somente as seguintes partes do ``django.utils`` podem ser consideradas estáveis
 Exceções
 ========
 
-Existem algumas poucas exceções para está promessa de estabilidade e 
-compatibilidade anterior.
+Existem algumas poucas exceções para esta promessa de estabilidade e 
+compatibilidade reversa.
 
 Correções de segurança
 ----------------------
 
-Se nós tomarmos conciência de um problema de segurança -- esperemos por alguém 
-após o nosso :ref:`reporte de política de segurança <reporting-security-issues>` --
-nós iremos fazer tudo que for necessário para corrigi-lo. Isto pode significar
-quebra de compatibilidade; A segurança triunfa sobre a garantia de compatibilidade.
+Se nós tomarmos consciência de um problema de segurança -- esperamos sigam a
+nossa :ref:`política de relato de segurança <reporting-security-issues>` -- nós
+iremos fazer tudo o que for necessário para corrigí-lo. Isto pode significar
+quebra de compatibilidade; A segurança triunfa sobre a garantia de
+compatibilidade.
 
 Aplicações contribuídas (``django.contrib``)
 --------------------------------------------
 
-Nós faremos tudo para manter essas APIs estáveis -- e não temos planos de 
-quebrar qualquer aplicação contribuinte -- esta é uma área que terá mais fluxo 
+Nós faremos tudo para manter essas APIs estáveis -- e não temos planos de
+quebrar qualquer aplicação do contrib -- esta é uma área que terá mais fluxo
 entre os releases. Como a web evolui, o Django também deve evoluir com ela.
 
-No entanto, eventuais alterações as aplicações contribuintes virão com uma 
+No entanto, eventuais alterações nas aplicações do contrib virão com uma 
 importante garantia: faremos o necessário para que seja possível utilizar uma 
-versão mais antiga de uma aplicação contribuinte se precisarmos fazer alterações.
+versão mais antiga de uma aplicação do contrib se precisarmos fazer alterações.
 Desta forma, se o Django 1.5 vem com uma incompatibilidade no 
 ``django.contrib.flatpages``, nós faremos de forma que você continue utilizando 
-o django 1.4 em par com o Django 1.5. Esta vai continuar a permitir faceis 
-upgrades.
+o Django 1.4 em paralelo com o Django 1.5. Isto continuará permitindo
+atualizações fáceis.
 
-Historicamente, aplicaçãoes ``django.contrib`` têm sido mais estáveis que o 
-núcleo, então na prática nós provavelmente não iremos ter muito o que fazer com 
-esta exceção. Entretanto, é importante notar se você está construindo 
-aplicativos que dependem do ``django.contrib``.
+Historicamente, aplicações em ``django.contrib`` têm sido mais estáveis que o
+núcleo, então, na pratica, nós provavelmente nunca teremos que abrir essa
+exceção. Entretanto, é importante observar se você está construindo aplicações
+que dependam do ``django.contrib``.
 
 APIs marcadas como internal
 ---------------------------
 
-Algumas APIs são explicitamente marcadas como "internal" (interna, em inglês) de
-algumas maneiras:
+Algumas APIs são explicitamente marcadas como "internal" (interna, em inglês)
+de algumas maneiras:
 
-    - Algumas documentações referem-se as partes internas como tal. Se a 
-      documentação diz que algo é interno, nós reservamos o direito para 
-      mudá-la.
+    - Algumas documentações referem e mencionam as partes internas como tal. Se
+      a documentação diz que algo é interno, nós reservamos o direito de
+      mudá-lo.
 
-    - Funções, métodos, e outros objetos pré-fixados por um sublinhado (``_``). 
-      Este é um padrão do Python para indicar que algo é privado; se qualquer
-      método começa com um ``_``, ele pertence a API interna.
+    - Funções, métodos, e outros objetos pré-fixados por um sublinhado (``_``).
+      Este é um padrão do Python para indicar que algo é privado; se um método
+      começa com um ``_``, ele pertence a API interna.
