@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 9402 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -15,34 +15,34 @@
 
 .. _howto-initial-data:
 
-=================================
-Providing initial data for models
-=================================
+==================================
+Provendo dados inicias para models
+==================================
 
-It's sometimes useful to pre-populate your database with hard-coded data when
-you're first setting up an app. There's a couple of ways you can have Django
-automatically create this data: you can provide `initial data via fixtures`_, or
-you can provide `initial data as SQL`_.
+As vezes é útil povoar seu banco de dados com dados no momento da instalação de
+uma aplicação. Aqui há algumas formas de se fazer o Django criar estes dados
+automaticamente: você pode prover `dados iniciais usando fixtures`_ ou você pode
+prover `dados iniciais em SQL`_.
 
-In general, using a fixture is a cleaner method since it's database-agnostic,
-but initial SQL is also quite a bit more flexible.
+Geralmente, usar um fixture é um método mais limpo desde que o banco de dados
+seja agnóstico, mas dados iniciais em SQL podem ser um pouco mais flexiveis.
 
-.. _initial data as sql: `providing initial sql data`_
-.. _initial data via fixtures: `providing initial data with fixtures`_
+.. _dados iniciais em SQL: `provendo dados iniciais em SQL`_
+.. _dados iniciais usando fixtures: `provendo dados iniciais com fixtures`_
 
-Providing initial data with fixtures
+Provendo dados iniciais com fixtures
 ====================================
 
-A fixture is a collection of data that Django knows how to import into a
-database. The most straightforward way of creating a fixture if you've already
-got some data is to use the :djadmin:`manage.py dumpdata` command. Or, you can
-write fixtures by hand; fixtures can be written as XML, YAML, or JSON documents.
-The :ref:`serialization documentation <topics-serialization>` has more details
-about each of these supported :ref:`serialization formats
-<serialization-formats>`.
+Uma fixture é uma coleção de dados que o Django sabe com importar para dentro de
+um banco de dados. A forma mais simples de se criar uma fixture, se você já tem
+alguns dados, é usando o comando :djadmin:`manage.py dumpdata`. Ou, você pode
+escrever a mão; as fixtures podem ser escritas em XML, YAML, ou JSON. A
+:ref:`documentação de serialização <topics-serialization>` tem mais detalhes
+sobre cada um destes :ref:`formatos de serialização <serialization-formats>`
+suportados.
 
-As an example, though, here's what a fixture for a simple ``Person`` model might
-look like in JSON:
+Como exemplo, aqui é mostrado uma fixture para um model simples ``Person``, no
+formato JSON:
 
 .. code-block:: js
 
@@ -65,7 +65,7 @@ look like in JSON:
       },
     ]
 
-And here's that same fixture as YAML:
+E aqui tem a mesma fixture como YAML:
 
 .. code-block:: none
 
@@ -80,63 +80,68 @@ And here's that same fixture as YAML:
         first_name: Paul
         last_name: McCartney
 
-You'll store this data in a ``fixtures`` directory inside you app.
+Você armazenará estes dados em um diretório ``fixtures`` dentro de sua
+aplicação.
 
-Loading data is easy: just call :djadmin:`manage.py loaddata fixturename
-<loaddata>`, where *fixturename* is the name of the fixture file you've created.
-Every time you run :djadmin:`loaddata` the data will be read from the fixture
-and re-loaded into the database. Note that this means that if you change one of
-the rows created by a fixture and the run :djadmin:`loaddata` again you'll wipe
-out any changes you've made.
+Carregar os dados é fácil: é só chamar :djadmin:`manage.py loaddata
+fixturename <loaddata>`, onde *fixturename* é o nome do arquivo fixture que você
+criou. Toda vez que você executar :djadmin:`loaddata` os dados serão lidos da
+fixture e recarregados no banco de dados. Note que isto significa que se você
+mudar algum dado criado por uma fixture e rodar :djadmin:`loaddata` novamente,
+ele irá sobrescrever a mudanças feitas.
 
-Automatically loading initial data fixtures
--------------------------------------------
+Carregando automaticamente os dados iniciais de fixtures
+--------------------------------------------------------
 
-If you create a fixture named ``initial_data.[xml/yaml/json]``, that fixture will
-be loaded every time you run :djadmin:`syncdb`. This is extremely convenient,
-but be careful: remember that the data will be refreshed *every time* you run
-:djadmin:`syncdb`. So don't use ``initial_data`` for data you'll want to edit.
+Se você criar uma fixture chamada ``initial_data.[xml/yaml/json]``, essas
+fixtures serão carregadas sempre que você rodar :djadmin:`syncdb`. Isto é
+extremamente conveniente, mas seja cuidadoso: lembre-se qeu os dados serão
+atualizado *toda vez* que voce executar :djadmin:`syncdb`. Então não use
+``initial_data`` para dados que você deseja editar.
 
 .. seealso::
 
-    Fixtures are also used by the :ref:`testing framework
-    <topics-testing-fixtures>` to help set up a consistent test environment.
+    As fixtures são usadas também pelo :ref:`framework de testes
+    <topics-testing-fixtures>` para ajudar a montar um ambiente consistente de
+    testes.
 
 .. _initial-sql:
 
-Providing initial SQL data
-==========================
+Provendo dados iniciais em SQL
+==============================
 
-Django provides a hook for passing the database arbitrary SQL that's executed
-just after the CREATE TABLE statements when you run :djadmin:`syncdb`. You can
-use this hook to populate default records, or you could also create SQL
-functions, views, triggers, etc.
+O Django provê um hook para passar SQL arbitrário para o banco de dados, que
+é executado somente depois de uma consulta CREATE TABLE, no momento em que você
+roda um :djadmin:`syncdb`. Você pode usar este hook para popular com dados
+padrões, ou também criar funções SQL, view, triggers, etc.
 
-The hook is simple: Django just looks for a file called ``sql/<modelname>.sql``,
-in your app directory, where ``<modelname>`` is the model's name in lowercase.
+O hook é simples: o Django simplesmente procura por um arquivo chamado
+``sql/<modelname>.sql``, no diretório da aplicação, onde ``<modelname>`` é o
+nome do model em minúsculo.
 
-So, if you had a ``Person`` model in an app called ``myapp``, you could add
-arbitrary SQL to the file ``sql/person.sql`` inside your ``myapp`` directory.
-Here's an example of what the file might contain:
+Então, se você tem um model ``Person`` em uma aplicação chamada ``myapp``, você
+poderia adicionar SQL arbitrário num arquivo ``sql/person.sql`` dentro do
+diretório ``myapp``.
+Aqui tem um exemplo do que o arquivo pode conter:
 
 .. code-block:: sql
 
     INSERT INTO myapp_person (first_name, last_name) VALUES ('John', 'Lennon');
     INSERT INTO myapp_person (first_name, last_name) VALUES ('Paul', 'McCartney');
 
-Each SQL file, if given, is expected to contain valid SQL statements
-which will insert the desired data (e.g., properly-formatted
-``INSERT`` statements separated by semicolons).
+Para cada arquivo SQL, se fornecido, é esperado que contenha consultas SQL
+válidas que irão inserir os dados desejados (e.g., consultas ``INSERT``
+apropriadamente formadas, separadas por ponto-e-vírgula);
 
-The SQL files are read by the :djadmin:`sqlcustom`, :djadmin:`sqlreset`,
-:djadmin:`sqlall` and :djadmin:`reset` commands in :ref:`manage.py
-<ref-django-admin>`. Refer to the :ref:`manage.py documentation
-<ref-django-admin>` for more information.
+Os arquivos SQL são lidos pelos comandos :djadmin:`sqlcustom`,
+:djadmin:`sqlreset`, :djadmin:`sqlall` e :djadmin:`reset` no :ref:`manage.py
+<ref-django-admin>`. Consulte a :ref:`documentação do manage.py
+<ref-django-admin>` para mais informações.
 
-Note that if you have multiple SQL data files, there's no guarantee of the order
-in which they're executed. The only thing you can assume is that, by the time
-your custom data files are executed, all the database tables already will have
-been created.
+Note que se você tem múltiplos arquivos de dados SQL, não há garantias da ordem
+em que eles serão executados. A única coisa que pode ser assumida, é que no
+momento em que todos forem executados, o banco de dados já estará com todas as
+suas tabelas criadas.
 
 Database-backend-specific SQL data
 ----------------------------------
@@ -153,3 +158,4 @@ example, if your app contains the files ``sql/person.sql`` and
 ``sql/person.postgresql.sql`` and you're installing the app on PostgreSQL,
 Django will execute the contents of ``sql/person.postgresql.sql`` first, then
 ``sql/person.sql``.
+
