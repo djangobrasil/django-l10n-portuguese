@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision. $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11298 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -30,6 +30,7 @@ Introduções para todos os partes-chaves do Django, você precisa saber:
    forms/index
    forms/modelforms
    templates
+   generic-views
    files
    testing
    auth
