@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, wainting for revision. $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11298 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -117,7 +117,6 @@ inclui estas APIs:
 ``django.utils``
 ----------------
 
-Most of the modules in ``django.utils`` are designed for internal use. Only the following parts of ``django.utils`` can be considered stable:
 A maioria dos módulos em ``django.utils`` são projetados para uso interno. 
 Somente as seguintes partes do ``django.utils`` podem ser consideradas estáveis:
 
@@ -159,10 +158,6 @@ Desta forma, se o Django 1.5 vem com uma incompatibilidade no
 ``django.contrib.flatpages``, nós faremos de forma que você continue utilizando 
 o django 1.4 em par com o Django 1.5. Esta vai continuar a permitir faceis 
 upgrades.
-
-Historically, apps in ``django.contrib`` have been more stable than the core, so
-in practice we probably won't have to ever make this exception. However, it's
-worth noting if you're building apps that depend on ``django.contrib``.
 
 Historicamente, aplicaçãoes ``django.contrib`` têm sido mais estáveis que o 
 núcleo, então na prática nós provavelmente não iremos ter muito o que fazer com 
