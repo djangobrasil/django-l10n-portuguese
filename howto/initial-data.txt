@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: In Progress $
-..   $OriginalRevision: 9402 $
+..   $OriginalRevision: 11298 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -62,7 +62,7 @@ formato JSON:
           "first_name": "Paul",
           "last_name": "McCartney"
         }
-      },
+      }
     ]
 
 E aqui tem a mesma fixture como YAML:
