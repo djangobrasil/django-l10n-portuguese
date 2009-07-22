@@ -2,8 +2,8 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision. $
-..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: Vinicius Martins, Robson Mendonça $
+..   $OriginalRevision: 11298 $
+..   $TranslationAuthors: Vinicius Martins, Robson Mendonça, Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -31,82 +31,14 @@ se você deseja usar a versão em desenvolvimento do Djanto você necessitará s
 as seguintes instruções para :ref:`instalar a versão em desenvolvimento
 <installing-development-version>` do nosso repositório Subversion.
 
-FreeBSD
-=======
+Se você está usando o Linux ou uma instalação do Unix, como o OpenSolaris,
+verifique com o seu fornecedor se ele já tem o Django empacotado. Se
+você está usando uma distribuição do Linux e não sabe como descobrir se um pacote está
+disponível, é uma boa hora pra aprender isso. O Wiki do Django contém uma
+lista de `Distribuições de terceiros`_ para ajudá-lo.
 
-O sistema ports `FreeBSD`_ possui ambos Django 0.96 (`py-django`_) e uma mais
-recente, porém não atual, versão baseada no trunk Django (`py-django-devel`_).
-Elas são instaladas da maneira comum do FreeBSD; para o Django 0.96, por
-exemplo, digite: ``cd /usr/ports/www/py-django && sudo make install clean``.
+.. _`Distribuições de terceiros`: http://code.djangoproject.com/wiki/Distributions
 
-.. _FreeBSD: http://www.freebsd.org/
-.. _py-django: http://www.freebsd.org/cgi/cvsweb.cgi/ports/www/py-django/
-.. _py-django-devel: http://www.freebsd.org/cgi/cvsweb.cgi/ports/www/py-django-devel/
-
-Distribuições Linux
-===================
-
-Debian
-------
-
-Uma `versão empacotada do Django`_ está disponível para `Debian GNU/Linux`_. A
-versão 0.95.1 está disponível no repositório "stable"; A versão 0.96 está
-disponível nos repositório "testing" e "unstable". Independentemente da sua
-escolha de repositório, você pode instalar o Django digitando
-``apt-get install python-django``.
-
-Quando você instalar esse pacote, ``apt`` recomendará a instalação de um driver
-de banco de dados; você deverá selecionar e instalar o driver para o banco de
-dados que planeja usar com Django.
-
-.. _Debian GNU/Linux: http://www.debian.org/
-.. _versão empacotada do Django: http://packages.debian.org/stable/python/python-django
-
-Fedora
-------
-
-Um pacote Django está disponível para `Fedora Linux`_ no repositório "Fedora
-Extras". O `pacote atual do Fedora`_ é baseado no Django 0.96 e pode ser
-instalando digitando ``yum install Django``. O link anterior é para os binários
-i386. Usuários de outras arquiteturas podem usá-lo como um ponto de referência
-para encontrar suas versões de preferência.
-
-.. _Fedora Linux: http://fedora.redhat.com/
-.. _pacote atual do Fedora: http://download.fedora.redhat.com/pub/fedora/linux/extras/6/i386/repoview/Django.html
-
-Gentoo
-------
-
-Um pacote django está disponível para `Gentoo Linux`_, e é baseado no Django
-0.96.1. O `pacote atual do Gentoo` pode ser instalado digitando
-``emerge django``.
-
-.. _Gentoo Linux: http://www.gentoo.org/
-.. _pacote atual do Gentoo: http://packages.gentoo.org/package/django
-
-Ubuntu
-------
-
-O pacote ``python-django`` do Debian também está disponível para o `Ubuntu
-Linux`_, no repositório "universe" para o Ubuntu 7.10 ("Gutsy Gibbon"). O
-`pacote atual do Ubuntu`_ é baseado no Django 0.96.1 e pode ser instalado como
-no Debian.
-
-.. _Ubuntu Linux: http://www.ubuntu.com/
-.. _pacote atual do Ubuntu: http://packages.ubuntu.com/gutsy/python/python-django
-
-Mac OS X
-========
-
-MacPorts
---------
-
-Django 0.96 pode ser instalado pelo sistema `MacPorts`_. Se você está usando
-Python 2.4, digite ``sudo port install py-django-devel``. Para Python 2.5, digite
-``sudo port install py25-django-devel``. MacPorts também pode ser usado para a
-instalação de um banco de dados e da interface Python para o banco escolhido.
-
-.. _MacPorts: http://www.macports.org/
 
 Para distribuidores
 ===================
