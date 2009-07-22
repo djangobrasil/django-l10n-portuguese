@@ -665,7 +665,7 @@ Primeiro, você pode deixar o formset fazer a maior parte do trabalho::
     </form>
 
 Segundo, você pode manualmente renderizar o formset, mas deixe o form trabalhar
-por contra própria
+por contra própria::
 
     <form method="POST" action="">
         {{ formset.management_form }}
@@ -712,7 +712,7 @@ renderizá-la.)
 .. highlight:: python
 
 Formsets em linha (*inline*)
-==========================
+============================
 
 Formsets em linha é uma pequena camada de abstração sobre os formsets de model.
 Este simplificam o caso de trabalhar com objetos relacionados através de uma
