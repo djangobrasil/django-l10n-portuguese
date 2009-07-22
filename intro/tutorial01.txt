@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done $
-..   $OriginalRevision: 9012 $
+..   $OriginalRevision: 11298 $
 ..   $TranslationAuthors: Marcelo Minholi $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -155,8 +155,10 @@ pastel. Ele funcionou!
 
 .. admonition:: Mudando a porta
 
-    Por padrão, o comando ``runserver`` inicia o servidor de desenvolvimento na
-    porta 8000. Se você quer mudar a porta do servidor, passe ela como um argumento
+    Por padrão, o comando ``runserver`` inicia o servidor de desenvolvimento no
+    IP interno na porta 8000.
+
+    Se você quer mudar a porta do servidor, passe ela como um argumento
     na linha de comando. Por exemplo, este comando iniciará o servidor na porta
     8080:
    
@@ -164,9 +166,16 @@ pastel. Ele funcionou!
 
         python manage.py runserver 8080
 
-    A documentação completa para o servidor de desenvolvimento está na
-    referncia :djadmin:`runserver`.
+    Se você quer mudar para o IP do servidor, passe-o junto com a porta. Então para
+    ouvir em todos os IPs públicos (útil se você quer mostrar seu trabalho em outros
+    computadores), use:
 
+    .. code-block:: bash
+
+        python manage.py runserver 0.0.0.0:8000
+
+    A documentação completa para o servidor de desenvolvimento está na
+    referência :djadmin:`runserver`.
 
 Configuração do banco de dados
 ------------------------------
@@ -627,17 +636,17 @@ prompt interativo, mas também porque representações de objetos são usadas em
 toda a administração gerada automaticamente pelo Django.
 
 .. admonition:: Por que :meth:`~django.db.models.Model.__unicode__` e não
-                :meth:`django.db.models.Model.__str__`?
+                :meth:`~django.db.models.Model.__str__`?
 
     Se você esta familiarizado com o Python, você deve ter o hábito de adicionar
-    métodos :meth:`django.db.models.Model.__str__` às suas classes, não métodos
+    métodos :meth:`~django.db.models.Model.__str__` às suas classes, não métodos
     :meth:`~django.db.models.Model.__unicode__`. Nós usamos
     :meth:`~django.db.models.Model.__unicode__` aqui porque os modelos do Django
     lidam com Unicode por padrão. Todos os dados armazenados nos seus bancos de
     dados são convertidos para Unicode quando são retornados.
 
     Os modelos do Django têm um método padrão
-    :meth:`django.db.models.Model.__str__` que chama o
+    :meth:`~django.db.models.Model.__str__` que chama o
     :meth:`~django.db.models.Model.__unicode__` e converte os resultados para
     uma bytestring UTF-8. Isso significa que ``unicode(p)`` irá retornar uma
     string Unicode, e que ``str(p)`` irá retornar uma string normal, com
@@ -660,7 +669,7 @@ personalizado, apenas por demonstração::
 Note a adição de ``import datetime`` para referenciar o módulo padrão do Python
 ``datetime``.
 
-Vamos voltar um pouco ao shell interativo do Python rodando
+Salve essas mudanças e vamos iniciar uma nova sessão do shell interativo do Python rodando
 ``python manage.py shell`` novamente::
 
     >>> from mysite.polls.models import Poll, Choice
