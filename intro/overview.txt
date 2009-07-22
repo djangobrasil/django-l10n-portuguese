@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting revision. $
-..   $OriginalRevision: 8658 $
+..   $OriginalRevision: 11298 $
 ..   $TranslationAuthors: Marcelo Minholi $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -262,9 +262,9 @@ como ele deve se parecer:
     <h1>Artigos por {{ year }}</h1>
 
     {% for article in article_list %}
-    <p>{{ article.headline }}</p>
-    <p>Por {{ article.reporter.full_name }}</p>
-    <p>Publicado em {{ article.pub_date|date:"F j, Y" }}</p>
+        <p>{{ article.headline }}</p>
+        <p>Por {{ article.reporter.full_name }}</p>
+        <p>Publicado em {{ article.pub_date|date:"F j, Y" }}</p>
     {% endfor %}
     {% endblock %}
 
@@ -338,8 +338,8 @@ recursos mais úteis:
       introdução mal arranhou a superfície.
 
 Os próximos passos óbvios para você são fazer o `download do Django`_, ler
-:ref:`o tutorial <intro-tutorial01>` e juntar-se `à comunidade`_.
+:ref:`o tutorial <intro-tutorial01>` e juntar-se `a comunidade`_.
 Obrigado pelo seu interesse!
 
 .. _download do Django: http://www.djangobrasil.org/download/
-.. _à comunidade: http://www.djangobrasil.org/comunidade/
+.. _a comunidade: http://www.djangobrasil.org/comunidade/
