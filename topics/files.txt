@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 9368 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,40 +16,41 @@
 
 .. _topics-files:
 
-==============
-Managing files
-==============
+====================
+Gerenciando arquivos
+====================
 
 .. versionadded:: 1.0
 
-This document describes Django's file access APIs.
+Este documento descre a API de acesso a arquivos do Django.
 
-By default, Django stores files locally, using the :setting:`MEDIA_ROOT` and
-:setting:`MEDIA_URL` settings. The examples below assume that you're using these
-defaults.
+Por padrão, o Django armazena arquivos localmente, usando as configurações
+:setting:`MEDIA_ROOT` e :setting:`MEDIA_URL`. O exemplos abaixo assumem que você
+está usando estes padrões.
 
-However, Django provides ways to write custom `file storage systems`_ that
-allow you to completely customize where and how Django stores files. The
-second half of this document describes how these storage systems work.
+No entanto, o Django provê formas de se criar um `sistema de armazenamento`_
+customizado, que permite você personalizar completamente, onde e como o Django
+armazena arquivos. A segunda metade deste documento descreve como esses sistemas
+de armazenamento funcionam.
 
-.. _file storage systems: `File storage`_
+.. _sistema de armazenamento: `Armazenamento de arquivo`_
 
-Using files in models
-=====================
+Usando arquivos em models
+=========================
 
-When you use a :class:`~django.db.models.FileField` or
-:class:`~django.db.models.ImageField`, Django provides a set of APIs you can use
-to deal with that file.
+Quando você usa um :class:`~django.db.models.FileField` ou
+:class:`~django.db.models.ImageField`, o Django provê um conjunto de APIs que
+você pode usar para negociar com este arquivo.
 
-Consider the following model, using a ``FileField`` to store a photo::
+Considere o seguinte model, usando um ``FileField`` para armazenar uma foto::
 
     class Car(models.Model):
         name = models.CharField(max_length=255)
         price = models.DecimalField(max_digits=5, decimal_places=2)
         photo = models.ImageField(upload_to='cars')
 
-Any ``Car`` instance will have a ``photo`` attribute that you can use to get at
-the details of the attached photo::
+Qualquer instância de ``Car`` terá um atributo ``photo`` que você pode usar para
+obter os detalhes da foto anexa::
 
     >>> car = Car.objects.get(name="57 Chevy")
     >>> car.photo
@@ -61,55 +62,58 @@ the details of the attached photo::
     >>> car.photo.url
     u'http://media.example.com/cars/chevy.jpg'
 
-This object -- ``car.photo`` in the example -- is a ``File`` object, which means
-it has all the methods and attributes described below.
+Este objeto -- ``car.photo`` no exemplo -- é um objeto ``File``, o que significa
+que ele tem todos os métodos e atributos descritos abaixo.
 
-The ``File`` object
-===================
+O objeto ``File``
+=================
 
-Internally, Django uses a ``django.core.files.File`` any time it needs to
-represent a file. This object is a thin wrapper around Python's `built-in file
-object`_ with some Django-specific additions.
+Internamente, o Django usa um ``django.core.files.File`` toda vez que ele
+precisa representar um arquivo. Este objeto é um pequeno contorno ao `objeto
+file nativo`_ do Python com algumas adições específicas do Django.
 
-.. _built-in file object: http://docs.python.org/lib/bltin-file-objects.html
+.. _objeto file nativo: http://docs.python.org/lib/bltin-file-objects.html
 
-Most of the time you'll simply use a ``File`` that Django's given you (i.e. a
-file attached to a model as above, or perhaps an uploaded file).
+Na maior parte do tempo você simplesmente irá usar um ``File`` que o Django
+fornece a você (i.e. um arquivo atachado em um model, como mostrado acima, ou
+talvez um arquivo de upload).
 
-If you need to construct a ``File`` yourself, the easiest way is to create one
-using a Python built-in ``file`` object::
+Se você precisa construir um ``File`` você mesmo, o caminho mais fácil é criar
+um usando o objeto nativo ``file`` do Python::
 
     >>> from django.core.files import File
 
-    # Create a Python file object using open()
+    # Cria um objeto file do Python usando open()
     >>> f = open('/tmp/hello.world', 'w')
     >>> myfile = File(f)
 
-Now you can use any of the ``File`` attributes and methods documented in
+Agora você pode usar qualquer atributo ou método do ``File`` documentado em
 :ref:`ref-files-file`.
 
-File storage
-============
+Armazenamento de arquivo
+========================
 
-Behind the scenes, Django delegates decisions about how and where to store files
-to a file storage system. This is the object that actually understands things
-like file systems, opening and reading files, etc.
+Por trás das cenas, o Django se encarrega das decições sobre como e onde os
+arquivos são armazenados no sistema de arquivos. Este é um objeto que na verdade
+entende coisas como sistema de arquivos, abertura e leitura de arquivos, etc.
 
-Django's default file storage is given by the :setting:`DEFAULT_FILE_STORAGE`
-setting; if you don't explicitly provide a storage system, this is the one that
-will be used.
+O sistema de armazenamento padrão do Django é dado pela configuração
+:setting:`DEFAULT_FILE_STORAGE`; se você não provê explicitamente um sistema de
+armazenamento, é este que será utilizado.
 
-See below for details of the built-in default file storage system, and see
-:ref:`howto-custom-file-storage` for information on writing your own file
-storage system.
+Veja abaixo detalhes do sistema de armazenamento nativo, e veja
+:ref:`howto-custom-file-storage` para mais informações sobre criar seu próprio
+sistema de armazenamento.
 
-Storage objects
----------------
+Objetos de armazenamento
+------------------------
 
-Though most of the time you'll want to use a ``File`` object (which delegates to
-the proper storage for that file), you can use file storage systems directly.
-You can create an instance of some custom file storage class, or -- often more
-useful -- you can use the global default storage system::
+Embora a maior parte do tempo você pretenda utilizar um objeto ``File`` (que
+se encarrega de armazenar os arquivos apropriadamente), você pode usar sistemas
+de armazenamento diretamente.
+Você pode criar uma instância de alguma classe customizada de armazenamento de
+arquivos, ou -- o que é mais frequente -- você pode usar o sistema padrão de
+armazenamento global::
 
     >>> from django.core.files.storage import default_storage
     >>> from django.core.files.base import ContentFile
@@ -127,28 +131,29 @@ useful -- you can use the global default storage system::
     >>> default_storage.exists(path)
     False
 
-See :ref:`ref-files-storage` for the file storage API. 
+Consulte :ref:`ref-files-storage` para saber mais sobre a API de armazenamento
+de arquivos.
 
-The built-in filesystem storage class
--------------------------------------
+A classe nativa de armazenamento filesystem
+-------------------------------------------
 
-Django ships with a built-in ``FileSystemStorage`` class (defined in
-``django.core.files.storage``) which implements basic local filesystem file
-storage. Its initializer takes two arguments:
+O Django vem com uma classe nativa ``FileSystemStorage`` (definida em
+``django.core.files.storage``) que implementa o sistema de arquivos básico
+local. Seu construtor recebe dois argumentos:
 
 ======================  ===================================================
-Argument                Description
+Argumento               Descrição
 ======================  ===================================================
-``location``            Optional. Absolute path to the directory that will
-                        hold the files. If omitted, it will be set to the
-                        value of your ``MEDIA_ROOT`` setting.
-``base_url``            Optional. URL that serves the files stored at this
-                        location. If omitted, it will default to the value
-                        of your ``MEDIA_URL`` setting.
+``location``            Opicional. O caminho absoluto para o diretório que
+                        receberá os arquivos. Se omitido, ele será setado
+                        com o valor do :setting:`MEDIA_ROOT`.
+``base_url``            Opicional. URL que serve o arquivo armazenado em
+                        seu local. Se omitido, ele será o padrão definido
+                        no seu :setting:`MEDIA_URL`.
 ======================  ===================================================
 
-For example, the following code will store uploaded files under
-``/media/photos`` regardless of what your ``MEDIA_ROOT`` setting is::
+Por exemplo, o seguinte código irá armazenar os arquivos enviados em
+``/media/photos`` independentemente do que seu ``MEDIA_ROOT`` é::
 
     from django.db import models
     from django.core.files.storage import FileSystemStorage
@@ -159,5 +164,7 @@ For example, the following code will store uploaded files under
         ...
         photo = models.ImageField(storage=fs)
 
-:ref:`Custom storage systems <howto-custom-file-storage>` work the same way: you
-can pass them in as the ``storage`` argument to a ``FileField``.
+Os :ref:`sistemas de armazenamento customizados <howto-custom-file-storage>`
+funcionam da mesma forma: você pode passá-los como o argumento ``storage`` para
+um ``FileField``.
+
