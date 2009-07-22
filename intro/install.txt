@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision. $
-..   $OriginalRevision: 9324 $
+..   $OriginalRevision: 11298 $
 ..   $TranslationAuthors: Wiliam Alves de Souza $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -26,10 +26,13 @@ funcionará enquanto você caminha através da introdução.
 Instalando o Python
 -------------------
 
-Sendo um web framework Python, Django requer o  Python. Ele funciona com qualquer
-versão 2.3 e superiores, mais nos recomendamos instalar Python 2.5 ou posterior.
-Se fizer isso, você não precisará criar um banco de dados ainda: Python 2.5 ou
-posterior inclui uma base de dados leve chamado SQLite_.
+Sendo um framework web Python, o Django requer Python. Ele funciona com qualquer
+versão 2.3 ao 2.6 (devido a questões de incompatibilidade
+retroativa no Python 3.0, o Django atualmente não funciona com
+o Python 3.0;veja :ref:`a FAQ do Django <faq-install>` para mais
+informação sobre as versões suportadas do Python e a transição para o 3.0), mas nós recomendamos instalar o
+Python 2.5 ou posterior. Se fizer isso, você não precisará configurar um servidor de banco de dados:
+Python 2.5 ou posterior inclui uma base de dados leve chamado SQLite_.
 
 .. _sqlite: http://sqlite.org/
 
