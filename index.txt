@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done $
-..   $OriginalRevision:  9141 $
+..   $OriginalRevision:  11298 $
 ..   $TranslationAuthors: Wiliam Alves de Souza, semente $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -202,6 +202,10 @@ E o restante
 
 :ref:`Notas de lançamento <releases-index>`
     Veja o que há de novo em cada versão do Django.
+
+:ref:`Deprecation Timeline <internals-deprecation>`
+    Veja as APIs que foram marcados como obsoletas em lançamentos futuros do
+    Django.
 
 :ref:`Miscelânea <misc-index>`
     Coisas que não podemos encontrar um lugar mais organizado para elas. Como

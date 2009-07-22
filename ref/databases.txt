@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Not started $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11298 $
 ..   $TranslationAuthors: None $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -29,15 +29,29 @@ This file describes some of the features that might be relevant to Django
 usage. Of course, it is not intended as a replacement for server-specific
 documentation or reference manuals.
 
+.. _postgresql-notes:
+
+PostgreSQL notes
+================
+
+Transaction handling
+---------------------
+
+:ref:`By default <topics-db-transactions>`, Django starts a transaction when a
+database connection is first used and commits the result at the end of the
+request/response handling. The PostgreSQL backends normally operate the same
+as any other Django backend in this respect.
+
+
 .. _mysql-notes:
 
 MySQL notes
 ===========
 
-Django expects the database to support transactions, referential integrity,
-and Unicode support (UTF-8 encoding). Fortunately, MySQL_ has all these
-features as available as far back as 3.23. While it may be possible to use
-3.23 or 4.0, you'll probably have less trouble if you use 4.1 or 5.0.
+Django expects the database to support transactions, referential integrity, and
+Unicode (UTF-8 encoding). Fortunately, MySQL_ has all these features as
+available as far back as 3.23. While it may be possible to use 3.23 or 4.0,
+you'll probably have less trouble if you use 4.1 or 5.0.
 
 MySQL 4.1
 ---------
@@ -169,7 +183,7 @@ bytestrings (which shouldn't be too difficult) is the recommended solution.
 Should you decide to use ``utf8_bin`` collation for some of your tables with
 MySQLdb 1.2.1p2, you should still use ``utf8_collation_ci_swedish`` (the
 default) collation for the :class:`django.contrib.sessions.models.Session`
-table (usually called ``django_session`` and the table
+table (usually called ``django_session``) and the
 :class:`django.contrib.admin.models.LogEntry` table (usually called
 ``django_admin_log``). Those are the two standard tables that use
 :class:`~django.db.model.TextField` internally.
@@ -179,7 +193,7 @@ table (usually called ``django_session`` and the table
 Connecting to the database
 --------------------------
 
-Refer to the :ref:`settings documentation <ref-settings>`. 
+Refer to the :ref:`settings documentation <ref-settings>`.
 
 Connection settings are used in this order:
 
@@ -195,18 +209,18 @@ anything in a `MySQL option file`_.
 
 Here's a sample configuration which uses a MySQL option file::
 
-  # settings.py
-  DATABASE_ENGINE = "mysql"
-  DATABASE_OPTIONS = {
-      'read_default_file': '/path/to/my.cnf',
-      }
+    # settings.py
+    DATABASE_ENGINE = "mysql"
+    DATABASE_OPTIONS = {
+        'read_default_file': '/path/to/my.cnf',
+    }
 
-  # my.cnf
-  [client]
-  database = DATABASE_NAME
-  user = DATABASE_USER
-  password = DATABASE_PASSWORD
-  default-character-set = utf8
+    # my.cnf
+    [client]
+    database = DATABASE_NAME
+    user = DATABASE_USER
+    password = DATABASE_PASSWORD
+    default-character-set = utf8
 
 Several other MySQLdb connection options may be useful, such as ``ssl``,
 ``use_unicode``, ``init_command``, and ``sql_mode``. Consult the
@@ -237,9 +251,7 @@ storage engine, you have a couple of options.
       creating your tables::
 
           DATABASE_OPTIONS = {
-              # ...
              "init_command": "SET storage_engine=INNODB",
-              # ...
           }
 
       This sets the default storage engine upon connecting to the database.
@@ -250,8 +262,11 @@ storage engine, you have a couple of options.
 
 .. _AlterModelOnSyncDB: http://code.djangoproject.com/wiki/AlterModelOnSyncDB
 
-Boolean fields in Django
--------------------------
+Notes on specific fields
+------------------------
+
+Boolean fields
+~~~~~~~~~~~~~~
 
 Since MySQL doesn't have a direct ``BOOLEAN`` column type, Django uses a
 ``TINYINT`` column with values of ``1`` and ``0`` to store values for the
@@ -260,48 +275,142 @@ of that field for more details, but usually this won't be something that will
 matter unless you're printing out the field values and are expecting to see
 ``True`` and ``False.``.
 
+Character fields
+~~~~~~~~~~~~~~~~
+
+Any fields that are stored with ``VARCHAR`` column types have their
+``max_length`` restricted to 255 characters if you are using ``unique=True``
+for the field. This affects :class:`~django.db.models.CharField`,
+:class:`~django.db.models.SlugField` and
+:class:`~django.db.models.CommaSeparatedIntegerField`.
+
+Furthermore, if you are using a version of MySQL prior to 5.0.3, all of those
+column types have a maximum length restriction of 255 characters, regardless
+of whether ``unique=True`` is specified or not.
+
 .. _sqlite-notes:
 
-SQLite notes 
-============ 
- 
-Versions of SQLite 3.3.5 and older `contain a bug`_ when handling ``ORDER BY``
+SQLite notes
+============
+
+SQLite_ provides an excellent development alternative for applications that
+are predominantly read-only or require a smaller installation footprint. As
+with all database servers, though, there are some differences that are
+specific to SQLite that you should be aware of.
+
+.. _SQLite: http://www.sqlite.org/
+
+.. _sqlite-string-matching:
+
+String matching for non-ASCII strings
+--------------------------------------
+
+SQLite doesn't support case-insensitive matching for non-ASCII strings. Some
+possible workarounds for this are `documented at sqlite.org`_, but they are
+not utilised by the default SQLite backend in Django. Therefore, if you are
+using the ``iexact`` lookup type in your queryset filters, be aware that it
+will not work as expected for non-ASCII strings.
+
+.. _documented at sqlite.org: http://www.sqlite.org/faq.html#q18
+
+SQLite 3.3.6 or newer strongly recommended
+------------------------------------------
+
+Versions of SQLite 3.3.5 and older contains a bug when `handling`_ ``ORDER BY``
 parameters. This can cause problems when you use the ``select`` parameter for
 the ``extra()`` QuerySet method. The bug can be identified by the error message
-``OperationalError: ORDER BY terms must not be non-integer constants``. The
-problem can be solved updating SQLite to version 3.3.6 or newer, possibly also
-updating the ``pysqlite2`` Python module in the process.
- 
-.. _contain a bug: http://www.sqlite.org/cvstrac/tktview?tn=1768 
- 
-This has a very low impact because 3.3.6 was released in April 2006, so most 
-current binary distributions for different platforms include newer version of 
-SQLite usable from Python through either the ``pysqlite2`` or the ``sqlite3`` 
-modules. 
- 
-However, in the case of Windows, the official binary distribution of the stable 
-release of Python 2.5 (2.5.2, as of this writing) includes SQLite 3.3.4, so the bug can 
-make itself evident in that platform. There are (as of Django 1.0) even three 
-tests in the Django test suite that will fail when run under this setup.  As 
-described above, this can be solved by downloading and installing a newer 
-version of ``pysqlite2`` (``pysqlite-2.x.x.win32-py2.5.exe``) that includes and 
-uses a newer version of SQLite. Python 2.6 ships with a newer version of 
-SQLite and is not affected by this issue.
+``OperationalError: ORDER BY terms must not be non-integer constants``.
 
-If you are in such platform and find yourself in the need to update
-``pysqlite``/SQLite, you will also need to manually modify the
-``django/db/backends/sqlite3/base.py`` file in the Django source tree so it
-attempts to import ``pysqlite2`` before than ``sqlite3`` and so it can take
-advantage of the new ``pysqlite2``/SQLite versions.
+.. _handling: http://www.sqlite.org/cvstrac/tktview?tn=1768
+.. _aggregation: http://code.djangoproject.com/ticket/10031
+
+SQLite 3.3.6 was released in April 2006, so most current binary distributions
+for different platforms include newer version of SQLite usable from Python
+through either the ``pysqlite2`` or the ``sqlite3`` modules.
+
+However, some platform/Python version combinations include older versions of
+SQLite (e.g. the official binary distribution of Python 2.5 for Windows, 2.5.4
+as of this writing, includes SQLite 3.3.4).
+
+Version 3.5.9
+-------------
+
+The Ubuntu "Intrepid Ibex" (8.10) SQLite 3.5.9-3 package contains a bug that
+causes problems with the evaluation of query expressions. If you are using
+Ubuntu "Intrepid Ibex", you will need to update the package to version
+3.5.9-3ubuntu1 or newer (recommended) or find an alternate source for SQLite
+packages, or install SQLite from source.
+
+At one time, Debian Lenny shipped with the same malfunctioning SQLite 3.5.9-3
+package. However the Debian project has subsequently issued updated versions
+of the SQLite package that correct these bugs. If you find you are getting
+unexpected results under Debian, ensure you have updated your SQLite package
+to 3.5.9-5 or later.
+
+The problem does not appear to exist with other versions of SQLite packaged
+with other operating systems.
+
+Version 3.6.2
+--------------
+
+SQLite version 3.6.2 (released August 30, 2008) introduced a bug into ``SELECT
+DISTINCT`` handling that is triggered by, amongst other things, Django's
+``DateQuerySet`` (returned by the ``dates()`` method on a queryset).
+
+You should avoid using this version of SQLite with Django. Either upgrade to
+3.6.3 (released September 22, 2008) or later, or downgrade to an earlier
+version of SQLite.
+
+"Database is locked" errors
+-----------------------------------------------
+
+SQLite is meant to be a lightweight database, and thus can't support a high
+level of concurrency. ``OperationalError: database is locked`` errors indicate
+that your application is experiencing more concurrency than ``sqlite`` can
+handle in default configuration. This error means that one thread or process has
+an exclusive lock on the database connection and another thread timed out
+waiting for the lock the be released.
+
+Python's SQLite wrapper has
+a default timeout value that determines how long the second thread is allowed to
+wait on the lock before it times out and raises the ``OperationalError: database
+is locked`` error.
+
+If you're getting this error, you can solve it by:
+
+    * Switching to another database backend. At a certain point SQLite becomes
+      too "lite" for real-world applications, and these sorts of concurrency
+      errors indicate you've reached that point.
+
+    * Rewriting your code to reduce concurrency and ensure that database
+      transactions are short-lived.
+
+    * Increase the default timeout value by setting the ``timeout`` database
+      option option::
+
+          DATABASE_OPTIONS = {
+              # ...
+             "timeout": 20,
+              # ...
+          }
+
+      This will simply make SQLite wait a bit longer before throwing "database
+      is locked" errors; it won't really do anything to solve them.
 
 .. _oracle-notes:
 
 Oracle notes
 ============
 
-Django supports `Oracle Database Server`_ versions 9i and higher. Oracle
-version 10g or later is required to use Django's ``regex`` and ``iregex`` query
-operators. You will also need the `cx_Oracle`_ driver, version 4.3.1 or newer.
+Django supports `Oracle Database Server`_ versions 9i and
+higher. Oracle version 10g or later is required to use Django's
+``regex`` and ``iregex`` query operators. You will also need at least
+version 4.3.1 of the `cx_Oracle`_ Python driver.
+
+Note that due to a Unicode-corruption bug in ``cx_Oracle`` 5.0, that
+version of the driver should **not** be used with Django;
+``cx_Oracle`` 5.0.1 resolved this issue, so if you'd like to use a
+more recent ``cx_Oracle``, use version 5.0.1.
 
 .. _`Oracle Database Server`: http://www.oracle.com/
 .. _`cx_Oracle`: http://cx-oracle.sourceforge.net/
@@ -320,7 +429,9 @@ To run Django's test suite, the user needs these *additional* privileges:
     * DROP USER
     * CREATE TABLESPACE
     * DROP TABLESPACE
-    
+    * CONNECT WITH ADMIN OPTION
+    * RESOURCE WITH ADMIN OPTION
+
 Connecting to the database
 --------------------------
 
@@ -402,12 +513,13 @@ characters of the truncated name with a repeatable MD5 hash value.
 NULL and empty strings
 ----------------------
 
-Django generally prefers to use the empty string ('') rather than NULL, but
-Oracle treats both identically. To get around this, the Oracle backend
-coerces the ``null=True`` option on fields that permit the empty string as a
-value. When fetching from the database, it is assumed that a NULL value in
-one of these fields really means the empty string, and the data is silently
-converted to reflect this assumption.
+Django generally prefers to use the empty string ('') rather than
+NULL, but Oracle treats both identically. To get around this, the
+Oracle backend coerces the ``null=True`` option on fields that have
+the empty string as a possible value. When fetching from the database,
+it is assumed that a NULL value in one of these fields really means
+the empty string, and the data is silently converted to reflect this
+assumption.
 
 ``TextField`` limitations
 -------------------------
@@ -425,3 +537,28 @@ some limitations on the usage of such LOB columns in general:
     Oracle. A workaround to this is to keep ``TextField`` columns out of any
     models that you foresee performing ``distinct()`` queries on, and to
     include the ``TextField`` in a related model instead.
+
+.. _third-party-notes:
+
+Using a 3rd-party database backend
+==================================
+
+In addition to the officially supported databases, there are backends provided
+by 3rd parties that allow you to use other databases with Django:
+
+* `Sybase SQL Anywhere`_
+* `IBM DB2`_
+* `Microsoft SQL Server 2005`_
+* Firebird_
+* ODBC_
+
+The Django versions and ORM features supported by these unofficial backends
+vary considerably. Queries regarding the specific capabilities of these
+unofficial backends, along with any support queries, should be directed to
+the support channels provided by each 3rd party project.
+
+.. _Sybase SQL Anywhere: http://code.google.com/p/sqlany-django/
+.. _IBM DB2: http://code.google.com/p/ibm-db/
+.. _Microsoft SQL Server 2005: http://code.google.com/p/django-mssql/
+.. _Firebird: http://code.google.com/p/django-firebird/
+.. _ODBC: http://code.google.com/p/django-pyodbc/
