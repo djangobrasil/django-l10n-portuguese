@@ -851,7 +851,7 @@ os testes.
 
 O método mais simples e direto de criar uma fixture é usar o comando
 ``manage.py dumpdata``. Isso assume que você já tem algum dado em seu banco.
-Veja a :ref:`documentação do dumpdata<dumpdata>` para mais detalhes.
+Veja a :djadmin:`documentação do dumpdata <dumpdata>` para mais detalhes.
 
 .. note::
     Se você já rodou alguma vez o ``manage.py syncdb``, você já usou fixture
