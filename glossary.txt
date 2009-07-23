@@ -3,7 +3,7 @@
 ..
 ..   $TranslationStatus: Done $
 ..   $OriginalRevision: 11298 $
-..   $TranslationAuthors: Wiliam Alves de Souza $
+..   $TranslationAuthors: Wiliam Alves de Souza, semente $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
