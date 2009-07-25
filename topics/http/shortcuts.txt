@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11298 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -35,7 +35,7 @@ Argumentos obrigatórios
 -----------------------
 
 ``template``
-	O nome completo do template utilizado.
+	O nome completo do template utilizado ou uma sequência de nomes de template.
 
 Argumentos opcionais
 --------------------
@@ -87,7 +87,7 @@ Esse exemplo é equivalente a::
         # Código da View aqui...
         t = loader.get_template('myapp/template.html')
         c = Context({'foo': 'bar'})
-        r = HttpResponse(t.render(c),
+        return HttpResponse(t.render(c),
             mimetype="application/xhtml+xml")
 
 ``get_object_or_404``
@@ -164,7 +164,7 @@ Esse exemplo é equivalente a::
     from django.http import Http404
 
     def my_view(request):
-        my_objects = MyModel.objects.filter(published=True)
+        my_objects = list(MyModel.objects.filter(published=True))
         if not my_objects:
             raise Http404
 
