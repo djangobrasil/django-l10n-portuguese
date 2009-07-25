@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, Waiting for revision $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11298 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -46,7 +46,7 @@ envolvendo os conteúdos do grupo em uma caixa e aplicando certos estilos sobre
 os elementos internos. Um ``h2`` dentro de um ``div.module`` irá alinhar-se ao
 topo do ``div`` como um cabeçalho para o grupo inteiro.
 
-.. image:: _images/module.gif
+.. image:: _images/module.png
    :alt: Exemplo de uso da classe module na página do admin
 
 Tipos de Coluna
@@ -153,7 +153,7 @@ Exemplo de uma página de listagem:
         <li><a href="/stories/add/" class="addlink">Adicionar redirecionador</a></li>
     </ul>
 
-.. image:: _images/objecttools_01.gif
+.. image:: _images/objecttools_01.png
    :alt: "Object tools" sobre uma página de listagem
 
 and from a form page:
@@ -165,7 +165,7 @@ and from a form page:
         <li><a href="/r/303/152383/" class="viewsitelink">View on site</a></li>
     </ul>
 
-.. image:: _images/objecttools_02.gif
+.. image:: _images/objecttools_02.png
    :alt: "Object tool" em uma página de formulário
 
 Estilos de formulário
@@ -196,7 +196,7 @@ Cada linha do formulário (dentro de um ``fieldset``) deve estar em um ``div``
 com a classe ``form-row``. Se o campo na linha é obrigatório, a classe
 ``required`` também deverá ser adicionada ao ``div.form-row``.
 
-.. image:: _images/formrow.gif
+.. image:: _images/formrow.png
    :alt: Exemplo de uso da classe form-row
 
 Labels
