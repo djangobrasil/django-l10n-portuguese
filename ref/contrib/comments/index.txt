@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Not started $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11332 $
 ..   $TranslationAuthors: None $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -58,7 +58,7 @@ To get started using the ``comments`` app, follow these steps:
     #. Use the `comment template tags`_ below to embed comments in your
        templates.
     
-You might also want to examine the :ref:`ref-contrib-comments-settings`
+You might also want to examine :ref:`ref-contrib-comments-settings`.
     
 Comment template tags
 =====================
@@ -115,6 +115,10 @@ For example::
     {% for comment in comment_list %}
         ...
     {% endfor %}
+    
+This returns a list of :class:`~django.contrib.comments.models.Comment` objects;
+see :ref:`the comment model documentation <ref-contrib-comments-models>` for
+details.
 
 .. templatetag:: get_comment_count
 
@@ -171,13 +175,14 @@ A complete form might look like::
     {% get_comment_form for event as form %}
     <form action="{% comment_form_target %}" method="POST">
       {{ form }}
-      <p class="submit">
-        <input type="submit" name="submit" class="submit-post" value="Preview">
-      </p>
+      <tr>
+        <td></td>
+        <td><input type="submit" name="preview" class="submit-post" value="Preview"></td>
+      </tr>
     </form>
     
 Be sure to read the `notes on the comment form`_, below, for some special
-considerations you'll need to make if you're using this aproach.
+considerations you'll need to make if you're using this approach.
 
 .. templatetag:: comment_form_target
 
@@ -190,6 +195,16 @@ form. This will always return the correct URL that comments should be posted to;
 you'll always want to use it like above::
 
     <form action="{% comment_form_target %}" method="POST">
+
+Redirecting after the comment post
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To specify the URL you want to redirect to after the comment has been posted,
+you can include a hidden form input called ``next`` in your comment form. For example::
+ 
+    <input type="hidden" name="next" value="{% url my_comment_was_posted %}" />
+
+.. _notes-on-the-comment-form:
 
 Notes on the comment form
 -------------------------
@@ -225,6 +240,7 @@ More information
 .. toctree::
    :maxdepth: 1
 
+   models
    settings
    signals
    upgrade

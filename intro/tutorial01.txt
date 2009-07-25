@@ -52,7 +52,7 @@ Criando um projeto
 
 Se for a primeira vez que você está usando o Django você terá que preocupar-se
 com algumas configurações iniciais. A saber, você irá precisar auto-gerar
-algum código para estabelecer um :term:`project` Django -- uma coleção de
+algum código para estabelecer um :term:`projeto` Django -- uma coleção de
 configurações para uma instância do Django, incluindo configuração do banco de
 dados, opções específicas do Django e configurações específicas da aplicação.
 
