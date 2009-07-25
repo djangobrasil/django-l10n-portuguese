@@ -1,8 +1,8 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, waiting for revision. $
-..   $OriginalRevision: 9368 $
+..   $TranslationStatus: In Progress $
+..   $OriginalRevision: 11332 $
 ..   $TranslationAuthors: Bruno Tikami, Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -27,7 +27,10 @@ Instalando o Python
 
 Por ser um framework escrito em Python, a instalação do Django precisa da instalação do Python.
 
-Ele roda com Python 2.3 e suas versões mais novas.
+Ele roda com Python desde a versão 2.3 a 2.6 (devido a questões
+de imcompatibilidade retroativa no Python 3.0, o Django não funciona atualmente com o 
+Python 3.0; veja :ref:`a FAQ do Django<faq-install>` para mais
+informação das versões suportadas do Python e s transição para o 3.0).
 
 Baixe o Python de http://python.org. Se você estiver usando Linux ou Max OS X, você
 provavelmente já o tem instalado.
@@ -40,33 +43,36 @@ provavelmente já o tem instalado.
 
 .. _jython: http://jython.org/
 
-Instalando Apache e mod_python
+Instalando Apache e mod_wsgi
 ==============================
 
 Se você quiser apenas experimentar o Django, avance para a próxima sessão.
-O Django vem com um servidor Web bem leve que você pode usar para testes, por
-isso você não precisa instalar e configurar o Apache antes de colocar o Django
+O Django vem com um servidor Web bem leve que você pode usar para testes, de forma
+que você não precise instalar e configurar o Apache antes de colocar o Django
 em produção.
 
 Se você quer usar usar o Django em um site em produção, use o Apache com
-`mod_python`_. mod_python é similar ao mod_perl, ele embute o Python dentro do
+`mod_wsgi`_. mod_wsgi é similar ao mod_perl, ele embute o Python dentro do
 Apache e carrega na memória códigos-fonte escritos em Python quando o servidor é
 iniciado. Este código fica na memória durante toda a vida do processo do Apache,
 o que leva a um ganho de desempenho significativo sobre outras configurações de
-servidor. Garanta que você tem o Apache instalado e que o módulo mod_python
-esteja ativo. Django requer Apache 2.x e mod_python 3.x.
+servidor. Garanta que você tem o Apache instalado e que o módulo mod_wsgi
+esteja ativo. O Django irá funcionar com qualquer versão do Apache que
+suporte o mod_wsgi.
 
-Leia :ref:`Como usar o Django com mod_python <howto-deployment-modpython>` para
-mais informações sobre como configurar o mod_python uma vez que você o tenha
+Leia :ref:`Como usar o Django com mod_wsgi <howto-deployment-modwsgi>` para
+mais informações sobre como configurar o mod_wsgi uma vez que você o tenha
 instalado.
 
-Se você não puder usar o mod_python por qualquer motivo, não se desespere:
+Se você não puder usar o mod_wsgi por qualquer motivo, não se desespere:
+o Django suppora muitos outras opções de implantação. Uma grande segunda escolha é
+:ref:`mod_python <howto-deployment-modpython>`, o predecessor do mod_wsgi. Além disso,
 o Django segue a especificação WSGI, o que permite que ele rode em uma variedade
 de plataformas de servidor. Leia o wiki `server-arrangements`_ para
 informações específicas de instalação em cada plataforma.
 
 .. _Apache: http://httpd.apache.org/
-.. _mod_python: http://www.modpython.org/
+.. _mod_wsgi: http://code.google.com/p/modwsgi/
 .. _WSGI: http://www.python.org/peps/pep-0333.html
 .. _server-arrangements: http://code.djangoproject.com/wiki/ServerArrangements
 
@@ -76,14 +82,29 @@ Ponha seu banco de dados para funcionar
 =======================================
 
 Se você pretende usar a API de banco de dados do Django, você vai precisar ter
-certeza de que seu servidor de banco de dados está funcionando. Django funciona
-com PostgreSQL_, MySQL_, Oracle_ e SQLite_ (apesar do SQLite não precisar de um
+certeza de que seu servidor de banco de dados está funcionando. Django suporta muitos
+backends de dancos de dados e é oficialmente suportado por PostgreSQL_, MySQL_,
+Oracle_ e SQLite_ (apesar do SQLite não precisar de um
 servidor separado para rodar).
 
-Além disso, você vai precisar ter certeza de que as suas bibliotecas Python de
+In addition to the officially supported databases, there are backends provided
+by 3rd parties that allow you to use other databases with Django:
+
+* `Sybase SQL Anywhere`_
+* `IBM DB2`_
+* `Microsoft SQL Server 2005`_
+* Firebird_
+* ODBC_
+
+The Django versions and ORM features supported by these unofficial backends
+vary considerably. Queries regarding the specific capabilities of these
+unofficial backends, along with any support queries, should be directed to the
+support channels provided by each 3rd party project.
+
+Em adição ao banco de dados, você vai precisar ter certeza de que as suas bibliotecas Python de
 acesso ao banco de dados estão instaladas.
 
-* Se você está usando POstgreSQL, você vai precisar do pacote psycopg_, o Django
+* Se você está usando PostgreSQL, você vai precisar do pacote psycopg_, o Django
   suporta as versões 1 e 2. (Quando você for configurar a camada de banco de
   dados do Django, escolha ``postgresql`` para a versão 1 ou
   ``postgresql_psycopg2`` para a versão 2.)
@@ -99,12 +120,15 @@ acesso ao banco de dados estão instaladas.
 * Se você estiver usando SQLite e Python 2.3 ou Python 2.4, vai precisar da
   biblioteca pysqlite_. Use a versão 2.0.3 ou superior. A versão 2.5 do Python
   já vem com um wrapper sqlite na biblioteca padrão, então você não precisa
-  instalar mais nada neste caso.
+  instalar mais nada neste caso. Please read the SQLite backend :ref:`notes<sqlite-notes>`.
 
-* Se você estiver usando Oracle, precisará de cx_Oracle_, versão 4.3.1 ou
-  superior.
-  Você também vai precisar ler as observações específicas de bancos de dados
-  para o :ref:`backend Oracle <oracle-notes>`.
+* If you're using Oracle, you'll need a copy of cx_Oracle_, but please
+  read the database-specific notes for the
+  :ref:`Oracle backend <oracle-notes>` for important information
+  regarding supported versions of both Oracle and ``cx_Oracle``.
+
+* If you're using an unofficial 3rd party backend, please consult the
+  documentation provided for any additional requirements.
 
 Se você pretende usar o comando ``manage.py syncdb`` do Django para criar
 automaticamente as tabelas para os seus modelos, você precisa garantir que
@@ -126,10 +150,14 @@ de dados de teste temporário.
 .. _versão não-oficial compilada para Windows: http://stickpeople.com/projects/python/win-psycopg/
 .. _MySQLdb: http://sourceforge.net/projects/mysql-python
 .. _SQLite: http://www.sqlite.org/
-.. _pysqlite: http://initd.org/pub/software/pysqlite/
+.. _pysqlite: http://pysqlite.org/
 .. _cx_Oracle: http://cx-oracle.sourceforge.net/
 .. _Oracle: http://www.oracle.com/
-
+.. _Sybase SQL Anywhere: http://code.google.com/p/sqlany-django/
+.. _IBM DB2: http://code.google.com/p/ibm-db/
+.. _Microsoft SQL Server 2005: http://code.google.com/p/django-mssql/
+.. _Firebird: http://code.google.com/p/django-firebird/
+.. _ODBC: http://code.google.com/p/django-pyodbc/
 .. _removing-old-versions-of-django:
 
 Remova qualquer versão antiga do Django
