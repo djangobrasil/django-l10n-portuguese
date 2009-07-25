@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, wainting for revision. $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11298 $
 ..   $TranslationAuthors: Robson Mendonça, Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -241,7 +241,19 @@ Pluralização
 ~~~~~~~~~~~~
 
 Use a função ``django.utils.translation.ungettext()`` para especificar
-mensagens pluralizadas. Exemplo::
+mensagens pluralizadas.
+
+``ungettext`` takes three arguments: the singular translation string, the plural
+translation string and the number of objects.
+
+This function is useful when your need you Django application to be localizable
+to languages where the number and complexity of `plural forms
+<http://www.gnu.org/software/gettext/manual/gettext.html#Plural-forms>`_ is
+greater than the two forms used in English ('object' for the singular and
+'objects' for all the cases where ``count`` is different from zero, irrespective
+of its value.)
+
+For example::
 
     from django.utils.translation import ungettext
     def hello_world(request, count):
@@ -250,10 +262,61 @@ mensagens pluralizadas. Exemplo::
         }
         return HttpResponse(page)
 
-``ungettext`` recebe três argumentos: uma translation string no singular, uma
-translation string no plural e o número de objetos (que é passado para as
-traduções como a variável ``count``).
+In this example the number of objects is passed to the translation languages as
+the ``count`` variable.
 
+Lets see a slightly more complex usage example::
+
+    from django.utils.translation import ungettext
+
+    count = Report.objects.count()
+    if count == 1:
+        name = Report._meta.verbose_name
+    else:
+        name = Report._meta.verbose_name_plural
+
+    text = ungettext(
+            'There is %(count)d %(name)s available.',
+            'There are %(count)d %(name)s available.',
+            count
+    ) % {
+        'count': count,
+        'name': name
+    }
+
+Here we reuse localizable, hopefully already translated literals (contained in
+the ``verbose_name`` and ``verbose_name_plural`` model ``Meta`` options) for
+other parts of the sentence so all of it is consistently based on the
+cardinality of the elements at play.
+
+.. _pluralization-var-notes:
+
+.. note::
+
+    When using this technique, make sure you use a single name for every
+    extrapolated variable included in the literal. In the example above note how
+    we used the ``name`` Python variable in both translation strings. This
+    example would fail::
+
+        from django.utils.translation import ungettext
+        from myapp.models import Report
+
+        count = Report.objects.count()
+        d = {
+            'count': count,
+            'name': Report._meta.verbose_name
+            'plural_name': Report._meta.verbose_name_plural
+        }
+        text = ungettext(
+                'There is %(count)d %(name)s available.',
+                'There are %(count)d %(plural_name)s available.',
+                count
+        ) % d
+
+    You would get a ``a format specification for argument 'name', as in
+    'msgstr[0]', doesn't exist in 'msgid'`` error when running
+    ``django-admin.py compilemessages`` or a ``KeyError`` Python exception at
+    runtime.
 
 No código do template
 ---------------------
@@ -270,8 +333,8 @@ simples ou duplas) ou o conteúdo de uma variável::
     <title>{% trans "This is the title." %}</title>
     <title>{% trans myvar %}</title>
 
-Se a opção ``noop`` está presente, a busca de variável ainda acontece, mas a tradução não
-é executada. This is useful when "stubbing out" content that will
+Se a opção ``noop`` está presente, a busca de variável ainda acontece, mas o
+texto original será retornado sem modificação. This is useful when "stubbing out" content that will
 require translation in the future::
 
     <title>{% trans "myvar" noop %}</title>
@@ -307,8 +370,11 @@ Para pluralizar, especifique ambas as formas, singular e plural, com a tag
     There are {{ counter }} {{ name }} objects.
     {% endblocktrans %}
 
-Internamente, todos os blocos e traduções inline usam as chamadas apropriadas
-``ugettext`` / ``ungettext``.
+When you use the pluralization feature and bind additional values to local
+variables apart from the counter value that selects the translated literal to be
+used, have in mind that the ``blocktrans`` construct is internally converted
+to an ``ungettext`` call. This means the same :ref:`notes regarding ungettext
+variables <pluralization-var-notes>` apply.
 
 Cada ``RequestContext`` tem acesso a três variáveis de traduções específicas:
 
@@ -822,8 +888,7 @@ O view espera uma requisição via método ``POST``, com um parâmetro
 ``language``. Se o suporte a sessão está habilitado, o view salva a escolha do
 idioma na sessão do usuário. Caso contrário, ele o salva em um cookie que
 tem por padrão o nome ``django_language``. (O nome pode ser alterado por meio
-da configuração ``LANGUAGE_COOKIE_NAME``, se você estiver usando a versão de
-desenvolvimento do Django.)
+da configuração ``LANGUAGE_COOKIE_NAME``).
 
 Depois de salvar a opção de idioma, o Django redireciona o usuário, seguindo
 este algoritmo:
@@ -908,9 +973,9 @@ Usando o catálogo de tradução do JavaScript
 
 Para usar o catálogo, é só usar um script dinamicamente gerado, como a seguir::
 
-    <script type="text/javascript" src="/path/to/jsi18n/"></script>
+    <script type="text/javascript" src="{% url django.views.i18n.javascript_catalog %}"></script>
 
-Isto é como o admin captura os catálogos de tradução do servidor. Quando o
+This uses reverse URL lookup to find the URL of the JavaScript catalog view. Quando o
 catálogo é carregado, seu código Javascript pode usar o padrão da interface de
 acesso do ``gettext``::
 
@@ -998,14 +1063,16 @@ edição dos arquivos desse tipo já existentes, mas se você deseja criar seus
 próprios arquivos de mensagens, ou quer testar ou compilar uma mudança num
 arquivo de mensagens, você precisará dos utilitários do ``gettext``::
 
-    * Faça o download dos seguintes arquivos zip em
-      http://sourceforge.net/projects/gettext
-      * ``gettext-runtime-X.bin.woe32.zip``
-      * ``gettext-tools-X.bin.woe32.zip``
-      * ``libiconv-X.bin.woe32.zip``
+    * Faça o download dos seguintes arquivos zip dos servidores do GNOME
+      http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/ ou de um
+      de seus espelhos_ 
+      * ``gettext-runtime-X.zip``
+      * ``gettext-tools-X.zip``
 
-    * Extraia os 3 arquivos na mesma pasta (ex. ``C:\Arquivos de
-      Programas\gettext-utils``)
+      ``X`` is the version number, we recomend using ``0.15`` or higher.
+
+    * Extract the contents of the ``bin\`` directories in both files to the
+      same folder on your system (i.e. ``C:\Program Files\gettext-utils``)
 
     * Atualize o PATH do sistema:
 
@@ -1013,6 +1080,8 @@ arquivo de mensagens, você precisará dos utilitários do ``gettext``::
       * Na lista de ``Variáveis de Sistema``, clique ``Path``, clique ``Editar``
       * Adicionar ``;C:\Program Files\gettext-utils\bin`` no fim do campo
         ``Valor da Variável``
+
+.. _espelhos: http://ftp.gnome.org/pub/GNOME/MIRRORS
 
 Você pode também usar os binários do ``gettext`` que você já possui, contanto
 que o comando ``xgettext --version`` funcione apropriadamente. Algumas versões
