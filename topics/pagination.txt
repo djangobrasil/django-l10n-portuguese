@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision. $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11332 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -115,7 +115,6 @@ A função view parece com isso::
         except ValueError:
             page = 1
 
-        # If page request (9999) is out of range, deliver last page of results.
         # Se o page request (9999) está fora da lista, mostre a última página.
         try:
             contacts = paginator.page(page)
