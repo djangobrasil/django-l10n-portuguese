@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Not started $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11332 $
 ..   $TranslationAuthors: None $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -79,7 +79,7 @@ The three types of cleaning methods are:
       "field" (called ``__all__``), which you can access via the
       ``non_field_errors()`` method if you need to. If you want to attach
       errors to a specific field in the form, you will need to access the
-      `_errors` attribute on the form, which is `described later`_.
+      ``_errors`` attribute on the form, which is `described later`_.
 
 These methods are run in the order given above, one field at a time.  That is,
 for each field in the form (in the order they are declared in the form
@@ -106,7 +106,7 @@ already know which fields have passed their individual validation requirements.
 .. _described later:
 
 Form subclasses and modifying field errors
-==========================================
+------------------------------------------
 
 Sometimes, in a form's ``clean()`` method, you will want to add an error
 message to a particular field in the form. This won't always be appropriate
@@ -115,21 +115,21 @@ and the more typical situation is to raise a ``ValidationError`` from
 through the ``Form.non_field_errors()`` method.
 
 When you really do need to attach the error to a particular field, you should
-store (or amend) a key in the `Form._errors` attribute. This attribute is an
+store (or amend) a key in the ``Form._errors`` attribute. This attribute is an
 instance of a ``django.forms.util.ErrorDict`` class. Essentially, though, it's
 just a dictionary. There is a key in the dictionary for each field in the form
 that has an error. Each value in the dictionary is a
 ``django.forms.util.ErrorList`` instance, which is a list that knows how to
-display itself in different ways. So you can treat `_errors` as a dictionary
+display itself in different ways. So you can treat ``_errors`` as a dictionary
 mapping field names to lists.
 
 If you want to add a new error to a particular field, you should check whether
-the key already exists in `self._errors` or not. If not, create a new entry
+the key already exists in ``self._errors`` or not. If not, create a new entry
 for the given key, holding an empty ``ErrorList`` instance. In either case,
 you can then append your error message to the list for the field name in
 question and it will be displayed when the form is displayed.
 
-There is an example of modifying `self._errors` in the following section.
+There is an example of modifying ``self._errors`` in the following section.
 
 .. admonition:: What's in a name?
 
@@ -138,7 +138,7 @@ There is an example of modifying `self._errors` in the following section.
     if it's not for external usage. In this case, you are subclassing the
     ``Form`` class, so you are essentially writing new internals. In effect,
     you are given permission to access some of the internals of ``Form``.
-    
+
     Of course, any code outside your form should never access ``_errors``
     directly. The data is available to external code through the ``errors``
     property, which populates ``_errors`` before returning it).
@@ -150,7 +150,7 @@ There is an example of modifying `self._errors` in the following section.
     explanation makes you feel more comfortable. The result is the same.
 
 Using validation in practice
-=============================
+----------------------------
 
 The previous sections explained how validation works in general for forms.
 Since it can sometimes be easier to put things into place by seeing each
@@ -307,7 +307,7 @@ extra design effort to create a sensible form display. The details are worth
 noting, however. Firstly, earlier we mentioned that you might need to check if
 the field name keys already exist in the ``_errors`` dictionary. In this case,
 since we know the fields exist in ``self.cleaned_data``, they must have been
-valid when cleaned as individual fields, so there will be no corresonding
+valid when cleaned as individual fields, so there will be no corresponding
 entries in ``_errors``.
 
 Secondly, once we have decided that the combined data in the two fields we are
@@ -318,4 +318,3 @@ In fact, Django will currently completely wipe out the ``cleaned_data``
 dictionary if there are any errors in the form. However, this behaviour may
 change in the future, so it's not a bad idea to clean up after yourself in the
 first place.
-
