@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Not started $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11332 $
 ..   $TranslationAuthors: None $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -559,7 +559,7 @@ for example::
 
     class FormatTimeNode(template.Node):
         def __init__(self, date_to_be_formatted, format_string):
-            self.date_to_be_formatted = Variable(date_to_be_formatted)
+            self.date_to_be_formatted = template.Variable(date_to_be_formatted)
             self.format_string = format_string
 
         def render(self, context):
