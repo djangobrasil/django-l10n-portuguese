@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision. $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11332 $
 ..   $TranslationAuthors: Luiz Fernando Barbosa Vital, Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -19,6 +19,9 @@
 =====================
 Como utilizar sessões
 =====================
+
+.. module:: django.contrib.sessions
+   :synopsis: Provides session management for Django projects.
 
 O Django provê suporte integral para sessões anônimas. O framework de sessão
 deixa você armazenar e recuperar dados arbitrários para cada visitante do site.
@@ -95,7 +98,6 @@ configure ``SESSION_ENGINE`` para ``"django.contrib.sessions.backends.cache"``.
     dados diretamente em vez de enviar tudo por meio do backend de cache 
     baseado em arquivos ou banco de dados.
 
-
 Utilizando sessões nas views
 ============================
 
@@ -144,11 +146,11 @@ Existem também estes métodos:
 
       .. versionadded:: 1.0
 
-      Deleta os dados da sessão corrente do banco de dados, e re-gera a chave o
+      Deleta os dados da sessão corrente da sessão, e re-gera a chave o
       valor da chave da sessão que é enviado de volta para o cookie do usuário.
       Isto é usado se você quer assegurar que os dados de uma sessão prévia não
-      possa ser acessados novamente por usuário do navegador (por exempo, o 
-      método ``django.contrib.auth.logout()`` o chama).
+      possa ser acessados novamente por usuário do navegador (por exempo, a 
+      função :func:``django.contrib.auth.logout()`` o chama).
 
     * ``set_test_cookie()``
 
@@ -396,8 +398,8 @@ em `utilizando sessões nas views`_.
 Limpando a tabela de sessão
 ===========================
 
-Perceba que os dados de sessão podem acumular na tabela de banco de dados
-``django_session`` e o Django *não* dispõe de uma limpeza automática. Portanto,
+Se você está usando um banco de dados como backend para as sessões, perceba que os dados de sessão podem acumular
+na tabela de banco de dados ``django_session`` e o Django *não* dispõe de uma limpeza automática. Portanto,
 é seu trabalho limpar as sessões expiradas regularmente.
 
 Para entender esse problema, considere o que acontece quando um usuário usa uma
@@ -455,7 +457,7 @@ SESSION_COOKIE_DOMAIN
 Padrão: ``None``
 
 O domínio para seu usado nos cookies de sessão. Configure-o para uma string
-como ``".lawrence.com"`` para cookies entre domínios diferentes (cross-domain 
+como ``".lawrence.com"`` (repare no ponto inicial) para cookies entre domínios diferentes (cross-domain 
 cookies), ou use ``None`` para um cookie de domínio padrão.
 
 SESSION_COOKIE_NAME
