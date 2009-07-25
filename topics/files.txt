@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision. $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11298 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -42,7 +42,7 @@ Quando você usa um :class:`~django.db.models.FileField` ou
 :class:`~django.db.models.ImageField`, o Django provê um conjunto de APIs que
 você pode usar para negociar com este arquivo.
 
-Considere o seguinte model, usando um ``FileField`` para armazenar uma foto::
+Considere o seguinte model, usando um ``ImageField`` para armazenar uma foto::
 
     class Car(models.Model):
         name = models.CharField(max_length=255)
@@ -122,7 +122,7 @@ armazenamento global::
     >>> path
     u'/path/to/file'
 
-    >>> default_storage.filesize(path)
+    >>> default_storage.size(path)
     11
     >>> default_storage.open(path).read()
     'new content'
