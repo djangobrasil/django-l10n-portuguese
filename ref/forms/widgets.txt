@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Not started $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11332 $
 ..   $TranslationAuthors: None $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -69,6 +69,8 @@ commonly used groups of widgets:
 .. class:: Select
 
     Select widget: ``<select><option ...>...</select>``
+    
+    Requires that your field provides :attr:`~Field.choices`.
 
 .. class:: NullBooleanSelect
 
@@ -78,6 +80,8 @@ commonly used groups of widgets:
 
     Select widget allowing multiple selection: ``<select
     multiple='multiple'>...</select>``
+
+    Requires that your field provides :attr:`~Field.choices`.
 
 .. class:: RadioSelect
 
@@ -89,6 +93,8 @@ commonly used groups of widgets:
           <li><input type='radio' ...></li>
           ...
         </ul>
+        
+    Requires that your field provides :attr:`~Field.choices`.
 
 .. class:: CheckboxSelectMultiple
 
@@ -122,6 +128,8 @@ built-in Field classes.
 
 However, if you want to use a different widget for a field, you can -
 just use the 'widget' argument on the field definition. For example::
+
+    from django import forms
 
     class CommentForm(forms.Form):
         name = forms.CharField()
