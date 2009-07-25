@@ -1,8 +1,8 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, waiting for revision. $
-..   $OriginalRevision: 9368 $
+..   $TranslationStatus: In Progress $
+..   $OriginalRevision: 11298 $
 ..   $TranslationAuthors: Luiz Fernando Barbosa Vital, Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -19,6 +19,8 @@
 ==============
 URL dispatcher
 ==============
+
+.. module:: django.core.urlresolvers
 
 Um esquema de URLs limpo e elegante é um detalhe importante numa aplicação Web
 de qualidade. O Django permite que você defina as URLs da maneira que quiser,
@@ -206,11 +208,13 @@ URLconf. Isso dá ao módulo acesso a estes objetos:
 patterns
 --------
 
+.. function:: patterns(prefix, pattern_description, ...)
+
 Uma função que recebe um prefixo e um número arbitrário de padrões de URL, e
 retorna uma lista de padrões de URL no formato de que o Django precisa.
 
 O primeiro argumento para ``patterns()`` é uma string ``prefix``. Veja
-"O prefixo da view" abaixo.
+`O prefixo da view`_ abaixo.
 
 Os argumentos restantes devem ser tuplas neste formato::
 
@@ -247,12 +251,14 @@ url
 
 .. versionadded:: 1.0
 
+.. function:: url(regex, view, kwargs=None, name=None, prefix='')
+
 Você pode utilizar a função ``url()`` no lugar de uma tupla, como um argumento
 para ``patterns()``. Isso é conveniente se você quer especificar um nome sem
 utilizar o dicionário de argumentos opcionais adicionais. Por exemplo::
 
     urlpatterns = patterns('',
-        url(r'/index/$', index_view, name="main-view"),
+        url(r'index/$', index_view, name="main-view"),
         ...
     )
 
@@ -269,6 +275,8 @@ um parâmetro para a ``view``.
 handler404
 ----------
 
+.. data:: handler404
+
 Uma string representando o caminho completo para a importação Python da view
 que deve ser chamada se nenhum dos padrões de URL corresponder.
 
@@ -277,6 +285,8 @@ maioria das vezes deve ser suficiente.
 
 handler500
 ----------
+
+.. data:: handler500
 
 Uma string representando o caminho completo para a importação Python da view que
 deve ser chamada em caso de erros no servidor. Erros no servidor acontecem
@@ -287,6 +297,8 @@ maioria das vezes deve ser suficiente.
 
 include
 -------
+
+.. function:: include(<module or pattern_list>)
 
 Uma função que recebe o caminho completo para a importação Python de outro
 URLconf que deve ser "incluído" neste local. Veja `Incluindo outros URLconfs`_
@@ -569,13 +581,13 @@ URLconf. Por exemplo, estes dois padrões de URL apontam para a view
 ``archive``::
 
     urlpatterns = patterns('',
-        (r'/archive/(\d{4})/$', archive),
-        (r'/archive-summary/(\d{4})/$', archive, {'summary': True}),
+        (r'^archive/(\d{4})/$', archive),
+        (r'^archive-summary/(\d{4})/$', archive, {'summary': True}),
     )
 
 Isso é complemente válido, mas ocasiona problemas quando você tenta fazer uma
 correspondência de URL reversa (através do decorator ``permalink()`` ou a tag
-:ttag:`url`. Continuando este exemplo, se você quisesse recuperar a URL para a
+:ttag:`url`). Continuando este exemplo, se você quisesse recuperar a URL para a
 view ``archive``, o mecanismo de correspondência de URL reverso do Django
 ficaria confuso, pois *dois* padrões de URL apontam para esta view.
 
@@ -587,8 +599,8 @@ nome na correspondência reversa de URL.
 Veja o exemplo acima, reescrito para utilizar padrões de URL nomeados::
 
     urlpatterns = patterns('',
-        url(r'/archive/(\d{4})/$', archive, name="full-archive"),
-        url(r'/archive-summary/(\d{4})/$', archive, {'summary': True}, "arch-summary"),
+        url(r'^archive/(\d{4})/$', archive, name="full-archive"),
+        url(r'^archive-summary/(\d{4})/$', archive, {'summary': True}, "arch-summary"),
     )
 
 Com estes nomes no lugar (``full-archive`` and ``arch-summary``), você pode
@@ -628,7 +640,6 @@ reverse()
 Se você precisa usar algo similar a tag de template :ttag:`url` no seu código,
 o Django provê um método (no módulo ``django.core.urlresolvers``):
 
-.. currentmodule:: django.core.urlresolvers
 .. function:: reverse(viewname, urlconf=None, args=None, kwargs=None)
 
 ``viewname`` é o nome da função (podendo ser uma referência para a função, ou
@@ -654,16 +665,50 @@ pode reverter tais padrões.
 .. admonition:: Esteja certo de que suas views estão todas corretas
 
     Como parte do trabalho no qual os nomes de URL mapeiam os padrões, a função
-    ``reverse()`` tem de importar todos os seus arquivos URLConf e examinar o
+    ``reverse()`` tem de importar todos os seus arquivos URLconf e examinar o
     nome de cada view. Isto envolve importar todos as suas funções view. Se
     houver *qualquer* erro enquanto importa qualquer uma de suas funções views,
     irá fazer o ``reverse()`` gerar um erro, mesmo que para tal função não
     esteja destinado o reverse.
 
-    Esteja certo que qualquer view referenciado nos seus arquivos URLConf
+    Esteja certo que qualquer view referenciado nos seus arquivos URLconf
     existam e que possam ser importados corretamente. Não inclua linhas que
     apontem para views que você ainda não criou, por que estas views não serão
     importáveis.
+
+resolve()
+---------
+
+The :func:`django.core.urlresolvers.resolve` function can be used for resolving
+URL paths to the corresponding view functions. It has the following signature:
+
+.. function:: resolve(path, urlconf=None)
+
+``path`` is the URL path you want to resolve. As with ``reverse()`` above, you
+don't need to worry about the ``urlconf`` parameter. The function returns the
+triple (view function, arguments, keyword arguments).
+
+For example, it can be used for testing if a view would raise a ``Http404``
+error before redirecting to it::
+
+    from urlparse import urlparse
+    from django.core.urlresolvers import resolve
+    from django.http import HttpResponseRedirect, Http404
+
+    def myview(request):
+        next = request.META.get('HTTP_REFERER', None) or '/'
+        response = HttpResponseRedirect(next)
+
+        # modify the request and response as required, e.g. change locale
+        # and set corresponding locale cookie
+
+        view, args, kwargs = resolve(urlparse(next)[2])
+        kwargs['request'] = request
+        try:
+            view(*args, **kwargs)
+        except Http404:
+            return HttpResponseRedirect('/')
+        return response
 
 permalink()
 -----------
