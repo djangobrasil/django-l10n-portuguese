@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, wainting for revision. $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11348 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -48,7 +48,7 @@ Teste sua instalação importando-o no interpretador interativo do Python::
 
 Se o comando não mostrar nenhum erro, a instalação está funcionando.
 
-.. _guia de usuário: http://www.reportlab.com/docs/userguide.pdf
+.. _guia de usuário: http://www.reportlab.com/docs/reportlab-userguide.pdf
 
 Escreva o seu view
 ==================
