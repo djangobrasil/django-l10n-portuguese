@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: In Progress $
-..   $OriginalRevision: 11298 $
+..   $OriginalRevision: 11348 $
 ..   $TranslationAuthors: Marinho Brandão, wiliamsouza $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -349,8 +349,8 @@ fornece um atalho para isso. Aqui esta a view ``detail()``, reescrita::
         p = get_object_or_404(Poll, pk=poll_id)
         return render_to_response('polls/detail.html', {'poll': p})
 
-A função :func:`~django.shortcuts.get_object_or_404` recebe um modulo de modelo
-do Django como primeiro argumento e um número arbitrário de argumentos chave,
+A função :func:`~django.shortcuts.get_object_or_404` recebe um modelo do Django
+como primeiro argumento e um número arbitrário de argumentos chave,
 que ele passa para a função do módulo :meth:`~django.db.models.QuerySet.get`.
 E levanta uma exceção :exc:`~django.http.Http404` se o objeto não existir.
 
