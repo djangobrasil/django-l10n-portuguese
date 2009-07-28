@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision $
-..   $OriginalRevision: 11298 $
+..   $OriginalRevision: 11348 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -16,10 +16,10 @@
 
 .. _releases-index:
 
-Notas de Releases
-=================
+Notas de Lançamento
+===================
 
-Notas de releases para os releases oficiais do Django. Cada nota irá falar sobre
+Notas de lançamento para os releases oficiais do Django. Cada nota irá falar sobre
 que há de novo em cada versão, e também descreverá qualquer incompatibilidade
 com versões anteriores por conta das mudanças que ocorrem.
 
