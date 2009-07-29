@@ -30,7 +30,7 @@ ou uma referência -- mas nos temos os dois! Quando voce estiver pronto para ini
 um projeto, voce pode :ref:`iniciar com o tutorial <intro-tutorial01>` ou
 :ref:`mergulhar direto em uma documentacao mais detalhada <topics-index>`.
 
-Desenhe seu modelo
+Projete seu modelo
 ==================
 
 Embora você possa usar o Django sem um banco de dados, ele vem com um mapeador
@@ -181,7 +181,7 @@ sites administrativos rodando o mais rápido possível, assim sua equipe (ou
 clientes) poderão começar a popular os dados. Então, desenvolver a forma com que
 os dados serão apresentados para o público.
 
-Desenhe suas URLs
+Projete suas URLs
 =================
 
 Um esquema limpo e elegante de URLs é um detalhe importante em uma aplicação Web
