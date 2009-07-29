@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: In Progress $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11348 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -53,10 +53,6 @@ Quando o auto-scaping surte efeito, todo conteúdo de variável tem seu HTML
 escapado, antes do resultado ser jogado para saída (mas depois dos filtros serem
 aplicados). Isto equivale a você aplicar manualmente o filtro ``escape`` em cada
 variável.
-
-The only exceptions are variables that are already marked as "safe" from
-escaping, either by the code that populated the variable, or because it has had
-the ``safe`` or ``escape`` filters applied.
 
 A única exceção são variáveis que já estão marcadas como "safe", que atráves de
 código foram povoadas, ou porque tem os filtros ``safe`` ou ``escape``
@@ -128,6 +124,14 @@ por espaços. Os valores colocados dentro de aspas simples (``'``) ou duplas
 (``"``) são tratados como strings, enquanto que valores sem aspas serão tratados
 como variáveis de template.
 
+Note that the variables included in the cycle will not be escaped. This is
+because template tags do not escape their content. If you want to escape the
+variables in the cycle, you must do so explicitly::
+
+    {% filter force_escape %}
+        {% cycle var1 var2 var3 %}
+    {% endfilter %}
+
 Para retro-compatibilidade, a tag ``{% cycle %}`` suporta a mais antiga sintaxe
 vinda de versões antigas do Django. Você não deve usar isto em qualquer novo
 projeto, porém, para saúde das pessoas que ainda estão usando-o, aqui está a
@@ -186,8 +190,9 @@ Exemplo de uso::
 firstof
 ~~~~~~~
 
-Mostra a primeira variável passada que não for False. Não mostra nada se todas
-as variáveis forem False.
+Mostra a primeira variável passada que não for False, sem escape.
+
+Não mostra nada se todas as variáveis recebidas forem False.
 
 Exemplo de uso::
 
@@ -196,17 +201,26 @@ Exemplo de uso::
 Isto é equivalente a::
 
     {% if var1 %}
-        {{ var1 }}
+        {{ var1|safe }}
     {% else %}{% if var2 %}
-        {{ var2 }}
+        {{ var2|safe }}
     {% else %}{% if var3 %}
-        {{ var3 }}
+        {{ var3|safe }}
     {% endif %}{% endif %}{% endif %}
 
 Você pode também usar uma string como um valor de segurança no caso de todas as
 variáveis passadas serem False::
 
     {% firstof var1 var2 var3 "valor de segurança" %}
+
+Note that the variables included in the firstof tag will not be escaped. This
+is because template tags do not escape their content. If you want to escape
+the variables in the firstof tag, you must do so explicitly::
+
+    {% filter force_escape %}
+        {% firstof var1 var2 var3 "fallback value" %}
+    {% endfilter %}
+
 
 .. templatetag:: for
 
@@ -357,6 +371,18 @@ possibilidades de uso.
                 {{ date.hour }}
             {% endifchanged %}
         {% endfor %}
+
+The ``ifchanged`` tag can also take an optional ``{% else %}`` clause that
+will be displayed if the value has not changed::
+
+        {% for match in matches %}
+            <div style="background-color:
+                {% ifchanged match.ballot_id %}
+                    {% cycle "red" "blue" %}
+                {% else %}
+                    grey
+                {% endifchanged %}
+            ">{{ match }}</div>
 
 .. templatetag:: ifequal
 
@@ -868,6 +894,14 @@ Por exemplo::
 Se ``value`` é um objeto ``datetime`` (e.g., o resultado de
 ``datetime.datetime.now()``), a saída será a string ``'Wed 09 Jan 2008'``.
 
+When used without a format string::
+
+    {{ value|date }}
+
+...the formatting string defined in the :setting:`DATE_FORMAT` setting will be
+used.
+
+
 .. templatefilter:: default
 
 default
@@ -1187,7 +1221,7 @@ Por exemplo::
 
     {{ value|linebreaks }}
 
-Se ``value`` é ``Joel\nis a slug``, a saída será ``<p>Joel<br>is a slug</p>``.
+Se ``value`` é ``Joel\nis a slug``, a saída será ``<p>Joel<br />is a slug</p>``.
 
 .. templatefilter:: linebreaksbr
 
@@ -1270,7 +1304,7 @@ sufixo alternativo como um paramêtro para o filtro.
 
 Exemplo::
 
-    You have {{ num_walruses }} walrus{{ num_walrus|pluralize:"es" }}.
+    You have {{ num_walruses }} walrus{{ num_walruses|pluralize:"es" }}.
 
 Para palavras que não são pluralizadas por sufixos simples, você pode
 especificar ambos sufixos, singular e plural, separados por virgula.
@@ -1375,8 +1409,8 @@ Formata a variável de acordo com o argumento, um especificador de formatação 
 strings. Este especificador usa a sintaxe de formatação de strings do Python,
 com a exceção de não usar o guia "%".
 
-Veja http://docs.python.org/lib/typesseq-strings.html para documentação de
-formatação de strings do Python.
+Veja See http://docs.python.org/library/stdtypes.html#string-formatting-operations
+para documentação de formatação de strings do Python.
 
 Por exemplo::
 
@@ -1414,6 +1448,14 @@ Por exemplo::
 
 Se ``value`` é equivalente a ``datetime.datetime.now()``, a saída será a string
 ``"01:23"``.
+
+When used without a format string::
+
+    {{ value|time }}
+
+...the formatting string defined in the :setting:`TIME_FORMAT` setting will be
+used.
+
 
 .. templatefilter:: timesince
 
@@ -1622,7 +1664,7 @@ Valor       Argumento               Saída
 ==========  ======================  ==================================
 
 Outras bibliotecas de tags e filtros
-====================================
+------------------------------------
 
 O Django vem com algumas outras bibliotecas de tags de templates, que você tem
 de habilitar explicitamente em seu :setting:`INSTALLED_APPS` e habilitar em seu
@@ -1630,13 +1672,13 @@ template com a tag ``{% load %}``.
 
 
 django.contrib.humanize
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Um conjunto de filtros de templates Django usuais para adicionar um "toque
 humano" aos dados. Veja :ref:`ref-contrib-humanize`.
 
 django.contrib.markup
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 
 Uma coleção de filtros de templates que implementam estas linguagens de marcação
 comuns:
@@ -1648,7 +1690,7 @@ comuns:
 Veja :ref:`ref-contrib-markup`.
 
 django.contrib.webdesign
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 Uma coleção de tags de template que podem ser úteis quando se faz o design de um
 website, como um gerador de texto Lorem Ipsum. Veja
