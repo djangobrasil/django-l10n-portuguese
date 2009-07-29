@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision. $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11348 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -38,8 +38,10 @@ não tratada e que resulta num "internal server error" (código de status HTTP
 :setting:`ADMINS` irá pegar uma descrição do erro, um traceback completo do
 Python, e detalhes sobre a requisição HTTP que causou o erro.
 
-To disable this behavior, just remove all entries from the :setting:`ADMINS`
-setting.
+Por padrão, o Django irá mandar e-mails de root@localhost. Porém, alguns provedores
+de e-mail rejeitam todos os e-mails desse endereço. Para usar um endereço de remetente
+diferente, modifique a configuração :setting:`SERVER_EMAIL`.
+
 Para desabilitar este comportamento, basta remover todas as entradas da
 configuração :setting:`ADMINS`.
 
