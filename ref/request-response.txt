@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: In Progress $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11348 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -129,7 +129,8 @@ somente para leitura.
         * ``read(num_bytes=None)`` -- Read a number of bytes from the file.
         * ``name`` -- The name of the uploaded file.
         * ``size`` -- The size, in bytes, of the uploaded file.
-        * ``chunks(chunk_size=None)`` -- A generator that yields sequential chunks of data.
+        * ``chunks(chunk_size=None)`` -- A generator that yields sequential
+          chunks of data.
 
     See :ref:`topics-files` for more information.
 
@@ -167,6 +168,13 @@ somente para leitura.
         * ``REQUEST_METHOD`` -- A string such as ``"GET"`` or ``"POST"``.
         * ``SERVER_NAME`` -- The hostname of the server.
         * ``SERVER_PORT`` -- The port of the server.
+
+    With the exception of ``CONTENT_LENGTH`` and ``CONTENT_TYPE``, as given
+    above, any HTTP headers in the request are converted to ``META`` keys by
+    converting all characters to uppercase, replacing any hyphens with
+    underscores and adding an ``HTTP_`` prefix to the name. So, for example, a
+    header called ``X-Bender`` would be mapped to the ``META`` key
+    ``HTTP_X_BENDER``.
 
 .. attribute:: HttpRequest.user
 
@@ -335,6 +343,17 @@ a subclass of dictionary. Exceptions are outlined here:
            >>> q = QueryDict('a=1&a=2&a=3')
            >>> q.items()
            [('a', '3')]
+           
+.. method:: QueryDict.iteritems()
+
+    Just like the standard dictionary ``iteritems()`` method. Like
+    :meth:`QueryDict.items()` this uses the same last-value logic as
+    :meth:`QueryDict.__getitem()__`.
+
+.. method:: QueryDict.iterlists()
+
+    Like :meth:`QueryDict.iteritems()` except it includes all values, as a list,
+    for eac
 
 .. method:: QueryDict.values()
 
@@ -344,6 +363,10 @@ a subclass of dictionary. Exceptions are outlined here:
            >>> q = QueryDict('a=1&a=2&a=3')
            >>> q.values()
            ['3']
+
+.. method:: QueryDict.itervalues()
+
+    Just like :meth:`QueryDict.values()`, except an iterator.
 
 In addition, ``QueryDict`` has the following methods:
 
