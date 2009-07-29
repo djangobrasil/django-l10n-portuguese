@@ -76,11 +76,11 @@ para acessar os itens de cada página::
     >>> p.page(0)
     Traceback (most recent call last):
     ...
-    InvalidPage
+    EmptyPage: That page number is less than 1
     >>> p.page(3)
     Traceback (most recent call last):
     ...
-    InvalidPage
+    EmptyPage: That page contains no results
 
 .. note::
 
@@ -92,10 +92,10 @@ para acessar os itens de cada página::
     objetos como o ``QuerySet`` do Django usarem um ``count()`` mais eficiente,
     quando disponível.
 
-Using ``Paginator`` in a view
-==============================
+Usando ``Paginator`` em uma view
+================================
 
-Aqui há um exemplo ligeiramente mais complexo do uso do ::class:`Paginator` em
+Aqui há um exemplo ligeiramente mais complexo do uso do :class:`Paginator` em
 um view para paginar um queryset. Nós dizemos a ambos, view e o template que o
 acompanha, como você pode exibir resultados. Este exemplo assume que você tem um
 model ``Contacts`` que já foi importado.
