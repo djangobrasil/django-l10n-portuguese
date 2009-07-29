@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11348 $
 ..   $TranslationAuthors: Anderson Santos $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -102,7 +102,8 @@ Entre no site de administração
 ==============================
 
 Agora tente acessar o sistema. (Você criou uma conta de superusuário na
-primeira parte deste tutorial, lembra?). Você deverá ver a página inicial do
+primeira parte deste tutorial, lembra?  If you didn't create one or forgot the password you can
+:ref:`create another one <topics-auth-creating-superusers>`.)  Você deverá ver a página inicial do
 Django admin:
 
 .. image:: _images/admin02t.png
@@ -196,9 +197,9 @@ Personalize o formulário de Administração
 =========================================
 
 Tire alguns minutos para apreciar todo o código que você não teve que escrever.
-Quando você chama ``admin.site.register(Poll)``, o Django simplesmente permite
-que você edite o objeto e "adivinha" como exibi-lo dentro do admin. Com
-freqüência, você desejará controlar como o site de administração se parece e
+Ao registrar o modelo Poll com ``admin.site.register(Poll)``, o Django foi capaz de
+construir uma representação de formulário padrão. Frequentemente, você desejará
+controlar como o site de administração se parece e
 funciona. Você fará isso informando ao Django sobre as opções que você quer
 quando registra o objeto.
 
@@ -373,7 +374,7 @@ exceto no caso do ``was_published_today``, porque a ordenação pelo resultado
 de um método arbitrário não é suportada. Também note que o cabeçalho da coluna
 para ``was_published_today`` é, por padrão, o nome do método (com underscores
 substituídos por espaços). Mas você pode alterar isso fornecendo ao método
-um atributo ``short_description``::
+(em ``models.py``) um atributo ``short_description``::
 
     def was_published_today(self):
         return self.pub_date.date() == datetime.date.today()
