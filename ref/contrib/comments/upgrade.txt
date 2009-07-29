@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision. $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11348 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -43,6 +43,16 @@ As principais mudanças são:
       postar um novo comentário, e ``{% render_comment_form %}``, que renderiza
       um dado formulário utilizando o template ``comments/form.html``.
 
+    * A forma que os comentários são incluídos na URLconf mudaram; você vai precisar
+      substituir::
+
+            (r'^comments/', include('django.contrib.comments.urls.comments')),
+
+      com::
+
+            (r'^comments/', include('django.contrib.comments.urls')),
+
+
 Atualizando dados
 -----------------
 
@@ -63,7 +73,7 @@ rodar diretamente o seguinte SQL:
         comment, submit_date, ip_address, is_public, is_removed)
     SELECT
         content_type_id, object_id, site_id, person_name, '', '', comment,
-        submit_date, ip_address, is_public, approved
+        submit_date, ip_address, is_public, not approved
     FROM comments_freecomment;
 
     INSERT INTO django_comments
