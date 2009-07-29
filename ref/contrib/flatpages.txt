@@ -1,8 +1,8 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, wainting for revision. $
-..   $OriginalRevision: 9368 $
+..   $TranslationStatus: In Progress $
+..   $OriginalRevision: 11348 $
 ..   $TranslationAuthors: Robson Mendonça, Renato Garcia Pedigoni $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -55,6 +55,11 @@ Para instalar a aplicação flatpages, siga os passos abaixo:
     1. Instale o :mod:`framework sites <django.contrib.sites>` adicionando 
        ``'django.contrib.sites'`` em seu :setting:`INSTALLED_APPS`, se ele ainda
        não estiver lá.
+      
+       Also make sure you've correctly set :setting:`SITE_ID` to the ID of the
+       site the settings file represents. This will usually be ``1`` (i.e.
+       ``SITE_ID = 1``, but if you're not using the sites framework to manage
+       multiple sites, it could be the ID of a different site.
        
     2. Adicione ``'django.contrib.flatpages'`` em seu :setting:`INSTALLED_APPS`.
     
