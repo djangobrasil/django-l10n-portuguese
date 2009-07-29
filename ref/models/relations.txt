@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision. $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11348 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -13,17 +13,37 @@
 ..   $LastChangedDate$
 ..
 
-
 .. _ref-models-relations:
 
 ==================================
 Referência de objetos relacionados
 ==================================
 
-Métodos extras sobre gerenciadores quando usado em contexto de chave estrangeira
-================================================================================
-
 .. currentmodule:: django.db.models
+
+This document describes extra methods available on managers when used in a one-to-many or many-to-many related context. This happens in two cases:
+
+    * The "other side" of a ``ForeignKey`` relation. That is::
+    
+            class Reporter(models.Model):
+                ...
+                
+            class Article(models.Model):
+                reporter = models.ForeignKey(Reporter)
+            
+      In the above example, the methods below will be available on
+      the manager ``reporter.article_set``.
+      
+    * Both sides of a ``ManyToManyField`` relation::
+    
+            class Topping(models.Model):
+                ...
+                
+            class Pizza(models.Model):
+                toppings = models.ManyToManyField(Topping)
+                
+      In this example, the methods below will be available both on
+      ``topping.pizza_set`` and on ``pizza.toppings``.
 
 .. method:: QuerySet.add(obj1, [obj2, ...])
 
@@ -58,7 +78,7 @@ Métodos extras sobre gerenciadores quando usado em contexto de chave estrangeir
         ....     body_text='Hi',
         ....     pub_date=datetime.date(2005, 1, 1)
         .... )
-        >>> e.save()
+        >>> e.save(force_insert=True)
 
     Note que não há necessidade de especificar argumentos nomeados para o model
     que define a realação. No exemplo acima, nós não passamos o parâmetro
