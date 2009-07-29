@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, Waiting for revision $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11348 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -69,7 +69,7 @@ configurações do Apache, você precisará utilizar a diretiva
     Apache tente utilizar outros módulos autenticação, bem como especificar a
     diretiva ``AuthUserFile`` e apontá-la para ``/dev/null``.
     Dependendo dos módulos de autenticação que você tenha carregado, você
-    pode precisar ter uma ou mais das seguintes diretivas::
+    pode precisar ter uma ou mais das seguintes diretivas:
 
     .. code-block:: apache
 
