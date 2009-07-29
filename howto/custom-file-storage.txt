@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision $
-..   $OriginalRevision: 9368 $
+..   $OriginalRevision: 11348 $
 ..   $TranslationAuthors: Igor Sobreira $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -81,8 +81,11 @@ implemente a lógica específica do backend do sistema de armazenamento.
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 Chamado por ``Storage.save()``. O ``name`` já terá passado por ``get_valid_name()``
-e ``get_available_name()``, e o ``content`` será um objeto ``File`` em si. Nenhum
-valor de retorno é esperado
+e ``get_available_name()``, e o ``content`` será um objeto ``File`` em si.
+
+Deve retornar o nome real do arquivo salvo (normalmente o ``name``
+recebido, mas se o storage precisa mudar o nome do arquivo o novo nome deve
+ser retornado).
 
 ``get_valid_name(name)``
 ------------------------
