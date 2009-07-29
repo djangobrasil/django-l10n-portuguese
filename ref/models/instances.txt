@@ -1,8 +1,8 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, wainting for revision. $
-..   $OriginalRevision: 9368 $
+..   $TranslationStatus: In Progress $
+..   $OriginalRevision: 11348 $
 ..   $TranslationAuthors: Felipe.B.Zorzo, Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -203,6 +203,15 @@ Deve ser muito raro você precisar usar estes parâmetros. O Django irá quase
 sempre fazer a coisa certa e tentar contornar isso irá conduzí-los a erros
 difíceis de rastrear. Esta funcionalidade é somente para usuários avandaçados.
 
+Deleting objects
+================
+
+.. method:: Model.delete()
+
+   Issues a SQL ``DELETE`` for the object. This only deletes the object in the
+   database; the Python instance will still be around, and will still have data
+   in its fields.
+
 .. _model-instance-methods:
 
 Outros métodos da instância de um model
@@ -307,7 +316,7 @@ O decorador ``permalink``
 
 O problema com a solução que descrevemos acima, utilizando o
 ``get_absolute_url()``, é que ela viola ligeiramente os principios DRY: a URL
-para este objeto é definida em ambos arquivo URLConf e no modelo.
+para este objeto é definida em ambos arquivo URLconf e no modelo.
 
 Você ainda pode dissociar seus modelos do URLconf utilizando o decorador
 ``permalink``:
@@ -383,8 +392,7 @@ Métodos extra de instancia
 Além de ``save()``, ``delete()``, um objeto de modelo pode ter qualquer, ou
 todos os seguintes métodos:
 
-get_FOO_display()
------------------
+.. method:: Model.get_FOO_display()
 
 Para todo campo que possui ``choices``, o objeto terá um método
 ``get_FOO_display()``, onde ``FOO`` é o nome do campo. Este método retorna o
@@ -407,8 +415,8 @@ valor "legível para humanos" do campo. Por exemplo, no seguinte model::
     >>> p.get_gender_display()
     'Male'
 
-get_next_by_FOO(\**kwargs) e get_previous_by_FOO(\**kwargs)
------------------------------------------------------------
+.. method:: Model.get_next_by_FOO(\**kwargs)
+.. method:: Model.get_previous_by_FOO(\**kwargs)
 
 Para todo ``DateField`` e ``DateTimeField`` que não possui ``null=True``, o
 objeto terá os métodos ``get_next_by_FOO()`` e ``get_previous_by_FOO()`` para o
