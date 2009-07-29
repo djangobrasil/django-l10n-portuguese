@@ -20,16 +20,6 @@
 Integrando o Django com um banco de dados legado
 ================================================
 
-While Django is best suited for developing new applications, it's quite
-possible to integrate it into legacy databases. Django includes a couple of
-utilities to automate as much of this process as possible.
-
-This document assumes you know the Django basics, as covered in the
-:ref:`tutorial <intro-tutorial01>`.
-
-Once you've got Django set up, you'll follow this general process to integrate
-with an existing database.
-
 Embora o Django seja mais adequado para o desenvolvimento de novas 
 aplicações, é bem possível integrá-lo com bases de dados legadas. O Django 
 inclui alguns utilitários para automatizar, tanto quanto possível, este 
@@ -37,6 +27,9 @@ processo.
 
 Este documento assume que você sabe o básico sobre Django, pelo menos o que já
 foi discutido no :ref:`tutorial <intro-tutorial01>`.
+
+Uma vez que você tenha o Django configurado, siga esse processo geral para integrar
+com um banco de dados pré-existente.
 
 Dê ao Django seus parâmetros do banco de dados
 ==============================================
