@@ -564,8 +564,7 @@ ambiente" envolve duas coisas:
 Assim que você estiver no shell, explore a :ref:`API de banco de dados 
 <topics-db-queries>`::
 
-    # Importe as classes de modelo que acabamos de criar.
-    >>> from mysite.polls.models import Poll, Choice
+    >>> from mysite.polls.models import Poll, Choice # Importe as classes de modelo que acabamos de criar.
 
     # Não há nenhuma enquete no sistema ainda.
     >>> Poll.objects.all()
