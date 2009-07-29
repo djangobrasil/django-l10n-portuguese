@@ -21,7 +21,7 @@ django.contrib.humanize
 ========================
 
 .. module:: django.contrib.humanize
-   :synopsis: Um conjunto de filtros de templates do Django úteis para adicinoar
+   :synopsis: Um conjunto de filtros de templates do Django úteis para adicionar
               um "toque humano" aos dados.
 
 Um conjunto de filtros de templates do Django úteis para adicinoar um
