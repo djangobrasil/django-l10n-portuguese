@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11348 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
@@ -20,7 +20,7 @@ Performing raw SQL queries
 ==========================
 
 Sinta-se livre para escrever consultas SQL nos métodos de seus modelos e métodos
-a nível de módulo. O objeto ``django.db.connection`` representa a conexão 
+a nível de módulo. O objeto ``django.db.connection`` representa a conexão
 atual com o banco de dados, e ``django.db.transaction`` representa
 a transação atual do banco de dados. Para usá-lo, chame ``connection.cursor()`` para
 capturar o objeto cursor. Então, chame ``cursor.execute(sql, [params])`` para
@@ -34,11 +34,11 @@ no banco de dados. Se sua consulta é puramente uma operção de leitura de dado
         from django.db import connection, transaction
         cursor = connection.cursor()
 
-        # Data modifying operation - commit required
+        # Operação de modificação de dado - commit obrigatório
         cursor.execute("UPDATE bar SET foo = 1 WHERE baz = %s", [self.baz])
         transaction.commit_unless_managed()
 
-        # Data retrieval operation - no commit required
+        # Operação de recebimento de dado - não é necessário o commit
         cursor.execute("SELECT foo FROM bar WHERE baz = %s", [self.baz])
         row = cursor.fetchone()
 
@@ -46,14 +46,15 @@ no banco de dados. Se sua consulta é puramente uma operção de leitura de dado
 
 .. _transactions-and-raw-sql:
 
-Transactions and raw SQL
-------------------------
-If you are using transaction decorators (such as ``commit_on_success``) to
-wrap your views and provide transaction control, you don't have to make a
-manual call to ``transaction.commit_unless_managed()`` -- you can manually
-commit if you want to, but you aren't required to, since the decorator will
-commit for you. However, if you don't manually commit your changes, you will
-need to manually mark the transaction as dirty, using
+Transações e SQL puro
+---------------------
+
+Se você está usando decoradores de transações (como ``commit_on_success``) para
+envolver seus views e prover controle de transações, você não terá que fazer uma
+chamada manual para ``transaction.commit_unless_managed()`` -- você pode comitar
+manualmente se você quiser, mas você não será obrigado, desde que o decorador
+commita por você. No entanto, se você não comitar manualmente suas mudanças,
+você terá de marcar, manualmente, a transação como suja, usando
 ``transaction.set_dirty()``::
 
     @commit_on_success
@@ -61,41 +62,42 @@ need to manually mark the transaction as dirty, using
         from django.db import connection, transaction
         cursor = connection.cursor()
 
-        # Data modifying operation
+        # Operação de modificação de dado
         cursor.execute("UPDATE bar SET foo = 1 WHERE baz = %s", [value])
 
-        # Since we modified data, mark the transaction as dirty
+        # Se nós modificamos dados, marcamos a trasação como suja
         transaction.set_dirty()
 
-        # Data retrieval operation. This doesn't dirty the transaction,
-        # so no call to set_dirty() is required.
+        # Operação de recebimento de dado. Isso não suja a transação,
+        # então não é obrigatório chamar set_dirty()
         cursor.execute("SELECT foo FROM bar WHERE baz = %s", [value])
         row = cursor.fetchone()
 
         return render_to_response('template.html', {'row': row})
 
-The call to ``set_dirty()`` is made automatically when you use the Django ORM
-to make data modifying database calls. However, when you use raw SQL, Django
-has no way of knowing if your SQL modifies data or not. The manual call to
-``set_dirty()`` ensures that Django knows that there are modifications that
-must be committed.
+A chamada para ``set_dirty()`` é feita automaticamente quando você usa o ORM do
+Django para fazer moficações no banco de dados. Entretanto, quando você usa um
+SQL puro, o Django não tem como sber se seu SQL modifica dados ou não. A chamada
+manual ``set_dirty()`` assegura que o Django saiba que estes são dados
+modificados que devem ser comitados.
 
-Connections and cursors
------------------------
+Connections e cursors
+---------------------
 
-``connection`` and ``cursor`` maioritariamente implementa a 
-`DB-API padrão do Python`_ (exceto quando se trata de :ref:`manipulação de 
-transações <topics-db-transactions>`). Se você não está familiarizado com a 
-DB-API do Python, note que a consulta SQL em ``cursor.execute()`` possui 
+``connection`` e ``cursor`` maioritariamente implementa a
+`DB-API padrão do Python`_ (exceto quando se trata de :ref:`manipulação de
+transações <topics-db-transactions>`). Se você não está familiarizado com a
+DB-API do Python, note que a consulta SQL em ``cursor.execute()`` possui
 marcadores, ``"%s"``, ao invés de adicionar paramêtros diretamente dentro do SQL.
-Se você usa esta técnica, as bibliotecas de banco de dados subjacentes irão 
+Se você usa esta técnica, as bibliotecas de banco de dados subjacentes irão
 automaticamente addicionar aspas e espacar seus paramêtros quando necessário.
 (Também atente que o Django espera pelo marcador ``"%s"``, *não* pelo marcador
-``"?"``, que é utilizado pelos bindings para Python do SQLite. Isto é por uma 
+``"?"``, que é utilizado pelos bindings para Python do SQLite. Isto é por uma
 questão de coerência e bom senso.)
 
-Um lembrete final: Se tudo que você quer é fazer uma clausula ``WHERE`` 
-customizada, você pode somente usar os argumentos ``where``, ``tables`` e 
+Um lembrete final: Se tudo que você quer é fazer uma clausula ``WHERE``
+customizada, você pode somente usar os argumentos ``where``, ``tables`` e
 ``params`` da API padrão.
 
 .. _DB-API padrão do Python: http://www.python.org/peps/pep-0249.html
+
