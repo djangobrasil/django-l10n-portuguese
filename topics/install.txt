@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11332 $
 ..   $TranslationAuthors: Bruno Tikami, Robson Mendonça $
 ..
@@ -28,7 +28,7 @@ Instalando o Python
 Por ser um framework escrito em Python, a instalação do Django precisa da instalação do Python.
 
 Ele roda com Python desde a versão 2.3 a 2.6 (devido a questões
-de imcompatibilidade retroativa no Python 3.0, o Django não funciona atualmente com o 
+de imcompatibilidade retroativa no Python 3.0, o Django não funciona atualmente com o
 Python 3.0; veja :ref:`a FAQ do Django<faq-install>` para mais
 informação das versões suportadas do Python e s transição para o 3.0).
 
@@ -87,8 +87,8 @@ backends de dancos de dados e é oficialmente suportado por PostgreSQL_, MySQL_,
 Oracle_ e SQLite_ (apesar do SQLite não precisar de um
 servidor separado para rodar).
 
-In addition to the officially supported databases, there are backends provided
-by 3rd parties that allow you to use other databases with Django:
+Além dos bancos de dados oficialmente suportados, há backends de terceiros
+que permite você usar outros bancos de dados com Django:
 
 * `Sybase SQL Anywhere`_
 * `IBM DB2`_
@@ -96,10 +96,10 @@ by 3rd parties that allow you to use other databases with Django:
 * Firebird_
 * ODBC_
 
-The Django versions and ORM features supported by these unofficial backends
-vary considerably. Queries regarding the specific capabilities of these
-unofficial backends, along with any support queries, should be directed to the
-support channels provided by each 3rd party project.
+As versões do Django e funcionalidades do ORM suportadas por estes backends não
+oficiais variam consideravelmente. Questões específicas relativas a estes
+backends não oficiais, juntamente com qualquer suporte a consultas, devem ser
+direcionadas para os canais de suporte fornecidos pelos projetos terceiros.
 
 Em adição ao banco de dados, você vai precisar ter certeza de que as suas bibliotecas Python de
 acesso ao banco de dados estão instaladas.
@@ -122,13 +122,12 @@ acesso ao banco de dados estão instaladas.
   já vem com um wrapper sqlite na biblioteca padrão, então você não precisa
   instalar mais nada neste caso. Please read the SQLite backend :ref:`notes<sqlite-notes>`.
 
-* If you're using Oracle, you'll need a copy of cx_Oracle_, but please
-  read the database-specific notes for the
-  :ref:`Oracle backend <oracle-notes>` for important information
-  regarding supported versions of both Oracle and ``cx_Oracle``.
+* Se você estiver usando Oracle, você precisará de uma cópia do cx_Oracle_, mas
+  por favor, leia as notas específicas do banco de dados para o :ref:`backend
+  Oracle <oracle-notes>` para informações importantes.
 
-* If you're using an unofficial 3rd party backend, please consult the
-  documentation provided for any additional requirements.
+* Se você está usando um backed não oficial de terceiros, por favor consulte a
+  documentação fornecida para quaisquer requerimentos adicionais.
 
 Se você pretende usar o comando ``manage.py syncdb`` do Django para criar
 automaticamente as tabelas para os seus modelos, você precisa garantir que
