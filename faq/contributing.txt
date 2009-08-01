@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11268 $
-..   $TranslationAuthors: Italo Maia, Walter Cruz $
+..   $TranslationAuthors: Italo Maia, Walter Cruz, Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -41,40 +41,44 @@ a quantidade de tempo que temos para trabalhar no framework é limitada e irá
 variar semanalmente, de acordo com nosso tempo livre. Se estivermos ocupados,
 não poderemos gastar tanto tempo no Django como gostaríamos.
 
-The best way to make sure tickets do not get hung up on the way to checkin is
-to make it dead easy, even for someone who may not be intimately familiar with
-that area of the code, to understand the problem and verify the fix:
+A melhor forma de fazer com que seu ticket ganhe o caminho da resolução, mesmo
+por alguém que não é intimamente ligado a uma determinada área do código, para
+entender o problema e verificar a solução::
 
-    * Are there clear instructions on how to reproduce the bug? If this
-      touches a dependency (such as PIL), a contrib module, or a specific
-      database, are those instructions clear enough even for someone not
-      familiar with it?
+    * Há instruções claras de como reproduzir o bug? Se este possui dependências
+      (como o PIL), um módulo do contrib, ou um banco de dados específico, estas
+      instruções são claras o suficiente para que qualquer familiarize-se com
+      ela?
 
-    * If there are several patches attached to the ticket, is it clear what
-      each one does, which ones can be ignored and which matter?
+    * Se houver vários patches atachados ao ticket, está claro o que cada um
+      faz, quais podem ser ignorados e o que importa?
 
-    * Does the patch include a unit test? If not, is there a very clear
-      explanation why not? A test expresses succinctly what the problem is,
-      and shows that the patch actually fixes it.
+    * Os patches incluem um teste unitário? Se não, há uma explicação muito
+      clara do por que não tem? Um teste expressa sucintamente qual problema
+      está ocorrendo, e mostra que o patche realmente o concerta.
 
-If your patch stands no chance of inclusion in Django, we won't ignore it --
-we'll just close the ticket. So if your ticket is still open, it doesn't mean
-we're ignoring you; it just means we haven't had time to look at it yet.
+Se seu patch não teve chance de inclusão no Django, nós não o ignoramos --
+somente iremos fechar o ticket. Então se seu ticket ainda estiver aberto, não
+significa que nós estamos ignorando você; somente quer dizer que nós não tivemos
+tempo de olhá-lo ainda.
 
-When and how might I remind the core team of a patch I care about?
-------------------------------------------------------------------
+Quando e como eu posso relembrar o core team de um patch com qual me importo?
+-----------------------------------------------------------------------------
 
-A polite, well-timed message to the mailing list is one way to get attention.
-To determine the right time, you need to keep an eye on the schedule. If you
-post your message when the core developers are trying to hit a feature
-deadline or manage a planning phase, you're not going to get the sort of
-attention you require. However, if you draw attention to a ticket when the
-core developers are paying particular attention to bugs -- just before a bug
-fixing sprint, or in the lead up to a beta release for example -- you're much
-more likely to get a productive response.
+Educadamente, uma mensagem, no momento certo, para a lista de desenvolvimento é
+um bom caminho para ser receber atenção. Para determinar o tempo certo, você
+precisa se manter atento com os agendamentos. Se você postar sua mensagem quando
+os desenvolvedores principais estiverem tentando não estourar o prazo de uma
+funcionalidade, ou em fase de planeijamento, você não terá toda a atenção que
+desejas. Entretanto, e você chamar a atenção com um ticket quando os
+desenvolvedores principais estão com as atenções voltadas para correção de
+bugs -- bem na véspera de um sprint de correção de bugs, ou perto de um
+lançamento de uma versão beta, por exemplo -- você terá muito mais chance de
+receber uma resposta produtiva.
 
-Gentle IRC reminders can also work -- again, strategically timed if possible.
-During a bug sprint would be a very good time, for example.
+Lembretes gentis no IRC também podem funcionar -- novamente, num momento
+estrategico se possível. Durante um sprint de correções de bugs pode ser uma
+boa hora, por exemplo.
 
 Another way to get traction is to pull several related tickets together. When
 the core developers sit down to fix a bug in an area they haven't touched for
@@ -83,40 +87,49 @@ that area of code works. If you collect several minor bug fixes together into
 a similarly themed group, you make an attractive target, as the cost of coming
 up to speed on an area of code can be spread over multiple tickets.
 
-Please refrain from emailing core developers personally, or repeatedly raising
-the same issue over and over. This sort of behavior will not gain you any
-additional attention -- certainly not the attention that you need in order to
-get your pet bug addressed.
+Outra forma de ter atenção é postar vários tickets relacionados juntos. Quando
+os desenvolvedores principais sentam para resolver bugs em uma certa área que
+eles não tenham tocado a algum tempo, ele pode demorar um pouco para relembrar
+todos os belos detalhes do funcionamento dessa área do código. Se você coleta
+várias correções pequenas juntas dentro de um certo grupo, você cria um alvo
+atrativo, como um custo para acelerar uma área de código podendo ser espalhado
+sobre múltiplos tickets.
 
-But I've reminded you several times and you keep ignoring my patch!
--------------------------------------------------------------------
+Por favor, contenha-se em não enviar email para um desenvolvedor do core team
+pessoalmente, ou repetidamente levantar o mesmo problema, insistentemente. Este
+tipo de comportamento não atrairá nenhuma atenção adicional -- certamente não a
+atenção que você deseja para o seu bug de estimação.
 
-Seriously - we're not ignoring you. If your patch stands no chance of
-inclusion in Django, we'll close the ticket. For all the other tickets, we
-need to prioritize our efforts, which means that some tickets will be
-addressed before others.
+Mas eu tenho lembravo você várias vezes e vocês continuam ignorando meu patch!
+------------------------------------------------------------------------------
 
-One of the criteria that is used to prioritize bug fixes is the number of
-people that will likely be affected by a given bug. Bugs that have the
-potential to affect many people will generally get priority over those that
-are edge cases.
+Sério - nós não ignoramos você. Se seu patch não recebe a chance de ser incluído
+no Django, nós fechamos o ticket. Nós precisamos priorizar nossos esforços para
+todos os outros tickets, o que significa que alguns tickets serão atendidos
+antes de outros.
 
-Another reason that bugs might be ignored for while is if the bug is a symptom
-of a larger problem. While we can spend time writing, testing and applying
-lots of little patches, sometimes the right solution is to rebuild. If a
-rebuild or refactor of a particular component has been proposed or is
-underway, you may find that bugs affecting that component will not get as much
-attention. Again, this is just a matter of prioritizing scarce resources. By
-concentrating on the rebuild, we can close all the little bugs at once, and
-hopefully prevent other little bugs from appearing in the future.
+Um dos critérios que é usado para priorizar um bug é o número de pessoas que
+serão atingidas por ele. Bugs que tem um potencial para afetar muita gente,
+geralmente terá prioridade, em relação aos outros.
 
-Whatever the reason, please keep in mind that while you may hit a particular
-bug regularly, it doesn't necessarily follow that every single Django user
-will hit the same bug. Different users use Django in different ways, stressing
-different parts of the code under different conditions. When we evaluate the
-relative priorities, we are generally trying to consider the needs of the
-entire community, not just the severity for one particular user. This doesn't
-mean that we think your problem is unimportant -- just that in the limited
-time we have available, we will always err on the side of making 10 people
-happy rather than making 1 person happy.
+Uma outra razão para que bugs possam ser ignorados por um momento é se o bug é
+um sintoma de um problema maior. Embora nós podemos gastar tempo escrevendo,
+testando e aplicando um monte de patches, algumas vezes a solução certa é
+refazer. Se uma reconstrução ou refatoração de um componente em particular for
+proposta ou está a caminho, você pode encontrar bugs que afetam o componente,
+mas eles não terão muita atenção. Novamente, isto é só uma questão de priorizar
+recursos escassos. Concentrando na refatoração, nós poderemos fechar todos estes
+pequenos bugs de uma vez, e esperançosamente previnir que outros pequenos bugs
+apareçam no futuro.
+
+Seja qual for o motivo, por favor, mantenha em mente que enquanto você pode
+se incomodar com um bug regularmente, não significa que todos os usuários do
+Django tenham o mesmo problema. Diferentes usuários usam o Django de difentes
+formas, estressando diferentes partes do código em diferentes condições. Quando
+nós avaliamos as prioridades relativas, nós geralmente estamos tentando
+considerar as necessidades de toda comunidade, não somente a gravidade de um
+determinado usuário. Isto não significa que pensamos que seu problema é
+insignificante -- somente que em um limitado espaço de tempo que temos
+disponível, nós sempre daremos a preferência para fazer 10 pessoas felizes ao
+invés de uma só.
 
