@@ -279,7 +279,7 @@ Rollback de savepoints
 ----------------------
 
 Se você está usando o PostgreSQL 8 ou superior, você pode usar :ref:`savepoints
-<topics-db-transations-savepoints>` para controlar a extensão do rollback. Antes
+<topics-db-transactions-savepoints>` para controlar a extensão do rollback. Antes
 de realizar uma operação de banco de dados que possa falhar, você pode setar ou
 atualizar o savepoint; dessa forma, se a operação falhar, você pode retroceder
 uma única operação, ao invés de toda transação. Por exemplo::
