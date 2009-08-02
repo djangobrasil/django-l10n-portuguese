@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11348 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
@@ -16,16 +16,11 @@
 
 .. _ref-templates-builtins:
 
-=============================================
-Tags e filtros de template nativos (Built-in)
-=============================================
+===============================================
+Tags e filtros de template embutidos (Built-in)
+===============================================
 
-This document describes Django's built-in template tags and filters. It is
-recommended that you use the :ref:`automatic documentation
-<template-built-in-reference>`, if available, as this will also include
-documentation for any custom tags or filters installed.
-
-Este documento descreve as tags e filtros de templates nativos do Django. É
+Este documento descreve as tags e filtros de templates embutidos do Django. É
 recomendado o uso da
 :ref:`documentação automática <template-built-in-reference>`, se disponível,
 que irá incluir a documentação de qualquer tag ou filtro personalizado
@@ -124,9 +119,9 @@ por espaços. Os valores colocados dentro de aspas simples (``'``) ou duplas
 (``"``) são tratados como strings, enquanto que valores sem aspas serão tratados
 como variáveis de template.
 
-Note that the variables included in the cycle will not be escaped. This is
-because template tags do not escape their content. If you want to escape the
-variables in the cycle, you must do so explicitly::
+Perceba que as variáveis incluídas no cycle não serão escapadas. Isto porque a
+tag de template não escapa seus conteúdos. Se você deseja escapar as variáveis
+no cycle, você deve fazê-lo explicitamente::
 
     {% filter force_escape %}
         {% cycle var1 var2 var3 %}
@@ -213,9 +208,9 @@ variáveis passadas serem False::
 
     {% firstof var1 var2 var3 "valor de segurança" %}
 
-Note that the variables included in the firstof tag will not be escaped. This
-is because template tags do not escape their content. If you want to escape
-the variables in the firstof tag, you must do so explicitly::
+Note que as variáveis incluídas na tag firstof não serão escapadas. Isto porque
+as tags de template não são escapam seus conteúdos. Se você deseja escapar o
+conteúdo das variáveis da tag firstof, você deve fazê-lo explicitamente::
 
     {% filter force_escape %}
         {% firstof var1 var2 var3 "fallback value" %}
@@ -361,9 +356,9 @@ possibilidades de uso.
             <a href="{{ date|date:"M/d"|lower }}/">{{ date|date:"j" }}</a>
         {% endfor %}
 
-2. If given a variable, check whether that variable has changed. For
-   example, the following shows the date every time it changes, but
-   only shows the hour if both the hour and the date has changed::
+2. Para uma determinada variável, checa e essa variável mudou. Por exemplo, a
+   seguinte código mostra a data toda vez que ela muda, mas somente mostra a
+   hora se ambos, hora e data, tiverem mudado::
 
         {% for date in days %}
             {% ifchanged date.date %} {{ date.date }} {% endifchanged %}
@@ -372,8 +367,8 @@ possibilidades de uso.
             {% endifchanged %}
         {% endfor %}
 
-The ``ifchanged`` tag can also take an optional ``{% else %}`` clause that
-will be displayed if the value has not changed::
+A tag ``ifchanged`` pode também ter uma cláusula opicional ``{% else %}`` que
+será mostrada se o valor não mudou::
 
         {% for match in matches %}
             <div style="background-color:
@@ -492,8 +487,7 @@ Formatos de string disponíveis:
     F                        Mẽs, textual, longo.                        ``'January'``
     g                        Hora, formato 12-horas sem zero na frente   ``'1'`` até ``'12'``
                              zeros.
-    G                        Hour, 24-hour format without leading        ``'0'`` até ``'23'``
-                             zeros.
+    G                        Hora, formato 24-horas sem zero na frente   ``'0'`` até ``'23'``
     h                        Hora, formato 12-horas.                     ``'01'`` até ``'12'``
     H                        Hora, formato 24-horas.                     ``'00'`` até ``'23'``
     i                        Minutos.                                    ``'00'`` até ``'59'``
@@ -706,14 +700,11 @@ templatetag
 
 Mostra um dos caracteres de sintaxe usados para compor tags de template.
 
-Since the template system has no concept of "escaping", to display one of the
-bits used in template tags, you must use the ``{% templatetag %}`` tag.
-
 Uma vez que o sistema de template não tem nenhum conceito de "escape", para
 mostrar um pouco do que está em uso nas tags de template, você deve usar a tag
 ``{% templatetag %}``.
 
-The argument tells which template bit to output:
+O argumento diz qual parte do template deve ser mostrado:
 
     ==================  =======
     Argumento           Saídas
@@ -830,8 +821,8 @@ as tags ``{% with %}`` e ``{% endwith %}``.
 
 .. _ref-templates-builtins-filters:
 
-Referência de filtros nativos
------------------------------
+Referência de filtros embutidos
+-------------------------------
 
 .. templatefilter:: add
 
@@ -894,13 +885,12 @@ Por exemplo::
 Se ``value`` é um objeto ``datetime`` (e.g., o resultado de
 ``datetime.datetime.now()``), a saída será a string ``'Wed 09 Jan 2008'``.
 
-When used without a format string::
+Quando usado sem uma string de formatação::
 
     {{ value|date }}
 
-...the formatting string defined in the :setting:`DATE_FORMAT` setting will be
-used.
-
+...a string de formatação definida na configuração :setting:`DATE_FORMAT` será
+utilizada.
 
 .. templatefilter:: default
 
@@ -1004,10 +994,11 @@ dentro de uma sequência encadeada de filtros, você coloca ``escape``: ele semp
 será aplicado como se fosse o último filtro. Se você deseja que o escape seja
 aplicado imediatamente, use o filtro ``force_escape``.
 
-Applying ``escape`` to a variable that would normally have auto-escaping
-applied to the result will only result in one round of escaping being done. So
-it is safe to use this function even in auto-escaping environments. If you want
-multiple escaping passes to be applied, use the ``force_escape`` filter.
+Aplicando ``escape`` para uma variável que normalmente teria aplicado um
+auto-escaping no seu conteúdo, somente resultará em uma rodada de escape a ser
+feita. Então é seguro usar esta função mesmo em ambientes que possuem escape
+automático. Se você deseja multiplicar os passes do ``escape`` a serem
+aplicados, use o filtro ``force_escape``.
 
 .. versionchanged:: 1.0
     Devido ao auto-escape, o comportamento deste filtro foi ligeiramente mudado.
@@ -1318,7 +1309,7 @@ Exemplo::
 pprint
 ~~~~~~
 
-A wrapper around `pprint.pprint`__ -- for debugging, really.
+Um contorno para `pprint.pprint`__ -- para debugging, realmente.
 
 __ http://docs.python.org/library/pprint.html
 
@@ -1362,9 +1353,6 @@ Alinha a direita o valor no campo de uma dada largura.
 
 safe
 ~~~~
-
-Marks a string as not requiring further HTML escaping prior to output. When
-autoescaping is off, this filter has no effect.
 
 Marca uma string que não exige escape de HTML antes da saída. Quando autoscaping
 está desligado, este filtro não surte efeito.
@@ -1471,7 +1459,7 @@ exemplo, se ``blog_date`` é uma instancia de date reprensentando meia-noite em
 1 Junho de 2006, então ``{{ blog_date|timesince:comment_date }}`` retornaria
 "8 hours".
 
-Comparing offset-naive and offset-aware datetimes will return an empty string.
+Comparando datetimes offset-naive e offset-ware irão retornar uma string vazia.
 
 Minutos é a menor unidade usada, e "0 minutes" será retornado por qualquer date
 que está num futuro relativo ao ponto de comparação.
