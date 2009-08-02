@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11298 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
@@ -143,19 +143,20 @@ em que eles serão executados. A única coisa que pode ser assumida, é que no
 momento em que todos forem executados, o banco de dados já estará com todas as
 suas tabelas criadas.
 
-Database-backend-specific SQL data
-----------------------------------
+Backend de banco de dados específico para dados SQL
+---------------------------------------------------
 
-There's also a hook for backend-specific SQL data. For example, you can have
-separate initial-data files for PostgreSQL and MySQL. For each app, Django
-looks for a file called ``<appname>/sql/<modelname>.<backend>.sql``, where
-``<appname>`` is your app directory, ``<modelname>`` is the model's name in
-lowercase and ``<backend>`` is the value of :setting:`DATABASE_ENGINE` in your
-settings file (e.g., ``postgresql``, ``mysql``).
+Há também um kook para backend específico de dados SQL. Por exemplo, você pode
+ter separados arquivos com dados iniciais para PostgreSQL e MySQL. Para cada
+applicação, o Django procura por um arquivo chamado
+``<appname>/sql/<modelname>.<backend>.sql``, onde ``<appname>`` é o diretório de
+sua aplicação, ``<modelname>`` é o nome do model em minúsculo e ``<backend>`` é
+o valor de :setting:`DATABASE_ENGINE` no seu arquivo settings (e.g.,
+``postgresql``, ``mysql``).
 
-Backend-specific SQL data is executed before non-backend-specific SQL data. For
-example, if your app contains the files ``sql/person.sql`` and
-``sql/person.postgresql.sql`` and you're installing the app on PostgreSQL,
-Django will execute the contents of ``sql/person.postgresql.sql`` first, then
-``sql/person.sql``.
+O backend específico de dados SQL é executado antes do backend não-específico de
+dados SQL. Por exemplo, se sua aplicação contém os arquivos ``sql/person.sql`` e
+``sql/person.postgresql.sql`` e você está instalando a aplicação sobre o
+PostgreSQL, o Django irá executar o conteúdo do ``sql/person.postgresql.sql``
+primeiro, e então ``sql/person.sql``.
 
