@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done $
 ..   $OriginalRevision: 11348 $
 ..   $TranslationAuthors: Marinho Brandão, wiliamsouza $
 ..
@@ -329,12 +329,14 @@ questões para uma enquete lançada. Aqui esta a view::
 O novo conceito aqui: a view levanta a exceção :exc:`~django.http.Http404` se a
 enquete com ID requisitado não existir.
 
-We'll discuss what you could put in that ``polls/detail.html`` template a bit
-later, but if you'd like to quickly get the above example working, just::
+Nós iremos discutir o que você poderia colocar no template ``polls/detail.html``
+mais tarde, mas se você gostaria de rapidamente ter o exemplo acima funcionando,
+é só::
 
     {{ poll }}
 
-will get you started for now.
+irá ajudar por agora.
+
 
 Um atalho: get_object_or_404()
 ------------------------------
