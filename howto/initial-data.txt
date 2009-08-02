@@ -143,8 +143,8 @@ em que eles serão executados. A única coisa que pode ser assumida, é que no
 momento em que todos forem executados, o banco de dados já estará com todas as
 suas tabelas criadas.
 
-Backend de banco de dados específico para dados SQL
----------------------------------------------------
+Dados SQL para um backend específico de banco de dados
+------------------------------------------------------
 
 Há também um kook para backend específico de dados SQL. Por exemplo, você pode
 ter separados arquivos com dados iniciais para PostgreSQL e MySQL. Para cada
