@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11298 $
 ..   $TranslationAuthors: Luiz Fernando Barbosa Vital, Robson Mendonça $
 ..
@@ -679,17 +679,18 @@ pode reverter tais padrões.
 resolve()
 ---------
 
-The :func:`django.core.urlresolvers.resolve` function can be used for resolving
-URL paths to the corresponding view functions. It has the following signature:
+A função :func:`django.core.urlresolvers.resolve` pode ser usada para resolver
+caminhos de URL que correspondem a um funções view. Ela possui a seguinte
+assinatura:
 
 .. function:: resolve(path, urlconf=None)
 
-``path`` is the URL path you want to resolve. As with ``reverse()`` above, you
-don't need to worry about the ``urlconf`` parameter. The function returns the
-triple (view function, arguments, keyword arguments).
+``path`` é o caminho da URL que você deseja resolver. Como com ``reverse()``
+acima, você não precisa se preocupar com o parâmetro ``urlconf``. A função
+retorna uma tuple tripla (função view, argumentos, argumentos nomeados).
 
-For example, it can be used for testing if a view would raise a ``Http404``
-error before redirecting to it::
+Por exemplo, ela pode ser usada para testar se um view geraria um erro
+``Http404`` antes de redirecioná-lo::
 
     from urlparse import urlparse
     from django.core.urlresolvers import resolve
@@ -699,8 +700,8 @@ error before redirecting to it::
         next = request.META.get('HTTP_REFERER', None) or '/'
         response = HttpResponseRedirect(next)
 
-        # modify the request and response as required, e.g. change locale
-        # and set corresponding locale cookie
+        # modifica a requisição e a resposta quando necessário, e.g. mudar
+        # localidade e setar o cookie correspondente a localidade
 
         view, args, kwargs = resolve(urlparse(next)[2])
         kwargs['request'] = request
