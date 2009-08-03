@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, waiting for revision. $
+..   $TranslationStatus: Done $
 ..   $OriginalRevision: 11298 $
 ..   $TranslationAuthors: Vinicius Martins, Robson Mendonça, Walter Cruz $
 ..
@@ -31,10 +31,10 @@ se você deseja usar a versão em desenvolvimento do Djanto você necessitará s
 as seguintes instruções para :ref:`instalar a versão em desenvolvimento
 <installing-development-version>` do nosso repositório Subversion.
 
-Se você está usando o Linux ou uma instalação do Unix, como o OpenSolaris,
-verifique com o seu fornecedor se ele já tem o Django empacotado. Se
-você está usando uma distribuição do Linux e não sabe como descobrir se um pacote está
-disponível, é uma boa hora pra aprender isso. O Wiki do Django contém uma
+Se você está usando o GNU/Linux ou uma instalação do Unix, como o OpenSolaris,
+verifique com o seu fornecedor se ele já tem o Django empacotado. Se você está
+usando uma distribuição do GNU/Linux e não sabe como descobrir se um pacote
+está disponível, é uma boa hora pra aprender isso. O Wiki do Django contém uma
 lista de `Distribuições de terceiros`_ para ajudá-lo.
 
 .. _`Distribuições de terceiros`: http://code.djangoproject.com/wiki/Distributions
