@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, waiting for revision $
+..   $TranslationStatus: Done $
 ..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: Italo Maia, Walter Cruz $
 ..
@@ -22,62 +22,63 @@ FAQ: Bancos de dados e modelos
 Como eu posso ver as consultas SQL que o Django está executando?
 ----------------------------------------------------------------
 
-Certifique-se de que a configuração ``DEBUG`` está configurada em ``True``. Então,
-apenas faça isso::
+Certifique-se de que a configuração ``DEBUG`` está definida como
+``True``. Então, apenas faça isso::
 
     >>> from django.db import connection
     >>> connection.queries
     [{'sql': 'SELECT polls_polls.id,polls_polls.question,polls_polls.pub_date FROM polls_polls',
     'time': '0.002'}]
 
-``connection.queries`` está disponível apenas se ``DEBUG`` é ``True``. É uma
-lista de dicionários na ordem de execução das consultas. Cada dicionário tem
-o seguinte::
+``connection.queries`` está disponível apenas se ``DEBUG`` for ``True``. É uma
+lista de dicionários na ordem de execução das consultas. Cada dicionário tem o
+seguinte::
 
     ``sql`` -- A declaração SQL
     ``time`` -- O tempo que a declaração levou para executar, em segundos.
 
 ``connection.queries`` inclui todas as declarações SQL -- INSERTs, UPDATES,
-SELECTs, etc. Cada vez que o seu app aciona o banco de dados, a consulta será gravada.
-Note que os SQL brutos logados em ``connection.queries`` podem não incluir
-os parâmetros entre aspas. A colocação de aspas nos parâmatros é executada pelo backend
-específico de banco de dados, e nem todos os backends fornecem uma forma de obter o SQL depois
-de colocadas as aspas.
+SELECTs, etc. Cada vez que o seu app aciona o banco de dados, a consulta será
+gravada.  Note que os SQL brutos logados em ``connection.queries`` podem não
+incluir os parâmetros entre aspas. A colocação de aspas nos parâmatros é
+executada pelo backend específico de banco de dados, e nem todos os backends
+fornecem uma forma de obter o SQL depois de colocadas as aspas.
 
 Eu posso usar o Django com um banco de dados pré-existente?
 ------------------------------------------------------------
 
 Sim. Veja :ref:`Integrando com um banco de dados legado <howto-legacy-databases>`.
 
-Se eu faço mudanças no modelo, como eu atualizo o banco de dados?
------------------------------------------------------------------
+Se eu faço mudanças no model, como eu atualizo o banco de dados?
+----------------------------------------------------------------
 
-Se você não se importar em resetar os dados, o utilitário ``manage.py`` do seu projeto tem uma opção
-para resetar o SQL para uma aplicação em particular::
+Se você não se importar em "resetar" os dados, o utilitário ``manage.py`` do
+seu projeto tem uma opção para resetar o SQL para uma aplicação em particular::
 
     manage.py reset appname
 
 Isso apaga quaisquer tabelas relacionadas com o ``appname`` e as recria.
 
-Se você se importa sobre a remoção dos dados, você tem de executar as declarações
-``ALTER TABLE`` manualmente no seu banco de dados. Esse é o modo que nós sempre fizemos,
-porque lidar com dados é uma operação muito sensível e nós procuramos
-evitar sua automatização. Dito isso, existem trabalhos sendo feitos para adicionar
-a funcionalidade de atualização automatizada de banco de dados de forma parcial.
+Se você se importa sobre a remoção dos dados, você tem de executar as
+declarações ``ALTER TABLE`` manualmente no seu banco de dados. Esse é o modo
+que nós sempre fizemos, porque lidar com dados é uma operação muito sensível e
+nós procuramos evitar sua automatização. Dito isso, existem trabalhos sendo
+feitos para adicionar a funcionalidade de atualização automatizada de banco de
+dados de forma parcial.
 
 Os modelos do Django suportam chaves primárias compostas?
-----------------------------------------------------------
+---------------------------------------------------------
 
 Não. Apenas chaves primárias simples são suportadas.
 
 Mas isso não é um problema na prática, já que nada o impede de adicionar outras
-restrições (usando a opção do modelo ``unique_together`` ou criando a
-restrição diretamente no seu banco de dados) garantindo a unicidade
-nesse nível. Chaves primárias simples são necessárias para que coisas como a
-interface administrativa funcione; por exemplo, você precisa de uma forma simples
-de ser capaz de especificar um objeto para editar ou remover.
+restrições (usando a opção do model ``unique_together`` ou criando a restrição
+diretamente no seu banco de dados) garantindo a unicidade nesse nível. Chaves
+primárias simples são necessárias para que coisas como a interface
+administrativa funcione; por exemplo, você precisa de uma forma simples de ser
+capaz de especificar um objeto para editar ou remover.
 
-Como eu adiciono opções específicas de banco de dados as minhas declarações CREATE TABLE, como especificar a tabela como tipo MyISAM?
+Como eu adiciono opções específicas de banco de dados às minhas declarações CREATE TABLE, como especificar a tabela como tipo MyISAM?
 -------------------------------------------------------------------------------------------------------------------------------------
 
 Nós tentamos evitar casos especiais no código do Django para acomodar todas as
@@ -87,7 +88,7 @@ contenha as declarações ``ALTER TABLE`` que você quer fazer. Os arquivos de d
 iniciais são executados no seu banco de dados após as declarações ``CREATE TABLE``.
 
 Por exemplo, se você está usando o MySQL e quer que suas tabelas sejam do tipo
-MyISAM, criar um arquivo de dados iniciais e coloque algo assim dentro dele::
+MyISAM, crie um arquivo de dados iniciais e coloque algo assim dentro dele::
 
     ALTER TABLE myapp_mytable ENGINE=MyISAM;
 
@@ -100,13 +101,14 @@ Por que o Django está vazando memória?
 
 O Django não é conhecido por vazar memória. Se você descobrir que seus
 processos Django estão alocando mais e mais memória, sem nenhum sinal de
-liberação, verifique se o ``DEBUG`` está configurado para ``False``. Se o ``DEBUG`` é ``True``,
-então o Django salva uma cópia de cada declaração SQL que ele executou.
+liberação, verifique se o ``DEBUG`` está definido como ``False``. Se o
+``DEBUG`` for ``True``, então o Django salvará uma cópia de cada declaração SQL
+que ele executou.
 
 (As consultas são salvas em ``django.db.connection.queries``. Veja
 `Como eu posso ver as consultas SQL que o Django está executando?`_.)
 
-Para resolver esse problema, configure o ``DEBUG`` para ``False``.
+Para resolver esse problema, defina o ``DEBUG`` como ``False``.
 
 Se você precisa limpar a lista de consultas manualmente em qualquer ponto das
 suas funções, apenas execute ``reset_queries()``, assim::
