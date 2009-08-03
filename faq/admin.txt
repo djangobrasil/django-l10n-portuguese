@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, waiting for revision $
+..   $TranslationStatus: Done $
 ..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: Italo Maia, Walter Cruz $
 ..
@@ -19,53 +19,57 @@
 FAQ: A administração
 ====================
 
-Não consigo logar. Quando eu entro um usuário e senha válidos, ele apenas trás a página de login de novo, sem mensagens de erro.
+Não consigo logar. Quando eu insiro um usuário e senha válidos, ele apenas trás a página de login de novo, sem mensagens de erro.
 ---------------------------------------------------------------------------------------------------------------------------------
 
 O cookie de login não está configurado corretamente, porque o domínio do cookie
-enviado pelo Django não casa com o domínio no seu navegador. Verifique essas duas
-coisas:
+enviado pelo Django não casa com o domínio no seu navegador. Verifique essas
+duas coisas:
 
-    * Configure o ``SESSION_COOKIE_DOMAIN`` no configuração do seu
-      para casar como seu domínio. Por exemplo, se você está indo para
-      "http://www.mysite.com/admin/" no seu navegador, em
-      "myproject.settings" você deve configurar o ``SESSION_COOKIE_DOMAIN = 'www.mysite.com'``.
+    * Configure o ``SESSION_COOKIE_DOMAIN`` na configuração de seu admin para
+      casar com seu domínio. Por exemplo, se você está acessando
+      "http://www.mysite.com/admin/" no seu navegador, em "myproject.settings"
+      você deverá definir o ``SESSION_COOKIE_DOMAIN = 'www.mysite.com'``.
 
     * Alguns navegadores (Firefox?) não gostam de acessar cookies de domínios
       que não têm pontos. Se você está executando o site administrativo em
-      "localhost" ou outro domínio que não tem um ponto , tente ir para
+      "localhost" ou outro domínio que não tem um ponto, tente acessar
       "localhost.localdomain" ou "127.0.0.1" e igualmente configure o
       ``SESSION_COOKIE_DOMAIN``.
 
-Não consigo logar. Quando eu entro um usuário e senha válidos, ele apenas trás a página de login de novo, com um erro "Por favor, informe um usuário e senha corretos".
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Não consigo logar. Quando eu insiro um usuário e senha válidos, ele apenas trás a página de login de novo, com um erro "Por favor, informe um usuário e senha corretos".
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Se você está certo sobre seu usuário e senha, verifique se seu usuário tem
-o ``is_active`` e``is_staff`` configurados para True. O site administrativo
-somente libera o acesso a usuários com esses dois campos configurados para True.
+Se você está certo sobre seu usuário e senha, verifique se seu usuário tem o
+``is_active`` e``is_staff`` definidos como True. O site administrativo somente
+libera o acesso a usuários com esses dois campos em True.
 
-Como eu previno o middleware de cache de cachear o site administrativo?
------------------------------------------------------------------------
+Como eu previno o middleware de cache de fazer cache do site administrativo?
+----------------------------------------------------------------------------
 
-Configure a :setting:`CACHE_MIDDLEWARE_ANONYMOUS_ONLY` para ``True``. Veja a 
-:ref:`documentação do cache <topics-cache>` para mais informação.
+Defina o valor de :setting:`CACHE_MIDDLEWARE_ANONYMOUS_ONLY` para
+``True``. Veja a :ref:`documentação do cache <topics-cache>` para mais
+informações.
 
-Como eu configuro automaticamente o valor de um campo para o usuário que editou o objeto por último na administração?
----------------------------------------------------------------------------------------------------------------------
+Como eu defino automaticamente o valor de um campo para o usuário que editou o objeto por último na administração?
+-------------------------------------------------------------------------------------------------------------------
 
-A classe :class:`ModelAdmin` fornece ganchos de customização que permitem que você transforme
-um objeto quando ele é salvo, usando detalhes obtidos da requisição. Ao extrair o usuário atual
-da requisição, e personalizar o gancho :meth:`ModelAdmin.save_model`, você pode atualizar
-um objeto para refletir o usuário que o editou. Veja :ref:`a documentação sobre os métodos do
+A classe :class:`ModelAdmin` fornece ganchos (hooks) de personalização que
+permitem que você transforme um objeto quando ele é salvo, usando detalhes
+obtidos da requisição. Ao extrair o usuário atual da requisição, e personalizar
+o gancho :meth:`ModelAdmin.save_model`, você pode atualizar um objeto para
+refletir o usuário que o editou. Veja :ref:`a documentação sobre os métodos do
 ModelAdmin <model-admin-methods>` para um exemplo.
 
 Como eu restrinjo a edição de objetos na administração a apenas os usuários que os criaram?
 -------------------------------------------------------------------------------------------
 
-A classe :class:`ModelAdmin` também fornece ganchos de customização que permitem que você controle a
-visibilidade e editabilidade dos objetos na administração. Usando o mesmo truque de extrair
-o usuário da requisição, :meth:`ModelAdmin.queryset` e :meth:`ModelAdmin.has_change_permission`
-podem ser usados para controlar a visibilidade e editabilidade de objetos ba administração.
+A classe :class:`ModelAdmin` também fornece ganchos de personalização que
+permitem que você controle a visibilidade e editabilidade dos objetos na
+administração. Usando o mesmo truque de extrair o usuário da requisição,
+:meth:`ModelAdmin.queryset` e :meth:`ModelAdmin.has_change_permission` podem
+ser usados para controlar a visibilidade e editabilidade de objetos na
+administração.
 
 Minhas imagens e CSS do site administrativo funcionam no servidor de desenvolvimento, mas não aparecem ao executar no mod_python.
 ---------------------------------------------------------------------------------------------------------------------------------
@@ -73,24 +77,24 @@ Minhas imagens e CSS do site administrativo funcionam no servidor de desenvolvim
 Veja :ref:`servindo os arquivos da administração <howto-deployment-modpython-serving-the-admin-files`
 na documentação "Como usar o Django com o mod_python".
 
-Meu "list_filter" comtém um ManyToManyField, mas o filtro não é exibido.
+Meu "list_filter" contém um ManyToManyField, mas o filtro não é exibido.
 ------------------------------------------------------------------------
 
-O Django não exibirá um filtro para um ``ManyToManyField`` á menos que existam
+O Django não exibirá um filtro para um ``ManyToManyField`` a menos que existam
 mais de dois objetos relacionados.
 
 Por exemplo, se o seu ``list_filter`` inclui ``sites``, e se existe apenas um
 site no seu banco de dados, ele não exibirá um filtro de "Site". Nesse caso,
 o filtro por site seria inútil.
 
-Como eu posso personalizar a funcionalidade na interface administrativa?
+Como eu posso personalizar a funcionalidade da interface administrativa?
 ------------------------------------------------------------------------
 
 Você tem algumas opções. Se você quer extender o formulário gerado
-automaticamente gerado pelo Django, você pode incluir módulos JavaScript
-na página pelo parâmetro ``js`` da ``class Admin`` do modelo. Esse parâmetro é
-uma lista de URLs, como strings, apontando para módulos JavaScript que serão
-incluídos dentro do formulário da administração via uma tag ``<script>``.
+automaticamente pelo Django, você pode incluir módulos JavaScript na página
+pelo parâmetro ``js`` da ``classe Admin`` do model. Esse parâmetro é uma lista
+de URLs, como strings, apontando para módulos JavaScript que serão incluídos
+dentro do formulário da administração via uma tag ``<script>``.
 
 Se você quer mais flexibilidade do que apenas ajustar os formulários auto-gerados
 sinta-se livre para escrever views personalizadas para a administração. A administração
@@ -105,6 +109,7 @@ O site administrativo gerado automaticamente é horrível! Como eu posso mudá-l
 
 Gostamos dele, mas se você não gosta, você pode mudar a apresentação do site
 editando a folha de estilos e/ou as imagens assossiadas. O site é construído
-usando HTML semântico e está cheio de hooks de CSS, assim, qualquer mudança
-quer você quiser fazer é possível pela edição da folha de estilos. Nós
-escrevemos um :ref:`guia para o CSS usado na administração <obsolete-admin-css>` para auxiliá-lo.
+usando HTML semântico e está cheio de hooks de CSS, assim, qualquer mudança que
+você quiser fazer é possível pela edição da folha de estilos. Nós escrevemos um
+:ref:`guia para o CSS usado na administração <obsolete-admin-css>` para
+auxiliá-lo.
