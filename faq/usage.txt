@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, waiting for revision $
+..   $TranslationStatus: Done $
 ..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: Italo Maia, Walter Cruz $
 ..
@@ -43,10 +43,10 @@ Eu não gosto da sua linguagem de template. Eu tenho de usá-la?
 ---------------------------------------------------------------
 
 Pensamos que nossa linguagem de templates é a melhor coisa inventada desde os
-pedaços de bacon mas reconhecemos que a escolha de linguagem de templates
-é uma discussão quase religiosa. Não há nada no Django que requeira que você use
-a linguagem de template, então, se você prefere o ZPT, Cheetah, ou o que quer que seja,
-sinta-se livre para usá-los.
+pedaços de bacon mas reconhecemos que a escolha da linguagem de templates é uma
+discussão quase religiosa. Não há nada no Django que requer que você use a
+linguagem de template, então, se você prefere o ZPT, Cheetah, ou o que quer que
+seja, sinta-se livre para usá-los.
 
 Eu tenho de usar sua camada de modelo/banco de dados?
 -----------------------------------------------------
@@ -61,33 +61,34 @@ o sistema de administração gerado automaticamente pelo Django. Esse aplicativo
 Como eu uso os campos de imagem e arquivos?
 --------------------------------------------
 
-O uso de um :class:`~django.db.models.FileField` ou um 
-:class:`~django.db.models.ImageField` em modelo requer alguns passos:
+O uso de um :class:`~django.db.models.FileField` ou um
+:class:`~django.db.models.ImageField` nos models requer alguns passos:
 
     #. No seu arquivo de configurações, defina o :setting:`MEDIA_ROOT` como o
-       caminho completo para o diretório onde você gostaria que o Django salvasse os arquivos
-       enviados. (Para melhor performance, esses arquivos não são guardados em um banco de dados.)
-       Defina o :setting:`MEDIA_URL` como a URL pública para esse diretório.
-       Assegure-se de que esse diretório tenha permissão de escrita para o usuário do servidor Web.
+       caminho completo para o diretório onde você gostaria que o Django
+       salvasse os arquivos enviados. (Para melhor performance, esses arquivos
+       não são guardados em um banco de dados.)  Defina o :setting:`MEDIA_URL`
+       como a URL pública para esse diretório.  Assegure-se de que esse
+       diretório tenha permissão de escrita para o usuário do servidor Web.
 
-    #. Adicione o :class:`~django.db.models.FileField` ou 
-       :class:`~django.db.models.ImageField` a seu modelo, definindo
-       a opção :attr:`~django.db.models.FileField.upload_to` para instruir
-       ao Django para qual subdiretório do :setting:`MEDIA_ROOT` ele deve
-       enviar os arquivos.
+    #. Adicione o :class:`~django.db.models.FileField` ou
+       :class:`~django.db.models.ImageField` ao seu model, definindo a opção
+       :attr:`~django.db.models.FileField.upload_to` para instruir o Django
+       para qual subdiretório do :setting:`MEDIA_ROOT` ele deve enviar os
+       arquivos.
 
     #. Tudo que será gravado no seu banco de dados é o caminho para o arquivo
-       (relativo ao :setting:`MEDIA_ROOT`). Você pode também querer usar o atributo
-       de conveniência :attr:`~django.core.files.File.url` fornecido pelo
-       Django. Por exemplo, se o seu :class:`~django.db.models.ImageField` é
-       chamado ``mug_shot``, você pode obter a URL absoluta para a sua imagem em um
-       template com ``{{ object.mug_shot_url }}``.
+       (relativo ao :setting:`MEDIA_ROOT`). Você pode também querer usar o
+       atributo de conveniência :attr:`~django.core.files.File.url` fornecido
+       pelo Django. Por exemplo, se o seu :class:`~django.db.models.ImageField`
+       é chamado ``mug_shot``, você pode obter a URL absoluta para a sua imagem
+       em um template com ``{{ object.mug_shot.url }}``.
 
 Como eu torno uma variável disponível em todos os meus templates?
 -----------------------------------------------------------------
 
-Algumas vezes seus templates precisam todos da mesma coisa. Um exemplo comum seria
-manus gerados dinamicamente. À primeira vista, parece lógico simplesmente
+Algumas vezes seus templates precisam todos da mesma coisa. Um exemplo comum
+seria menus gerados dinamicamente. À primeira vista, parece lógico simplesmente
 adicionar um dicionário comum ao contexto do template.
 
 A solução correta é usar um ``RequestContext``. Detalhes em como fazer isso
