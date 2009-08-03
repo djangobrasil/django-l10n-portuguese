@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, waiting for revision $
+..   $TranslationStatus: Done $
 ..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: Italo Maia, Walter Cruz $
 ..
@@ -22,57 +22,61 @@ FAQ: Obtendo ajuda
 Como eu faço X? Por que Y não funciona? Onde eu posso obter ajuda?
 ------------------------------------------------------------------
 
-Se este FAQ não contém uma resposta a sua pergunta, você pode querer tentar a
-`lista de usuários do django`_. Sinta-se livre para perguntar quaisquer
-questões relacionadas a istalação, uso ou depuração do Django.
+Se este FAQ não contém uma resposta a sua pergunta, você pode tentar a `lista
+oficial de usuários do Django (django-users)`_ ou a `lista da comunidade Django
+Brasil (django-brasil)`_. Sinta-se livre para perguntar quaisquer questões
+relacionadas a istalação, uso ou depuração do Django.
 
-Se você prefere o IRC, o  `canal de IRC #django`_ na rede Freenode é uma
-comunidade ativa de indivíduos que podem ser capazes de ajudá-lo a resolver
-seu problema.
+Se você prefere o IRC, os canais `#django`_ e `#django-br`_ (este em língua
+portuguesa) na rede Freenode é uma comunidade ativa de indivíduos que podem ser
+capazes de ajudá-lo a resolver seu problema.
 
-.. _`lista de usuários do django`: http://groups.google.com/group/django-users
-.. _`canal de IRC #django`: irc://irc.freenode.net/django
+.. _`lista oficial de usuários do Django (django-users)`: http://groups.google.com/group/django-users
+.. _`lista da comunidade Django Brasil (django-brasil)`: http://lista.djangobrasil.org
+.. _`#django`: irc://irc.freenode.net/django
+.. _`#django-br`: irc://irc.freenode.net/django-br
 
-Por que a minha mensagem não apareceu na django-users?
-------------------------------------------------------
+Por que a minha mensagem não apareceu na django-users ou na django-brasil?
+--------------------------------------------------------------------------
 
-A django-users_ tem muitos inscritos. Isso é bom para a comunidade, já que
-significa que muitas pessoas estão disponíveis para contribuir respondendo as
-perguntas. Infelizmente, significa também que a django-users_ é um alvo
-atrativo para spammers.
+As listas `django-users`_ e `django-brasil`_ tem muitos inscritos. Isso é bom
+para a comunidade, já que significa que muitas pessoas estão disponíveis para
+contribuir respondendo as perguntas. Infelizmente, significa também que as
+listas é um alvo atrativo para spammers.
 
-Para combater o problema do spam, quando você entra na lista django-users_,
-nós manualmente moderamos a primeira mensagem que você envia para a lista. Isso
+Para combater o problema do spam, quando você entra em alguma das listas, nós
+manualmente moderamos a primeira mensagem que você envia para a lista. Isso
 significa que os spammers são pegos, mas também significa que a sua primeira
 questão para a lista pode demorar um pouco para ser respondida. Pedimos
 desculpas por qualquer inconveniente que essa política pode causar.
 
-.. _django-users: http://groups.google.com/group/django-users
+.. _`django-users`: http://groups.google.com/group/django-users
+.. _`django-brasil`: http://lista.djangobrasil.org
 
-Ninguém na django-users respondeu minha questão! O que eu faço?
----------------------------------------------------------------
+Ninguém na django-users ou django-brasil respondeu minha questão! O que eu faço?
+--------------------------------------------------------------------------------
 
 Tente tornar sua questão mais específica, ou informar um exemplo melhor do seu
 problema.
 
-Como na maioria das listas de projetos open-source, as pessoas na django-users_ são
-voluntárias. Se ninguém respondeu sua pergunta, pode ser que ninguém saiba a
-resposta, pode ser que ninguém tenha entendido a pergunta, ou pode ser que todos
-os que podem ajudar estão ocupados. Você pode tentar o IRC -- visite o `canal de IRC #django`_
-na rede Freenode.
+Como na maioria das listas de projetos open-source, as pessoas na django-users_
+e `django-brasil`_ são voluntárias. Se ninguém respondeu sua pergunta, pode ser
+que ninguém saiba a resposta, pode ser que ninguém tenha entendido a pergunta,
+ou pode ser que todos os que podem ajudar estão ocupados. Você pode tentar o
+IRC -- visite os canais de IRC `#django`_ e `#django-br`_ na rede Freenode.
 
-Você pode notar que nós temos uma segunda lista de e-mail chamada django-developers_ --
-mas por favor, não envie perguntas de suporte para essa lista. Essa lista é para
-discussão dos desenvolvedores do Django em si. Fazer uma pergunta técnica ali
-pode ser considerado muito inconveniente.
+Você pode notar que nós temos uma segunda lista de e-mail chamada
+django-developers_ -- mas por favor, não envie perguntas de suporte para essa
+lista. Essa lista é para discussão dos desenvolvedores do Django em si. Fazer
+uma pergunta técnica ali pode ser considerado muito inconveniente.
 
 .. _django-developers: http://groups.google.com/group/django-developers
 
 Acho que eu encontrei um bug! O que eu faço?
 ---------------------------------------------
 
-Instruções detalhadas de como lidar com um bug em potencial podem ser encontradas em nosso
-:ref:`Guia de contribuição do Django <reporting-bugs>`.
+Instruções detalhadas de como lidar com um bug em potencial podem ser
+encontradas em nosso :ref:`Guia de contribuição do Django <reporting-bugs>`.
 
 Acho que encontrei um problema de segurança. O que eu faço?
 -----------------------------------------------------------
