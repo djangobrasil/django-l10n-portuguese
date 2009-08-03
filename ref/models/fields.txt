@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 11268 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Walter Cruz, Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,34 +16,34 @@
 
 .. _ref-models-fields:
 
-=====================
-Model field reference
-=====================
+=============================
+Referência de campos do Model
+=============================
 
 .. module:: django.db.models.fields
-   :synopsis: Built-in field types.
+   :synopsis: Tipos de campos embutidos.
 
 .. currentmodule:: django.db.models
 
-This document contains all the gory details about all the `field options`_ and
-`field types`_ Django's got to offer.
+Este documento contém todos os detalhes sobre todas as `opções dos campos`_ e
+`tipos de campos`_ que o Django oferece.
 
 .. seealso::
 
-    If the built-in fields don't do the trick, you can easily :ref:`write your
-    own custom model fields <howto-custom-model-fields>`.
+    Se os campos embutidos não atendem a sua necessidade, você pode facilmente
+    :ref:`escrever seus próprios campos de model <howto-custom-model-fields>`.
 
 .. note::
 
-    Technically, these models are defined in :mod:`django.db.models.fields`, but
-    for convenience they're imported into :mod:`django.db.models`; the standard
-    convention is to use ``from django.db import models`` and refer to fields as
-    ``models.<Foo>Field``.
+    Tecnicamente, estes models são definidos em :mod:`django.db.models.fields`,
+    mas por conveniência eles são importados dentro do :mod:`django.db.models`;
+    a convenção padrão é usar ``from django.db import models`` e referir-se aos
+    campos como ``models.<Foo>Field``.
 
 .. _common-model-field-options:
 
-Field options
-=============
+Opções dos campos
+=================
 
 The following arguments are available to all field types. All are optional.
 
@@ -300,8 +300,8 @@ underscores to spaces. See :ref:`Verbose field names <verbose-field-names>`.
 
 .. _model-field-types:
 
-Field types
-===========
+Tipos de campos
+===============
 
 .. currentmodule:: django.db.models
 
@@ -310,19 +310,19 @@ Field types
 
 .. class:: AutoField(**options)
 
-An :class:`IntegerField` that automatically increments
-according to available IDs. You usually won't need to use this directly; a
-primary key field will automatically be added to your model if you don't specify
-otherwise. See :ref:`automatic-primary-key-fields`.
+Um :class:`IntegerField` que incrementa seu valor automaticamente de acordo com os
+IDs disponíveis. Você normalmente não precisa usá-lo diretamente; um campo de
+chave primária será automaticamente adicionado ao seu modelo se você não
+especificar um. Veja :ref:`automatic-primary-key-fields`.
 
 ``BooleanField``
 ----------------
 
 .. class:: BooleanField(**options)
 
-A true/false field.
+Um campo Verdadeiro/Falso.
 
-The admin represents this as a checkbox.
+O site administrativo representa-o como uma checkbox.
 
 .. admonition:: MySQL users..
 
@@ -342,18 +342,19 @@ The admin represents this as a checkbox.
 
 .. class:: CharField(max_length=None, [**options])
 
-A string field, for small- to large-sized strings.
+Um campo string, para campos texto de tamanhos pequeno e médio.
 
-For large amounts of text, use :class:`~django.db.models.TextField`.
+Para grandes quantidades de texto, use :class:`django.db.models.TextField`.
 
-The admin represents this as an ``<input type="text">`` (a single-line input).
+A administração representa-o como um ``<input type="text">`` (um input de uma
+única linha).
 
-:class:`CharField` has one extra required argument:
+:class:`CharField` tem um argumento extra obrigatório:
 
 .. attribute:: CharField.max_length
 
-    The maximum length (in characters) of the field. The max_length is enforced
-    at the database level and in Django's validation.
+    O tamanho máximo (em caracteres) do campo. O ``max_length`` é verificado a
+    nível de banco de dados e na validação do Django.
 
 .. note::
 
@@ -375,9 +376,9 @@ The admin represents this as an ``<input type="text">`` (a single-line input).
 
 .. class:: CommaSeparatedIntegerField(max_length=None, [**options])
 
-A field of integers separated by commas. As in :class:`CharField`, the
-:attr:`~CharField.max_length` argument is required and the note about database
-portability mentioned there should be heeded.
+Um campo de inteiros separados por vírgulas. Como no :class`CharField`, o
+argumento :attr:`~CharField.max_length` é obrigatório e atente para as
+portabilidades mencionadas.
 
 ``DateField``
 -------------
@@ -389,19 +390,19 @@ optional arguments:
 
 .. attribute:: DateField.auto_now
 
-    Automatically set the field to now every time the object is saved. Useful
-    for "last-modified" timestamps. Note that the current date is *always*
-    used; it's not just a default value that you can override.
+    Configura o campo automaticamente para a hora em que o objeto é salvo. Útil
+    para campos de hora da "última modificação". Note que *sempre* é usada a
+    data atual, não é apenas um valor padrão que você pode sobrescrever.
 
 .. attribute:: DateField.auto_now_add
 
-    Automatically set the field to now when the object is first created. Useful
-    for creation of timestamps. Note that the current date is *always* used;
-    it's not just a default value that you can override.
+    Configura automaticamente o campo para a data em que ele foi primeiramente
+    criado. Útil para a criação de carimbos de data. Note que *sempre* é usada a
+    data atual, não é apenas um valir padrão que você pode sobrescrever.
 
-The admin represents this as an ``<input type="text">`` with a JavaScript
-calendar, and a shortcut for "Today".  The JavaScript calendar will always
-start the week on a Sunday.
+A administração representa isso como um ``<input type="text">`` com um
+calendário JavaScript, e um atalho para "Hoje."  O calendário JavaScript sempre
+irá iniciar a semana no Domingo.
 
 ``DateTimeField``
 -----------------
@@ -409,10 +410,10 @@ start the week on a Sunday.
 .. class:: DateTimeField([auto_now=False, auto_now_add=False, **options])
 
 A date and time, represented in Python by a ``datetime.datetime`` instance.
-Takes the same extra arguments as :class:`DateField`.
+Um campo de data e hora. Tem as mesmas opções extras de :class:`DateField`.
 
-The admin represents this as two ``<input type="text">`` fields, with
-JavaScript shortcuts.
+A administração representa esse campo como dois campos ``<input type="text">``,
+com atalhos JavaScript.
 
 ``DecimalField``
 ----------------
@@ -421,42 +422,43 @@ JavaScript shortcuts.
 
 .. class:: DecimalField(max_digits=None, decimal_places=None, [**options])
 
-A fixed-precision decimal number, represented in Python by a
-:class:`~decimal.Decimal` instance. Has two **required** arguments:
+Um número decimal de precisão fixa, representado no Python por uma instância de
+:class:`~decimal.Decimal`. Possui dois argumentos **obrigatórios**:
 
 .. attribute:: DecimalField.max_digits
 
-    The maximum number of digits allowed in the number
+    O número máximo de dígitos permitidos no número.
 
 .. attribute:: DecimalField.decimal_places
 
-    The number of decimal places to store with the number
+    O número de casas decimais para salvar com o número.
 
-For example, to store numbers up to 999 with a resolution of 2 decimal places,
-you'd use::
+Por exemplo, para gravar números até 999 com uma precisão de 2 casas decimais,
+você deve usar::
 
     models.DecimalField(..., max_digits=5, decimal_places=2)
 
-And to store numbers up to approximately one billion with a resolution of 10
-decimal places::
+E para guardar números de até aproximadamente um bilhão, com uma precisão de 10
+casas decimais::
 
     models.DecimalField(..., max_digits=19, decimal_places=10)
 
-The admin represents this as an ``<input type="text">`` (a single-line input).
+A administração representa isso como um ``<input type="text">`` (um input de uma
+única linha).
 
 ``EmailField``
 --------------
 
 .. class:: EmailField([max_length=75, **options])
 
-A :class:`CharField` that checks that the value is a valid e-mail address.
+Um :class:`CharField` que verifica se o valor é um e-mail válido.
 
 ``FileField``
 -------------
 
 .. class:: FileField(upload_to=None, [max_length=100, **options])
 
-A file-upload field.
+Um campo para upload de arquivo. Possui um argumento **obrigatório**
 
 .. note::
     The ``primary_key`` and ``unique`` arguments are not supported, and will
@@ -466,13 +468,13 @@ Has one **required** argument:
 
 .. attribute:: FileField.upload_to
 
-    A local filesystem path that will be appended to your :setting:`MEDIA_ROOT`
-    setting to determine the value of the :attr:`~django.core.files.File.url`
-    attribute.
+    Um caminho no seu sistema de arquivos local que será adicionado a sua
+    configuração :setting:`MEDIA_ROOT` para determinar o valor do atributo
+    :attr:`~django.core.files.File.url`.
 
-    This path may contain `strftime formatting`_, which will be replaced by the
-    date/time of the file upload (so that uploaded files don't fill up the given
-    directory).
+    Esse caminho pode conter `formatação strftime`_, que será substituído pela
+    data/hora do upload do arquivo (para que os arquivos enviados não encham
+    o diretório fornecido).
 
     .. versionchanged:: 1.0
 
@@ -509,101 +511,107 @@ Also has one optional argument:
     Optional. A storage object, which handles the storage and retrieval of your
     files. See :ref:`topics-files` for details on how to provide this object.
 
-The admin represents this field as an ``<input type="file">`` (a file-upload
-widget).
+A administração representa esse campo como um ``<input type="file">`` (um widget de
+upload de arquivo).
 
-Using a :class:`FileField` or an :class:`ImageField` (see below) in a model
-takes a few steps:
+O uso de um :class:`FileField` ou um :class:`ImageField` (veja abaixo) em um
+modelo requer alguns passos adicionais:
 
-    1. In your settings file, you'll need to define :setting:`MEDIA_ROOT` as the
-       full path to a directory where you'd like Django to store uploaded files.
-       (For performance, these files are not stored in the database.) Define
-       :setting:`MEDIA_URL` as the base public URL of that directory. Make sure
-       that this directory is writable by the Web server's user account.
+    1. No seu arquivo de configurações, você precisa definir
+       :setting:`MEDIA_ROOT` como o caminho completo para o diretório onde você
+       gostaria que o Django guardasse os arquivos enviados. (Por questões de
+       performance, esses arquivos não são guardados no banco de dados). Defina
+       o  :setting:`MEDIA_URL` como a URL pública desse diretório. Assegure-se
+       de que esse diretório tenha permissão de escrita pela conta do usuário
+       que executa o servidor web.
 
-    2. Add the :class:`FileField` or :class:`ImageField` to your model, making
-       sure to define the :attr:`~FileField.upload_to` option to tell Django
-       to which subdirectory of :setting:`MEDIA_ROOT` it should upload files.
+    2. Adiciona o :class:`FileField` ou :class:`ImageField` ao seu modelo,
+       definindo a opção :attr:`~FileField.upload_to` para dizer ao Django para
+       qual subdiretório do :setting:`MEDIA_ROOT` ele deve enviar os arquivos.
 
-    3. All that will be stored in your database is a path to the file
-       (relative to :setting:`MEDIA_ROOT`). You'll most likely want to use the
-       convenience :attr:`~django.core.files.File.url` function provided by
-       Django. For example, if your :class:`ImageField` is called ``mug_shot``,
-       you can get the absolute URL to your image in a template with
-       ``{{ object.mug_shot.url }}``.
+    3. Tudo o que será gravado no seu banco de dados é o caminho para o arquivo
+       (relativo ao :setting:`MEDIA_ROOT`). Você muito provavalmente usará a
+       função :attr:`~django.core.files.File.url` fornecida pelo Django. Por
+       exemplo, se seu :class:`ImageField` é chamado de ``mug_shot``, você pode
+       obter a URL absoluta para sua imagem em um template com
+       ``{{ object.get_mug_shot.url }}``.
 
-For example, say your :setting:`MEDIA_ROOT` is set to ``'/home/media'``, and
-:attr:`~FileField.upload_to` is set to ``'photos/%Y/%m/%d'``. The ``'%Y/%m/%d'``
-part of :attr:`~FileField.upload_to` is `strftime formatting`_; ``'%Y'`` is the
-four-digit year, ``'%m'`` is the two-digit month and ``'%d'`` is the two-digit
-day. If you upload a file on Jan. 15, 2007, it will be saved in the directory
+Por exemplo, digamos que o seu :setting:`MEDIA_ROOT` esteja configurado para
+``'/home/media'``, e o :attr:`~FileField.upload_to` está configurado para
+``'photos/%Y/%m/%d'``. A parte ``'%Y/%m/%d'`` do :attr:`~FileField.upload_to` é
+a `formatação strftime`_; ``'%Y'`` é o ano com quatro digítos,
+``'%m'`` é o mês com dois dígitos e ``'%d'`` é o dia com dois dígitos. Se você
+enviar um arquivo em 15 de janeiro de 2007, ele será salvo no diretório
 ``/home/media/photos/2007/01/15``.
 
-If you want to retrieve the upload file's on-disk filename, or a URL that refers
-to that file, or the file's size, you can use the
-:attr:`~django.core.files.File.name`, :attr:`~django.core.files.File.url`
-and :attr:`~django.core.files.File.size` attributes; see :ref:`topics-files`.
+Se você quer obter o nome do arquivo no disco, ou a URL que se refere àquele
+arquivo, ou o tamanho do arquivo, você pode usar os métodos
+:attr:`~django.core.files.File.name`, :attr:`~django.core.files.File.url` e :attr:`~django.core.files.File.size`. Veja :ref:`topics-files`.
 
-Note that whenever you deal with uploaded files, you should pay close attention
-to where you're uploading them and what type of files they are, to avoid
-security holes. *Validate all uploaded files* so that you're sure the files are
-what you think they are. For example, if you blindly let somebody upload files,
-without validation, to a directory that's within your Web server's document
-root, then somebody could upload a CGI or PHP script and execute that script by
-visiting its URL on your site. Don't allow that.
+Observe que independente da forma que você lida com arquivos enviados, você deve
+prestar muita atennção para onde você os está enviado e para quais tipos eles
+são, para evitar furos de segurança. *Valide todos os arquivos enviados* para
+assegurar-se que eles são o que você pensa que eles são. Por exemplo, se você
+permite que alguém envie arquivos sem validação, para um diretório que esteja
+dentro do document root do seu servidor web, então alguém poderia enviar um
+script CGI ou PHP e executar esse script visitando essa URL em seu site URL. Não
+permita isso.
 
 .. versionadded:: 1.0
-   The ``max_length`` argument was added in this version.
+   O argumento ``max_length`` foi adicionado nesta versão.
 
-By default, :class:`FileField` instances are
-created as ``varchar(100)`` columns in your database. As with other fields, you
-can change the maximum length using the :attr:`~CharField.max_length` argument.
+Por padrão, instâncias de :class:`FileField` são criadas como colunas
+``varchar(100)`` no seu banco de dados. Assim como nos outros campos, você
+pode mudar o tamanho máximo usando o argumento :attr:`~CharField.max_length`.
 
-.. _`strftime formatting`: http://docs.python.org/lib/module-time.html#l2h-1941
+.. _`formatação strftime`: http://docs.python.org/lib/module-time.html#l2h-1941
 
 ``FilePathField``
 -----------------
 
 .. class:: FilePathField(path=None, [match=None, recursive=False, max_length=100, **options])
 
-A :class:`CharField` whose choices are limited to the filenames in a certain
-directory on the filesystem. Has three special arguments, of which the first is
-**required**:
+Um campo :class:`CharField` cujas escolhas são limitadas a nomes de arquivos em
+um certo diretório no sistema de arquivos. Tem três argumentos especiais, sendo
+o primeiro **obrigatório**:
 
 .. attribute:: FilePathField.path
 
-    Required. The absolute filesystem path to a directory from which this
-    :class:`FilePathField` should get its choices. Example: ``"/home/images"``.
+    Obrigatório. O caminho absoluto para um diretório no sistema de arquivos a
+    partir de onde o :class:`FilePathField` deve obter suas opções. Exemplo:
+    ``"/home/images"``.
 
 .. attribute:: FilePathField.match
 
-    Optional. A regular expression, as a string, that :class:`FilePathField`
-    will use to filter filenames. Note that the regex will be applied to the
-    base filename, not the full path. Example: ``"foo.*\.txt$"``, which will
-    match a file called ``foo23.txt`` but not ``bar.txt`` or ``foo23.gif``.
+    Opcional. Uma expressão regular, como uma string, que o
+    :class:`FilePathField` usará para filtrar os nomes dos arquivos. Perceba que
+    a regex será aplicada apenas ao nome do aruqivo, não ao caminho completo.
+    Exemplo: ``"foo.*\.txt$"``, que irá casar um arquivo chamado ``foo23.txt``
+    mas não ``bar.txt`` ou ``foo23.gif``.
 
 .. attribute:: FilePathField.recursive
-    
-    Optional. Either ``True`` or ``False``. Default is ``False``. Specifies
-    whether all subdirectories of :attr:`~FilePathField.path` should be included
 
-Of course, these arguments can be used together.
+    Opcional. ``True`` ou``False``. O padrão é ``False``. Especifica se todos os
+    subdiretórios do :attr:`~FilePathField.path` devem ser incluídos.
 
-The one potential gotcha is that :attr:`~FilePathField.match` applies to the
-base filename, not the full path. So, this example::
+E é claro que todos esses argumentos podem ser usados juntos.
+
+A única pegadinha em potencial é que o :attr:`~FilePathField.match` aplica-se ao
+nome básico do arquivo, não ao caminho completo. Assim, esse exemplo::
 
     FilePathField(path="/home/images", match="foo.*", recursive=True)
 
-...will match ``/home/images/foo.gif`` but not ``/home/images/foo/bar.gif``
-because the :attr:`~FilePathField.match` applies to the base filename
-(``foo.gif`` and ``bar.gif``).
+...irá casar ``/home/images/foo.gif`` mas não ``/home/images/foo/bar.gif``
+porque o argumento :attr:`~FilePathField.match` aplicase aos nomes básicos dos
+arquivos (``foo.gif`` e ``bar.gif``).
+
 
 .. versionadded:: 1.0
-   The ``max_length`` argument was added in this version.
+    O argumento ``max_length`` foi adicionado nesta versão.
 
-By default, :class:`FilePathField` instances are
-created as ``varchar(100)`` columns in your database. As with other fields, you
-can change the maximum length using the :attr:`~CharField.max_length` argument.
+Por padrão, instâncias de :class:`FilePathField` são criadas como colunas
+``varchar(100)`` no seu banco de dados. Assim como nos outros campos, você pode
+mudar o tamanho máximo usando o argumento :attr:`~CharField.max_length`.
 
 ``FloatField``
 --------------
@@ -612,98 +620,101 @@ can change the maximum length using the :attr:`~CharField.max_length` argument.
 
 .. versionchanged:: 1.0
 
-A floating-point number represented in Python by a ``float`` instance.
+Um número de ponto flutuante, representado no Python como uma instância de um
+``float``.
 
-The admin represents this as an ``<input type="text">`` (a single-line input).
+A administração representa-o como um ``<input type="text">`` (um input de uma
+única linha).
 
 ``ImageField``
 --------------
 
 .. class:: ImageField(upload_to=None, [height_field=None, width_field=None, max_length=100, **options])
 
-Like :class:`FileField`, but validates that the uploaded object is a valid
-image. Has two extra optional arguments:
+Semelhante ao :class:`FileField`, mas verifica se o objeto enviado é uma imagem
+válida. Tem dois argumentos extras opcionais:
 
 .. attribute:: ImageField.height_field
 
-    Name of a model field which will be auto-populated with the height of the
-    image each time the model instance is saved.
+    Nome de um campo de model que será auto-populado com a altura da imagem toda
+    vez que a instância do model for salva.
 
 .. attribute:: ImageField.width_field
 
-    Name of a model field which will be auto-populated with the width of the
-    image each time the model instance is saved.
-    
-In addition to the special attributes that are available for :class:`FileField`,
-an :class:`ImageField` also has ``File.height`` and ``File.width`` attributes.
-See :ref:`topics-files`.
+    Nome de um campo de model que será auto-populado com a largura da imagem
+    toda vez que a instância do model for salva.
 
-Requires the `Python Imaging Library`_.
+Além dos métodos especiais que estão disponíveis para :class:`FileField`, um
+class:`ImageField` também tem os atributos ``File.height`` e ``File.width``.
+Veja :ref:`topics-files`.
+
+Requer a `Python Imaging Library`_.
 
 .. _Python Imaging Library: http://www.pythonware.com/products/pil/
 
 .. versionadded:: 1.0
-   The ``max_length`` argument was added in this version.
+   O argumento attr:`~CharField.max_length` foi adicionado nesta versão.
 
-By default, :class:`ImageField` instances are
-created as ``varchar(100)`` columns in your database. As with other fields, you
-can change the maximum length using the :attr:`~CharField.max_length` argument.
+Por padrão, instâncias de :class:`ImageField` são criadas como colunas
+``varchar(100)`` no seu banco de dados. Assim como nos outros campos, você pode
+mudar o tamanho máximo usando o argumento :attr:`~CharField.max_length`.
 
 ``IntegerField``
 ----------------
 
 .. class:: IntegerField([**options])
 
-An integer. The admin represents this as an ``<input type="text">`` (a
-single-line input).
+Um inteiro. A administração representa-o como um ``<input type="text">`` (um
+input de uma única linha).
 
 ``IPAddressField``
 ------------------
 
 .. class:: IPAddressField([**options])
 
-An IP address, in string format (e.g. "192.0.2.30"). The admin represents this
-as an ``<input type="text">`` (a single-line input).
+Um endereço IP, em formato texto (ex: "192.0.2.30"). A administração
+representa-o como um ``<input type="text">`` (um input de uma única linha).
 
 ``NullBooleanField``
 --------------------
 
 .. class:: NullBooleanField([**options])
 
-Like a :class:`BooleanField`, but allows ``NULL`` as one of the options. Use
-this instead of a :class:`BooleanField` with ``null=True``. The admin represents
-this as a ``<select>`` box with "Unknown", "Yes" and "No" choices.
+Como um :class:`BooleanField`, mas permite ``NULL`` como uma das opções. Use-o
+no lugar de um :class:`BooleanField` com ``null=True``. A administração
+representa-o como uma caixa ``<select>`` com as escolhas "Unknown", "Yes" e "No".
 
 ``PositiveIntegerField``
 ------------------------
 
 .. class:: PositiveIntegerField([**options])
 
-Like an :class:`IntegerField`, but must be positive.
+Como um :class:`IntegerField`, mas deve ser positivo.
 
 ``PositiveSmallIntegerField``
 -----------------------------
 
 .. class:: PositiveSmallIntegerField([**options])
 
-Like a :class:`PositiveIntegerField`, but only allows values under a certain
-(database-dependent) point.
+Como um :class:`PositiveIntegerField`, mas somente permite valores até um certo
+ponto (de acordo com o tipo de banco de dados utilizado).
 
 ``SlugField``
 -------------
 
 .. class:: SlugField([max_length=50, **options])
 
-:term:`Slug` is a newspaper term. A slug is a short label for something,
-containing only letters, numbers, underscores or hyphens. They're generally used
-in URLs.
+:term:`Slug` é um termo jornalístico. Um slug é um apelido curto para algo,
+contendo somente letras, números, underscores ou hífens. Eles normalmente são
+usados em URLs.
 
-Like a CharField, you can specify :attr:`~CharField.max_length` (read the note
-about database portability and :attr:`~CharField.max_length` in that section,
-too). If :attr:`~CharField.max_length` is not specified, Django will use a
-default length of 50.
+Semelhantemente ao CharField, você pode especificar o
+:attr:`~CharField.max_length` (leia a nota sobre portabilidade de banco de
+dados e :attr:`~CharField.max_length` nesta seção também). Se o
+:attr:`~CharField.max_length` não for especificado, o Django irá usar um tamanho
+padrão de 50.
 
-Implies setting :attr:`Field.db_index` to ``True``.
+Implica em :attr:`Field.db_index`.
 
 It is often useful to automatically prepopulate a SlugField based on the value
 of some other value.  You can do this automatically in the admin using
@@ -714,16 +725,16 @@ of some other value.  You can do this automatically in the admin using
 
 .. class:: SmallIntegerField([**options])
 
-Like an :class:`IntegerField`, but only allows values under a certain
-(database-dependent) point.
+Como um :class:`IntegerField`, mas somente permite valores até um certo
+ponto (dependendo do banco de dados).
 
 ``TextField``
 -------------
 
 .. class:: TextField([**options])
 
-A large text field. The admin represents this as a ``<textarea>`` (a multi-line
-input).
+Um campo de texto longo. A administração o representa como uma ``<textarea>``
+(um input de múltiplas linhas).
 
 .. admonition:: MySQL users
 
@@ -737,45 +748,46 @@ input).
 
 .. class:: TimeField([auto_now=False, auto_now_add=False, **options])
 
-A time, represented in Python by a ``datetime.time`` instance. Accepts the same
-auto-population options as :class:`DateField`.
+Uma hora. Representado em Python por uma instância ``datetime.time``. Aceita as
+mesmas opções de auto preenchimento dos campos :class:`DateField`.
 
-The admin represents this as an ``<input type="text">`` with some JavaScript
-shortcuts.
+A administração o representa como uma ``<input type="text">`` com alguns
+atalhos JavaScript.
 
 ``URLField``
 ------------
 
 .. class:: URLField([verify_exists=True, max_length=200, **options])
 
-A :class:`CharField` for a URL. Has one extra optional argument:
+Um :class:`CharField` para uma URL. Possui um argumento extra opicional:
 
 .. attribute:: URLField.verify_exists
 
-    If ``True`` (the default), the URL given will be checked for existence
-    (i.e., the URL actually loads and doesn't give a 404 response). It should
-    be noted that when using the single-threaded development server, validating
-    a url being serverd by the same server will hang.
+    Se a opção for ``True`` (padrão), a existência da URL será verificada
+    (i.e., será verificado se a URL carrega e não retorna uma reposta 404). It
+    should be noted that when using the single-threaded development server,
+    validating a url being serverd by the same server will hang.
     This should not be a problem for multithreaded servers.
 
-The admin represents this as an ``<input type="text">`` (a single-line input).
+A administração representa-o como um ``<input type="text">`` (um input de uma
+única linha).
 
-Like all :class:`CharField` subclasses, :class:`URLField` takes the optional
-:attr:`~CharField.max_length`argument. If you don't specify
-:attr:`~CharField.max_length`, a default of 200 is used.
+Como toda subclasse de :class:`CharField`, :class:`URLField` recebe um argumento
+opcional, :attr:`~CharField.max_length`. Se você não especificar o
+:attr:`~CharField.max_length`, o padrão de 200 é usado.
 
 ``XMLField``
 ------------
 
 .. class:: XMLField(schema_path=None, [**options])
 
-A :class:`TextField` that checks that the value is valid XML that matches a
-given schema. Takes one required argument:
+Um :class:`TextField` que verifica se o valor é um XML válido de acordo com um
+esquema fornecido. Possui um argumento obrigatório:
 
 .. attribute:: schema_path
 
-    The filesystem path to a RelaxNG_ schema against which to validate the
-    field.
+    O caminho no sistema de arquivos para um esquema RelaxNG_ que será usado
+    para a validação do campo.
 
 .. _RelaxNG: http://www.relaxng.org/
 
@@ -949,7 +961,7 @@ that control how the relationship functions.
     table, you can use the :attr:`~ManyToManyField.through` option to specify
     the Django model that represents the intermediate table that you want to
     use.
-    
+
     The most common use for this option is when you want to associate
     :ref:`extra data with a many-to-many relationship
     <intermediary-manytomany>`.
@@ -993,3 +1005,4 @@ accepted by :class:`ForeignKey`, plus one extra argument:
     link back to the parent class, rather than the extra
     ``OneToOneField`` which would normally be implicitly created by
     subclassing.
+
