@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 11298 $
-..   $TranslationAuthors:  $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -15,81 +15,83 @@
 
 .. _ref-contrib-comments-models:
 
-===========================
-The built-in comment models
-===========================
+==============================
+Os models embutidos do Comment
+==============================
 
 .. module:: django.contrib.comments.models
-   :synopsis: The built-in comment models
-  
+   :synopsis: Os model embutidos do comment
+
 .. class:: Comment
 
-    Django's built-in comment model. Has the following fields:
-    
+    O model embutido de comentário do Django. Tem os seguintes campos:
+
     .. attribute:: content_object
-    
-        A :class:`~django.contrib.contettypes.generic.GenericForeignKey`
-        attribute pointing to the object the comment is attached to. You can use
-        this to get at the related object (i.e. ``my_comment.content_object``).
-        
-        Since this field is a
-        :class:`~django.contrib.contettypes.generic.GenericForeignKey`, it's
-        actually syntactic sugar on top of two underlying attributes, described
-        below.
-    
+
+        Um atributo
+        :class:`~django.contrib.contettypes.generic.GenericForeignKey` apontando
+        para o objeto ao qual o comment está atachado. Você pode usar isto para
+        obter o objeto relacionado (i.e. `my_comment.content_object``).
+
+        Uma vez que este campo é um
+        :class:`~django.contrib.contenttypes.generic.GenericForeignKey`, é
+        realmente fácil entender sobre os dois atributos subjacentes, descritos
+        abaixo.
+
     .. attribute:: content_type
-   
-        A :class:`~django.db.models.ForeignKey` to
-        :class:`~django.contrib.contenttypes.models.ContentType`; this is the
-        type of the object the comment is attached to.
-      
+
+        Uma :class:`~django.db.models.ForeignKey` para
+        :class:`~django.contrib.contettypes.models.ContentType`; este é o tipo
+        de objeto ao qual o coment é atachado.
+
     .. attribute:: object_pk
-    
-        A :class:`~django.db.models.TextField` containing the primary
-        key of the object the comment is attached to.
-        
+
+        Um :class:`~django.db.models.TExtField` contendo a chave primária do
+        objeto ao qual o comment está atachado.
+
     .. attribute:: site
-    
-        A :class:`~django.db.models.ForeignKey` to the
-        :class:`~django.contrib.sites.models.Site` on which the comment was
-        posted.
-        
+
+        Uma :class:`~django.db.models.ForeignKey` para o
+        :class:`~django.contrib.sites.models.Site` em que o comentário foi
+        postado.
+
     .. attribute:: user
-    
-        A :class:`~django.db.models.ForeignKey` to the
-        :class:`~django.contrib.auth.models.User` who posted the comment.
-        May be blank if the comment was posted by an unauthenticated user.
-        
+
+        Uma :class:`~django.db.models.ForeignKey` para o
+        :class:`~django.contrib.auth.models.User` que postou o comentário.
+        Pode ser branco se o comentário foi postado por um usuário não
+        atenticado.
+
     .. attribute:: user_name
-    
-        The name of the user who posted the comment.
-    
+
+        O nome do usuário que postou o comentário.
+
     .. attribute:: user_email
-    
-        The email of the user who posteed the comment.
-    
+
+        O email do usuário que postou o comentário.
+
     .. attribute:: user_url
-    
-        The URL entered by the person who posted the comment.
-    
+
+        A URL entrada pela pessoa que postou o comentário.
+
     .. attribute:: comment
-    
-        The actual content of the comment itself.
-    
+
+        O conteúdo atual do comentário em si.
+
     .. attribute:: submit_date
-    
-        The date the comment was submitted.
-    
+
+        A data em que o comentário foi postado.
+
     .. attribute:: ip_address
-    
-        The IP address of the user posting the comment.
-    
+
+        O endereço IP do usuário que postou o comentário.
+
     .. attribute:: is_public
-    
-        ``False`` if the comment hasn't been aproved for display.
-    
+
+        ``False`` se o comentário não foi aprovado para exibição.
+
     .. attribute:: is_removed
-    
-        ``True`` if the comment was removed. Used to keep track of removed
-        comments instead of just deleting them.
-        
+
+        ``True`` se o comentário foi aprovado. Usado para manter o traço de
+        comentários removidos ao invés de somente deletá-los.
+
