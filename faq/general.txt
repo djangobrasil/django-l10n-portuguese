@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, waiting for revision $
+..   $TranslationStatus: Done $
 ..   $OriginalRevision: 11268 $
-..   $TranslationAuthors: Italo Maia, Walter Cruz $
+..   $TranslationAuthors: Italo Maia, Walter Cruz, semente $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -22,33 +22,27 @@ FAQ: Geral
 Por que existe este projeto?
 ----------------------------
 
-O Django surgiu a partir de uma necessidade prática: a World
-Online, uma operação de jornal online, responsável por construir
-aplicativos Web intensivos sob prazos jornalísticos. Na truculenta sala de notícias,
-com frequência, a World Online precisa contruir aplicativos web
-inteiros em apenas algumas poucas horas, desde os conceitos até o
-produto público final.
+O Django surgiu a partir de uma necessidade prática: a World Online, uma
+operação de jornal online, responsável por construir aplicativos Web
+intensivamente sob prazos jornalísticos. Na truculenta sala de notícias, com
+frequência, a World Online precisa construir aplicativos web inteiros em apenas
+algumas horas, do conceito ao produto público final.
 
 Ao mesmo tempo, os desenvolvedores da World Online têm se mantido
-perfeccionistas quanto a seguir as melhores práticas de
-desenvolvimento Web.
+perfeccionistas quanto a seguir as melhores práticas de desenvolvimento Web.
 
-At the same time, the World Online Web developers have consistently been
-perfectionists when it comes to following best practices of Web development.
+No outono de 2003, os desenvolvedores da World Online (Adrian Holovaty e Simon
+Willison) abandonaram o PHP e começaram a utilizar o Python para desenvolver
+seus Web Sites. Ao construir sites intensos e ricos em interatividade como o
+Lawrence.com, eles começaram a sintetizar um framework Web genérico que os
+permitiam executar o seu trabalho de uma forma melhor e mais rápida. Eles
+modificaram este framework constantemente, adicionando melhorias por mais de
+dois anos.
 
-No outono de 2003, os desenvolvedores da World Online (Adrian Holovaty
-e Simon Willison) abandonaram o PHP e começaram a utilizar o Python
-para desenvolver seus Web Sites.  Ao constrir sites intensos
-e ricamente interativos como o Lawrence.com, eles começaram a sintetizar um
-framework Web genérico que os permitia executar o seu trabalho de uma
-forma melhor e mais rápida. Eles mantiveram o melhoramento deste
-framework por mais de dois anos.
-
-No verão de 2005, a World Online decidiu abrir o código do software
-resultante, o Django. O Django não teria sido possível sem todo o
-apoio de projetos open-source como o `Apache`_, `Python`_,
-`PostgreSQL`_, e nós estamos muitíssimo animados em sermos capazes de
-dar um retorno para a comunidade open-source.
+No verão de 2005, a World Online decidiu abrir o código do software resultante,
+o Django. O Django não seria possível sem todo o apoio de projetos open-source
+como o `Apache`_, `Python`_, `PostgreSQL`_, e é excitante pra nós sermos
+capazes de dar um retorno para a comunidade open-source.
 
 .. _Apache: http://httpd.apache.org/
 .. _Python: http://www.python.org/
@@ -57,51 +51,50 @@ dar um retorno para a comunidade open-source.
 O que significa "Django"? E como se pronucia?
 ---------------------------------------------
 
-O projeto Django foi nomeado em homenagem a `Django Reinhardt`_, um
-guitarrista de jazz cigano dos anos 30-50.  Até a presente data, ele é
-considerado um dos melhores guitarristas de todos os tempos.
+O projeto Django foi nomeado em homenagem a `Django Reinhardt`_, um guitarrista
+de jazz cigano dos anos 30-50.  Até a presente data, ele é considerado um dos
+melhores guitarristas de todos os tempos.
 
-Dêem uma "olhada" nas músicas dele, vocês vão gostar!
+Dê uma "olhada" em sua música. Você irá gostar!
 
-Django deve ser pronunciado **JANG**-oh. Rima com FANG-oh. O "D" é pronunciado junto ao J,
-mas com uma entonação leve.
+Django deve ser pronunciado **JANG**-oh. Rima com FANG-oh. O "D" é pronunciado
+junto ao J, mas com uma entonação leve.
 
-Também existe um `clip de áudio`_ mostrando como se pronuncia.
+Também existe um `clipe de áudio`_ mostrando como se pronuncia.
 
 .. _Django Reinhardt: http://en.wikipedia.org/wiki/Django_Reinhardt
-.. _clip de áudio: http://red-bean.com/~adrian/django_pronunciation.mp3
+.. _clipe de áudio: http://red-bean.com/~adrian/django_pronunciation.mp3
 
 O Django é estável?
 -------------------
 
 Sim. A World Online vem utilizando o Django por mais de três anos sem
-problemas.  Temos registro de sites construídos com o Django que já
-aguentaram picos de tráfico de mais de um milhão de acessos por
-hora e uma porção de efeitos slashdot. Então, sim, é bem estável.
+problemas.  Temos registros de sites construídos com o Django que já aguentaram
+picos de tráfico de mais de um milhão de acessos por hora e uma porção de
+efeitos slashdot. Então, sim, é bem estável.
 
 Django é escalável?
 -------------------
 
-Sim. Comparado com tempo de desenvolvimento, hardware é um recurso
+Sim. Comparado com o tempo de desenvolvimento, hardware é um recurso
 barato, por isso, Django foi desenvolvido para se utilizar de tanto
 hardware quanto lhe estiver disponível.
 
-O Django utiliza a arquitetura do tipo "nada-compartilhado", ou, em
-inglês, "shared-nothing", o que significa que você pode adicionar
-hardware em qualquer nível da arquitetura -- servidores de banco de
+O Django utiliza a arquitetura "shared-nothing", o que significa que você pode
+adicionar hardware em qualquer nível da arquitetura -- servidores de banco de
 dados, servidores de cache e servidores de aplicação.
 
-O Framework separa claramente as camadas de banco de dados e camada de
-aplicação. E ainda disponibiliza um simples, entretanto poderoso,
-:ref:`framework de cache <topics-cache>`.
+O Framework separa claramente a camadas de banco de dados da camada de
+aplicação. E ainda disponibiliza um simples, porém poderoso, :ref:`framework de
+cache <topics-cache>`.
 
 Quem está por trás do Django?
 -----------------------------
 
-O Django foi desenvolvido na World Online, o departamento Web de um
-jornal de Lawrence, Kansas, Estados Unidos. O Django é agora mantido por
-um time internacional de voluntários; você pode ler tudo sobre ele na
-:ref:`lista de committers <internals-committers>`
+O Django foi originalmente desenvolvido na World Online, o departamento Web de
+um jornal de Lawrence, Kansas, Estados Unidos. O Django é agora mantido por um
+time internacional de voluntários; você pode ler tudo sobre eles na :ref:`lista
+de committers <internals-committers>`
 
 Que sites utilizam o Django?
 ----------------------------
@@ -113,13 +106,13 @@ Sinta-se à vontade para adicionar seu site feito com o Django à lista.
 
 .. _mtv:
 
-O Django parece ser um framework MVC, mas vocês chama o "controller" de "view", e a View de "template". Por que vocês não utilizam os nomes padrão?
------------------------------------------------------------------------------------------------------------------------------------------------------
+O Django parece ser um framework MVC, mas vocês chama o "controller" de "view" e a View de "template". Por que vocês não utilizam a nomenclatura padrão?
+--------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Bem, "nomes padrão" é o tipo de coisa que pode ser debatida.
 
 Na nossa interpretação, a "view" descreve a informação que é mostrada
-ao usuário.  Não é necessariamente *como* a informação *aparece*, mas
+ao usuário. Não é necessariamente *como* a informação *aparece*, mas
 *qual* informação é mostrada. A view descreve *qual informação você
 vê*, e não *como você vê*. Há uma diferença sutil.
 
@@ -127,10 +120,10 @@ Então, em nosso caso, uma "view" é a função Python chamada por uma URL
 em particular, porque essa chamada descreve qual informação será
 mostrada.
 
-E mais, separar o conteúdo da apresentação do conteudo é
-crucial -- que é onde entram os templates. No Django, uma "view"
-descreve qual informação é apresentada, mas é a view que normalmente
-seleciona um template, que descreve *como* a informação é mostrada.
+E mais, separar o conteúdo da apresentação é crucial -- que é onde entram os
+templates. No Django, uma "view" descreve qual informação é apresentada, mas é
+a view que normalmente seleciona um template, que descreve *como* a informação
+é mostrada.
 
 Onde o "controller" entra, então? No caso do Django, o controller é o
 próprio framework: a máquina que manda uma requisição ao view
@@ -148,29 +141,29 @@ O <Framework X> faz <funcionalidade Y> -- Por que Django não faz também?
 ------------------------------------------------------------------------
 
 Nós estamos cientes de que existem outros excelentes frameworks de
-desenvolvimento web aí fora, e nós não somos somos avessos a pegar
-emprestadas idéias que achemos apropriadas. Entretanto, o Django foi
-desenvolvido precisamente por que nós estamos descontentes com o
-status quo, então, por favor, saiba que só porque "<Framework X>" faz
-algo, não é razão suficiente para adicionar essa funcionalidade ao
-Django.
+desenvolvimento web aí fora, e nós não somos avessos a pegar emprestadas idéias
+que consideraríamos apropriadas. Entretanto, o Django foi desenvolvido
+precisamente por que nós estamos descontentes com o status quo, então, por
+favor, saiba que só porque o "<Framework X>" faz algo, não é razão suficiente
+para adicionar essa funcionalidade ao Django.
 
-Porque vocês escreveram todo o Django desde o início, ao inveś de usar outras bibliotecas Python?
--------------------------------------------------------------------------------------------------
+Porque vocês escreveram o Django do ziero, ao invés de usar outras bibliotecas Python?
+--------------------------------------------------------------------------------------
 
-Quando o Django foi escrito originalmente, alguns anos atrás, Adrian e Simon
-gastaram bastante templo explorando os vários frameworks para a Web Python
+Quando o Django foi escrito inicialmente, alguns anos atrás, Adrian e Simon
+gastaram bastante templo explorando os vários frameworks Python para a Web
 disponíveis.
 
-Em nossa opnião, nenhum deles era completamente satisfatório.
+Em nossa opinião, nenhum deles era completamente satisfatório.
 
-Somos esquisitos. Pode até mesmo nos chamar de perceccionistas. (Com prazos.)
+Somos esquisitos. Pode até mesmo nos chamar de perfeccionistas. (Com prazos.)
 
-Com o passar do tempo, nós começamos a descobrir outras bibliotecas open-source que faziam coisas que nós
-já havíamos implementado. Foi confortante ver outras pessoas resolvendo problemas semelhantes
-de formas semelhantes, mas era tarde demais para integrar código externo: nós já tínhamos
-escrito, testado e implementado as partes de nosso framework em algumas configurações
-de produção -- e nosso código atendia nossas necessidades perfeitamente.
+Com o passar do tempo, nós começamos a descobrir outras bibliotecas open-source
+que faziam coisas que nós já havíamos implementado. Foi confortante ver outras
+pessoas resolvendo problemas semelhantes de formas semelhantes, mas era tarde
+demais para integrar código externo: nós já tínhamos escrito, testado e
+implementado partes de nosso framework em alguns cenários em produção -- e
+nosso código atendia nossas necessidades perfeitamente.
 
 Na maioria dos casos, porém, nós descobrimos que os frameworks e ferramentas existentes tinham
 sempre algum tipo de falha de design fundamental que nós não gostavamos. Nenhuma ferramenta
@@ -189,11 +182,11 @@ Não, o Django não é um CMS, nem nenhum outro tipo de produto finalizado.
 Por exemplo, não faz muito sentido comparar o Django a produtos como o
 Drupal_, porque o Django é algo que você usa para *criar* coisas como o Drupal.
 
-É claro, a administração automática do Django economiza um bom tempo e é fantástica -- mas
-o site administrativo é um módulo do framework Django. Além disso, mesmo que o
-Django tenha facilidades especiais para se construir aplicações do tipo CMS, isso não significa
-que ele não seja apropriado para construir aplicações "não CMS" (o que quer que isso
-signifique!).
+É claro, a administração automática do Django economiza um bom tempo e é
+fantástica -- mas o site administrativo é um módulo do framework Django. Além
+disso, mesmo que o Django tenha facilidades especiais para construir aplicações
+do tipo CMS, isso não significa que ele não seja apropriado para construir
+aplicações "não CMS" (o que quer que isso signifique!).
 
 .. _Drupal: http://drupal.org/
 
@@ -204,23 +197,27 @@ A documentação do Django está disponível dentro do diretório ``docs`` de ca
 do Django. Essas documentações estão no formato ReST (ReStructured Text), e cada arquivo
 corresponde a uma página no site oficial do Django.
 
-Como a documentação é `mantida sobre controle de versão`_, você pode visualizar
+Como a documentação é `mantida sob controle de versão`_, você pode visualizar
 as mudanças na documentação assim como você visualiza as mudanças de código.
 
 Tecnicamente, as documentações no site do Dhango são geradas a partir das últimas versões de desenvolvimento
 desses documentos ReST, assim a documentação no site do Django pode oferecer mais
 informação que os documentos que vieram com a última versão empacotada do Django.
 
-.. _mantida sobre controle de versão: http://code.djangoproject.com/browser/django/trunk/docs
+O `Grupo de Localização do Django para o Português`_ também mantêm sua versão da
+documentação traduzida sob controle de versão.
 
-Onde eu posso contratar desenvolvedores Django para contratar?
+.. _mantida sob controle de versão: http://code.djangoproject.com/browser/django/trunk/docs
+.. _Grupo de Localização do Django para o Português: http://code.google.com/p/django-l10n-portuguese
+
+Onde eu posso encontrar desenvolvedores Django para contratar?
 --------------------------------------------------------------
 
 Consulte nossa página de `desenvolvedores disponíveis`_ para uma lista de desenvolvedores Django que
 ficariam felizes em te ajudar.
 
-Você pode também estar interessado em postar uma oferta de emprego em http://www.gypsyjobs.com/ .
-Se você quer encontrar pessoas capacitadas em Django na sua área, tente
-http://djangopeople.net/ .
+Você pode também estar interessado em postar uma oferta de emprego em
+http://www.gypsyjobs.com/ .  Se você quer encontrar pessoas capacitadas em
+Django em sua região, tente http://djangopeople.net/ .
 
 .. _desenvolvedores disponíveis: http://code.djangoproject.com/wiki/DevelopersForHire
