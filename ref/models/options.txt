@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11332 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,15 +16,15 @@
 
 .. _ref-models-options:
 
-======================
-Model ``Meta`` options
-======================
+========================
+``Meta`` opções do model
+========================
 
-This document explains all the possible :ref:`metadata options <meta-options>`  that you can give your model in its internal
-``class Meta``.
+Este documento explica todas as `opções de metadados <meta-options>` possíveis
+que você pode dar a seu model em sua ``class Meta``.
 
-Available ``Meta`` options
-==========================
+Opções disponíveis do ``Meta``
+==============================
 
 .. currentmodule:: django.db.models
 
@@ -33,38 +33,40 @@ Available ``Meta`` options
 
 .. attribute:: Options.abstract
 
-If ``True``, this model will be an :ref:`abstract base class <abstract-base-classes>`.
+Se ``True``, este model será um :ref:`uma classe abstrata básica
+<abstract-base-classes>`.
 
 ``db_table``
 ------------
 
 .. attribute:: Options.db_table
 
-The name of the database table to use for the model::
+O nome da tabela que será usado pelo model no banco de dados::
 
     db_table = 'music_album'
 
 .. _table-names:
 
-Table names
-~~~~~~~~~~~
+Nomes de tabelas
+~~~~~~~~~~~~~~~~
 
-To save you time, Django automatically derives the name of the database table
-from the name of your model class and the app that contains it. A model's
-database table name is constructed by joining the model's "app label" -- the
-name you used in ``manage.py startapp`` -- to the model's class name, with an
-underscore between them.
+Para poupar o seu tempo, o Django automaticamente deriva o nome das tabelas de
+banco de dados usando os nomes das classes models e da aplicação que o contém.
+O nomde de uma tabela de um model é construído juntando o "nome da app" do
+model -- o nome usado em ``manage.py startapp`` -- ao nome da classe do model,
+com um underscore entre eles.
 
-For example, if you have an app ``bookstore`` (as created by
-``manage.py startapp bookstore``), a model defined as ``class Book`` will have
-a database table named ``bookstore_book``.
+Por exemplo, se você tem uma app ``bookstore`` (criada pelo ``manage.py startapp
+bookstore``), um modelo definido como ``class Book`` terá uma tabela com o nome
+``bookstore_book``.
 
-To override the database table name, use the ``db_table`` parameter in
+Para sobrescrever o nome da tabela, use o parametro ``db_table`` na
 ``class Meta``.
 
-If your database table name is an SQL reserved word, or contains characters that
-aren't allowed in Python variable names -- notably, the hyphen -- that's OK.
-Django quotes column and table names behind the scenes.
+Se o nome da sua tabela  é uma palavra reservada do SQL, ou contém caracteres
+que não são permitidos em nomes de variáveis do Python -- notadamente,
+o hífen -- está OK. O Django colocará crases os nomes das colunas e tabelas sem
+você saber.
 
 ``db_tablespace``
 -----------------
@@ -73,34 +75,34 @@ Django quotes column and table names behind the scenes.
 
 .. versionadded:: 1.0
 
-The name of the database tablespace to use for the model. If the backend doesn't
-support tablespaces, this option is ignored.
+O nome do tablespace do banco dados utilizado para o model. Se o backend não
+suporta tablespaces, esta opção é ignorada.
 
 ``get_latest_by``
 -----------------
 
 .. attribute:: Options.get_latest_by
 
-The name of a :class:`DateField` or :class:`DateTimeField` in the model. This
-specifies the default field to use in your model :class:`Manager`'s
-:class:`~QuerySet.latest` method.
+O nome de um :class:`DateField` ou :class:`DateTimeField` no model. Isso
+especifica o campo padrão do seu model que será utilizado pelo método
+:class:`~QuerySet.latest` do :class:`Manager`.
 
-Example::
+Exemplo::
 
     get_latest_by = "order_date"
 
-See the docs for :meth:`~django.db.models.QuerySet.latest` for more.
+Veja a documentação para :meth:`~django.db.models.QuerySet.latest` para mais.
 
 ``order_with_respect_to``
 -------------------------
 
 .. attribute:: Options.order_with_respect_to
 
-Marks this object as "orderable" with respect to the given field. This is almost
-always used with related objects to allow them to be ordered with respect to a
-parent object. For example, if an ``Answer`` relates to a ``Question`` object,
-and a question has more than one answer, and the order of answers matters, you'd
-do this::
+Marca este objeto como "ordenável" em relação ao campo dado. Isso é quase sempre
+utilizado com objetos relacionados para permití-los ser ordenados a respeito de
+um objeto pai. Por exemplo, se um objeto ``Answer`` está relacionado a
+um objeto ``Question``, e uma questão tem mais de uma resposta, e a ordem das
+respostas importa, você poderia fazer isso::
 
     class Answer(models.Model):
         question = models.ForeignKey(Question)
@@ -114,28 +116,29 @@ do this::
 
 .. attribute:: Options.ordering
 
-The default ordering for the object, for use when obtaining lists of objects::
+O ordenamento padrão de um objeto, para usar quando obtem-se listas de objetos::
 
     ordering = ['-order_date']
 
-This is a tuple or list of strings. Each string is a field name with an optional
-"-" prefix, which indicates descending order. Fields without a leading "-" will
-be ordered ascending. Use the string "?" to order randomly.
+Isso é uma tupla ou lista de strings. Cada strin é o nomde de um campo com um
+prefixo opcional "-", que indica ordem descendente. Campos sem um "-" na frente
+serão ordenados ascendentemente. Use a string "?" para ordenar randomicamente.
 
-.. note:: 
+.. note::
 
-    Regardless of how many fields are in :attr:`~Options.ordering`, the admin
-    site uses only the first field.
+    Indiferentemente de quão muitos sejam os campos em
+    :attr:`~Options.ordering`, o admin usará somente o primeiro campo.
 
-For example, to order by a ``pub_date`` field ascending, use this::
+Por exemplo, para ordernar por um campo ``pub_date``, use isto::
 
     ordering = ['pub_date']
 
-To order by ``pub_date`` descending, use this::
+Para ordenar por ``pub_date`` descendentemente, use isto::
 
     ordering = ['-pub_date']
 
-To order by ``pub_date`` descending, then by ``author`` ascending, use this::
+Para ordenar por ``pub_date`` descendentemente, e por ``author``
+ascendentemente, use isto::
 
     ordering = ['-pub_date', 'author']
 
@@ -144,34 +147,33 @@ To order by ``pub_date`` descending, then by ``author`` ascending, use this::
 
 .. attribute:: Options.permissions
 
-Extra permissions to enter into the permissions table when creating this object.
-Add, delete and change permissions are automatically created for each object
-that has ``admin`` set. This example specifies an extra permission,
-``can_deliver_pizzas``::
+Para adicionar permissões extras na tabela de permissões quando criar este
+objeto. Permissões para adicionar, deletar e editar são automaticamente criadas
+para cada objeto que use o ``admin``. Este exemplo expecifica uma permissão
+extra ``can_deliver_pizzas``::
 
     permissions = (("can_deliver_pizzas", "Can deliver pizzas"),)
 
-This is a list or tuple of 2-tuples in the format ``(permission_code,
-human_readable_permission_name)``.
+Isso é uma lista ou tupla de tuplas duplas no formato ``(código_da_permissão,
+nome_da_permissão_legível_por_humanos)``.
 
 ``unique_together``
 -------------------
 
 .. attribute:: Options.unique_together
 
-Sets of field names that, taken together, must be unique::
+Seta os nomes de campos, que juntos, devem ser únicos::
 
     unique_together = (("driver", "restaurant"),)
 
-This is a list of lists of fields that must be unique when considered together.
-It's used in the Django admin and is enforced at the database level (i.e., the
-appropriate ``UNIQUE`` statements are included in the ``CREATE TABLE``
-statement).
+Isso é uma lista de listas de campos que devem ser únicos quando estão juntos.
+ela é usada no Django admin e é executada a nível de banco de dados (i.e., a
+regra ``UNIQUE`` apropriada é incluída na consulta ``CREATE TABLE``).
 
 .. versionadded:: 1.0
 
-For convenience, unique_together can be a single list when dealing with a single
-set of fields::
+Por conveniência, unique_together pode ser uma lista singular quando lida com
+camos sozinhos::
 
     unique_together = ("driver", "restaurant")
 
@@ -180,20 +182,22 @@ set of fields::
 
 .. attribute:: Options.verbose_name
 
-A human-readable name for the object, singular::
+Um nome legível-por-humanos para o objeto, no singular::
 
     verbose_name = "pizza"
 
-If this isn't given, Django will use a munged version of the class name:
-``CamelCase`` becomes ``camel case``.
+Se este não for fornecido, o Django usará uma versão do nome da classe:
+``CamelCase`` se torna ``camel case``.
 
 ``verbose_name_plural``
 -----------------------
 
 .. attribute:: Options.verbose_name_plural
 
-The plural name for the object::
+O nome no plural para o objeto::
 
     verbose_name_plural = "stories"
 
-If this isn't given, Django will use :attr:`~Options.verbose_name` + ``"s"``.
+Se este não for fornecido, o Django usará :attr:`~Options.verbose_name` +
+``"s"``.
+
