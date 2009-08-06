@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11332 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -20,27 +20,29 @@
 Middleware
 ==========
 
-Middleware is a framework of hooks into Django's request/response processing.
-It's a light, low-level "plugin" system for globally altering Django's input
-and/or output.
+O Middleware é um framework de hook dentro do processamento de
+requisição/resposta do Django. Ele é um sistema de "plugins" leve, e de baixo
+nível para alterar globalmente a entrada ou saída do Django.
 
-Each middleware component is responsible for doing some specific function. For
-example, Django includes a middleware component, ``XViewMiddleware``, that adds
-an ``"X-View"`` HTTP header to every response to a ``HEAD`` request.
+Cada componente middleware é responsável por fazer alguma função específica. Por
+exemplo, o Django inclui um componente middleware, ``XViewMiddleware``, que
+adiciona um cabeçalho HTTP ``"X-View"`` a toda resposta para uma requisição
+``HEAD``.
 
-This document explains how middleware works, how you activate middleware, and
-how to write your own middleware. Django ships with some built-in middleware
-you can use right out of the box; they're documented in the :ref:`built-in
-middleware reference <ref-middleware>`.
+Este documento explica como o middleware funciona, como você ativa o middleware,
+e como escrever seu próprio middleware. O Django vem com alguns middleware
+embutidos você pode user; eles são documentados na :ref:`referência de
+middlewares embutidos <ref-middleware>`.
 
-Activating middleware
-=====================
+Ativando um middleware
+======================
 
-To activate a middleware component, add it to the :setting:`MIDDLEWARE_CLASSES`
-list in your Django settings. In :setting:`MIDDLEWARE_CLASSES`, each middleware
-component is represented by a string: the full Python path to the middleware's
-class name. For example, here's the default :setting:`MIDDLEWARE_CLASSES`
-created by :djadmin:`django-admin.py startproject <startproject>`::
+Para ativar um componente middleware, adicione-o a lista
+:setting:`MIDDLEWARE_CLASSES` no suas configurações do Django. No
+:setting:`MIDDLEWARE_CLASSES`, cada componente middleware é representado por uma
+string: o caminho Python completo com o nome da classe middleware. Por exemplo,
+o :setting:`MIDDLEWARE_CLASSES` padrão criado pelo
+:djadmin:`django-admin.py startproject <startproject>`::
 
     MIDDLEWARE_CLASSES = (
         'django.middleware.common.CommonMiddleware',
@@ -49,28 +51,29 @@ created by :djadmin:`django-admin.py startproject <startproject>`::
         'django.middleware.doc.XViewMiddleware',
     )
 
-During the request phases (:meth:`process_request` and :meth:`process_view`
-middleware), Django applies middleware in the order it's defined in
-:setting:`MIDDLEWARE_CLASSES`, top-down. During the response phases
-(:meth:`process_response` and :meth:`process_exception` middleware), the
-classes are applied in reverse order, from the bottom up. You can think of it
-like an onion: each middleware class is a "layer" that wraps the view:
+Durante as fases da requisição (nos middlewares :meth:`process_request` e
+:meth:`process_view`), o Django aplica o middleware na ordem que está definida
+no :setting:`MIDDLEWARE_CLASSES`, de cima pra baixo. Durante as fases de
+repostas (nos middlewares :meth:`process_response` e :meth:`process_exception`),
+as classes são aplicada na ordem inversa, de baixo pra cima. Você pode imaginar
+como se fosse uma cebola: cada classe middleware é uma "camada" que envolve a
+view:
 
 .. image:: _images/middleware.png
    :width: 502
    :height: 417
-   :alt: Middleware application order.
+   :alt: Ordem da aplicação Middleware.
 
-A Django installation doesn't require any middleware -- e.g.,
-:setting:`MIDDLEWARE_CLASSES` can be empty, if you'd like -- but it's strongly
-suggested that you at least use
+A instalação do Django não requer qualquer middleware -- e.g.,
+:setting:`MIDDLEWARE_CLASSES` pode ser vazio, se você quiser -- mas é fortemente
+recomendado que você use pelo menos o
 :class:`~django.middleware.common.CommonMiddleware`.
 
-Writing your own middleware
-===========================
+Escrevendo seu próprio middleware
+=================================
 
-Writing your own middleware is easy. Each middleware component is a single
-Python class that defines one or more of the following methods:
+Escrever seu próprio middleware é fácil. Cada componente middleware é uma única
+classe Python que define um ou mais dos seguintes métodos:
 
 .. _request-middleware:
 
@@ -79,16 +82,17 @@ Python class that defines one or more of the following methods:
 
 .. method:: process_request(self, request)
 
-``request`` is an :class:`~django.http.HttpRequest` object. This method is
-called on each request, before Django decides which view to execute.
+O ``request`` é um objeto :class:`~django.http.HttpResponse`. Este método é
+chamado em cada request, antes do Django decidir qual view executar.
 
-``process_request()`` should return either ``None`` or an
-:class:`~django.http.HttpResponse` object. If it returns ``None``, Django will
-continue processing this request, executing any other middleware and, then, the
-appropriate view. If it returns an :class:`~django.http.HttpResponse` object,
-Django won't bother calling ANY other request, view or exception middleware, or
-the appropriate view; it'll return that :class:`~django.http.HttpResponse`.
-Response middleware is always called on every response.
+O ``process_request()`` deve retornar um ``None`` ou um objeto
+:class:`~django.http.HttpResponse`. Se ele retornar ``None``, o Django
+continuará processando a requisição, executando qualquer outro middleware e,
+então, a view apropriada. Se ele retorna um objeto
+:class:`~django.http.HttpResponse`, o Django não se incomodará em chamar
+QUALQUER outra requisição, view ou exceção de middleware, ou a view apropriada;
+ele retornará o :class:`~django.http.HttpResponse`.
+O middleware de resposta é sempre chamado para todas as respostas.
 
 .. _view-middleware:
 
@@ -97,22 +101,21 @@ Response middleware is always called on every response.
 
 .. method:: process_view(self, request, view_func, view_args, view_kwargs)
 
-``request`` is an :class:`~django.http.HttpRequest` object. ``view_func`` is
-the Python function that Django is about to use. (It's the actual function
-object, not the name of the function as a string.) ``view_args`` is a list of
-positional arguments that will be passed to the view, and ``view_kwargs`` is a
-dictionary of keyword arguments that will be passed to the view. Neither
-``view_args`` nor ``view_kwargs`` include the first view argument
-(``request``).
+O ``request`` é um objeto :class:`~django.http.HttpRequest`. O ``view_func`` é
+uma função Python que o Django usa. (É o objeto da função atual, não uma string
+com o nome da função.) O ``view_args`` é uma lista de argumentos posicionais que
+serão passados para o view, e ``view_kwargs`` é um dicionário com argumentos
+nomeados que serão passados para o view. Nenhum, ``view_args`` nem
+``view_kwargs`` incluem o primeiro argumento do view (``request``).
 
-``process_view()`` is called just before Django calls the view. It should
-return either ``None`` or an :class:`~django.http. HttpResponse` object. If it
-returns ``None``, Django will continue processing this request, executing any
-other ``process_view()`` middleware and, then, the appropriate view. If it
-returns an :class:`~django.http. HttpResponse` object, Django won't bother
-calling ANY other request, view or exception middleware, or the appropriate
-view; it'll return that :class:`~django.http. HttpResponse`. Response
-middleware is always called on every response.
+O ``process_view()`` é chamado logo após o Django chamar o view. Ele deve
+retornar um ``None`` ou um objeto :class:`~django.http.HttpResponse`. Se ele
+retorna ``None``, o Django continuará processando esta requisição, executando
+qualquer outro middleware ``process_view()`` e, então, a view apropriada. Se ele
+retornar um objeto :class:`~django.http.HttpResponse`, o Django não se
+incomodará em chamar QUALQUER outra requisição, view ou exceção de middleware,
+ou a view apropriada; Ele retornará o :class:`~django.http.HttpResponse`. O
+middleware é sempre chamado para todas as repostas.
 
 .. _response-middleware:
 
@@ -128,14 +131,16 @@ middleware is always called on every response.
 object. It could alter the given ``response``, or it could create and return a
 brand-new :class:`~django.http. HttpResponse`.
 
-Unlike the ``process_request()`` and ``process_view()`` methods, the
-``process_response()`` method is always called, even if the ``process_request()``
-and ``process_view()`` methods of the same middleware class were skipped because
-an earlier middleware method returned an :class:`~django.http. HttpResponse`
-(this means that your ``process_response()`` method cannot rely on setup done in
-``process_request()``, for example). In addition, during the response phase the
-classes are applied in reverse order, from the bottom up. This means classes
-defined at the end of :setting:`MIDDLEWARE_CLASSES` will be run first.
+Diferentemente dos métodos ``process_request()`` é ``process_view()``, o método
+``process_response()`` é sempre chamado, mesmo que os métodos
+``process_request()`` e ``process_view()`` da mesma classe middleware foram
+pulados por causa de um método de um middleware anterior que retornou um
+:class:`~django.http.HttpResponse` (isto significa que seu método
+``process_response()`` não pode ivocar a configuração feita em
+``process_request``, por exemplo). Além do mais, durante a fase de resposta as
+classes são aplicadas na ordem reversa, de baixo pra cima. Isto quer dizer que
+classes definidas no final da lista :setting:`MIDDLEWARE_CLASSES` serão
+executadas primeiro.
 
 .. _exception-middleware:
 
@@ -144,53 +149,56 @@ defined at the end of :setting:`MIDDLEWARE_CLASSES` will be run first.
 
 .. method:: process_exception(self, request, exception)
 
-``request`` is an :class:`~django.http.HttpRequest` object. ``exception`` is an
-``Exception`` object raised by the view function.
+O ``request`` é um objeto :class:`~django.http.HttpResponse`. O ``exception`` é
+um objeto ``Exception`` lançado por uma função view.
 
-Django calls ``process_exception()`` when a view raises an exception.
-``process_exception()`` should return either ``None`` or an
-:class:`~django.http. HttpResponse` object. If it returns an
-:class:`~django.http. HttpResponse` object, the response will be returned to
-the browser. Otherwise, default exception handling kicks in.
+O Django chama ``process_exception()`` quando uma view lança um exceção. O
+``process_exception()`` deve retornar um ``None`` ou um objeto
+:class:`~django.http.HttpResponse`. Se ele retorna um objeto
+:class:`~django.http.HttpResponse`, a resposta será retornada para o navegador.
+Por outro lado, o um manipulador de exceção padrão entra em ação.
 
-Again, middleware are run in reverse order during the response phase, which
-includes ``process_exception``. If an exception middleware return a response,
-the middleware classes above that middleware will not be called at all.
+Novamente, os middlewares são rodados na ordem inversa durante o processo de
+resposta, que inclui ``process_exception``. Se uma exceção de middleware retorna
+uma resposta, nenhuma das classes middlewares acima deste middleware serão
+chamadas.
 
 ``__init__``
 ------------
 
-Most middleware classes won't need an initializer since middleware classes are
-essentially placeholders for the ``process_*`` methods. If you do need some
-global state you may use ``__init__`` to set up. However, keep in mind a couple
-of caveats:
+A maioria das classes middleware não precisam de um inicializador desde que
+classes middleware são essencialmente marcadores para os métodos ``process_*``.
+Se você precisar de algum estado global, você pode usar o ``__ini__`` para
+configurá-lo. Entretanto, mantenha em mente algumas ressalvas:
 
-    * Django initializes your middleware without any arguments, so you can't
-      define ``__init__`` as requiring any arguments.
+    * O Django inicializa seus métodos sem qualquer argumento, então você não
+      pode definir o ``__init__`` requerendo quaisquer argumentos.
 
-    * Unlike the ``process_*`` methods which get called once per request,
-      ``__init__`` gets called only *once*, when the web server starts up.
+    * Diferentemente dos métodos ``process_*`` que são chamados uma vez por
+      requisição, ``__ini__`` é chamado *uma* somente, quando o servidor Web é
+      iniciado.
 
-Marking middleware as unused
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Marcando um middleware como inutilizado
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-It's sometimes useful to determine at run-time whether a piece of middleware
-should be used. In these cases, your middleware's ``__init__`` method may raise
-``django.core.exceptions.MiddlewareNotUsed``. Django will then remove that
-piece of middleware from the middleware process.
+Algumas vezes é útil determinar, em tempo de execução, se um middleware deve ser
+usado. Nestes casos, o método ``__ini__`` de seu middleware pode lançar uma
+exceção ``django.core.exceptions.MiddlewareNotUsed``. O Django irá então remover
+este middleware de seu processo de middlewares.
 
 Guidelines
 ----------
 
-    * Middleware classes don't have to subclass anything.
+    * Classes middleware não tem de extender ninguém.
 
-    * The middleware class can live anywhere on your Python path. All Django
-      cares about is that the :setting:`MIDDLEWARE_CLASSES` setting includes
-      the path to it.
+    * A classe middleware pode estar em qualquer lugar de seu Python path. Todo
+      Django se preocupa é com o fato do :setting:`MIDDLEWARE_CLASSES` ter o
+      caminho para ele.
 
-    * Feel free to look at :ref:`Django's available middleware
-      <ref-middleware>` for examples.
+    * Sintá-se livre para olhar em :ref:`middlewares disponíveis do Django
+      <ref-middleware>` por exemplos.
 
-    * If you write a middleware component that you think would be useful to
-      other people, contribute to the community! :ref:`Let us know
-      <internals-contributing>`, and we'll consider adding it to Django.
+    * Se você escreve um componente middleware que você pensa ser útil para
+      outras pessoas, contribua com a comunidade! :ref:`Deixe-nos saber
+      <internals-contributing>`, e nós consideraremos adicioná-lo ao Django.
+
