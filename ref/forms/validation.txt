@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11332 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,162 +16,168 @@
 
 .. _ref-forms-validation:
 
-Form and field validation
-=========================
+Validação de campos e formulários
+=================================
 
-Form validation happens when the data is cleaned. If you want to customize
-this process, there are various places you can change, each one serving a
-different purpose. Three types of cleaning methods are run during form
-processing. These are normally executed when you call the ``is_valid()``
-method on a form. There are other things that can trigger cleaning and
-validation (accessing the ``errors`` attribute or calling ``full_clean()``
-directly), but normally they won't be needed.
+A validação de formulários acontece quando os dados são limpos. Se você quer
+customizar este processo, há vários lugares que você pode mudar, cada um
+serve para um diferente propósito. Três tipos de métodos de limpeza são
+executados durante o processamento do formulário. Estes são normalmente
+executados quando você chama o método ``is_valid()`` do formulário. Há outras
+coisas que conseguem disparar a limpeza e validação (acessando os atributos
+``errors`` ou chamando ``full_clean()`` diretamente), mas normalmente eles não
+são necessários.
 
-In general, any cleaning method can raise ``ValidationError`` if there is a
-problem with the data it is processing, passing the relevant error message to
-the ``ValidationError`` constructor. If no ``ValidationError`` is raised, the
-method should return the cleaned (normalized) data as a Python object.
+Geralmente, qualquer método de limpeza pode lançar ``ValidationError`` se houver
+um problema com os dados processados, passando a mensagem de erro relevante para
+o construtor ``ValidationError``. Se nenhum ``ValidationError`` é lançado, o
+método deve retornar os dados limpos (normalizados) como um objeto Python.
 
-If you detect multiple errors during a cleaning method and wish to signal all
-of them to the form submitter, it is possible to pass a list of errors to the
-``ValidationError`` constructor.
+Se você detectar vários erros durante o método de limpeza e deseja sinalizar
+todos eles para o submissor do formulário, é possível passar uma lista dos erros
+para o construtor do ``ValidationError``.
 
-The three types of cleaning methods are:
+Os três tipos de métodos de limpeza são:
 
-    * The ``clean()`` method on a Field subclass. This is responsible
-      for cleaning the data in a way that is generic for that type of field.
-      For example, a FloatField will turn the data into a Python ``float`` or
-      raise a ``ValidationError``. This method returns the clean data, which
-      is then inserted into the ``cleaned_data`` dictionary of the form.
+    * O método ``clean()`` em uma subclasse Field. Este é responsável por limpar
+      os dados de uma forma genérica para esse tipo de campo. Por exemplo, um
+      FloatField será transformado em um dado Python do tipo ``float`` ou
+      lançará o ``ValidationError``. Este método retorna o dado limpo, que é
+      então inserido dentro do dicionário ``cleaned_data`` do formulário.
 
-    * The ``clean_<fieldname>()`` method in a form subclass -- where
-      ``<fieldname>`` is replaced with the name of the form field attribute.
-      This method does any cleaning that is specific to that particular
-      attribute, unrelated to the type of field that it is. This method is not
-      passed any parameters. You will need to look up the value of the field
-      in ``self.cleaned_data`` and remember that it will be a Python object
-      at this point, not the original string submitted in the form (it will be
-      in ``cleaned_data`` because the general field ``clean()`` method, above,
-      has already cleaned the data once).
+    * O método ``clean_<fieldname>()`` em uma subclasse de formulário -- onde
+      ``<fieldname>`` é substituído com o nome do atributo campo do forumulário.
 
-      For example, if you wanted to validate that the contents of a
-      ``CharField`` called ``serialnumber`` was unique,
-      ``clean_serialnumber()`` would be the right place to do this. You don't
-      need a specific field (it's just a ``CharField``), but you want a
-      formfield-specific piece of validation and, possibly,
-      cleaning/normalizing the data.
+    * O método ``clean_<fieldname>()`` em uma subclasse de formulário -- onde o
+      ``<fieldname>`` é substituído com o nome do atributo do campo do
+      formulário. Este método faz qualquer limpeza que seja específica para um
+      atributo, independente do tipo de campo que ele for. A este método não é
+      passado parâmetros. Você precisará olhar o valor do campo em
+      ``self.cleaned_data`` e lembrar que ele será um objeto Python neste ponto,
+      não a string original enviada pelo formulário (ele estará no
+      ``cleaned_data`` porquê o método ``clean()`` dos campos em geral, acima,
+      já validaram os dados uma vez).
 
-      Just like the general field ``clean()`` method, above, this method
-      should return the cleaned data, regardless of whether it changed
-      anything or not.
+      Por exemplo, se você procura validar o conteúdo de um ``CharField``
+      chamado ``serialnumber`` como único, ``clean_serialnumber()`` seria o
+      lugar certo para fazer isto. Você não precisa de um campo específico (ele
+      é só um ``CharField``), mas você deseja a validação de um campo de
+      formulário específico e, possivelmente, limpeza/normalização dos dados.
 
-    * The Form subclass's ``clean()`` method. This method can perform
-      any validation that requires access to multiple fields from the form at
-      once. This is where you might put in things to check that if field ``A``
-      is supplied, field ``B`` must contain a valid e-mail address and the
-      like. The data that this method returns is the final ``cleaned_data``
-      attribute for the form, so don't forget to return the full list of
-      cleaned data if you override this method (by default, ``Form.clean()``
-      just returns ``self.cleaned_data``).
+      Assim como o método ``clean()`` de campo geral, acima, este método deveria
+      retornar o dado normalizado, independentemente do fato de ter mudado
+      alguma coisa ou não.
 
-      Note that any errors raised by your ``Form.clean()`` override will not
-      be associated with any field in particular. They go into a special
-      "field" (called ``__all__``), which you can access via the
-      ``non_field_errors()`` method if you need to. If you want to attach
-      errors to a specific field in the form, you will need to access the
-      ``_errors`` attribute on the form, which is `described later`_.
+    * O método ``clean()`` de subclasse do Form. Este método pode executar
+      qualquer validação que requer acesso a múltiplos camops de um formulário
+      de uma vez. Aqui é onde você pode colocar coisas para checar se um campo
+      ``A`` é fornecido, campo ``B`` deve conter um endreço de e-mail válido e,
+      algo mais. O dado que este método retorna é o atributo final
+      ``cleaned_data`` para o formulário, então não esqueça de retornar uma
+      lista completa com os dados validados se você sobrescrever este método
+      (por padrão, ``Form.clean()`` retorna somente ``self.cleaned_data``).
 
-These methods are run in the order given above, one field at a time.  That is,
-for each field in the form (in the order they are declared in the form
-definition), the ``Field.clean()`` method (or its override) is run, then
-``clean_<fieldname>()``. Finally, once those two methods are run for every
-field, the ``Form.clean()`` method, or its override, is executed.
+      Note que quaisquer erros lançados por sua sobrescrita ``Form.clean()`` não
+      será associado como qualquer campo em particular. Eles irão dentro de um
+      "campo" especial (chamado, ``__all__``), que você pode acessar via o
+      método ``non_field_errors()`` se você precisar. Se vocÊ quer atachar os
+      erros a um campo específico do formulário, você precisará acessar o
+      atributo ``_errors`` do formulário, que é `descrito mais tarde`_.
 
-Examples of each of these methods are provided below.
+Estes métodos são executados na ordem mostrada acima, um campos por vez. Isto é,
+para campo no formulário (na ordem em que foram declarados, na definição do
+formulário), o método ``Field.clean()`` (ou sua sobrescrita) é executado, e
+então ``clean_<fieldname>()``. Finalmente, um dos dois método são executados
+para cada ampo, o método ``Form.clean()``, ou sua sobrescrita, é executado.
 
-As mentioned, any of these methods can raise a ``ValidationError``. For any
-field, if the ``Field.clean()`` method raises a ``ValidationError``, any
-field-specific cleaning method is not called. However, the cleaning methods
-for all remaining fields are still executed.
+Exemplo de cada um destes métodos são mostrados abaixo.
 
-The ``clean()`` method for the ``Form`` class or subclass is always run. If
-that method raises a ``ValidationError``, ``cleaned_data`` will be an empty
-dictionary.
+Como mensionado, qualquer um desses métodos podem lançar um ``ValidationError``.
+Para qualquer campo, se o método ``Field.clean()`` lançar um
+``ValidationError``, qualquer método de limpeza de campo específico não é
+chamado. Entretanto, os métodos de limpeza para todos os campos remanescentes
+ainda serão executados.
 
-The previous paragraph means that if you are overriding ``Form.clean()``, you
-should iterate through ``self.cleaned_data.items()``, possibly considering the
-``_errors`` dictionary attribute on the form as well. In this way, you will
-already know which fields have passed their individual validation requirements.
+O método ``clean()`` para a classe ou subclasse ``Form`` é sempre executado. Se
+este método lançar um ``ValidationError``, o ``cleaned_data`` será um dicionário
+vazio.
 
-.. _described later:
+O parágrafo anterior significa que se você estiver sobrescrevendo
+``Form.clean()``, você deve iterar sobre ``self.cleaned_data.items()``,
+possivelmente considerando o atributo dicionário ``_errors`` sobre o formulário.
+Desta forma, você já saberá quais campos passaram na validação individual.
 
-Form subclasses and modifying field errors
-------------------------------------------
+.. _descrito mais tarde:
 
-Sometimes, in a form's ``clean()`` method, you will want to add an error
-message to a particular field in the form. This won't always be appropriate
-and the more typical situation is to raise a ``ValidationError`` from
-``Form.clean()``, which is turned into a form-wide error that is available
-through the ``Form.non_field_errors()`` method.
+Sublasses de Form e modificando erros de campos
+-----------------------------------------------
 
-When you really do need to attach the error to a particular field, you should
-store (or amend) a key in the ``Form._errors`` attribute. This attribute is an
-instance of a ``django.forms.util.ErrorDict`` class. Essentially, though, it's
-just a dictionary. There is a key in the dictionary for each field in the form
-that has an error. Each value in the dictionary is a
-``django.forms.util.ErrorList`` instance, which is a list that knows how to
-display itself in different ways. So you can treat ``_errors`` as a dictionary
-mapping field names to lists.
+As vezes, num método ``clean()`` de um formulário, você pode querer adicionar
+uma mensagem de erro para um campo em particular. Isso nem sempre é apropriado e
+a situação mais comum é lançar um ``ValidationError`` num ``Form.clean()``, que
+é ativado em um erro ao longo do formulário e disponibilizado através do método
+``Form.non_field_errors()``.
 
-If you want to add a new error to a particular field, you should check whether
-the key already exists in ``self._errors`` or not. If not, create a new entry
-for the given key, holding an empty ``ErrorList`` instance. In either case,
-you can then append your error message to the list for the field name in
-question and it will be displayed when the form is displayed.
+Quando você realmente precisa atachar um erro para um campo em particular, você
+deve armazenar (ou alterar) uma chave no atributo ``Form._errors``. Este
+atributo é uma instância da classe ``django.forms.util.ErrorDict``.
+Essencialmente, porém, é só um dicinário. Cada valor no dicionário é uma
+instância ``django.forms.util.ErrorList``, que é uma lista que sabe como se
+mostrar de diferentes formas. então você pode tratar ``_erros`` como um
+dicionário, mapeado com os nomes dos campos.
 
-There is an example of modifying ``self._errors`` in the following section.
+Se você quiser adicionar um novo erro a campo em particular, você deve checar se
+a chave já existe em ``self._errors`` ou não. Se não, crie um nova entrada para
+a dada chave, mantendo um instância vazia do ``ErrorList``. Em ambos os casos,
+você pode então atachar sua mensagem de erro a lista para o nome do campo em
+questão e ela será exibida quando o formulário for mostrado.
 
-.. admonition:: What's in a name?
+Há um exemplo de como modificar o ``self._errors`` na próxima seção.
 
-    You may be wondering why is this attribute called ``_errors`` and not
-    ``errors``. Normal Python practice is to prefix a name with an underscore
-    if it's not for external usage. In this case, you are subclassing the
-    ``Form`` class, so you are essentially writing new internals. In effect,
-    you are given permission to access some of the internals of ``Form``.
+.. admonition:: O que está no nome?
 
-    Of course, any code outside your form should never access ``_errors``
-    directly. The data is available to external code through the ``errors``
-    property, which populates ``_errors`` before returning it).
+    Você pode estar pensando por que este atributo é chamado ``_erros`` e não
+    ``errors``. Na prática normal do Python é para prefixar um nome com um
+    underscore quando este não for de uso externo. Neste caso, você está
+    extendendo a classe ``Form``, então você está essencialmente escrevendo um
+    novo núcleo. Na verdade, é dado a permissão a você para acessar alguns
+    atributos internos do ``Form``.
 
-    Another reason is purely historical: the attribute has been called
-    ``_errors`` since the early days of the forms module and changing it now
-    (particularly since ``errors`` is used for the read-only property name)
-    would be inconvenient for a number of reasons. You can use whichever
-    explanation makes you feel more comfortable. The result is the same.
+    É claro, que qualquer código fora de seu formulário nunca deve acessar o
+    ``_erros`` diretamente. Os dados estão disponíveis para código externo
+    através da propriedade ``errors``, que popula ``_errors`` antes de
+    retorná-lo).
 
-Using validation in practice
-----------------------------
+    Outra razão é puramente histórica: o atributo tem sido chamado ``_errors``
+    desde os primeiros dias do módulo forms e mudá-lo agora (particularmente
+    desde que ``errors`` fora usado como o nome da propriedade somente leitura)
+    seria inconveniente por inúmeras razões. Você pode usar a explicação que lhe
+    for mais confortável. O resultado é o mesmo.
 
-The previous sections explained how validation works in general for forms.
-Since it can sometimes be easier to put things into place by seeing each
-feature in use, here are a series of small examples that use each of the
-previous features.
+Usando validação na prática
+---------------------------
 
-Form field default cleaning
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+A seção anterior explicou como a validação nos formulários geralmente funciona.
+Uma vez que pode ser mais fácil de por as coisas no lugar ao ver cada
+característica em uso, aqui está uma série de pequenos exemplos que usam
+cada uma das funcionalidades anteriomente citadas.
 
-Let's firstly create a custom form field that validates its input is a string
-containing comma-separated e-mail addresses, with at least one address. We'll
-keep it simple and assume e-mail validation is contained in a function called
-``is_valid_email()``. The full class looks like this::
+Limpeza padrão de campos do Form
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Vamos em primeiro lugar criar um campo de formulário customizado que valida sua
+entrada como uma estring contendo endereços de e-mail separados por virgula, com
+pelo menos um endereço. Nós manteremos ele simples e assumimos que a validação
+de e-mail está contida na função chamada ``is_valid_email()``. A classe completa
+parece com esta::
 
     from django import forms
 
     class MultiEmailField(forms.Field):
         def clean(self, value):
             """
-            Check that the field contains one or more comma-separated emails
-            and normalizes the data to a list of the email strings.
+            Checa que o campo contém um ou mais email separados por vírgula
+            e normaliza os dados para uma lista de strings de email.
             """
             if not value:
                 raise forms.ValidationError('Enter at least one e-mail address.')
@@ -180,15 +186,16 @@ keep it simple and assume e-mail validation is contained in a function called
                 if not is_valid_email(email):
                     raise forms.ValidationError('%s is not a valid e-mail address.' % email)
 
-            # Always return the cleaned data.
+            # Sempre retorna o dado limpo.
             return emails
 
-Every form that uses this field will have this ``clean()`` method run before
-anything else can be done with the field's data. This is cleaning that is
-specific to this type of field, regardless of how it is subsequently used.
+Todo formulário que usar este campo terpa este método ``clean()`` executado
+antes que algo mais seja feito com o os dados do campo. Esta é a validação que é
+específica para este tipo de campo, independentemente da forma como é
+subsequentemente usado.
 
-Let's create a simple ``ContactForm`` to demonstrate how you'd use this
-field::
+Vamos criar um simples ``ContactForm`` para demostrar como este campo poderia
+ser utilizado::
 
     class ContactForm(forms.Form):
         subject = forms.CharField(max_length=100)
@@ -197,21 +204,22 @@ field::
         recipients = MultiEmailField()
         cc_myself = forms.BooleanField(required=False)
 
-Simply use ``MultiEmailField`` like any other form field. When the
-``is_valid()`` method is called on the form, the ``MultiEmailField.clean()``
-method will be run as part of the cleaning process.
+Simplesmente use o ``MultiEmailField`` como qualquer outro campo. Quando o
+método ``is_valid()`` é chamado no formulário, o método ``MultiEmailField`` será
+executado como parte do processo de validação.
 
-Cleaning a specific field attribute
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Validando um atributo campo específico
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Continuing on from the previous example, suppose that in our ``ContactForm``,
-we want to make sure that the ``recipients`` field always contains the address
-``"fred@example.com"``. This is validation that is specific to our form, so we
-don't want to put it into the general ``MultiEmailField`` class. Instead, we
-write a cleaning method that operates on the ``recipients`` field, like so::
+Continuando sobre o exemplo anterior, supomos que em seu ``ContactForm``, nós
+queremos estar certos de que o campo ``recipients`` sempre conterá o endereço
+``"fred@example.com"``. Este é uma validação que é expecífica para o nosso
+formulário, então nós não queremos colocá-la dentro da classe geral
+``MultiEmailField``. Ao invés, nós escreveremos um método que opera sobre o
+campo ``recipients``, desta forma::
 
     class ContactForm(forms.Form):
-        # Everything as before.
+        # Tudo como antes.
         ...
 
         def clean_recipients(self):
@@ -219,36 +227,34 @@ write a cleaning method that operates on the ``recipients`` field, like so::
             if "fred@example.com" not in data:
                 raise forms.ValidationError("You have forgotten about Fred!")
 
-            # Always return the cleaned data, whether you have changed it or
-            # not.
+            # Sempre retorna o dado validado, você tendo mudado ele ou não.
             return data
 
-Cleaning and validating fields that depend on each other
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Limpando e validando campos que dependem uns dos outros
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Suppose we add another requirement to our contact form: if the ``cc_myself``
-field is ``True``, the ``subject`` must contain the word ``"help"``. We are
-performing validation on more than one field at a time, so the form's
-``clean()`` method is a good spot to do this. Notice that we are talking about
-the ``clean()`` method on the form here, whereas earlier we were writing a
-``clean()`` method on a field. It's important to keep the field and form
-difference clear when working out where to validate things. Fields are single
-data points, forms are a collection of fields.
+Suponhamos adicionar outra exigência ao nosso formulário de contato: se o campo
+``cc_myself`` é ``True``, o ``subject`` deve conter a palavra ``"help"``. Nós
+estamos executando a validação em mais de um campo ao mesmo tempo, então o
+método ``clean()`` do formulário é um bom lugar para se fazer isto. Observe que
+nós estamos falando sobre o método ``clean()`` de um formulário, considerando
+que antes nós estavámos escrevendo um método ``clean()`` de um campo. É
+importante manter o domínio de forma clara quando estamos trabalhando com
+validações. Campos são um ponto único de dados, formulários são uma coleção de
+campos.
 
-By the time the form's ``clean()`` method is called, all the individual field
-clean methods will have been run (the previous two sections), so
-``self.cleaned_data`` will be populated with any data that has survived so
-far. So you also need to remember to allow for the fact that the fields you
-are wanting to validate might not have survived the initial individual field
-checks.
+Agora, o método ``clean()`` do formulário é chamado, todos os métodos clean
+individuais dos campos serão executados (as duas seções anteriores), então o
+``self.cleaned_data`` será populado com qualquer dado que tenha sobrevivido até
+então. Você também precisa lembrar de permitir o fato de que os campos que você
+está esperando validar podem não ter sobrevivido a checagem inicial dos campos.
 
-There are two way to report any errors from this step. Probably the most
-common method is to display the error at the top of the form. To create such
-an error, you can raise a ``ValidationError`` from the ``clean()`` method. For
-example::
+Há duas formas de reportar quaisquer erros de um passo. Provavelmente o método
+mais comum é mostrar o erro no topo do forumulário. Para criar esse erro, você
+pode lançar um ``ValidationError`` no método ``clean()``. Por exemplo::
 
     class ContactForm(forms.Form):
-        # Everything as before.
+        # Tudo como antes.
         ...
 
         def clean(self):
@@ -257,29 +263,29 @@ example::
             subject = cleaned_data.get("subject")
 
             if cc_myself and subject:
-                # Only do something if both fields are valid so far.
+                # Somente faça algo se amgos os campos forem válidos.
                 if "help" not in subject:
                     raise forms.ValidationError("Did not send for 'help' in "
                             "the subject despite CC'ing yourself.")
 
-            # Always return the full collection of cleaned data.
+            # Sempre retorne a coleção completa de dados válidos.
             return cleaned_data
 
-In this code, if the validation error is raised, the form will display an
-error message at the top of the form (normally) describing the problem.
+Neste código, se o erro de validação é lançado, o formulário mostrará uma
+mensagem de erro no seu topo (normalmente) descrevendo o problema.
 
-The second approach might involve assigning the error message to one of the
-fields. In this case, let's assign an error message to both the "subject" and
-"cc_myself" rows in the form display. Be careful when doing this in practice,
-since it can lead to confusing form output. We're showing what is possible
-here and leaving it up to you and your designers to work out what works
-effectively in your particular situation. Our new code (replacing the previous
-sample) looks like this::
+A segunda abordagem pode envolver atribuição de uma mensagem de erro para um ou
+mais campos. Neste caso, vamos atribuir uma mensagem de erro para ambas linhas
+"subject" e "cc_myself" na exibição do formulário. Seja cuidadoso quando
+utilizar esta prática, pois pode conduzir a uma saída confusa de formulário. Nós
+estamos mostrando o que é possível aqui, e deixando você e seus designers
+trabalharem no que efetivamente é a sua situação em particular. Nosso novo
+código (substituindo o exemplo anterior) é este::
 
     from django.forms.util import ErrorList
 
     class ContactForm(forms.Form):
-        # Everything as before.
+        # Tudo como antes.
         ...
 
         def clean(self):
@@ -288,33 +294,32 @@ sample) looks like this::
             subject = cleaned_data.get("subject")
 
             if cc_myself and subject and "help" not in subject:
-                # We know these are not in self._errors now (see discussion
-                # below).
+                # Nós sabemos estes não estão em self._errors agora (veja a
+                # discussão abaixo).
                 msg = u"Must put 'help' in subject when cc'ing yourself."
                 self._errors["cc_myself"] = ErrorList([msg])
                 self._errors["subject"] = ErrorList([msg])
 
-                # These fields are no longer valid. Remove them from the
-                # cleaned data.
+                # Estes campos não são válidos. Remova-os dos dados válidos.
                 del cleaned_data["cc_myself"]
                 del cleaned_data["subject"]
 
-            # Always return the full collection of cleaned data.
+            # Sempre retorne a coleção completa de dados válidos.
             return cleaned_data
 
-As you can see, this approach requires a bit more effort, not withstanding the
-extra design effort to create a sensible form display. The details are worth
-noting, however. Firstly, earlier we mentioned that you might need to check if
-the field name keys already exist in the ``_errors`` dictionary. In this case,
-since we know the fields exist in ``self.cleaned_data``, they must have been
-valid when cleaned as individual fields, so there will be no corresponding
-entries in ``_errors``.
+Como voê pode ver, esta abordagem requer um pouco mais de esforço, não
+suportando um esforço extra de design para criar uma visualização sensata do
+formulário. Os detalhes são dignos de nota, no entanto. Primeiramente, como
+mensionamos que você pode precisar checar se o nome do campo já existe no
+dicionário ``_errors``. Neste caso, desde que sabemos que os campos existem no
+``self.cleaned_data``, eles devem ser válidos quando validados individualmente,
+então haverá chaves não correspondentes em ``_errors``.
 
-Secondly, once we have decided that the combined data in the two fields we are
-considering aren't valid, we must remember to remove them from the
-``cleaned_data``.
+Depois, uma vez que nós tenhamos decidido que os dados combinados dos dois campos
+não são válidos, nós devemos lembrar de removê-los do ``cleaned_data``.
 
-In fact, Django will currently completely wipe out the ``cleaned_data``
-dictionary if there are any errors in the form. However, this behaviour may
-change in the future, so it's not a bad idea to clean up after yourself in the
-first place.
+De fato, o Django irá, no momento, limpar completamente o dicionário
+``cleaned_data`` se houver qualquer erro no formulário. No entanto, este
+comportamento pode ser mudado no futuro, então não é uma má ideia, depois você
+mesmo limpá-lo, em primeiro lugar.
+
