@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision. $
 ..   $OriginalRevision: 11332 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,122 +16,121 @@
 
 .. _releases-1.0-beta-2:
 
-===============================
-Django 1.0 beta 2 release notes
-===============================
+========================================
+Notas de lançamento do Django 1.0 beta 2
+========================================
 
-Welcome to Django 1.0 beta 2!
+Bem vindo ao Django 1.0 beta 2!
 
-This is the fourth in a series of preview/development releases leading
-up to the eventual release of Django 1.0, currently scheduled to take
-place in early September 2008. This releases is primarily targeted at
-developers who are interested in testing the Django codebase and
-helping to identify and resolve bugs prior to the final 1.0 release.
+Esse é o quarto em uma série de versões de preview/desenvolvimento que
+eventualmente levará ao 1.0, atualmnte agendado para acontecer no
+início de Setembro de 2008. Esse lançamento visa primeiramente
+desenvolvedores que estão interessados em testar a base de código do Django e
+ajudar a identificar e resolver bugs antes da versão 1.0 final.
 
-As such, this release is *not* intended for production use, and any
-such use is discouraged.
+Como sempre, essa versão *não* deve tem a intenção de ser usada em produção, e
+tal uso é desencorajado.
 
-What's new in Django 1.0 beta 2
-===============================
+O que há de novo no Django 1.0 beta 2
+=====================================
 
-Django's development trunk has been the site of nearly constant
-activity over the past year, with several major new features landing
-since the 0.96 release.  For features which were new as of Django 1.0
-alpha 1, see :ref:`the 1.0 alpha 1 release notes
-<releases-1.0-alpha-1>`. For features which were new as of Django 1.0
-alpha 2, see :ref:`the 1.0 alpha 2 release notes
-<releases-1.0-alpha-2>`. For features which were new as of Django 1.0
-beta 1, see :ref:`the 1.0 beta 1 release notes <releases-1.0-beta>`.
+O trunk do desenvolvimento do Django tem sido o lugar de desenvolvimento quase
+constante durante o ano passado, com algumas novas funcionalidades desde a versão.
+Para funcionalidades que eram novas no Django 1.0
+alpha 1, veja :ref:`as notas de lançamento do 1.0 alpha 1
+<releases-1.0-alpha-1>`. Para funcionalidades que eram novas no Django 1.0
+alpha 2, veja :ref:`as notas de lançamento do 1.0 alpha 2
+<releases-1.0-alpha-2>`. Para funcionalidades que eram novas no Django 1.0
+beta 1, veja :ref:`as notas de lançamento do 1.0 beta 1 <releases-1.0-beta>`.
 
-This beta release includes two major features:
+Essa versão beta inclui duas funcionalidades principais:
 
-Refactored ``django.contrib.comments``
-    As part of a Google Summer of Code project, Thejaswi Puthraya
-    carried out a major rewrite and refactoring of Django's bundled
-    comment system, greatly increasing its flexibility and
-    customizability. :ref:`Full documentation
-    <ref-contrib-comments-index>` is available, as well as :ref:`an
-    upgrade guide <ref-contrib-comments-upgrade>` if you were using
-    the previous incarnation of the comments application..
+``django.contrib.comments`` refatorado
+    Como parte de um projeto do Google Summer of Code, Thejaswi Puthraya
+    executou uma reescrita e refatoração no sistema de comentários incluído com o
+    Django, aumentando grandemente sua flexibilidade e personalização. :ref:`Documentação completa
+    <ref-contrib-comments-index>` está disponível, assim como um :ref:`guia
+    de atualização <ref-contrib-comments-upgrade>` se você estiver usando a encarnação
+    anterior da aplicação de comentários..
 
-Refactored documentation
-    Django's bundled and online documentation has also been
-    significantly refactored; the new documentation system uses
-    `Sphinx`_ to build the docs and handle such niceties as topical
-    indexes, reference documentation and cross-references within the
-    docs. You can check out the new documentation `online`_ or, if you
-    have Sphinx installed, build the HTML yourself from the
-    documentation files bundled with Django.
+Documentação refatorada
+    A documentação incluída com o Django é a documentação online foram refatoradas
+    significativamente; o novo sistema de documentação usa o
+    `Sphinx`_ para construir documentos e lidar com coisas bacanas como índices de
+    tópicos, documentação referenciada e inter referenciada dentro
+    dos documentos. Você pode ver a nova documentação `online`_ ou, se você
+    tiver o Sphinx instalado, gerar você mesmo o HTML dos arquivos de documentação
+    incluídos com o Django.
 
 .. _Sphinx: http://sphinx.pocoo.org/
 .. _online: http://docs.djangoproject.com/en/dev/
 
-Along with these new features, the Django team has also been hard at
-work polishing Django's codebase for the final 1.0 release; this beta
-release contains a large number of smaller improvements and bugfixes
-from the ongoing push to 1.0.
+Junto com essas novas funcionalidades, o time do Django tem trabalhado duro
+em esmirilhar a base de código do Django  para a versão 1.0 final; essa versão beta
+contém um número grande de pequenas melhorias e correções de bugs
+a partir da versão anterior, a caminho da versão 1.0.
 
-Also, as part of its ongoing deprecation process, Django's old
-form-handling system has been removed; this means ``django.oldforms``
-no longer exists, and its various API hooks (such as automatic
-manipulators) are no longer present in Django. This system has been
-completely replaced by :ref:`the new form-handling system
-<topics-forms-index>` in ``django.forms``.
-
-
-The Django 1.0 roadmap
-======================
-
-One of the primary goals of this beta release is to focus attention on
-the remaining features to be implemented for Django 1.0, and on the
-bugs that need to be resolved before the final release. As of this
-beta release, Django is in its final "feature freeze" for 1.0; feature
-requests will be deferred to later releases, and the development
-effort will be focused solely on bug-fixing and stability. Django is
-also now in a "string freeze"; translatable strings (labels, error
-messages, etc.) in Django's codebase will not be changed prior to the
-release, in order to allow our translators to produce the final 1.0
-version of Django's translation files.
-
-Following this release, we'll be conducting a final development sprint
-on August 30, 2008, based in London and coordinated online; the goal
-of this sprint will be to squash as many bugs as possible in
-anticipation of the final 1.0 release, which is currently targeted for
-**September 2, 2008**. The official Django 1.0 release party will take
-place during the first-ever DjangoCon, to be held in Mountain View,
-California, USA, September 6-7.
+Também, como parte do seu processo de obsolescência, o sistema antigo de processamento
+de formulários do Django foi removido; isso significa que ``django.oldforms``
+não existe mais, e seus vários ganchos de API (como manipuladores
+automáticos) não existem mais no Django. Esse sistema foi completamente
+substituído pelo :ref:`novo sistema de manipulação de formulários
+<topics-forms-index>` em ``django.forms``.
 
 
-What you can do to help
-=======================
+O caminho para o Django 1.0
+===========================
 
-In order to provide a high-quality 1.0 release, we need your
-help. Although this beta release is, again, *not* intended for
-production use, you can help the Django team by trying out the beta
-codebase in a safe test environment and reporting any bugs or issues
-you encounter. The Django ticket tracker is the central place to
-search for open issues:
+Um dos alvos principais com essas versão beta é focar a atenção nas
+funcionalidades restantes a serem implementadas no Django 1.0, e nos
+bugs que precisam ser resolvidos antes da versão final. A partir dessa
+versão beta, o Django está em seu "feature freeze" final para o 1.0; pedidos
+de funcionalidades novas ficarão para lançamentos posteriores, e o esforço de desenvolvimento
+será todo concentrado em correção de bugs e estabilidade. O Django está
+também em um "string freeze"; strings traduzíveis (rótulos, mensagens
+de erro, etc.) na base de código do Django nãp serão mudadas antes do lançamento,
+para que nossos tradutores possam produzir a versão final 1.0 dos arquivos de tradução
+do Django.
+
+Para esse lançamento, estaremos conduzindo um sprint de desenvolvimento final em
+30 de agosto de 2008, baseado em Londres e coordenado online; o alvo
+desse sprint é corrigir tantos bugs quantos forem possíveis em antecipação ao 
+lançamento do 1.0 final, cuja data está agendada para
+**2 de setembro de 2008**. A festa de lançamento oficial do Django 1.0 irá acontecer durante
+a primeira DjangoCon, que acontecerá em Mountain View,
+California, USA, nos dias 6 e 7 de setembro.
+
+
+O que você pode fazer para ajudar
+=================================
+
+Para produzir uma versão 1.0 de alta qualidade, precisamos de sua
+ajuda. Mesmo que essa versão beta *não* deva ser usada em produção,
+você pode ajudar a equipe do Django testando a versão beta em um ambiente
+seguro de testes e informando qualquer bug ou problema que você
+encontrar. O gerenciador de tíquetes do Django é o lugar central para procurar por
+problemas em aberto:
 
     http://code.djangoproject.com/timeline
 
-Please open new tickets if no existing ticket corresponds to a problem
-you're running into.
+Por favor, abra novos tíquetes apenas se você não encontrar um tíquete existente
+que corresponda ao problema que você está enfrentando.
 
-Additionally, discussion of Django development, including progress
-toward the 1.0 release, takes place daily on the django-developers
-mailing list:
+Adicionalmente, discussão sobre o desenvolvimento do Django, incluindo o processo
+até a versão 1.0, acontece diariamente na lista de e-mails
+django-developers:
 
     http://groups.google.com/group/django-developers
 
-...and in the ``#django-dev`` IRC channel on ``irc.freenode.net``. If
-you're interested in helping out with Django's development, feel free
-to join the discussions there.
+...e no canal de IRC ``#django-dev`` na ``irc.freenode.net``. Se
+você está interessado em ajudar o desenvolvimento do Django, sinta-se livre
+para entrar nas discussões.
 
-Django's online documentation also includes pointers on how to
-contribute to Django:
+A documentação online do DJango também inclui instruções de como
+contrbuir com o Django:
 
-    :ref:`contributing to Django <internals-contributing>`
+    :ref:`contribuindo para o Django <internals-contributing>`
 
-Contributions on any level -- developing code, writing
-documentation or simply triaging tickets and helping to test proposed
-bugfixes -- are always welcome and appreciated.
+Contribuições de qualquer nível -- desenvolvimento de código, escrita de
+documentação ou simplemente a triagem de tíquetes para ajudar a testar as correções de bugs
+propostas -- são sempre bem vindas e apreciadas.
