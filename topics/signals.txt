@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11332 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,86 +16,86 @@
 
 .. _topics-signals:
 
-=======
-Signals
-=======
+================
+Sinais (Signals)
+================
 
 .. module:: django.dispatch
-   :synopsis: Signal dispatch
+   :synopsis: Despachante de Sinal
 
-Django includes a "signal dispatcher" which helps allow decoupled applications
-get notified when actions occur elsewhere in the framework. In a nutshell,
-signals allow certain *senders* to notify a set of *receivers* that some action
-has taken place. They're especially useful when many pieces of code may be
-interested in the same events.
+O Django incluí um "dispachador de sinal" que ajuda ao permitir que aplicações
+dissociadas sejam notificadas quando uma ação ocorre em qualquer lugar do
+framework. Em resumo, sinais permitem certos *remetentes* notificar um conjunto
+de *receptores* sobre alguma ação que tenha ocorrido. Eles são especialmente
+úteis quando muitas peças de código podem estar interessados nos mesmos eventos.
 
-Django provides a :ref:`set of built-in signals <ref-signals>` that let user
-code get notified by Django itself of certain actions. These include some useful
-notifications:
+O Django fornece um :ref:`conjunto de sinais embutidos <ref-signals>` que deixam
+o código do usuário ser notificado pelo próprio Django sobre certas ações. Estas
+incluem algumas notificações úteis:
 
     * :data:`django.db.models.signals.pre_save` &
       :data:`django.db.models.signals.post_save`
 
-      Sent before or after a model's :meth:`~django.db.models.Model.save` method
-      is called.
+      Enviado antes ou depois que um método de model
+      :meth:`~django.db.models.Model.save` é chamado.
 
     * :data:`django.db.models.signals.pre_delete` &
       :data:`django.db.models.signals.post_delete`
 
-      Sent before or after a model's :meth:`~django.db.models.Model.delete`
-      method is called.
-
+      Enviado antes ou depois que um método de model
+      :meth:`~django.db.models.Model.delete` é chamado.
 
     * :data:`django.core.signals.request_started` &
       :data:`django.core.signals.request_finished`
 
-      Sent when Django starts or finishes an HTTP request.
+      Enviado quando o Django inicia ou finaliza uma requisição HTTP.
 
-See the :ref:`built-in signal documentation <ref-signals>` for a complete list,
-and a complete explanation of each signal.
+Veja a :ref:`documentação de sinais embutidos <ref-signals>` para uma lista
+completa, e uma explicação completa de cada sinal.
 
-You can also `define and send your own custom signals`_; see below.
+Você também pode `definir e enviar seus próprios sinais`_; veja abaixo.
 
-.. _define and send your own custom signals: `defining and sending signals`_
+.. _definir e enviar seus próprios sinais: `definindo e enviando sinais`_
 
-Listening to signals
-====================
+Ouvindo sinais
+==============
 
-To receive a signal, you need to register a *receiver* function that gets called
-when the signal is sent. Let's see how this works by registering a signal that
-gets called after each HTTP request is finished. We'll be connecting to the
-:data:`~django.core.signals.request_finished` signal.
+Para receber um sinal, você precisa registrar uma função *receptora* que será
+chamada quando o sinal é enviado. Vamos ver como isto funciona registrando um
+sinal que é chamado depois de cada requisição HTTP é finalizada. Nós
+conectaremo-nos ao sinal :data:`~django.core.signals.request_finished`.
 
-Receiver functions
+Funções receptoras
 ------------------
 
-First, we need to define a receiver function. A receiver can be any Python function or method:
+Primeiro, nós precisamos definir uma função receptora. Um receptor pode ser
+qualquer função Python ou método:
 
 .. code-block:: python
 
     def my_callback(sender, **kwargs):
         print "Request finished!"
 
-Notice that the function takes a ``sender`` argument, along with wildcard
-keyword arguments (``**kwargs``); all signal handlers must take these arguments.
+Observe que a função recebe um argumento ``sender``, junto com o argumento
+coringa (``**kwargs``); todo manipulador de sinal recebe estes argumentos.
 
-We'll look at senders `a bit later`_, but right now look at the ``**kwargs``
-argument. All signals send keyword arguments, and may change those keyword
-arguments at any time. In the case of
-:data:`~django.core.signals.request_finished`, it's documented as sending no
-arguments, which means we might be tempted to write our signal handling as
-``my_callback(sender)``.
+Nós olharemos o remetente `um pouco depois`_, mas agora olhe o argumento
+``**kwargs``. Todos os sinais enviam argumentos nomeados, e podem mudar seus
+argumentos nomeados a qualquer momento. Neste caso o
+:data:`~django.core.signals.request_finished`, ele está documentado como se não
+enviasse argumentos, que significa que poderiámos ser tentados a escrever nosso
+manipulador do sinal como ``my_callback(sender)``.
 
-.. _a bit later: `connecting to signals sent by specific senders`_
+.. _um pouco depois: `conectando-se a sinais enviados por remetentes específicos`_
 
-This would be wrong -- in fact, Django will throw an error if you do so. That's
-because at any point arguments could get added to the signal and your receiver
-must be able to handle those new arguments.
+Isso poderia estar errado -- de fato, o Django irá lançar um erro se você fizer
+isso. Isto porque, em qualquer ponto, argumentos poderiam ser adicionados ao
+sinal, e o receptor deve ser capaz de manipular estes argumentos.
 
-Connecting receiver functions
+Conectando funções receptoras
 -----------------------------
 
-Next, we'll need to connect our receiver to the signal:
+Agora, nós precisaremos conectar nosso receptor ao sinal:
 
 .. code-block:: python
 
@@ -103,29 +103,31 @@ Next, we'll need to connect our receiver to the signal:
 
     request_finished.connect(my_callback)
 
-Now, our ``my_callback`` function will be called each time a request finishes.
+Agora, nossa função ``my_callback`` será chamada a cada vez que uma requisição
+for finalizada.
 
-.. admonition:: Where should this code live?
+.. admonition:: Onde este código deve ficar?
 
-    You can put signal handling and registration code anywhere you like.
-    However, you'll need to make sure that the module it's in gets imported
-    early on so that the signal handling gets registered before any signals need
-    to be sent. This makes your app's ``models.py`` a good place to put
-    registration of signal handlers.
+    Você poder colocar o código manipulador e de registro de sinal aonde você
+    quiser. Entretanto, você precisará assegurar-se de que o módulo já tenha
+    sido importado anteriormente, para que este manipulador de sinal seja
+    registrado antes que qualquer sinal seja enviado. Isto faz do ``models.py``
+    de sua aplicação, um bom lugar para colocar o regsitro de manipuladores de
+    sinais.
 
-Connecting to signals sent by specific senders
-----------------------------------------------
+Conectando-se a sinais enviados por remetentes específicos
+----------------------------------------------------------
 
-Some signals get sent many times, but you'll only be interested in recieving a
-certain subset of those signals. For example, consider the
-:data:`django.db.models.signals.pre_save` signal sent before a model gets saved.
-Most of the time, you don't need to know when *any* model gets saved -- just
-when one *specific* model is saved.
+Alguns sinais são enviados muitas vezes, mas você somente é interessado em
+receber um certo sub-conjunto destes sinais. Por exemplo, considere o sinal
+:data:`django.db.models.signals.pre_save` enviado antes de um model ser salvo.
+Na maioria das vezes, você não precisa saber quando *qualquer* model foi
+salvo -- só quando um model *específico* é salvo.
 
-In these cases, you can register to receive signals sent only by particular
-senders. In the case of :data:`django.db.models.signals.pre_save`, the sender
-will be the model class being saved, so you can indicate that you only want
-signals sent by some model:
+Nestes casos, você pode registrá-lo para receber sinais enviados somente por um
+remetente em particular. No caso do :data:`django.db.models.signals.pre_save`, o
+remetente será a classe model que estiver sendo salva, então você pode indicar
+que você somente quer sinais enviados por algum model:
 
 .. code-block:: python
 
@@ -137,28 +139,28 @@ signals sent by some model:
 
     pre_save.connect(my_handler, sender=MyModel)
 
-The ``my_handler`` function will only be called when an instance of ``MyModel``
-is saved.
+A função ``my_handler`` somente será chamada quando uma instância de ``MyModel``
+for salva.
 
-Different signals use different objects as their senders; you'll need to consult
-the :ref:`built-in signal documentation <ref-signals>` for details of each
-particular signal.
+Sinais diferentes usam objetos diferentes como seus remetentes; você precisará
+consultar a :ref:`documentação de sinais embutidos <ref-signals>` para detalhes
+de cada sinal em particular.
 
-Defining and sending signals
-============================
+Definindo e enviando sinais
+===========================
 
-Your applications can take advantage of the signal infrastructure and provide its own signals.
+Sua aplicação pode tirar proveito da infraestrutura de sinais e prover seus próprios sinais.
 
-Defining signals
+Definindo sinais
 ----------------
 
 .. class:: Signal([providing_args=list])
 
-All signals are :class:`django.dispatch.Signal` instances. The
-``providing_args`` is a list of the names of arguments the signal will provide
-to listeners.
+Todos os sinais são instâncias de :class:`django.dispatch.Signal`. O
+``providing_args`` é uma lista de nomes de argumentos que o sinal fornecerá aos
+ouvintes.
 
-For example:
+Por exemplo:
 
 .. code-block:: python
 
@@ -166,19 +168,24 @@ For example:
 
     pizza_done = django.dispatch.Signal(providing_args=["toppings", "size"])
 
-This declares a ``pizza_done`` signal that will provide receivers with
-``toppings`` and ``size`` arguments.
+Este declara um sinal ``pizza_done`` que fornecerá aos receptores os argumentos
+``toppings`` e ``size``.
 
-Remember that you're allowed to change this list of arguments at any time, so getting the API right on the first try isn't necessary.
+Lembre-se de que você está autorizado a alterar esta lista de argumentos a
+qualquer momento, então obter o direito de API, na primeira tentativa, não é
+necessário.
 
-Sending signals
+Enviando sinais
 ---------------
 
 .. method:: Signal.send(sender, **kwargs)
 
-To send a signal, call :meth:`Signal.send`. You must provide the ``sender`` argument, and may provide as many other keyword arguments as you like.
+Para enviar um sinal, chame :meth:`Signal.send`. Você deve prover o argumento
+``sender``, e pode fornecer muitos outros argumentos nomeados conforme sua
+vontade.
 
-For example, here's how sending our ``pizza_done`` signal might look:
+Por exemplo, aqui mostramos como nosso envio de sinal ``pizza_done``, pode
+ficar:
 
 .. code-block:: python
 
@@ -188,5 +195,4 @@ For example, here's how sending our ``pizza_done`` signal might look:
         def send_pizza(self, toppings, size):
             pizza_done.send(sender=self, toppings=toppings, size=size)
             ...
-
 
