@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11332 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,24 +16,25 @@
 
 .. _topics-http-views:
 
-=============
-Writing Views
-=============
+================
+Escrevendo Views
+================
 
-A view function, or *view* for short, is simply a Python function that takes a
-Web request and returns a Web response. This response can be the HTML contents
-of a Web page, or a redirect, or a 404 error, or an XML document, or an image .
-. . or anything, really. The view itself contains whatever arbitrary logic is
-necessary to return that response. This code can live anywhere you want, as long
-as it's on your Python path. There's no other requirement--no "magic," so to
-speak. For the sake of putting the code *somewhere*, let's create a file called
-``views.py`` in the ``mysite`` directory, which you created in the previous
-chapter.
+Uma função view, ou somente *view*, é simplesmente uma função Python que recebe
+uma requisição Web e retorna uma resposta Web. Esta resposta pode ser um
+conteúdo HTML de uma página, ou um redirecionamento, ou um erro 404, ou um
+documento XML, ou uma imagem . . . ou qualquer coisa, na verdade. O view em si
+contém qualquer lógica arbitrária que é necessária para retornar uma resposta.
+Este código pode ficar em qualquer lugar que você quiser, ao longo do seu Python
+path. Não há outro requerimento -- sem "mágica", por assim dizer.
+Por uma questão de colocar o código "em qualquer lugar", vamos criar um arquivo
+chamado ``views.py`` no diretório ``mysite``, que você criou no capítulo
+anterior.
 
-A simple view
-=============
+Um view simples
+===============
 
-Here's a view that returns the current date and time, as an HTML document:
+Aqui há um view que retorna a data atual, como um documento HTML:
 
 .. code-block:: python
 
@@ -45,48 +46,47 @@ Here's a view that returns the current date and time, as an HTML document:
         html = "<html><body>It is now %s.</body></html>" % now
         return HttpResponse(html)
 
-Let's step through this code one line at a time:
+Vamos passo-a-passo através deste código, uma linha por vez:
 
-    * First, we import the class ``HttpResponse``, which lives in the
-      ``django.http`` module, along with Python's ``datetime`` library.
+    * Primeiro, nós importamos a classe ``HttpResponse``, que reside o módulo
+      ``django.http``, também a biblioteca ``datetime`` do Python.
 
-    * Next, we define a function called ``current_datetime``. This is the view
-      function. Each view function takes an ``HttpRequest`` object as its first
-      parameter, which is typically named ``request``.
+    * Depois, nós definimos uma função chamada ``current_datetime``. Esta é a
+      função view. Cada função view recebe um objeto ``HttpRequest`` como seu
+      primeiro parâmetro, que é tipicamente nomeado como ``request``.
 
-      Note that the name of the view function doesn't matter; it doesn't have to
-      be named in a certain way in order for Django to recognize it. We're
-      calling it ``current_datetime`` here, because that name clearly indicates
-      what it does.
+      Note que o nome da função view não importa; ele não tem de ser nomeada de
+      uma certa forma para ser reconhecida pelo Django. Nós estamos chamando-a
+      de ``current_datetime`` aqui, porque este nome indica claramente o que ela
+      faz.
 
-    * The view returns an ``HttpResponse`` object that contains the
-      generated response. Each view function is responsible for returning an
-      ``HttpResponse`` object. (There are exceptions, but we'll get to those
-      later.)
+    * O view retorna um objeto ``HttpResponse`` que contém a resposta gerada.
+      Cada função view é responsável por retornar um objeto ``HttpResponse``.
+      (Há exceções, mas serão abordadas mais tarde.)
 
 .. admonition:: Django's Time Zone
-    
-    Django includes a ``TIME_ZONE`` setting that defaults to
-    ``America/Chicago``. This probably isn't where you live, so you might want
-    to change it in your settings file.
 
-Mapping URLs to Views
-=====================
+    O Django inclui uma configuração de ``TIME_ZONE`` que por padrão é
+    ``America/Chicago``. Este provavelmente não é onde você mora, então você
+    pode mudá-lo no seu arquivo ``settings.py``.
 
-So, to recap, this view function returns an HTML page that includes the current
-date and time. To display this view at a particular URL, you'll need to create a
-*URLconf*; see :ref:`topics-http-urls` for instructions.
+Mapeando URLs para Views
+========================
 
-Returning errors
+Então, para recapitular, esta função view retorna uma página HTML, que inclui a
+data e hora atual. Para mostrar este view numa URL em particular, você precisará
+criar uma no *URLconf*; veja :ref:`topics-http-urls` para instruções.
+
+Retornando erros
 ================
 
-Returning HTTP error codes in Django is easy. There are subclasses of
-:class:`~django.http.HttpResponse` for a number of common HTTP status codes
-other than 200 (which means *"OK"*). You can find the full list of available
-subclasses in the :ref:`request/response <ref-httpresponse-subclasses>`
-documentation.  Just return an instance of one of those subclasses instead of
-a normal :class:`~django.http.HttpResponse` in order to signify an error. For
-example::
+Retornar códigos de erro HTTP  no Django é muito fácil. Existem subclasses do
+:class:`~django.http.HttpResponse` para um número de códigos de status comuns do
+HTTP além do 200 (que significa *"OK"*). Você pode encontrar a lista completa de
+subclasses disponíveis na documentação de :ref:`requisição/resposta
+<ref-httpresponse-subclasses>`. Somente retorne um instância de uma destas
+subclasses ao invés de uma classe normal :class:`~django.http.HttpResponse` a
+fim de mostrar um erro. Por exemplo::
 
     def my_view(request):
         # ...
@@ -95,34 +95,34 @@ example::
         else:
             return HttpResponse('<h1>Page was found</h1>')
 
-There isn't a specialized subclass for every possible HTTP response code,
-since many of them aren't going to be that common. However, as documented in
-the :class:`~django.http.HttpResponse` documentation, you can also pass the
-HTTP status code into the constructor for :class:`~django.http.HttpResponse`
-to create a return class for any status code you like. For example::
+Não existe uma subclasse especializada para cada código resposta HTTP possível,
+uma vez que muitos deles não serão comuns. Porém, como documentado na
+documentação do :class:`~django.http.HttpResponse`, você também pode passar o
+código de status HTTP dentro de um construtor do
+:class:`~django.http.HttpResponse` para criar uma classe de retorno para
+qualquer código de status que você quiser. Por exemplo::
 
     def my_view(request):
         # ...
 
-        # Return a "created" (201) response code.
+        # Retorna um código de resposta "created" (201).
         return HttpResponse(status=201)
 
-Because 404 errors are by far the most common HTTP error, there's an easier way
-to handle those errors.
+Como erros 404 são de longe os erros HTTP mais comuns, existe uma forma mais
+fácil de manipular estes erros.
 
-The Http404 exception
----------------------
+A exceção Http404
+-----------------
 
-When you return an error such as ``HttpResponseNotFound``, you're responsible
-for defining the HTML of the resulting error page::
+Quando você retorna um erro como ``HttpResponseNotFound``, você é responável por
+definir o HTML da página de erro resultante::
 
     return HttpResponseNotFound('<h1>Page not found</h1>')
 
-For convenience, and because it's a good idea to have a consistent 404 error page
-across your site, Django provides an ``Http404`` exception. If you raise
-``Http404`` at any point in a view function, Django will catch it and return the
-standard error page for your application, along with an HTTP error code 404.
-
+Por convenção, e porque é uma boa idéia ter uma página de erro 404 consistente
+para todo site, o Django provê uma exceção ``Http404``. Se você lançar um
+``Http404`` em qualquer ponto de sua função view, o Django a pegará e retornará
+a página de erro padão para sua aplicação, junto com o código de erro HTTP 404.
 Example usage::
 
     from django.http import Http404
@@ -134,83 +134,82 @@ Example usage::
             raise Http404
         return render_to_response('polls/detail.html', {'poll': p})
 
-In order to use the ``Http404`` exception to its fullest, you should create a
-template that is displayed when a 404 error is raised. This template should be
-called ``404.html`` and located in the top level of your template tree.
+A fim de usar a exceção ``Http404`` para sua satisfação, você deve criar um
+template que será mostrado quando um erro 404 é gerado. Este template deve ser
+chamado ``404.html`` e localizado no nível mais alto de sua árvore de templates.
 
-Customizing error views
-=======================
+Customizando erros de views
+===========================
 
-The 404 (page not found) view
------------------------------
+O view 404 (page not found)
+---------------------------
 
-When you raise an ``Http404`` exception, Django loads a special view devoted
-to handling 404 errors. By default, it's the view
-``django.views.defaults.page_not_found``, which loads and renders the template
+Quando você gera uma exceção ``Http404``, o Django carrega um view especial
+devotado a manipular erros 404. Por padrão, ele é o view
+``django.views.defaults.page_not_found``, que carrega e renderiza o template
 ``404.html``.
+Isto significa que você precisa definir um template ``404.html`` na raiz do seu
+diretório de templates. Este template será usado para todos os erros 404.
 
-This means you need to define a ``404.html`` template in your root template
-directory. This template will be used for all 404 errors.
-
-This ``page_not_found`` view should suffice for 99% of Web applications, but if
-you want to override the 404 view, you can specify ``handler404`` in your
-URLconf, like so::
+Esta view ``page_not_found`` deve bastar para 99% das aplicações Web, mas se
+você precisa sobrescrevê-lo, você pode especificar ``handler404`` no seu
+URLconf, desta forma::
 
     handler404 = 'mysite.views.my_custom_404_view'
 
-Behind the scenes, Django determines the 404 view by looking for ``handler404``.
-By default, URLconfs contain the following line::
+Por trás das cenas, o Django obriga o view 404 a procurar por ``handler404``.
+Por padrão, os URLconfs contém as seguinte linha::
 
     from django.conf.urls.defaults import *
 
-That takes care of setting ``handler404`` in the current module. As you can see
-in ``django/conf/urls/defaults.py``, ``handler404`` is set to
-``'django.views.defaults.page_not_found'`` by default.
-
+Que se preocupa com a configuração do ``handler404`` no módulo atual. Como você
+pode ver em ``django/conf/urls/defaults.py``, ``handler404`` é setado para
+``'django.views.defaults.page_not_found'`` por padrão.
 Three things to note about 404 views:
 
-    * The 404 view is also called if Django doesn't find a match after checking
-      every regular expression in the URLconf.
+    * O view 404 é também chamado se o Django não encontrar uma combinação
+      depois de checar todas as expressões regulares no URLconf.
 
-    * If you don't define your own 404 view -- and simply use the
-      default, which is recommended -- you still have one obligation:
-      you must create a ``404.html`` template in the root of your
-      template directory. The default 404 view will use that template
-      for all 404 errors. The default 404 view will pass one variable
-      to the template: ``request_path``, which is the URL that resulted
-      in the 404.
+    * Se você não definir se próprio view 404 -- e simplesmente usar o padrão,
+      o que é recomendado -- você ainda tem uma obrigação: você deve criar um
+      template ``404.html`` na raiz do seu diretório de templates. Por padrão, o
+      view 404 usará este template para todos os erros 404. Por padrão, o view
+      404 passará uma variável para o template: ``request_path``, que é a URL
+      que resultou no erro 404.
 
-    * The 404 view is passed a ``RequestContext`` and will have access to
-      variables supplied by your ``TEMPLATE_CONTEXT_PROCESSORS`` setting (e.g.,
+    * Ao view 404 é passado um ``RequestContext`` e terá acesso a variáveis
+      fornecidas por sua configuração ``TEMPLATE_CONTEXT_PROCESSORS`` (e.g.,
       ``MEDIA_URL``).
 
-    * If ``DEBUG`` is set to ``True`` (in your settings module), then your 404
-      view will never be used, and the traceback will be displayed instead.
+    * Se ``DEBUG`` é setado como ``True`` (no seu módulo settings), então seu
+      view 404 nunca será usado, e o traceback será mostrado no lugar dele.
 
-The 500 (server error) view
-----------------------------
+O view 500 (server error)
+-------------------------
 
-Similarly, Django executes special-case behavior in the case of runtime errors
-in view code. If a view results in an exception, Django will, by default, call
-the view ``django.views.defaults.server_error``, which loads and renders the
-template ``500.html``.
+Similarmente, o Django executa um comportamente especial no caso de um erro de
+execução no código do view. Se um view resulta num exceção, o Djanto irá, por
+padrão, chamar o view ``django.view.defaults.server_error``, que carrega e
+renderiza  o template ``500.html``.
 
-This means you need to define a ``500.html`` template in your root template
-directory. This template will be used for all server errors. The default 500
-view passes no variables to this template and is rendered with an empty
-``Context`` to lessen the chance of additional errors.
+Isto significa que você precisa definir um template ``500.html`` na raiz do seu
+diretório de templates. Este template será usado para todos os erros de
+servidor. O view 500 padrão não passa variáveis para este template e é
+renderizado com um ``Context`` vazio para reduzir as chances de erros
+adicionais.
 
-This ``server_error`` view should suffice for 99% of Web applications, but if
-you want to override the view, you can specify ``handler500`` in your
-URLconf, like so::
+Este view ``server_error`` deve bastar para 99% das aplicações Web, mas se você
+quiser sobrescrever o view, você pode especificar ``handler500`` no seu URLconf,
+desta forma::
 
     handler500 = 'mysite.views.my_custom_error_view'
 
-Behind the scenes, Django determines the error view by looking for ``handler500``.
-By default, URLconfs contain the following line::
+Por trás das cenas, o Django obriga o view de erro a prcurar pelo
+``handler500``. Por padrão, os URLconfs contém a seguinte linha::
 
     from django.conf.urls.defaults import *
 
-That takes care of setting ``handler500`` in the current module. As you can see
-in ``django/conf/urls/defaults.py``, ``handler500`` is set to
-``'django.views.defaults.server_error'`` by default.
+Que se preocupa de setar ``handler500`` no módulo atual. Como você pode ver em
+``django/conf/urls/defaults.py``, ``handler500`` é setado para
+``'django.views.defaults.server_error'`` por padrão.
+
