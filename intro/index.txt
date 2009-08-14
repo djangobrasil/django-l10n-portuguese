@@ -3,7 +3,7 @@
 ..
 ..   $TranslationStatus: Done $
 ..   $OriginalRevision: 11298 $
-..   $TranslationAuthors: Wiliam Alves de Souza$
+..   $TranslationAuthors: Wiliam Alves de Souza, semente $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -20,7 +20,7 @@ Primeiros passos
 ================
 
 Novo no Django? Ou em desenvolvimento em geral? Bem, você veio ao lugar certo:
-leia este material para levantar-se depressa e correr.
+leia este material para entender e começar o quanto antes.
 
 .. toctree::
    :maxdepth: 1
@@ -35,20 +35,20 @@ leia este material para levantar-se depressa e correr.
   
 .. seealso::
 
-    Se você é novo em Python_, você pode querer começar obtendo uma idéia do
-    que é a linguagem. Django é 100% Python, então se você tiver um mínimo de
+    Se você é novo em Python_, você pode querer começar obtendo uma idéia do que
+    é a linguagem. Django é 100% Python, então se você tiver um mínimo de
     conforto com Python você provavelmente irá tirar mais proveito do Django.
 
-    Se você é inteiramente novo em programação, você pode querer começar com esta
-    `lista de recursos de Python para não programadores`_.
+    Se você é inteiramente novo em programação, você pode se interessar por esta
+    `lista de materiais sobre Python para não programadores`_.
    
-    Se você já conhece algumas outras linguagens e quer aprender Python
-    rapidamente, nos recomendamos `Dive Into Python`_ (Disponível também na
-    `versão dead-tree`). Se isso não é muito o seu estilo, Tem muitos outros
-    `livros sobre Python`_.
+    Se você já conhece outras linguagens e quer aprender Python rapidamente, nós
+    recomendamos `Dive Into Python`_ (disponível também na `versão
+    impressa`). Se não te agradar muito, existe muitos outros `livros sobre
+    Python`_.
    
     .. _python: http://python.org/
-    .. _lista de recursos de Python para não programadores: http://wiki.python.org/moin/BeginnersGuide/NonProgrammers
+    .. _lista de materiais sobre Python para não programadores: http://wiki.python.org/moin/BeginnersGuide/NonProgrammers
     .. _dive into python: http://diveintopython.org/
-    .. _versão dead-tree: http://www.amazon.com/exec/obidos/ASIN/1590593561/ref=nosim/jacobian20
+    .. _versão impressa: http://www.amazon.com/exec/obidos/ASIN/1590593561/ref=nosim/jacobian20
     .. _livros sobre Python: http://wiki.python.org/moin/PythonBooks
