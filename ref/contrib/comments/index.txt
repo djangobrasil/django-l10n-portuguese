@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11332 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,37 +16,40 @@
 
 .. _ref-contrib-comments-index:
 
-===========================
-Django's comments framework
-===========================
+==================================
+Framework de comentários do Django
+==================================
 
 .. module:: django.contrib.comments
-   :synopsis: Django's comment framework
+   :synopsis: Framework de comentários do Django
 
 .. highlightlang:: html+django
 
-Django includes a simple, yet customizable comments framework. The built-in
-comments framework can be used to attach comments to any model, so you can use
-it for comments on blog entries, photos, book chapters, or anything else.
+O Django inclui um simples, e ainda customizável framework de comentários. O
+framework embutido de comentários pode ser usado para atachar comentário a
+qualquer model, então você pode usá-lo para comentar entradas de blog, photos,
+capitulos de livros, ou algo mais.
 
 .. note::
 
-    If you used to use Django's older (undocumented) comments framework, you'll
-    need to upgrade. See the :ref:`upgrade guide <ref-contrib-comments-upgrade>`
-    for instructions.
+    Se você costumava usar o framework antigo (não documentado) de comentários
+    do Django, precisará atualizá-lo. Veja o :ref:`guia de atualização
+    <ref-contrib-comments-upgrade>` para instruções.
 
-Quick start guide
-=================
+Guia rápido de início
+=====================
 
-To get started using the ``comments`` app, follow these steps:
+Para começar a usar a aplicação ``comments``, siga estes passos:
 
-    #. Install the comments framework by adding ``'django.contrib.comments'`` to    
-       :setting:`INSTALLED_APPS`.
+    #. Instale o framework de comentários adicionando
+       ``'django.contrib.comments'`` ao :setting:`INSTALLED_APPS`.
 
-    #. Run ``manage.py syncdb`` so that Django will create the comment tables.
+    #. Execute ``manage.py syncdb``, e então o Django criará as tabelas do
+       comments.
 
-    #. Add the comment app's URLs to your project's ``urls.py``:
-   
+    #. Adicione as URLs da aplicação de comentário ao ``urls.py`` do seu
+       projeto:
+
        .. code-block:: python
 
             urlpatterns = patterns('',
@@ -55,122 +58,126 @@ To get started using the ``comments`` app, follow these steps:
                 ...
             )
 
-    #. Use the `comment template tags`_ below to embed comments in your
-       templates.
-    
-You might also want to examine :ref:`ref-contrib-comments-settings`.
-    
-Comment template tags
-=====================
+    #. Use as `tags de template do comments`_ abaixo para atachar
+       comentários em seus templates.
 
-You'll primarily interact with the comment system through a series of template
-tags that let you embed comments and generate forms for your users to post them.
+Você pode também querer examinar o :ref:`ref-contrib-comments-settings`.
 
-Like all custom template tag libraries, you'll need to :ref:`load the custom
-tags <loading-custom-template-libraries>` before you can use them::
+Tags de template do comments
+============================
+
+Você irá primeiramente interagir com o sistema de comentários através de uma
+série de tags de templates que deixam você atachar comentários e gerar
+formulários para seus usuários para postá-los.
+
+Como toda biblioteca de tags de template customizada, você precisará
+:ref:`carregá-as <loading-custom-template-libraries>` antes de você usá-las::
 
     {% load comments %}
 
-Once loaded you can use the template tags below.
+Uma vez carregadas você pode usar as tags de templates abaixo.
 
-Specifying which object comments are attached to
-------------------------------------------------
+Especificando para qual objeto o comentário será atachado
+---------------------------------------------------------
 
-Django's comments are all "attached" to some parent object. This can be any
-instance of a Django model. Each of the tags below gives you a couple of
-different ways you can specify which object to attach to:
+Os comentário do Django são todos "atachados" a algum objeto pai. Este pode ser
+qualquer instância de um model do Django. Cada uma das tags abaixo lhe dá
+diferentes formas de especificar a quais objetos serão atachados:
 
-    #. Refer to the object directly -- the more common method. Most of the
-       time, you'll have some object in the template's context you want
-       to attach the comment to; you can simply use that object.
-       
-       For example, in a blog entry page that has a variable named ``entry``, 
-       you could use the following to load the number of comments::
-       
+    #. Refere-se ao objeto diretamente -- o método mais comum. Na maioria das
+       vezes, vocÊ terá algum objeto no contexto do template que você deseja
+       atachar os comentários; você pode simplesmente usar este objeto.
+
+       Por exemplo, numa página de entrada de blog que tenha uma variável
+       chamada ``entry``, você poderia usar o seguinte, para carregar o número
+       de comentário::
+
             {% get_comment_count for entry as comment_count %}.
-            
-    #. Refer to the object by content-type and object id. You'd use this method
-       if you, for some reason, don't actually have direct access to the object.
-       
-       Following the above example, if you knew the object ID was ``14`` but
-       didn't have access to the actual object, you could do something like::
-       
+
+    #. Refere-se ao objeto por content-type e id do objeto. Você poderia usar
+       este método se você, por alguma razão, na verdade não tem o acesso direto
+       ao objeto.
+
+       No exemplo seguinte, se você souber que ID do objeto é ``14`` mas não tem
+       acesso ao objeto real, você poderia fazer algo tipo::
+
             {% get_comment_count for blog.entry 14 as comment_count %}
-            
-       In the above, ``blog.entry`` is the app label and (lower-cased) model
-       name of the model class.
+
+       Acima, ``blog.entry`` é um label de aplicação e nome de model (em
+       mínusculo) da classe model.
 
 .. templatetag:: get_comment_list
 
-Displaying comments
--------------------
+Mostrando comentários
+---------------------
 
-To get a the list of comments for some object, use :ttag:`get_comment_list`::
+Para obter uma lista de comentários para algum objeto, use
+:ttag:`get_comment_list`::
 
     {% get_comment_list for [object] as [varname] %}
 
-For example::
+Por exemplo::
 
     {% get_comment_list for event as comment_list %}
     {% for comment in comment_list %}
         ...
     {% endfor %}
-    
-This returns a list of :class:`~django.contrib.comments.models.Comment` objects;
-see :ref:`the comment model documentation <ref-contrib-comments-models>` for
-details.
+
+Isto retorna uma lista de objetos
+:class:`~django.contrib.comments.models.Comment`; veja :ref:`a documentação do
+model comment <ref-contrib-comments-models>` para detalhes.
 
 .. templatetag:: get_comment_count
 
-Counting comments
------------------
+Contando comentários
+--------------------
 
-To count comments attached to an object, use :ttag:`get_comment_count`::
+Para contar comentário atachados em um objeto, use :ttag:`get_comment_count`::
 
     {% get_comment_count for [object] as [varname]  %}
 
-For example::
+Por exemplo::
 
         {% get_comment_count for event as comment_count %}
-        
+
         <p>This event has {{ comment_count }} comments.</p>
-        
 
-Displaying the comment post form
---------------------------------
 
-To show the form that users will use to post a comment, you can use
-:ttag:`render_comment_form` or :ttag:`get_comment_form`
+Mostrando o formulário de comentários
+-------------------------------------
+
+Para mostrar o formulário que os usuários usarão para postar um comentário, você
+pode usar :ttag:`render_comment_form` ou :ttag:`get_comment_form`.
 
 .. templatetag:: render_comment_form
 
-Quickly rendering the comment form
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Rápidamente renderizando o formulário de comentário
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The easiest way to display a comment form is by using
+A forma mais fácil de mostrar um formulário de comentário é usando o
 :ttag:`render_comment_form`::
 
     {% render_comment_form for [object] %}
 
-For example::
+Por exemplo::
 
     {% render_comment_form for event %}
 
-This will render comments using a template named ``comments/form.html``, a
-default version of which is included with Django.
+Isto irá renderizar comentários usando um template chamado
+``comments/form.html``, uma versão padrão que é incluída no Django.
 
 .. templatetag:: get_comment_form
 
-Rendering a custom comment form
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Renderizando um formulário customizado de comentário
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you want more control over the look and feel of the comment form, you use use
-:ttag:`get_comment_form` to get a :ref:`form object <topics-forms-index>` that
-you can use in the template::
+Se você quiser mais controle sobre a aparência do formulário de comentário, você
+usa o :ttag:`get_comment_form` para pegar um :ref:`objeto form
+<topics-forms-index>` que você pode usar num template::
 
     {% get_comment_form for [object] as [varname] %}
-    
-A complete form might look like::
+
+Um formulário completo pode ficar tipo::
 
     {% get_comment_form for event as form %}
     <form action="{% comment_form_target %}" method="POST">
@@ -180,61 +187,66 @@ A complete form might look like::
         <td><input type="submit" name="preview" class="submit-post" value="Preview"></td>
       </tr>
     </form>
-    
-Be sure to read the `notes on the comment form`_, below, for some special
-considerations you'll need to make if you're using this approach.
+
+Esteja certo de ler as `notas sobre o formulário de comentário`_, abaixo, para
+alguma consideração especial que você poderá precisar fazer se estiver
+utilizando está abordagem.
 
 .. templatetag:: comment_form_target
 
-Getting the comment form target
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Pegando o alvo do formulário de comentário
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You may have noticed that the above example uses another template tag --
-:ttag:`comment_form_target` -- to actually get the ``action`` attribute of the
-form. This will always return the correct URL that comments should be posted to;
-you'll always want to use it like above::
+Você pode ter notado que o exemplo acima usa outra tag de template --
+:ttag:`comment_form_target` -- para na verdade obter o atributo ``action`` do
+formulário. Este sermpre retornará a URL correta para onde o comentário deverá
+ser postado;
 
     <form action="{% comment_form_target %}" method="POST">
 
-Redirecting after the comment post
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Redirecionando depois de uma postagem de comentário
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To specify the URL you want to redirect to after the comment has been posted,
-you can include a hidden form input called ``next`` in your comment form. For example::
- 
+Para especificar a URL que você quer redirecionar depois que um comentário foi
+postado, você pode incluir um campo invisível no formulário chamado ``next``.
+Por exemplo::
+
     <input type="hidden" name="next" value="{% url my_comment_was_posted %}" />
 
 .. _notes-on-the-comment-form:
 
-Notes on the comment form
--------------------------
+Notas sobre o formulário de comentário
+--------------------------------------
 
-The form used by the comment system has a few important anti-spam attributes you
-should know about:
+O formulário usado pelo sistema de comentário tem uns poucos atributos anti-spam
+importantes, que você deve conhecer:
 
-    * It contains a number of hidden fields that contain timestamps, information
-      about the object the comment should be attached to, and a "security hash"
-      used to validate this information. If someone tampers with this data -- 
-      something comment spammers will try -- the comment submission will fail.
-      
-      If you're rendering a custom comment form, you'll need to make sure to
-      pass these values through unchanged.
-      
-    * The timestamp is used to ensure that "reply attacks" can't continue very
-      long. Users who wait too long between requesting the form and posting a
-      comment will have their submissions refused.
-      
-    * The comment form includes a "honeypot_" field. It's a trap: if any data is
-      entered in that field, the comment will be considered spam (spammers often
-      automatically fill in all fields in an attempt to make valid submissions).
-      
-      The default form hides this field with a piece of CSS and further labels
-      it with a warning field; if you use the comment form with a custom
-      template you should be sure to do the same.
-    
+    * Ele contém um número de campos invisíveis que contém timestamps,
+      informações sobre o objeto ao qual o comentário deve estar atachado, e um
+      "hash de segurança"  usado para validar estas informações. Se alguém
+      adultera estes dados -- alguns spammers de comentários tentarão -- a
+      submissão falhará.
+
+      Se você estiver renderizando um formulário de comentário customizado, você
+      precisará garantir a passagem destes valores sem mudanças.
+
+    * O timestamp é usado para assegurar que "ataques de resposta" não durem
+      muito tempo. Usuário que esperam muito entre a requisição do formulário e
+      a postagem do comentário terão suas submissões recusadas.
+
+    * O formulário de comentário inclui um campo "honeypot_" (pote de mel). Isto
+      é uma armadilha: se algum dado é colocado nesse campo, o comentário será
+      considerado spam (spammers frequêntemente preenchem todos os campos
+      automaticamente, na tentativa de fazer submissões válidas).
+
+      O formulário padrão esconde este campo utilizando um CSS e coloca nele um
+      label adicional com um aviso de campo; Se você usar o formulário de
+      comentário com um template customizado, deve assegurar-se de fazer o
+      mesmo.
+
 .. _honeypot: http://en.wikipedia.org/wiki/Honeypot_(computing)
 
-More information
+Mais informações
 ================
 
 .. toctree::
