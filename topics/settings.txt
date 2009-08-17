@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11332 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -20,16 +20,16 @@
 Django settings
 ===============
 
-A Django settings file contains all the configuration of your Django
-installation. This document explains how settings work and which settings are
-available.
+O arquivo settings do Django contém toda configuração de sua instalação do
+Django. Este documento explica como o settings funciona e quais configurações
+estão disponíveis.
 
-The basics
-==========
+O básico
+========
 
-A settings file is just a Python module with module-level variables.
+Um arquivo settings é só um módulo Python com variáveis a nível de módulo.
 
-Here are a couple of example settings::
+Aqui tem um exemplo de configurações::
 
     DEBUG = False
     DEFAULT_FROM_EMAIL = 'webmaster@example.com'
@@ -37,56 +37,61 @@ Here are a couple of example settings::
 
 Because a settings file is a Python module, the following apply:
 
-    * It doesn't allow for Python syntax errors.
-    * It can assign settings dynamically using normal Python syntax.
-      For example::
+Pelo arquivo settings ser um módulo Python, o seguinte se aplica:
+
+    * Ele não permite erros de syntaxe do Python.
+    * Ele pode atribuir configurações dinâmicamente usando a sintaxe normal do
+      Python.
+
+      Por exemplo::
 
           MY_SETTING = [str(i) for i in range(30)]
 
-    * It can import values from other settings files.
+    * Ele pode importar valores de outros arquivos settings.
 
 .. _django-settings-module:
 
-Designating the settings
-========================
+Designando as configurações
+===========================
 
-When you use Django, you have to tell it which settings you're using. Do this
-by using an environment variable, ``DJANGO_SETTINGS_MODULE``.
+Quando você usa o Django, você tem de informá-lo quais configurações você está
+usando. Faça isso usando uma variável de ambiente, ``DJANGO_SETTINGS_MODULE``.
 
-The value of ``DJANGO_SETTINGS_MODULE`` should be in Python path syntax, e.g.
-``mysite.settings``. Note that the settings module should be on the
-Python `import search path`_.
+O valor do ``DJANGO_SETTINGS_MODULE`` deve ser na sintaxe de caminhos do Python,
+e.g. ``mysite.settings``. Note que o módulo settings deve estar no `caminho de
+import`_ do Python.
 
-.. _import search path: http://diveintopython.org/getting_to_know_python/everything_is_an_object.html
+.. _caminho de import: http://diveintopython.org/getting_to_know_python/everything_is_an_object.html
 
-The django-admin.py utility
----------------------------
+O utilitário django-admin.py
+----------------------------
 
-When using :ref:`django-admin.py <ref-django-admin>`, you can either set the
-environment variable once, or explicitly pass in the settings module each time
-you run the utility.
+Quando estiver usando o :ref:`django-admin.py <ref-django-admin>`, você pode
+setar ambos, variável de ambiente, ou explicitamente passar o módulo settings
+toda que você rodar o utilitário.
 
-Example (Unix Bash shell)::
+Exemplo (Unix Bash shell)::
 
     export DJANGO_SETTINGS_MODULE=mysite.settings
     django-admin.py runserver
 
-Example (Windows shell)::
+Exemplo (Windows shell)::
 
     set DJANGO_SETTINGS_MODULE=mysite.settings
     django-admin.py runserver
 
-Use the ``--settings`` command-line argument to specify the settings manually::
+Use o argumento de linha de comando ``--settings`` para especificar o settings
+manualmente::
 
     django-admin.py runserver --settings=mysite.settings
 
 .. _django-admin.py: ../django-admin/
 
-On the server (mod_python)
---------------------------
+No servidor (mod_python)
+------------------------
 
-In your live server environment, you'll need to tell Apache/mod_python which
-settings file to use. Do that with ``SetEnv``::
+No seu ambiente de servidor, você precisará dizer ao Apache/mod_python qual
+arquivo settings usar. Faça isso com ``SetEnv``::
 
     <Location "/mysite/">
         SetHandler python-program
@@ -94,141 +99,142 @@ settings file to use. Do that with ``SetEnv``::
         SetEnv DJANGO_SETTINGS_MODULE mysite.settings
     </Location>
 
-Read the :ref:`Django mod_python documentation <howto-deployment-modpython>` for
-more information.
+Leia a :ref:`documentação do mod_python do Django <howto-deployment-modpython>`
+para mais informações.
 
-Default settings
-================
+Configurações padrão
+====================
 
-A Django settings file doesn't have to define any settings if it doesn't need
-to. Each setting has a sensible default value. These defaults live in the
-module :file:`django/conf/global_settings.py`.
+Um arquivo settings do Django não tem que definir quaisquer configurações se não
+for necessário. Cada configuração tem um valor padrão. Estes valores padrão
+ficam no módulo :file:`django/conf/global_settings.py`.
 
-Here's the algorithm Django uses in compiling settings:
+Aqui tem o algorítimo que o Django usa ao compilar o settings:
 
-    * Load settings from ``global_settings.py``.
-    * Load settings from the specified settings file, overriding the global
-      settings as necessary.
+    * Carregar configurações do ``global_settings.py``.
+    * Carregar configurações do arquivos settings especificado, sobrescrevendo
+      as configurações se necessário.
 
-Note that a settings file should *not* import from ``global_settings``, because
-that's redundant.
+Note que o arquivo settings *não* deve importar o ``global_settings``, porquê
+isto é redundante.
 
-Seeing which settings you've changed
+Vendo quais configurações você mudou
 ------------------------------------
 
-There's an easy way to view which of your settings deviate from the default
-settings. The command ``python manage.py diffsettings`` displays differences
-between the current settings file and Django's default settings.
+Há uma forma fácil de ver quais das suas configurações desviam do padrão. O
+comando ``python manage.py diffsettings`` mostra as diferenças entre as
+configurações atuais e do arquivo de configuração padrão do Django.
 
-For more, see the :djadmin:`diffsettings` documentation.
+Para mais, veja a documentação do :djadmin:`diffsettings`.
 
-Using settings in Python code
-=============================
+Usando o settings em código Python
+==================================
 
-In your Django apps, use settings by importing the object
-``django.conf.settings``. Example::
+Em suas aplicações Django, use o settings importando o objeto
+``django.conf.settings``. Exemplo:
 
     from django.conf import settings
 
     if settings.DEBUG:
-        # Do something
+        # Faça algo
 
-Note that ``django.conf.settings`` isn't a module -- it's an object. So
-importing individual settings is not possible::
+Note que o ``django.conf.settings`` não é um módulo -- ele é um objeto. Então
+importar uma configuração individual não é possível::
 
-    from django.conf.settings import DEBUG  # This won't work.
+    from django.conf.settings import DEBUG  # Isto não funcionará.
 
-Also note that your code should *not* import from either ``global_settings`` or
-your own settings file. ``django.conf.settings`` abstracts the concepts of
-default settings and site-specific settings; it presents a single interface.
-It also decouples the code that uses settings from the location of your
-settings.
+Também perceba que seu código *não* deve importar o ``global_settings`` ou o seu
+próprio arquivo settings. O ``django.conf.settings`` abstrai o conceito de
+configurações globais e específicas do site; ele apresenta em uma única
+interface. Ele também dissocia o código que utiliza as definições a partir da
+localização do seu settings.
 
-Altering settings at runtime
-============================
+Alterando o settings em tempo de execução
+=========================================
 
-You shouldn't alter settings in your applications at runtime. For example,
-don't do this in a view::
+Você não deve alterar o settings nas suas aplicação em tempo de execução. Por
+exemplo, não faça isso em um view::
 
     from django.conf import settings
 
-    settings.DEBUG = True   # Don't do this!
+    settings.DEBUG = True   # Não faça isso!
 
-The only place you should assign to settings is in a settings file.
+O único lugar onde você deve modificar as configurações é no arquivos settings.
 
-Security
-========
+Segurança
+=========
 
-Because a settings file contains sensitive information, such as the database
-password, you should make every attempt to limit access to it. For example,
-change its file permissions so that only you and your Web server's user can
-read it. This is especially important in a shared-hosting environment.
+Por um arquivo settings conter informações sensíveis, como a senha do banco de
+dados, você deve fazer de tudo para evitar o limite de acesso a ele. Por
+exemplo, mude suas permissões de arquivo de forma que só você e seu usuário do
+servidor Web poderão lê-lo. Isso é excencialmente importante e um ambiente de
+hospedagem compartilhada.
 
-Available settings
-==================
+Configurações disponíveis
+=========================
 
-For a full list of available settings, see the :ref:`settings reference <ref-settings>`.
+Para uma lista completa das configurações disponíveis, veja a :ref:`referência
+do settings <ref-settings>`.
 
-Creating your own settings
-==========================
+Criando seu próprio settings
+============================
 
-There's nothing stopping you from creating your own settings, for your own
-Django apps. Just follow these conventions:
+Não há nada que impeça você de criar seu próprio settings, para sua aplicação
+Django. Só siga estas convenções:
 
-    * Setting names are in all uppercase.
-    * Don't reinvent an already-existing setting.
+    * Nomes de configurações são todos em maiúsculo.
+    * Não reinvente uma configuração já existente.
 
-For settings that are sequences, Django itself uses tuples, rather than lists,
-but this is only a convention.
+Para configurações sequênciais, o próprio Django utiliza tuplas, no lugar de
+listas, mas esta é somente uma convenção.
 
 .. _settings-without-django-settings-module:
 
-Using settings without setting DJANGO_SETTINGS_MODULE
-=====================================================
+Usando o settings sem a configuração DJANGO_SETTINGS_MODULE
+===========================================================
 
-In some cases, you might want to bypass the ``DJANGO_SETTINGS_MODULE``
-environment variable. For example, if you're using the template system by
-itself, you likely don't want to have to set up an environment variable
-pointing to a settings module.
+Em alguns casos, você pode querer não passa a variável de ambiente
+``DJANGO_SETTINGS_MODULE``. Por exemplo, se você estiver usado o sistema de
+template somente, você provavelmente não vai querer ter que configurar uma
+variável de ambiente apontando apra o módulo settings.
 
-In these cases, you can configure Django's settings manually. Do this by
-calling:
+Nestes casos, você pode configurar o settings do Django manualmente. Faça isso
+chamando:
 
 .. function:: django.conf.settings.configure(default_settings, **settings)
 
-Example::
+Exemplo::
 
     from django.conf import settings
 
     settings.configure(DEBUG=True, TEMPLATE_DEBUG=True,
         TEMPLATE_DIRS=('/home/web-apps/myapp', '/home/web-apps/base'))
 
-Pass ``configure()`` as many keyword arguments as you'd like, with each keyword
-argument representing a setting and its value. Each argument name should be all
-uppercase, with the same name as the settings described above. If a particular
-setting is not passed to ``configure()`` and is needed at some later point,
-Django will use the default setting value.
+Passe ao ``configure()`` tantos argumentos quantos você quiser, com cada
+argumento nomeado representando uma configuração e seu valor. Cada nome de
+argumento deve ser todo em maiúsculo, com o mesmo nome como descrito acima. Se
+uma configuração particular não for passada para o ``configure()`` e ela for
+necessária em algum ponto mais a frente, o Django usará o valor padrão.
 
-Configuring Django in this fashion is mostly necessary -- and, indeed,
-recommended -- when you're using a piece of the framework inside a larger
-application.
+Configurar o Django deste jeito é sobre tudo necessário -- e, realmente,
+recomendado -- quando você estiver usando uma parte do framework dentro de uma
+aplicação maior.
 
-Consequently, when configured via ``settings.configure()``, Django will not
-make any modifications to the process environment variables (see the
-documentation of :setting:`TIME_ZONE` for why this would normally occur). It's
-assumed that you're already in full control of your environment in these
-cases.
+Consequentemente, quando configurado via ``settings.configure()``, o Django não
+fará quaisquer modificações nas variáveis de ambiente do processo (veja a
+documentação do :setting:`TIME_ZONE` para saber porque isso normalmente ocorre).
+Ele assume que você já está no controle total do seu ambiente nestes casos.
 
-Custom default settings
------------------------
+Configurações padrão customizadas
+---------------------------------
 
-If you'd like default values to come from somewhere other than
-``django.conf.global_settings``, you can pass in a module or class that
-provides the default settings as the ``default_settings`` argument (or as the
-first positional argument) in the call to ``configure()``.
+Se você gostaria de valores padrão de outros lugares além do
+``django.conf.global_settings``, você pode passar num módulo ou classe que
+fornece as configurações padrão como o argumento ``default_settings`` (ou como o
+primeiro argumento posicional) na chamada do ``configure()``.
 
-In this example, default settings are taken from ``myapp_defaults``, and the
-``DEBUG`` setting is set to ``True``, regardless of its value in
+Neste exemplo, configurações padrão são recebidas do ``myapp_defaults``, e a
+configuração ``DEBUG`` é setada para ``True``, indiferente do seu valor em
 ``myapp_defaults``::
 
     from django.conf import settings
@@ -236,38 +242,38 @@ In this example, default settings are taken from ``myapp_defaults``, and the
 
     settings.configure(default_settings=myapp_defaults, DEBUG=True)
 
-The following example, which uses ``myapp_defaults`` as a positional argument,
-is equivalent::
+O exemplo a seguir, usa o ``myapp_defaults`` como um agumento posicional:
 
     settings.configure(myapp_defaults, DEBUG = True)
 
-Normally, you will not need to override the defaults in this fashion. The
-Django defaults are sufficiently tame that you can safely use them. Be aware
-that if you do pass in a new default module, it entirely *replaces* the Django
-defaults, so you must specify a value for every possible setting that might be
-used in that code you are importing. Check in
-``django.conf.settings.global_settings`` for the full list.
+Normalmente, você não precisará sobrescrever os valores padrão. O padrões do
+Django são suficientemente fáceis de lidar, e você pode seguramente utilizá-los.
+Seja cuidadoso se você for passar um novo módulo padrão, e ele *substituir*
+inteiramente os valores padrão do Django, então você deve especificar um valor
+para toda configuração possível que poderia ser utilizada pelo código que você
+está importanto. Confira a lista completa no
+``django.conf.settings.global_settings``.
 
-Either configure() or DJANGO_SETTINGS_MODULE is required
---------------------------------------------------------
+O configure() ou DJANGO_SETTINGS_MODULE são requeridos
+------------------------------------------------------
 
-If you're not setting the ``DJANGO_SETTINGS_MODULE`` environment variable, you
-*must* call ``configure()`` at some point before using any code that reads
-settings.
+Se você não configurar a variável de ambiente ``DJANGO_SETTINGS_MODULE``, você
+*deve* chamar ``configure()`` no mesmo ponto antes de usar qualquer código que
+leia configurações.
 
-If you don't set ``DJANGO_SETTINGS_MODULE`` and don't call ``configure()``,
-Django will raise an ``ImportError`` exception the first time a setting
-is accessed.
+Se você não setar o ``DJANGO_SETTINGS_MODULE`` e não chamar o ``configure()``,
+o Django lançará uma exceção ``ImportError`` na primeira vez que uma
+configuração for acessada.
 
-If you set ``DJANGO_SETTINGS_MODULE``, access settings values somehow, *then*
-call ``configure()``, Django will raise a ``RuntimeError`` indicating
-that settings have already been configured.
+Se você setar o ``DJANGO_SETTINGS_MODULE``, acessar valores do settings de
+alguma maneira, *e então* chamar o ``configure()``, o Django lançará um erro
+``RuntimeError`` indicando que as configurações já foram carregadas.
 
-Also, it's an error to call ``configure()`` more than once, or to call
-``configure()`` after any setting has been accessed.
+Também, é um erro chamar o ``configure()`` mais de uma vez, ou chamar
+``configure()`` depois que qualquer configuração fora acessada.
 
-It boils down to this: Use exactly one of either ``configure()`` or
-``DJANGO_SETTINGS_MODULE``. Not both, and not neither.
+Em resumo é isto: Use exatamente um dos dois, ``configure()`` ou
+``DJANGO_SETTINGS_MODULE``. Não os dois, nem nenhum.
 
 .. _@login_required: ../authentication/#the-login-required-decorator
 
