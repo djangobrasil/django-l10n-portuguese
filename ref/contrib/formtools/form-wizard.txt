@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11332 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -21,76 +21,82 @@ Form wizard
 ===========
 
 .. module:: django.contrib.formtools.wizard
-    :synopsis: Splits forms across multiple Web pages.
+    :synopsis: Divide formulários em múltiplas páginas Web.
 
 .. versionadded:: 1.0
 
-Django comes with an optional "form wizard" application that splits
-:ref:`forms <topics-forms-index>` across multiple Web pages. It maintains
-state in hashed HTML :samp:`<input type="hidden">` fields, and the data isn't
-processed server-side until the final form is submitted.
+O Django vem acompanhado uma aplicação opicional "form wizard" que divide
+:ref:`formulários <topics-forms-index>` em várias páginas Web. Ele mantém o
+estado num hash HTML de campos :samp:`<input type="hidden">`, e os dados não são
+processados no lado do servidor até que a última parte do formulário seja
+submetida.
 
-You might want to use this if you have a lengthy form that would be too
-unwieldy for display on a single page. The first page might ask the user for
-core information, the second page might ask for less important information,
-etc.
+Você pode querer usar isto com formulários muito compridos que seriam
+desagradáveis de se mostrar numa única página. A primeira página pode pedir ao
+usuário informações centrais, a segunda coisas menos importantes, e assim por
+diante.
 
-The term "wizard," in this context, is `explained on Wikipedia`_.
+o termo "wizard" (em português "assistente") neste contexto, é `explicado na
+Wikipedia`_.
 
-.. _explained on Wikipedia: http://en.wikipedia.org/wiki/Wizard_%28software%29
+.. _explicado na Wikipedia: http://en.wikipedia.org/wiki/Wizard_%28software%29
 .. _forms: ../forms/
 
-How it works
-============
+Como ele funciona
+=================
 
-Here's the basic workflow for how a user would use a wizard:
+Aqui temos o fluxo de funcionamento básico de como um usuário poderia usar um
+wizard:
 
-    1. The user visits the first page of the wizard, fills in the form and
-       submits it.
-    2. The server validates the data. If it's invalid, the form is displayed
-       again, with error messages. If it's valid, the server calculates a
-       secure hash of the data and presents the user with the next form,
-       saving the validated data and hash in :samp:`<input type="hidden">`
-       fields.
-    3. Step 1 and 2 repeat, for every subsequent form in the wizard.
-    4. Once the user has submitted all the forms and all the data has been
-       validated, the wizard processes the data -- saving it to the database,
-       sending an e-mail, or whatever the application needs to do.
+    1. O usuário visita a primeira página do wizard, preenche o formulário e o
+       submete.
+    2. O servidor valida os dados. Se eles forem inválidos, o formulário é
+       mostrado novamente, com mensagens de erro. Se for válido, o servidor
+       calcula um hash seguro dos dados e apresenta ao usuário o próximo
+       formulário, poupando os dados validados e o hash em campos
+       :samp:`<input type="hidden">`.
+    3. Repete o passo 1 e 2, para todos os formulários subsequentes do wizard.
+    4. Um vez que o usuário tenha submetido todos os formulários e todos os
+       dados estejam validados, o wizard processa os dados -- salvando-os no
+       banco de dados, enviando um e-mail, ou seja lá o que for que a aplicação
+       precise fazer.
 
-Usage
-=====
+Uso
+===
 
-This application handles as much machinery for you as possible. Generally, you
-just have to do these things:
+Esta aplicação manipula tantos mecanismos para você quanto possível.
+Geralmente, você só tem que fazer estas coisas:
 
-    1. Define a number of :mod:`django.forms`
-       :class:`~django.forms.forms.Form` classes -- one per wizard page.
-       
-    2. Create a :class:`~django.contrib.formtools.wizard.FormWizard` class
-       that specifies what to do once all of your forms have been submitted
-       and validated. This also lets you override some of the wizard's behavior.
-       
-    3. Create some templates that render the forms. You can define a single,
-       generic template to handle every one of the forms, or you can define a
-       specific template for each form.
-       
-    4. Point your URLconf at your
-       :class:`~django.contrib.formtools.wizard.FormWizard` class.
+    1. Definir um número de classes :mod:`django.forms` e
+       :class:`~django.forms.forms.Form` -- uma por página do wizard.
 
-Defining ``Form`` classes
-=========================
+    2. Criar uma classe :class:`~django.contrib.formtools.wizard.FormWizard` que
+       especifica o que fazer uma vez que todos os seus formulários foram
+       submetidos e validados. Isso também permite você sobrescrever alguns
+       comportamentos do wizard.
 
-The first step in creating a form wizard is to create the :class:`~django.forms.forms.Form` classes.
-These should be standard :mod:`django.forms`
-:class:`~django.forms.forms.Form` classes, covered in the
-:ref:`forms documentation <topics-forms-index>`.
+    3. Criar alguns templates que renderizam formulários. Você pode definir um
+       único template genérico para manipular todos os formulários, ou definir
+       um template específico para cada formulário.
 
-These classes can live anywhere in your codebase, but convention is to put them
-in a file called :file:`forms.py` in your application.
+    4. Apontar seu URLconf para sua classe
+       :class:`~django.contrib.formtools.wizard.FormWizard`.
 
-For example, let's write a "contact form" wizard, where the first page's form
-collects the sender's e-mail address and subject, and the second page collects
-the message itself. Here's what the :file:`forms.py` might look like::
+Definindo classes ``Form``
+==========================
+
+o primeiro passo para criar um "form wizard" é criar as classes
+:class:`~django.forms.forms.Form`. Estes deveriam ser padronizados com as
+classes :mod:`django.forms` e :class:`~django.forms.forms.Form`, explanados na
+:ref:`documentação do forms <topics-forms-index>`.
+
+Estas classes podem estar em qualquer lugar de sua base de código, mas por
+convenção são postas num arquivo chamado :file:`forms.py` dentro da sua
+aplicação.
+
+Por exemplo, vamos escrever um wizard "contact form", onde a primeira página
+coleta o endereço de email do remetente e o assunto, e a segunda página coleta
+a mensagem em si. Aqui tem um exemplo de como o :file:`forms.py` pode ficar::
 
    from django import forms
 
@@ -101,31 +107,33 @@ the message itself. Here's what the :file:`forms.py` might look like::
     class ContactForm2(forms.Form):
         message = forms.CharField(widget=forms.Textarea)
 
-**Important limitation:** Because the wizard uses HTML hidden fields to store
-data between pages, you may not include a :class:`~django.forms.fields.FileField`
-in any form except the last one.
+**Limitação importante:** Pelo wizard usar campos HTML hidden para armazenar
+dados entre as páginas, você não pode incluir um
+:class:`~django.forms.fields.FileField` em qualquer outra página, a não ser na
+última.
 
-Creating a ``FormWizard`` class
-===============================
+Criando uma classe ``FormWizard``
+=================================
 
-The next step is to create a :class:`~django.contrib.formtools.wizard.FormWizard`
-class, which should be a subclass of ``django.contrib.formtools.wizard.FormWizard``.
+O próximo passo é criar uma classe
+:class:`~django.contrib.formtools.wizard.FormWizard`, que deveria ser uma
+subclasse do ``django.contrib.formtools.wizard.FormWizard``.
 
-As your :class:`~django.forms.forms.Form` classes, this
-:class:`~django.contrib.formtools.wizard.FormWizard` class can live anywhere
-in your codebase, but convention is to put it in :file:`forms.py`.
+Assim como suas classes :class:`~django.forms.forms.Form`, esta classe
+:class:`~django.contrib.formtools.wizard.FormWizard` pode estar em qualquer
+lugar da sua base de código, mas por convenção é colocado no :file:`forms.py`.
 
-The only requirement on this subclass is that it implement a
-:meth:`~django.contrib.formtools.wizard.FormWizard.done()` method,
-which specifies what should happen when the data for *every* form is submitted
-and validated. This method is passed two arguments:
+O único requerimento desta subclasse é que ela implementa um método
+:meth:`~django.contrib.formtools.wizard.FormWizard.done()`, que especifica o que
+deve acontecer quando *todos* os formulários foram submetidos e validados. A
+este método é passado dois argumentos:
 
-    * ``request`` -- an :class:`~django.http.HttpRequest` object
-    * ``form_list`` -- a list of :mod:`django.forms`
-      :class:`~django.forms.forms.Form` classes
+    * ``request`` -- um objeto :class:`~django.http.HttpRequest`
+    * ``form_list`` -- uma lista de classes :mod:`django.forms`
+      :class:`~django.forms.forms.Form`
 
-In this simplistic example, rather than perform any database operation, the
-method simply renders a template of the validated data::
+Neste exemplo simplista, ao invés de executar qualquer operação de banco de
+dados, o método simplesmente renderiza um template com os dados validados::
 
     from django.shortcuts import render_to_response
     from django.contrib.formtools.wizard import FormWizard
@@ -136,9 +144,9 @@ method simply renders a template of the validated data::
                 'form_data': [form.cleaned_data for form in form_list],
             })
 
-Note that this method will be called via ``POST``, so it really ought to be a
-good Web citizen and redirect after processing the data. Here's another
-example::
+Note que este método será chamado via ``POST``, então ele realmente deveria ser
+um bom cidadão Web e redirecionar depois de processar os dados. Aqui tem outro
+exemplo::
 
     from django.http import HttpResponseRedirect
     from django.contrib.formtools.wizard import FormWizard
@@ -148,44 +156,47 @@ example::
             do_something_with_the_form_data(form_list)
             return HttpResponseRedirect('/page-to-redirect-to-when-done/')
 
-See the section `Advanced FormWizard methods`_ below to learn about more
-:class:`~django.contrib.formtools.wizard.FormWizard` hooks.
+Veja a seção `Métodos avançados do FormWizard`_ abaixo para aprender mais sobre
+os hooks do :class:`~django.contrib.formtools.wizard.FormWizard`.
 
-Creating templates for the forms
-================================
+Criando templates para formulários
+==================================
 
-Next, you'll need to create a template that renders the wizard's forms. By
-default, every form uses a template called :file:`forms/wizard.html`. (You can
-change this template name by overriding
-:meth:`~django.contrib.formtools.wizard..get_template()`, which is documented
-below. This hook also allows you to use a different template for each form.)
+Agora, precisamos criar um template que renderize os forumlários do wizard. Por
+padrão, todo formulário usa um template chamado :file:`forms/wizard.html`. (Você
+pode mudar este nome sobrescrevendo o método
+:meth:`~django.contrib.formtools.wizard..get_template()`, que está documentado
+abaixo. Este hook também permite você usar um template diferente para cada
+formulário.)
 
-This template expects the following context:
+Este template aguarda o seguinte contexto:
 
-    * ``step_field`` -- The name of the hidden field containing the step.
-    * ``step0`` -- The current step (zero-based).
-    * ``step`` -- The current step (one-based).
-    * ``step_count`` -- The total number of steps.
-    * ``form`` -- The :class:`~django.forms.forms.Form` instance for the
-      current step (either empty or with errors).
-    * ``previous_fields`` -- A string representing every previous data field,
-      plus hashes for completed forms, all in the form of hidden fields. Note
-      that you'll need to run this through the
-      :meth:`~django.template.defaultfilters.safe` template filter, to prevent
-      auto-escaping, because it's raw HTML.
+    * ``step_field`` -- O nome do campo hidden contento o passo.
+    * ``step0`` -- O passo atual (partindo de zero).
+    * ``step`` -- O passo atual (partindo de um).
+    * ``step_count`` -- O total de passos.
+    * ``form`` -- A instância do :class:`~django.forms.forms.Form` para o passo
+      atual (vazio ou com erros).
+    * ``previous_fields`` -- Uma string representando todos os campos de dados
+      anteriores, mais os hashes de formulários completados, todos em campos
+      hidden de formulário. Note que você precisará executar isto através do
+      template filter :meth:`~django.template.defaultfilters.safe`, para
+      previnir o auto escape, por ele é um HTML puro.
 
-It will also be passed any objects in :data:`extra_context`, which is a
-dictionary you can specify that contains extra values to add to the context.
-You can specify it in two ways:
+Ele também será transmitido a quaisquer objetos no :data:`extra_context`, que é
+um  dicionário que você pode especificar contendo valores extra a serem
+adicionados ao contexto.
+Você pode especificá-lo de duas formas:
 
-    * Set the :attr:`~django.contrib.formtools.wizard.FormWizard.extra_context`
-      attribute on your :class:`~django.contrib.formtools.wizard.FormWizard`
-      subclass to a dictionary.
+    * Sete o atributo
+      :attr:`~django.contrib.formtools.wizard.FormWizard.extra_context` na sua
+      subclasse :class:`~django.contrib.formtools.wizard.FormWizard` para um
+      dicionário.
 
-    * Pass :attr:`~django.contrib.formtools.wizard.FormWizard.extra_context`
-      as extra parameters in the URLconf.
+    * Passe :attr:`~django.contrib.formtools.wizard.FormWizard.extra_context`
+      como parâmetros extra no URLconf.
 
-Here's a full example template:
+Aqui tem um exemplo de template completo:
 
 .. code-block:: html+django
 
@@ -203,15 +214,15 @@ Here's a full example template:
     </form>
     {% endblock %}
 
-Note that ``previous_fields``, ``step_field`` and ``step0`` are all required
-for the wizard to work properly.
+Note que ``previous_fields``, ``step_field`` e ``step0`` são todos obrigatórios
+para o wizard funcionar perfeitamente.
 
-Hooking the wizard into a URLconf
-=================================
+Ligando o wizard num URLconf
+============================
 
-Finally, give your new :class:`~django.contrib.formtools.wizard.FormWizard`
-object a URL in ``urls.py``. The wizard takes a list of your form objects as
-arguments::
+Finalmente, dê ao seu novo objeto
+:class:`~django.contrib.formtools.wizard.FormWizard` uma URL no ``urls.py``. O
+wizard recebe uma lista de seus objetos form como argumentos::
 
     from django.conf.urls.defaults import *
     from mysite.testapp.forms import ContactForm1, ContactForm2, ContactWizard
@@ -220,115 +231,116 @@ arguments::
         (r'^contact/$', ContactWizard([ContactForm1, ContactForm2])),
     )
 
-Advanced FormWizard methods
-===========================
+Métodos avançados do FormWizard
+===============================
 
 .. class:: FormWizard
 
-    Aside from the :meth:`~django.contrib.formtools.wizard.FormWizard.done()`
-    method, :class:`~django.contrib.formtools.wizard.FormWizard` offers a few
-    advanced method hooks that let you customize how your wizard works.
+    Além do método :meth:`~django.contrib.formtools.wizard.FormWizard.done()`,
+    o :class:`~django.contrib.formtools.wizard.FormWizard` oferece alguns
+    métodos avançados que permitem você customizar o funcionamento do seu
+    wizard.
 
-    Some of these methods take an argument ``step``, which is a zero-based counter
-    representing the current step of the wizard. (E.g., the first form is ``0`` and
-    the second form is ``1``.)
+    Alguns destes métodos recebem um argumento ``step``, que é um contador,
+    partindo de zero, representando o passo corrente do wizard. (E.g., o
+    primeiro form é ``0`` e o segundo form é ``1``.)
 
 .. method:: FormWizard.prefix_for_step
 
-    Given the step, returns a :class:`~django.forms.forms.Form` prefix to
-    use. By default, this simply uses the step itself. For more, see the
-    :ref:`form prefix documentation <form-prefix>`.
-
-    Default implementation::
+    Dado um passo, retorna um prefixo de :class:`~django.forms.forms.Form` para
+    uso. Por padrão, este simplesmente usa o passo em si. Para mais, veja a
+    :ref:`documentação do prefixo de formulário <form-prefix>`.
+    Implementação padrão::
 
         def prefix_for_step(self, step):
             return str(step)
 
 .. method:: FormWizard.render_hash_failure
 
-    Renders a template if the hash check fails. It's rare that you'd need to
-    override this.
+    Renderiza um template se a verificação do hash falhar. É raro você precisar
+    sobrescrever este método.
 
-    Default implementation::
+    Implementação padrão::
 
         def render_hash_failure(self, request, step):
             return self.render(self.get_form(step), request, step,
-                context={'wizard_error': 'We apologize, but your form has expired. Please continue filling out the form from this page.'})
+                context={'wizard_error': 'Desculpe-nos, mas seu formulário expirou. Por favor continue preenchendo o formulário desta página.'})
 
 .. method:: FormWizard.security_hash
 
-    Calculates the security hash for the given request object and :class:`~django.forms.forms.Form` instance.
+    Calcula o hash de segurança para um dado objeto request e instância de
+    :class:`~django.forms.forms.Form`.
 
-    By default, this uses an MD5 hash of the form data and your
-    :setting:`SECRET_KEY` setting. It's rare that somebody would need to override
-    this.
+    Por padrão, ele usa um hash MD5 dos dados do formulário e sua configuração
+    :setting:`SECRET_KEY`. É raro alguém precisar sobrescrever isso.
 
-    Example::
+    Exemplo::
 
         def security_hash(self, request, form):
             return my_hash_function(request, form)
 
 .. method:: FormWizard.parse_params
 
-    A hook for saving state from the request object and ``args`` / ``kwargs`` that
-    were captured from the URL by your URLconf.
+    Um hook para salvar o estado do objeto request e ``args`` / ``kwargs`` que
+    foram capiturados da URL pelo seu URLconf.
 
-    By default, this does nothing.
+    Por padrão, isso não faz nada.
 
-    Example::
+    Exemplo::
 
         def parse_params(self, request, *args, **kwargs):
             self.my_state = args[0]
 
 .. method:: FormWizard.get_template
 
-    Returns the name of the template that should be used for the given step.
+    Retorna o nome do template que deveria ser usado para um certo passo.
 
-    By default, this returns :file:`'forms/wizard.html'`, regardless of step.
+    Por padrão, ele retorna :file:`'forms/wizard.html'`, indiferente do passo.
 
-    Example::
+    Exemplo::
 
         def get_template(self, step):
             return 'myapp/wizard_%s.html' % step
 
-    If :meth:`~FormWizard.get_template` returns a list of strings, then the wizard will use the
-    template system's :func:`~django.template.loader.select_template()`
-    function,
-    :ref:`explained in the template docs <ref-templates-api-the-python-api>`.
-    This means the system will use the first template that exists on the
-    filesystem. For example::
+    Se o :meth:`~FormWizard.get_template` retorna uma lista de strings, então o
+    wizard usará a função do sistema de template
+    :func:`~django.template.loader.select_template()`, :ref:`explanada na
+    documentação de template <ref-templates-api-the-python-api>`.
+    Isto significa que o sistema usará o primeiro template que existir no
+    sistema de arquivo. Por exemplo::
 
         def get_template(self, step):
             return ['myapp/wizard_%s.html' % step, 'myapp/wizard.html']
 
-    .. _explained in the template docs: ../templates_python/#the-python-api
+    .. _explanado na documentação de template: ../templates_python/#the-python-api
 
 .. method:: FormWizard.render_template
 
-    Renders the template for the given step, returning an
-    :class:`~django.http.HttpResponse` object.
+    Renderiza o template para o dado passo, retornando um objeto
+    :class:`~django.http.HttpResponse`.
 
-    Override this method if you want to add a custom context, return a different
-    MIME type, etc. If you only need to override the template name, use
-    :meth:`~FormWizard.get_template` instead.
+    Sobrescreva este método se você deseja adicionar um contexto customizado,
+    retornar um tipo MIME diferente, etc. Se você somente precisa sobrescrever o
+    nome do template, use o método :meth:`~FormWizard.get_template`.
 
-    The template will be rendered with the context documented in the
-    "Creating templates for the forms" section above.
+    O template será renderizado com o contexto documentado na seção acima
+    "criando templates para formulários".
 
 .. method:: FormWizard.process_step
 
-    Hook for modifying the wizard's internal state, given a fully validated
-    :class:`~django.forms.forms.Form` object. The Form is guaranteed to
-    have clean, valid data.
+    Um hook para modificar o estado interno do wizard, dado uma totalidade de
+    objetos :class:`~django.forms.forms.Form` validados. O Form está garantido a
+    ter dados limpos e válidos.
 
-    This method should *not* modify any of that data. Rather, it might want to set
-    ``self.extra_context`` or dynamically alter ``self.form_list``, based on
-    previously submitted forms.
+    Este método *não* deve modificar qualquer dado. Ao invés disso, ele pode
+    querer setar um ``self.extra_context`` ou dinamicamente alterar o
+    ``self.form_list``, baseado nos formulários submetidos anteriormente.
 
-    Note that this method is called every time a page is rendered for *all*
-    submitted steps.
+    Note que este método é chamado toda vez que uma página é renderizada para
+    *todos* os passos submetidos.
 
-    The function signature::
+    A assinatura da função::
 
         def process_step(self, request, form, step):
             # ...
+
