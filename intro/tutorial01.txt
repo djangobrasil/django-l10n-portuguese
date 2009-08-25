@@ -399,7 +399,7 @@ Choice (Escolha) está relacionada a uma única Poll (Enquete). O Django suporta
 todos os relacionamentos de banco de dados comuns: muitos-para-um,
 muitos-para-muitos e um-para-um.
 
-.. _`caminho do Python`: http://docs.python.org/tut/node8.html#SECTION008110000000000000000
+.. _`path do Python`: http://docs.python.org/tut/node8.html#SECTION008110000000000000000
 
 Ativando os models
 ==================
