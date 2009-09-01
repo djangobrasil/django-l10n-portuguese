@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 11268 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,138 +16,139 @@
 
 .. _ref-settings:
 
-Available settings
-==================
+Configurações disponíveis
+=========================
 
-Here's a full list of all available settings, in alphabetical order, and their
-default values.
+Aqui temos uma lista completa de todas as configurações disponíveis, em ordem
+alfabética, e seus valores padrãos.
 
 .. setting:: ABSOLUTE_URL_OVERRIDES
 
 ABSOLUTE_URL_OVERRIDES
 ----------------------
 
-Default: ``{}`` (Empty dictionary)
+Padrão: ``{}`` (Dicionário vazio)
 
-A dictionary mapping ``"app_label.model_name"`` strings to functions that take
-a model object and return its URL. This is a way of overriding
-``get_absolute_url()`` methods on a per-installation basis. Example::
+Um mapeamento de strings num dicionário ``"app_label.model_name"`` para funções
+que recebem um objeto model e retornam sua URL. Esta é a forma de sobrescrever
+métodos ``get_absolute_url()`` numa instalação básica. Exemplo::
 
     ABSOLUTE_URL_OVERRIDES = {
         'blogs.weblog': lambda o: "/blogs/%s/" % o.slug,
         'news.story': lambda o: "/stories/%s/%s/" % (o.pub_year, o.slug),
     }
 
-Note that the model name used in this setting should be all lower-case, regardless
-of the case of the actual model class name.
+Perceba que o nome do model usado nesta configuração deve ser todo em minúsculo,
+indiferente da configuração do nome da classe atual do model.
 
 .. setting:: ADMIN_FOR
 
 ADMIN_FOR
 ---------
 
-Default: ``()`` (Empty tuple)
+Padrão: ``()`` (Tupla vazia)
 
-Used for admin-site settings modules, this should be a tuple of settings
-modules (in the format ``'foo.bar.baz'``) for which this site is an admin.
+Usado para configurar módulos do site admin, ele deve ser uma tupla de módulos
+de configuração (no formato ``'foo.bar.baz'``) para que este site esteja no
+admin.
 
-The admin site uses this in its automatically-introspected documentation of
-models, views and template tags.
+O site admin usa isto na introspecção automática de documentação dos models,
+views e tags de templates.
 
 .. setting:: ADMIN_MEDIA_PREFIX
 
 ADMIN_MEDIA_PREFIX
 ------------------
 
-Default: ``'/media/'``
+Padrão: ``'/media/'``
 
-The URL prefix for admin media -- CSS, JavaScript and images used by
-the Django administrative interface. Make sure to use a trailing
-slash, and to have this be different from the ``MEDIA_URL`` setting
-(since the same URL cannot be mapped onto two different sets of
-files).
+Prefixo de URL para as mídias do admin -- CSS, Javascript e imagens usadas
+pela interface adminstrativa do Django. Assegure-se de usar um barra no final
+do caminho, e de ele ser diferente da configuração ``MEDIA_URL`` (uma vez que
+uma mesma URL não pode ser mapeada para dois conjuntos diferentes de arquivos).
 
 .. setting:: ADMINS
 
 ADMINS
 ------
 
-Default: ``()`` (Empty tuple)
+Padrão: ``()`` (Tupla vazia)
 
-A tuple that lists people who get code error notifications. When
-``DEBUG=False`` and a view raises an exception, Django will e-mail these people
-with the full exception information. Each member of the tuple should be a tuple
-of (Full name, e-mail address). Example::
+Uma tupla que lista pessoas que receberam notificações de erro. Quando o
+``DEBUG=False`` e uma view lança uma exceção, o Django enviará um e-mail para
+estas pessoas com a informação completa da exceção. Cada item da tupla deve
+ser uma tupla com (Nome completo, endereço de e-mail). Exemplo::
 
     (('John', 'john@example.com'), ('Mary', 'mary@example.com'))
 
-Note that Django will e-mail *all* of these people whenever an error happens.
-See :ref:`howto-error-reporting` for more information.
+Perceba que o Django enviará um e-mail para *todos* que estiverem na lista, toda
+vez que um erro ocorrer. Veja :ref:`howto-error-reporting` para mais
+informações.
 
 .. setting:: ALLOWED_INCLUDE_ROOTS
 
 ALLOWED_INCLUDE_ROOTS
 ---------------------
 
-Default: ``()`` (Empty tuple)
+Padrão: ``()`` (Tupla vazia)
 
-A tuple of strings representing allowed prefixes for the ``{% ssi %}`` template
-tag. This is a security measure, so that template authors can't access files
-that they shouldn't be accessing.
+Uma tupla de strings representando prefixos permitidos para a template tag
+``{% ssi %}``. Esta é uma medida de segurança, de modo que os autores de
+templates não possam acessar arquivos que não deveriam acessar.
 
-For example, if ``ALLOWED_INCLUDE_ROOTS`` is ``('/home/html', '/var/www')``,
-then ``{% ssi /home/html/foo.txt %}`` would work, but ``{% ssi /etc/passwd %}``
-wouldn't.
+Por exemplo, se ``ALLOWED_INCLUDE_ROOTS`` é ``('/home/html', '/var/www')``,
+então o ``{% ssi /home/html/foo.txt %}`` funcionaria, mas
+``{% ssi /etc/passwd %}`` não.
 
 .. setting:: APPEND_SLASH
 
 APPEND_SLASH
 ------------
 
-Default: ``True``
+Padrão: ``True``
 
-Whether to append trailing slashes to URLs. This is only used if
-``CommonMiddleware`` is installed (see :ref:`topics-http-middleware`). See also
-``PREPEND_WWW``.
+Para atachar uma barra ao final das URLS. Isto é utilizado somente se o
+``CommonMiddleware`` estiver instalado (veja :ref:`topics-http-middleware`).
+veja também ``PREPEND_WWW``.
 
 .. setting:: AUTHENTICATION_BACKENDS
 
 AUTHENTICATION_BACKENDS
 -----------------------
 
-Default: ``('django.contrib.auth.backends.ModelBackend',)``
+Padrão: ``('django.contrib.auth.backends.ModelBackend',)``
 
-A tuple of authentication backend classes (as strings) to use when attempting to
-authenticate a user. See the :ref:`authentication backends documentation
-<authentication-backends>` for details.
+Uma tupla de classes de backend de autenticação (como strings) para serem usadas
+nas tentativas de autenticação de usuários. Veja a :ref:`documentação de
+backends de autenticação <authentication-backends>` para mais detalhes.
 
 .. setting:: AUTH_PROFILE_MODULE
 
 AUTH_PROFILE_MODULE
 -------------------
 
-Default: Not defined
+Padrão: Not defined
 
-The site-specific user profile model used by this site. See
-:ref:`auth-profiles`.
+O model de "profile" de usuário específico para um site, e usado para este site.
+Veja :ref:`auth-profiles`.
 
 .. setting:: CACHE_BACKEND
 
 CACHE_BACKEND
 -------------
 
-Default: ``'locmem://'``
+Padrão: ``'locmem://'``
 
-The cache backend to use. See :ref:`topics-cache`.
+O backed de cache a ser utilizado. Veja :ref:`topics-cache`.
 
 .. setting:: CACHE_MIDDLEWARE_KEY_PREFIX
 
 CACHE_MIDDLEWARE_KEY_PREFIX
 ---------------------------
 
-Default: ``''`` (Empty string)
+Padrão: ``''`` (Empty string)
 
-The cache key prefix that the cache middleware should use. See
+A chave de prefixo do cache, que o middleware de cache deverá usar. Veja
 :ref:`topics-cache`.
 
 .. setting:: CACHE_MIDDLEWARE_SECONDS
@@ -155,63 +156,65 @@ The cache key prefix that the cache middleware should use. See
 CACHE_MIDDLEWARE_SECONDS
 ------------------------
 
-Default: ``600``
+Padrão: ``600``
 
-The default number of seconds to cache a page when the caching middleware or
-``cache_page()`` decorator is used.
+O número padrão de segundos para fazer cache e uma página quando o middleware de
+cache ou o decorador ``chache_page()`` for usado.
 
 .. setting:: DATABASE_ENGINE
 
 DATABASE_ENGINE
 ---------------
 
-Default: ``''`` (Empty string)
+Padrão: ``''`` (Empty string)
 
-The database backend to use. The built-in database backends are
-``'postgresql_psycopg2'``, ``'postgresql'``, ``'mysql'``, ``'sqlite3'``, and
-``'oracle'``.
+O backend de banco de dados a ser utilizado. Os backends de banco de dados
+embutidos no Django são ``'postgresql_psycopg2'``, ``'postgresql'``,
+``'mysql'``, ``'sqlite3'``, e ``'oracle'``.
 
-You can use a database backend that doesn't ship with Django by setting
-``DATABASE_ENGINE`` to a fully-qualified path (i.e.
-``mypackage.backends.whatever``). Writing a whole new database backend from
-scratch is left as an exercise to the reader; see the other backends for
-examples.
+Você pode usar um backend de banco de dados que não é entregue com o Django
+setando o ``DATABASE_ENGINE`` com um caminho completo (i.e.
+``mypackage.backends.whatever``). Escrever todo um novo backend de banco de
+dados do zero é deixado como um exercício para o leitor; estude os outros
+backends como exemplos.
 
 .. versionadded:: 1.0
-    Support for external database backends is new in 1.0.
+    Suporte a backends de bancos de dados externos é novidade da versão 1.0.
 
 .. setting:: DATABASE_HOST
 
 DATABASE_HOST
 -------------
 
-Default: ``''`` (Empty string)
+Padrão: ``''`` (Empty string)
 
-Which host to use when connecting to the database. An empty string means
-localhost. Not used with SQLite.
+Qual host será usado quando conectar-se a um banco de dados. Uma string vazia
+significa localhost. Não é utilizado com SQLite.
 
-If this value starts with a forward slash (``'/'``) and you're using MySQL,
-MySQL will connect via a Unix socket to the specified socket. For example::
+Se este valor começa com um uma barra (``'/'``) e você estiver usando MySQL,
+o MySQL se conectará a um socket Unix no socket especificado. Por exemplo::
 
     DATABASE_HOST = '/var/run/mysql'
 
-If you're using MySQL and this value *doesn't* start with a forward slash, then
-this value is assumed to be the host.
+Se você estiver usando o MySQL e este valor *não* começar com uma barra, então
+este valor é assumido como um host.
 
-If you're using PostgreSQL, an empty string means to use a Unix domain socket
-for the connection, rather than a network connection to localhost. If you
-explicitly need to use a TCP/IP connection on the local machine with
-PostgreSQL, specify ``localhost`` here.
+Se você estiver usando o PostgreSQL, uma string vazia significa usar um socket
+de domínio Unix para a conexão, ao invés de uma conexão de rede para localhost.
+Se você precisa ser explícito em usar uma conexão TCP/IP na máquina local com
+PostgreSQL, especifique ``localhost`` aqui.
+
 
 .. setting:: DATABASE_NAME
 
 DATABASE_NAME
 -------------
 
-Default: ``''`` (Empty string)
+Padrão: ``''`` (Empty string)
 
-The name of the database to use. For SQLite, it's the full path to the database
-file. When specifying the path, always use forward slashes, even on Windows
+O nome do banco de dados que será usado. Para o SQLite, este valor é o caminho
+completo do arquivo de banco de dados. Quando especificar o caminho, sempre
+use barras (``'/'``), mesmo no ambiente Windows
 (e.g. ``C:/homes/user/mysite/sqlite3.db``).
 
 .. setting:: DATABASE_OPTIONS
@@ -219,90 +222,93 @@ file. When specifying the path, always use forward slashes, even on Windows
 DATABASE_OPTIONS
 ----------------
 
-Default: ``{}`` (Empty dictionary)
+Padrão: ``{}`` (Empty dictionary)
 
-Extra parameters to use when connecting to the database. Consult backend
-module's document for available keywords.
+Parâmetros extra para usar quando contectar-se ao banco de dados. Consulte
+a documentação dos módulos backends para chaves disponíveis.
 
 .. setting:: DATABASE_PASSWORD
 
 DATABASE_PASSWORD
 -----------------
 
-Default: ``''`` (Empty string)
+Padrão: ``''`` (Empty string)
 
-The password to use when connecting to the database. Not used with SQLite.
+A senha a ser usada quando contectar com o banco de dados. Não é usado no
+SQLite.
 
 .. setting:: DATABASE_PORT
 
 DATABASE_PORT
 -------------
 
-Default: ``''`` (Empty string)
+Padrão: ``''`` (Empty string)
 
-The port to use when connecting to the database. An empty string means the
-default port. Not used with SQLite.
+A porta a ser usada quando conectar ao banco de dados. Uma string vazia
+significa a porta padrão. Não é usado com SQLite.
 
 .. setting:: DATABASE_USER
 
 DATABASE_USER
 -------------
 
-Default: ``''`` (Empty string)
+Padrão: ``''`` (Empty string)
 
-The username to use when connecting to the database. Not used with SQLite.
+O nome de usuário a ser usado quando conectar com o banco de dados. Não é usado
+com SQLite.
 
 .. setting:: DATE_FORMAT
 
 DATE_FORMAT
 -----------
 
-Default: ``'N j, Y'`` (e.g. ``Feb. 4, 2003``)
+Padrão: ``'N j, Y'`` (e.g. ``Feb. 4, 2003``)
 
-The default formatting to use for date fields on Django admin change-list
-pages -- and, possibly, by other parts of the system. See
-:ttag:`allowed date format strings <now>`.
+O formato padrão a ser utilizado para os campos de data no admin do Django, nas
+páginas de listagem -- e, possivelmente, por outras partes do sistema. Veja
+:ttag:`formatos de string permitidos para datas <now>`.
 
-See also ``DATETIME_FORMAT``, ``TIME_FORMAT``, ``YEAR_MONTH_FORMAT``
-and ``MONTH_DAY_FORMAT``.
+Veja também ``DATETIME_FORMAT``, ``TIME_FORMAT``, ``YEAR_MONTH_FORMAT`` e
+``MONTH_DAY_FORMAT``.
 
 .. setting:: DATETIME_FORMAT
 
 DATETIME_FORMAT
 ---------------
 
-Default: ``'N j, Y, P'`` (e.g. ``Feb. 4, 2003, 4 p.m.``)
+Padrão: ``'N j, Y, P'`` (e.g. ``Feb. 4, 2003, 4 p.m.``)
 
-The default formatting to use for datetime fields on Django admin change-list
-pages -- and, possibly, by other parts of the system. See
-:ttag:`allowed date format strings <now>`.
+O formato padrão usado nos campos de data no admin do Django, nas páginas de
+listagem -- e, possivelmente, por outras partes do sistema. Veja
+:ttag:`formatos de string permitidos para datas <now>`.
 
-See also ``DATE_FORMAT``, ``DATETIME_FORMAT``, ``TIME_FORMAT``,
-``YEAR_MONTH_FORMAT`` and ``MONTH_DAY_FORMAT``.
+Veja também ``DATE_FORMAT``, ``DATETIME_FORMAT``, ``TIME_FORMAT``,
+``YEAR_MONTH_FORMAT`` e ``MONTH_DAY_FORMAT``.
 
 .. setting:: DEBUG
 
 DEBUG
 -----
 
-Default: ``False``
+Padrão: ``False``
 
-A boolean that turns on/off debug mode.
+Um booleano que liga ou desliga o modo debug.
 
-If you define custom settings, `django/views/debug.py`_ has a ``HIDDEN_SETTINGS``
-regular expression which will hide from the DEBUG view anything that contains
-``'SECRET'``, ``'PASSWORD'``, or ``'PROFANITIES'``. This allows untrusted users to
-be able to give backtraces without seeing sensitive (or offensive) settings.
+Se você define uma configuração personalizada, `django/views/debug.py`_ tem uma
+expressão regular ``HIDDEN_SETTINGS`` será escondida da visão de DEBUG tudo que
+contém ``'SECRET'``, ``'PASSWORD'``, ou ``'PROFANITIES'``. Isso permite que
+usuários, não confiáveis, recebam backtraces sem ver configurações sensíveis do
+sistema.
 
-Still, note that there are always going to be sections of your debug output that
-are inappropriate for public consumption. File paths, configuration options, and
-the like all give attackers extra information about your server.
+Ainda, não que há seções de sua saída de depuração que são inapropriadas para o
+consumo do público. Caminhos de arquivos, opções de configuração, é como dar
+informações extra sobre o seu servidor aos atacantes.
 
-It is also important to remember that when running with ``DEBUG`` turned on, Django
-will remember every SQL query it executes. This is useful when you are debugging,
-but on a production server, it will rapidly consume memory.
+É importante lembrar também, que quando estiver rodando com o ``DEBUG`` ligado,
+o Django evoca todas as consultas SQL executadas. Isto é usual quando você está
+debugando, mas no servidor de produção, irá consumir rapidamente muita memória.
 
-Never deploy a site into production with ``DEBUG`` turned on.
+Nunca coloque um site em produção com o ``DEBUG`` ligado.
 
 .. _django/views/debug.py: http://code.djangoproject.com/browser/django/trunk/django/views/debug.py
 
@@ -311,53 +317,53 @@ DEBUG_PROPAGATE_EXCEPTIONS
 
 .. versionadded:: 1.0
 
-Default: ``False``
+Padrão: ``False``
 
-If set to True, Django's normal exception handling of view functions
-will be suppressed, and exceptions will propagate upwards.  This can
-be useful for some test setups, and should never be used on a live
-site.
-
+Se for True, a manipulador de exceção normal do Django das funções view será
+suprimido, e as exceções serão propagadas para os níveis superiores. Isto pode
+ser útil numa configuração de testes, e nunca deve ser usado num site em
+produção.
 
 .. setting:: DEFAULT_CHARSET
 
 DEFAULT_CHARSET
 ---------------
 
-Default: ``'utf-8'``
+Padrão: ``'utf-8'``
 
-Default charset to use for all ``HttpResponse`` objects, if a MIME type isn't
-manually specified. Used with ``DEFAULT_CONTENT_TYPE`` to construct the
-``Content-Type`` header.
+O charset a ser utilizado para todas os objetos ``HttpResponse``, se um tipo
+MIME  não for manualmente especificado. Usado com ``DEFAULT_CONTENT_TYPE`` para
+construir o cabeçalho ``Content-Type``.
 
 .. setting:: DEFAULT_CONTENT_TYPE
 
 DEFAULT_CONTENT_TYPE
 --------------------
 
-Default: ``'text/html'``
+Padrão: ``'text/html'``
 
-Default content type to use for all ``HttpResponse`` objects, if a MIME type
-isn't manually specified. Used with ``DEFAULT_CHARSET`` to construct the
-``Content-Type`` header.
+Tipo de conteúdo padrão a ser utilizado por todos os objetos ``HttpResponse``,
+se um tipo MIME não for manualmente especificado. Usado como
+``DEFAULT_CHARSET`` para construir o cabeçalho ``Content-Type``.
 
 .. setting:: DEFAULT_FROM_EMAIL
 
 DEFAULT_FILE_STORAGE
 --------------------
 
-Default: ``'django.core.files.storage.FileSystemStorage'``
+Padrão: ``'django.core.files.storage.FileSystemStorage'``
 
-Default file storage class to be used for any file-related operations that don't
-specify a particular storage system. See :ref:`topics-files`.
+Arquivo padrão de classe storage a ser usado por quaisquer operações
+relacionadas a arquivos que não especificam um sistema de armazenamento
+particular. Veja :ref:`topics-files`.
 
 DEFAULT_FROM_EMAIL
 ------------------
 
-Default: ``'webmaster@localhost'``
+Padrão: ``'webmaster@localhost'``
 
-Default e-mail address to use for various automated correspondence from the
-site manager(s).
+Endereço de email padrão para ser usado por várias correspondências automáticas
+para o(s) gerente(s) do site.
 
 .. setting:: DEFAULT_TABLESPACE
 
@@ -366,10 +372,10 @@ DEFAULT_TABLESPACE
 
 .. versionadded:: 1.0
 
-Default: ``''`` (Empty string)
+Padrão: ``''`` (Empty string)
 
-Default tablespace to use for models that don't specify one, if the
-backend supports it.
+Tablespace padrão a ser usado pelos models que não especificarem um, caso o
+backend suporte.
 
 .. setting:: DEFAULT_INDEX_TABLESPACE
 
@@ -378,79 +384,80 @@ DEFAULT_INDEX_TABLESPACE
 
 .. versionadded:: 1.0
 
-Default: ``''`` (Empty string)
+Padrão: ``''`` (Empty string)
 
-Default tablespace to use for indexes on fields that don't specify
-one, if the backend supports it.
+Tablespace padrão a ser usado para indexes dos campos que não especificar um,
+caso o backend suporte.
 
 .. setting:: DISALLOWED_USER_AGENTS
 
 DISALLOWED_USER_AGENTS
 ----------------------
 
-Default: ``()`` (Empty tuple)
+Padrão: ``()`` (Empty tuple)
 
-List of compiled regular expression objects representing User-Agent strings that
-are not allowed to visit any page, systemwide. Use this for bad robots/crawlers.
-This is only used if ``CommonMiddleware`` is installed (see
+Lista de objetos de expressões regulares compiladas representando strings de
+User-Agent que não são permitidos para visitar qualquer página, ao longo do
+sistema. Use isto contra robots/crawlers.
+Isso somente será usado se o ``CommonMiddleware`` estiver instalado (veja
 :ref:`topics-http-middleware`).
+
 
 .. setting:: EMAIL_HOST
 
 EMAIL_HOST
 ----------
 
-Default: ``'localhost'``
+Padrão: ``'localhost'``
 
-The host to use for sending e-mail.
+O servidor usado para enviar e-mail.
 
-See also ``EMAIL_PORT``.
+Veja também ``EMAIL_PORT``.
 
 .. setting:: EMAIL_HOST_PASSWORD
 
 EMAIL_HOST_PASSWORD
 -------------------
 
-Default: ``''`` (Empty string)
+Padrão: ``''`` (Empty string)
 
-Password to use for the SMTP server defined in ``EMAIL_HOST``. This setting is
-used in conjunction with ``EMAIL_HOST_USER`` when authenticating to the SMTP
-server. If either of these settings is empty, Django won't attempt
-authentication.
+Password do servidor SMTP definido no ``EMAIL_HOST``. Esta configuração é usada
+na conjunção com o ``EMAIL_HOST_USER`` durante a autenticação do servidor SMTP.
+Se ambas configurações forem vazias, o Django não tenta fazer a autenticação.
 
-See also ``EMAIL_HOST_USER``.
+Veja também ``EMAIL_HOST_USER``.
 
 .. setting:: EMAIL_HOST_USER
 
 EMAIL_HOST_USER
 ---------------
 
-Default: ``''`` (Empty string)
+Padrão: ``''`` (Empty string)
 
-Username to use for the SMTP server defined in ``EMAIL_HOST``. If empty,
-Django won't attempt authentication.
+Username para o servidor SMTP definido em ``EMMAIL_HOST``. Se vazio, o Django
+não tentará a autenticação.
 
-See also ``EMAIL_HOST_PASSWORD``.
+Veja também ``EMAIL_HOST_PASSWORD``.
 
 .. setting:: EMAIL_PORT
 
 EMAIL_PORT
 ----------
 
-Default: ``25``
+Padrão: ``25``
 
-Port to use for the SMTP server defined in ``EMAIL_HOST``.
+Porta do servidor SMTP definida no ``EMAIL_HOST``.
 
 .. setting:: EMAIL_SUBJECT_PREFIX
 
 EMAIL_SUBJECT_PREFIX
 --------------------
 
-Default: ``'[Django] '``
+Padrão: ``'[Django] '``
 
-Subject-line prefix for e-mail messages sent with ``django.core.mail.mail_admins``
-or ``django.core.mail.mail_managers``. You'll probably want to include the
-trailing space.
+Prefixo de assunto para as mensagens de e-mail enviadas com
+``django.core.mail.mail_admins`` ou ``django.core.mail.mail_managers``. Você
+provavelmente precisará incluir o espaço no final da linha.
 
 .. setting:: EMAIL_USE_TLS
 
@@ -459,9 +466,9 @@ EMAIL_USE_TLS
 
 .. versionadded:: 1.0
 
-Default: ``False``
+Padrão: ``False``
 
-Whether to use a TLS (secure) connection when talking to the SMTP server.
+Se for usar conexão TLS (segura) quando falar com o servidor SMTP.
 
 .. setting:: FILE_CHARSET
 
@@ -470,10 +477,10 @@ FILE_CHARSET
 
 .. versionadded:: 1.0
 
-Default: ``'utf-8'``
+Padrão: ``'utf-8'``
 
-The character encoding used to decode any files read from disk. This includes
-template files and initial SQL data files.
+A codificação de caracteres usado para decodificar qualquer arquivo lido do
+disco. Este inclui os arquivos de template e arquivos de dados SQL iniciais.
 
 .. setting:: FILE_UPLOAD_HANDLERS
 
@@ -482,12 +489,12 @@ FILE_UPLOAD_HANDLERS
 
 .. versionadded:: 1.0
 
-Default::
+Padrão::
 
     ("django.core.files.uploadhandler.MemoryFileUploadHandler",
      "django.core.files.uploadhandler.TemporaryFileUploadHandler",)
 
-A tuple of handlers to use for uploading. See :ref:`topics-files` for details.
+Uma tupla de manipuladores de upload. Veja :ref:`topics-files` para detalhes.
 
 .. setting:: FILE_UPLOAD_MAX_MEMORY_SIZE
 
@@ -496,10 +503,10 @@ FILE_UPLOAD_MAX_MEMORY_SIZE
 
 .. versionadded:: 1.0
 
-Default: ``2621440`` (i.e. 2.5 MB).
+Padrão: ``2621440`` (i.e. 2.5 MB).
 
-The maximum size (in bytes) that an upload will be before it gets streamed to
-the file system. See :ref:`topics-files` for details.
+O tamanho máximo (em bytes) de um upload terá, antes de ser redirecionado para o
+sistema de arquivo. Veja :ref:`topics-files` para detalhes.
 
 .. setting:: FILE_UPLOAD_TEMP_DIR
 
@@ -508,106 +515,106 @@ FILE_UPLOAD_TEMP_DIR
 
 .. versionadded:: 1.0
 
-Default: ``None``
+Padrão: ``None``
 
-The directory to store data temporarily while uploading files. If ``None``,
-Django will use the standard temporary directory for the operating system. For
-example, this will default to '/tmp' on \*nix-style operating systems.
+O diretório para armazenar os arquivos durante o processo de upload. Se
+``None``, o Django usará o diretório temporário padrão do sistema operacional.
+Por exemplo, ele será '/tmp' em sistemas operacionais \*nix.
 
-See :ref:`topics-files` for details.
+Veja :ref:`topics-files` para detalhes.
 
 .. setting:: FILE_UPLOAD_PERMISSIONS
 
 FILE_UPLOAD_PERMISSIONS
 -----------------------
 
-Default: ``None``
+Padrão: ``None``
 
-The numeric mode (i.e. ``0644``) to set newly uploaded files to. For
-more information about what these modes mean, see the `documentation for
+O modo numérico (i.e. ``0644``) para setar o novo arquivo enviado. Para mais
+informações sobre o que significa esses modos, veja a `documentação do
 os.chmod`_
 
-If this isn't given or is ``None``, you'll get operating-system
-dependent behavior. On most platforms, temporary files will have a mode
-of ``0600``, and files saved from memory will be saved using the
-system's standard umask.
+Se este não for dado ou for ``None``, você terá um comportamento dependendo do
+sistema operacional. Na maioria das plataformas, arquivos temporários possuem um
+mode ``0600``, e arquivos salvos a partir da memória serão salvos usando o
+umask padrão do sistema.
 
 .. warning::
 
-    **Always prefix the mode with a 0.**
+    **Sempre prefixe o mode com um 0.**
 
-    If you're not familiar with file modes, please note that the leading
-    ``0`` is very important: it indicates an octal number, which is the
-    way that modes must be specified. If you try to use ``644``, you'll
-    get totally incorrect behavior.
+    Se você não está familiarizado com os modes de arquivos, por favor perceba
+    que o zero, ``0``, que vai na frente é muito importante: ele indica um
+    número octal, pois é como os modos são especificados. Se você tentar usar
+    ``644``, você terá um comportamento totalmente errado.
 
 
-.. _documentation for os.chmod: http://docs.python.org/lib/os-file-dir.html
+.. _documentação do os.chmod: http://docs.python.org/lib/os-file-dir.html
 
 .. setting:: FIXTURE_DIRS
 
 FIXTURE_DIRS
 -------------
 
-Default: ``()`` (Empty tuple)
+Padrão: ``()`` (Empty tuple)
 
-List of locations of the fixture data files, in search order. Note that
-these paths should use Unix-style forward slashes, even on Windows. See
-:ref:`topics-testing`.
+Lista de localizações de arquivos de dados para fixtures, na ordem de busca.
+Note que estes caminhos devem usar o estilo Unix, com barras '/', mesmo no
+Windows. Veja :ref:`topics-testing`.
 
 FORCE_SCRIPT_NAME
 ------------------
 
-Default: ``None``
+Padrão: ``None``
 
-If not ``None``, this will be used as the value of the ``SCRIPT_NAME``
-environment variable in any HTTP request. This setting can be used to override
-the server-provided value of ``SCRIPT_NAME``, which may be a rewritten version
-of the preferred value or not supplied at all.
+Se não for ``None``, ele será usado como o valor de ambiente ``SCRIPT_NAME`` em
+qualquer requisição HTTP. Esta configuração pode ser usada para sobrescrevr o
+valor fornecido pelo servidor ``SCRIPT_NAME``, que pode ser uma versão reescrita
+do valor preferido ou não fornecido.
 
 .. setting:: IGNORABLE_404_ENDS
 
 IGNORABLE_404_ENDS
 ------------------
 
-Default: ``('mail.pl', 'mailform.pl', 'mail.cgi', 'mailform.cgi', 'favicon.ico', '.php')``
+Padrão: ``('mail.pl', 'mailform.pl', 'mail.cgi', 'mailform.cgi', 'favicon.ico', '.php')``
 
-See also ``IGNORABLE_404_STARTS`` and ``Error reporting via e-mail``.
+Veja também ``IGNORABLE_404_STARTS`` e ``Error reporting via e-mail``.
 
 .. setting:: IGNORABLE_404_STARTS
 
 IGNORABLE_404_STARTS
 --------------------
 
-Default: ``('/cgi-bin/', '/_vti_bin', '/_vti_inf')``
+Padrão: ``('/cgi-bin/', '/_vti_bin', '/_vti_inf')``
 
-A tuple of strings that specify beginnings of URLs that should be ignored by
-the 404 e-mailer. See ``SEND_BROKEN_LINK_EMAILS``, ``IGNORABLE_404_ENDS`` and
-the :ref:`howto-error-reporting`.
+Uma tupla de strings que especificam o início de URLs que devem ser ignoradas
+pelo e-mailer 404. Veja ``SEND_BROKEN_LINK_EMAILS``, ``INGNORABLE_404_ENDS`` e
+o :ref:`howto-error-reporting`.
 
 .. setting:: INSTALLED_APPS
 
 INSTALLED_APPS
 --------------
 
-Default: ``()`` (Empty tuple)
+Padrão: ``()`` (Empty tuple)
 
-A tuple of strings designating all applications that are enabled in this Django
-installation. Each string should be a full Python path to a Python package that
-contains a Django application, as created by :djadmin:`django-admin.py startapp
-<startapp>`.
+Uma tupla de strings designando todas as aplicações que estão habilitadas nesta
+instalação do Django. Cada string deve ser um caminho do Python completo para o
+pacote que contem uma aplicação Django, como criada pelo
+:djadmin:`django-admin.py startapp <startapp>`.
 
 .. setting:: INTERNAL_IPS
 
 INTERNAL_IPS
 ------------
 
-Default: ``()`` (Empty tuple)
+Padrão: ``()`` (Empty tuple)
 
-A tuple of IP addresses, as strings, that:
+Uma tupla de endereços de IP, como strings, que:
 
-    * See debug comments, when ``DEBUG`` is ``True``
-    * Receive X headers if the ``XViewMiddleware`` is installed (see
+    * Veja os comentários do debug, quando ``DEBUG`` for ``True``
+    * Recebe um cabeçalho X se o ``XViewMiddleware`` estiver instalado (veja
       :ref:`topics-http-middleware`)
 
 .. setting:: JING_PATH
@@ -615,22 +622,22 @@ A tuple of IP addresses, as strings, that:
 JING_PATH
 ---------
 
-Default: ``'/usr/bin/jing'``
+Padrão: ``'/usr/bin/jing'``
 
-Path to the "Jing" executable. Jing is a RELAX NG validator, and Django uses it
-to validate each ``XMLField`` in your models.
-See http://www.thaiopensource.com/relaxng/jing.html .
+Caminho para o executável "Jing". Jing é um validador RELAX NG, e o Django usa
+ele para validar cada ``XMLField`` nos seus models.
+Veja http://www.thaiopensource.com/relaxng/jing.html .
 
 .. setting:: LANGUAGE_CODE
 
 LANGUAGE_CODE
 -------------
 
-Default: ``'en-us'``
+Padrão: ``'en-us'``
 
-A string representing the language code for this installation. This should be in
-standard language format. For example, U.S. English is ``"en-us"``. See
-:ref:`topics-i18n`.
+Uma string representando o código do idioma para esta instalação. Este deve ser
+no formato de linguagens padrão. Por exemplo, para U.S. English é ``"en-us"``.
+Para :ref:`topics-i18n`.
 
 .. setting:: LANGUAGE_COOKIE_NAME
 
@@ -639,10 +646,10 @@ LANGUAGE_COOKIE_NAME
 
 .. versionadded:: 1.0
 
-Default: ``'django_language'``
+Padrão: ``'django_language'``
 
-The name of the cookie to use for the language cookie. This can be whatever you
-want (but should be different from ``SESSION_COOKIE_NAME``). See
+O nome que será usado para o cookie  de linguagem. Este pode ser qualquer nome
+que quiser (mas deve ser diferente do ``SESSINO_COOKIE_NAME``). Veja
 :ref:`topics-i18n`.
 
 .. setting:: LANGUAGES
@@ -650,7 +657,7 @@ want (but should be different from ``SESSION_COOKIE_NAME``). See
 LANGUAGES
 ---------
 
-Default: A tuple of all available languages. This list is continually growing
+Padrão: A tuple of all available languages. This list is continually growing
 and including a copy here would inevitably become rapidly out of date. You can
 see the current list of translated languages by looking in
 ``django/conf/global_settings.py`` (or view the `online source`_).
@@ -691,10 +698,10 @@ runtime -- so you'll have to remember to wrap the languages in the *real*
 LOCALE_PATHS
 ------------
 
-Default: ``()`` (Empty tuple)
+Padrão: ``()`` (Empty tuple)
 
-A tuple of directories where Django looks for translation files.
-See :ref:`translations-in-your-own-projects`.
+Uma tupla de diretórios onde o Django procura por arquivos de tradução.
+Veja :ref:`translations-in-your-own-projects`.
 
 .. setting:: LOGIN_REDIRECT_URL
 
@@ -703,13 +710,13 @@ LOGIN_REDIRECT_URL
 
 .. versionadded:: 1.0
 
-Default: ``'/accounts/profile/'``
+Padrão: ``'/accounts/profile/'``
 
-The URL where requests are redirected after login when the
-``contrib.auth.login`` view gets no ``next`` parameter.
+A URL para onde a requisição é redirecionada depois do login, quando o view
+``contrib.auth.login`` não recebe um parametro ``next``.
 
-This is used by the :func:`~django.contrib.auth.decorators.login_required`
-decorator, for example.
+Este é usado pelo decorador
+:func:`~django.contrib.auth.decorators.login_required`, por exemplo.
 
 .. setting:: LOGIN_URL
 
@@ -718,10 +725,10 @@ LOGIN_URL
 
 .. versionadded:: 1.0
 
-Default: ``'/accounts/login/'``
+Padrão: ``'/accounts/login/'``
 
-The URL where requests are redirected for login, specially when using the
-:func:`~django.contrib.auth.decorators.login_required` decorator.
+A URL onde as requisições são redirecionadas para o login, especialmente quando
+se usa o decorador :func:`~django.contrib.auth.decorators.login_required`.
 
 .. setting:: LOGOUT_URL
 
@@ -730,65 +737,65 @@ LOGOUT_URL
 
 .. versionadded:: 1.0
 
-Default: ``'/accounts/logout/'``
+Padrão: ``'/accounts/logout/'``
 
-LOGIN_URL counterpart.
+O contrário do LOGIN_URL.
 
 .. setting:: MANAGERS
 
 MANAGERS
 --------
 
-Default: ``()`` (Empty tuple)
+Padrão: ``()`` (Empty tuple)
 
-A tuple in the same format as ``ADMINS`` that specifies who should get
-broken-link notifications when ``SEND_BROKEN_LINK_EMAILS=True``.
+Uma tupla no mesmo formato do ``ADMINS`` que especifica quem deve receber
+notificações de links quebrados quando ``SEND_BROKEN_LINK_EMAILS=True``.
 
 .. setting:: MEDIA_ROOT
 
 MEDIA_ROOT
 ----------
 
-Default: ``''`` (Empty string)
+Padrão: ``''`` (Empty string)
 
-Absolute path to the directory that holds media for this installation.
-Example: ``"/home/media/media.lawrence.com/"`` See also ``MEDIA_URL``.
+Caminho absoluto para o diretório que mantem as mídias desta instalação.
+Exemplo: ``"/home/media/media.lawrence.com/"`` Veja também ``MEDIA_URL``.
 
 .. setting:: MEDIA_URL
 
 MEDIA_URL
 ---------
 
-Default: ``''`` (Empty string)
+Padrão: ``''`` (Empty string)
 
-URL that handles the media served from ``MEDIA_ROOT``.
-Example: ``"http://media.lawrence.com"``
+A URL que manipula a mídia servida por ``MEDIA_ROOT``.
+Exemplo: ``"http://media.lawrence.com"``
 
-Note that this should have a trailing slash if it has a path component.
+Note que este deve ter uma barra no final, se ele tem um componente de caminho.
 
-Good: ``"http://www.example.com/static/"``
-Bad: ``"http://www.example.com/static"``
+Bom: ``"http://www.example.com/static/"``
+Ruim: ``"http://www.example.com/static"``
 
 .. setting:: MIDDLEWARE_CLASSES
 
 MIDDLEWARE_CLASSES
 ------------------
 
-Default::
+Padrão::
 
     ("django.contrib.sessions.middleware.SessionMiddleware",
      "django.contrib.auth.middleware.AuthenticationMiddleware",
      "django.middleware.common.CommonMiddleware",
      "django.middleware.doc.XViewMiddleware")
 
-A tuple of middleware classes to use. See :ref:`topics-http-middleware`.
+Uma tupla de classes middleware para usar. Veja :ref:`topics-http-middleware`.
 
 .. setting:: MONTH_DAY_FORMAT
 
 MONTH_DAY_FORMAT
 ----------------
 
-Default: ``'F j'``
+Padrão: ``'F j'``
 
 The default formatting to use for date fields on Django admin change-list
 pages -- and, possibly, by other parts of the system -- in cases when only the
@@ -799,7 +806,7 @@ drilldown, the header for a given day displays the day and month. Different
 locales have different formats. For example, U.S. English would say
 "January 1," whereas Spanish might say "1 Enero."
 
-See :ttag:`allowed date format strings <now>`. See also ``DATE_FORMAT``,
+See :ttag:`allowed date format strings <now>`. Veja também ``DATE_FORMAT``,
 ``DATETIME_FORMAT``, ``TIME_FORMAT`` and ``YEAR_MONTH_FORMAT``.
 
 .. setting:: PREPEND_WWW
@@ -807,11 +814,12 @@ See :ttag:`allowed date format strings <now>`. See also ``DATE_FORMAT``,
 PREPEND_WWW
 -----------
 
-Default: ``False``
+Padrão: ``False``
 
 Whether to prepend the "www." subdomain to URLs that don't have it. This is only
 used if ``CommonMiddleware`` is installed (see :ref:`topics-http-middleware`).
-See also ``APPEND_SLASH``.
+Veja também ``APPEND_SLASH``.
+
 
 .. setting:: PROFANITIES_LIST
 
@@ -830,35 +838,36 @@ the default values, see the file `django/conf/global_settings.py`_.
 ROOT_URLCONF
 ------------
 
-Default: Not defined
+Padrão: Not defined
 
-A string representing the full Python import path to your root URLconf. For example:
-``"mydjangoapps.urls"``. Can be overridden on a per-request basis by
-setting the attribute ``urlconf`` on the incoming ``HttpRequest``
-object. See :ref:`how-django-processes-a-request` for details.
+Uma string representando o caminho de import completo do Python para o seu
+URLconf. Por exemplo: ``"mydjangoapps.urls"``. Pode ser sobrescrito caso
+necessário, definindo o atributo ``urlconf`` no objeto ``HttpRequest`` que
+chega. Veja :ref:`how-django-processes-a-request` para detalhes.
 
 .. setting:: SECRET_KEY
 
 SECRET_KEY
 ----------
 
-Default: ``''`` (Empty string)
+Padrão: ``''`` (Empty string)
 
-A secret key for this particular Django installation. Used to provide a seed in
-secret-key hashing algorithms. Set this to a random string -- the longer, the
-better. ``django-admin.py startproject`` creates one automatically.
+Uma chave secreta para esta instalação do Django em particular. Usada para
+prover uma chave secreta para o algorítimo de hash. Defina como uma string
+aleatória -- quanto maior, melhor. O ``django-amdin.py startproject`` cria uma
+automaticamente.
 
 .. setting:: SEND_BROKEN_LINK_EMAILS
 
 SEND_BROKEN_LINK_EMAILS
 -----------------------
 
-Default: ``False``
+Padrão: ``False``
 
 Whether to send an e-mail to the ``MANAGERS`` each time somebody visits a
 Django-powered page that is 404ed with a non-empty referer (i.e., a broken
 link). This is only used if ``CommonMiddleware`` is installed (see
-:ref:`topics-http-middleware`. See also ``IGNORABLE_404_STARTS``,
+:ref:`topics-http-middleware`. Veja também ``IGNORABLE_404_STARTS``,
 ``IGNORABLE_404_ENDS`` and :ref:`howto-error-reporting`.
 
 .. setting:: SERIALIZATION_MODULES
@@ -866,7 +875,7 @@ link). This is only used if ``CommonMiddleware`` is installed (see
 SERIALIZATION_MODULES
 ---------------------
 
-Default: Not defined.
+Padrão: Not defined.
 
 A dictionary of modules containing serializer definitions (provided as
 strings), keyed by a string identifier for that serialization type. For
@@ -879,10 +888,10 @@ example, to define a YAML serializer, use::
 SERVER_EMAIL
 ------------
 
-Default: ``'root@localhost'``
+Padrão: ``'root@localhost'``
 
-The e-mail address that error messages come from, such as those sent to
-``ADMINS`` and ``MANAGERS``.
+O endereço de e-mail de onde vem as mensagens de erro, como um dos que envia
+para os ``ADMINS`` e ``MANAGERS``.
 
 .. setting:: SESSION_ENGINE
 
@@ -891,45 +900,47 @@ SESSION_ENGINE
 
 .. versionadded:: 1.0
 
-Default: ``django.contrib.sessions.backends.db``
+Padrão: ``django.contrib.sessions.backends.db``
 
-Controls where Django stores session data. Valid values are:
+Controla onde o Django armazena os dados da sessão. Valores válidos são:
 
     * ``'django.contrib.sessions.backends.db'``
     * ``'django.contrib.sessions.backends.file'``
     * ``'django.contrib.sessions.backends.cache'``
 
-See :ref:`topics-http-sessions`.
+Veja :ref:`topics-http-sessions`.
 
 .. setting:: SESSION_COOKIE_AGE
 
 SESSION_COOKIE_AGE
 ------------------
 
-Default: ``1209600`` (2 weeks, in seconds)
+Padrão: ``1209600`` (2 weeks, in seconds)
 
-The age of session cookies, in seconds. See :ref:`topics-http-sessions`.
+A longevidade dos coockies de sessão, em segundos. Veja
+:ref:`topics-http-sessions`.
 
 .. setting:: SESSION_COOKIE_DOMAIN
 
 SESSION_COOKIE_DOMAIN
 ---------------------
 
-Default: ``None``
+Padrão: ``None``
 
-The domain to use for session cookies. Set this to a string such as
-``".lawrence.com"`` for cross-domain cookies, or use ``None`` for a standard
-domain cookie. See the :ref:`topics-http-sessions`.
+O domínio dos coockies de sessão. Defina isso como uma string, por exemplo
+``".lawrence.com"``, para coockies cross-domain, ou use ``None`` para um nome de
+domínio padrão . Veja o :ref:`topics-http-sessions`.
 
 .. setting:: SESSION_COOKIE_NAME
 
 SESSION_COOKIE_NAME
 -------------------
 
-Default: ``'sessionid'``
+Padrão: ``'sessionid'``
 
-The name of the cookie to use for sessions. This can be whatever you want (but
-should be different from ``LANGUAGE_COOKIE_NAME``). See the :ref:`topics-http-sessions`.
+O nome do coockie das sessões. Este pode ser qualquer um que você queira (mas
+deve ser diferente do ``LANGUAGE_COOKIE_NAME``). Veja
+:ref:`topics-http-sessions`.
 
 .. setting:: SESSION_COOKIE_PATH
 
@@ -938,7 +949,7 @@ SESSION_COOKIE_PATH
 
 .. versionadded:: 1.0
 
-Default: ``'/'``
+Padrão: ``'/'``
 
 The path set on the session cookie. This should either match the URL path of your
 Django installation or be parent of that path.
@@ -952,7 +963,7 @@ its own session cookie.
 SESSION_COOKIE_SECURE
 ---------------------
 
-Default: ``False``
+Padrão: ``False``
 
 Whether to use a secure cookie for the session cookie. If this is set to
 ``True``, the cookie will be marked as "secure," which means browsers may
@@ -964,7 +975,7 @@ See the :ref:`topics-http-sessions`.
 SESSION_EXPIRE_AT_BROWSER_CLOSE
 -------------------------------
 
-Default: ``False``
+Padrão: ``False``
 
 Whether to expire the session when the user closes his or her browser.
 See the :ref:`topics-http-sessions`.
@@ -976,7 +987,7 @@ SESSION_FILE_PATH
 
 .. versionadded:: 1.0
 
-Default: ``None``
+Padrão: ``None``
 
 If you're using file-based session storage, this sets the directory in
 which Django will store session data. See :ref:`topics-http-sessions`. When
@@ -988,7 +999,7 @@ directory for the system.
 SESSION_SAVE_EVERY_REQUEST
 --------------------------
 
-Default: ``False``
+Padrão: ``False``
 
 Whether to save the session data on every request. See
 :ref:`topics-http-sessions`.
@@ -998,7 +1009,7 @@ Whether to save the session data on every request. See
 SITE_ID
 -------
 
-Default: Not defined
+Padrão: Not defined
 
 The ID, as an integer, of the current site in the ``django_site`` database
 table. This is used so that application data can hook into specific site(s)
@@ -1013,7 +1024,7 @@ See :ref:`ref-contrib-sites`.
 TEMPLATE_CONTEXT_PROCESSORS
 ---------------------------
 
-Default::
+Padrão::
 
     ("django.core.context_processors.auth",
     "django.core.context_processors.debug",
@@ -1029,7 +1040,7 @@ of items to be merged into the context.
 TEMPLATE_DEBUG
 --------------
 
-Default: ``False``
+Padrão: ``False``
 
 A boolean that turns on/off template debug mode. If this is ``True``, the fancy
 error page will display a detailed report for any ``TemplateSyntaxError``. This
@@ -1039,14 +1050,14 @@ highlighted.
 Note that Django only displays fancy error pages if ``DEBUG`` is ``True``, so
 you'll want to set that to take advantage of this setting.
 
-See also ``DEBUG``.
+Veja também ``DEBUG``.
 
 .. setting:: TEMPLATE_DIRS
 
 TEMPLATE_DIRS
 -------------
 
-Default: ``()`` (Empty tuple)
+Padrão: ``()`` (Empty tuple)
 
 List of locations of the template source files, in search order. Note that
 these paths should use Unix-style forward slashes, even on Windows.
@@ -1058,7 +1069,7 @@ See :ref:`topics-templates`..
 TEMPLATE_LOADERS
 ----------------
 
-Default::
+Padrão::
 
      ('django.template.loaders.filesystem.load_template_source',
       'django.template.loaders.app_directories.load_template_source')
@@ -1071,7 +1082,7 @@ various sources. See :ref:`ref-templates-api`.
 TEMPLATE_STRING_IF_INVALID
 --------------------------
 
-Default: ``''`` (Empty string)
+Padrão: ``''`` (Empty string)
 
 Output, as a string, that the template system should use for invalid (e.g.
 misspelled) variables. See :ref:`invalid-template-variables`..
@@ -1083,7 +1094,7 @@ TEST_DATABASE_CHARSET
 
 .. versionadded:: 1.0
 
-Default: ``None``
+Padrão: ``None``
 
 The character set encoding used to create the test database. The value of this
 string is passed directly through to the database, so its format is
@@ -1101,7 +1112,7 @@ TEST_DATABASE_COLLATION
 
 .. versionadded:: 1.0
 
-Default: ``None``
+Padrão: ``None``
 
 The collation order to use when creating the test database. This value is
 passed directly to the backend, so its format is backend-specific.
@@ -1116,7 +1127,7 @@ manual for details).
 TEST_DATABASE_NAME
 ------------------
 
-Default: ``None``
+Padrão: ``None``
 
 The name of database to use when running the test suite.
 
@@ -1131,7 +1142,7 @@ See :ref:`topics-testing`.
 TEST_RUNNER
 -----------
 
-Default: ``'django.test.simple.run_tests'``
+Padrão: ``'django.test.simple.run_tests'``
 
 The name of the method to use for starting the test suite. See
 :ref:`topics-testing`.
@@ -1143,13 +1154,13 @@ The name of the method to use for starting the test suite. See
 TIME_FORMAT
 -----------
 
-Default: ``'P'`` (e.g. ``4 p.m.``)
+Padrão: ``'P'`` (e.g. ``4 p.m.``)
 
 The default formatting to use for time fields on Django admin change-list
 pages -- and, possibly, by other parts of the system. See
 :ttag:`allowed date format strings <now>`.
 
-See also ``DATE_FORMAT``, ``DATETIME_FORMAT``, ``TIME_FORMAT``,
+Veja também ``DATE_FORMAT``, ``DATETIME_FORMAT``, ``TIME_FORMAT``,
 ``YEAR_MONTH_FORMAT`` and ``MONTH_DAY_FORMAT``.
 
 .. setting:: TIME_ZONE
@@ -1157,7 +1168,7 @@ See also ``DATE_FORMAT``, ``DATETIME_FORMAT``, ``TIME_FORMAT``,
 TIME_ZONE
 ---------
 
-Default: ``'America/Chicago'``
+Padrão: ``'America/Chicago'``
 
 A string representing the time zone for this installation. `See available choices`_.
 (Note that list of available choices lists more than one on the same line;
@@ -1189,7 +1200,7 @@ running in the correct environment.
 URL_VALIDATOR_USER_AGENT
 ------------------------
 
-Default: ``Django/<version> (http://www.djangoproject.com/)``
+Padrão: ``Django/<version> (http://www.djangoproject.com/)``
 
 The string to use as the ``User-Agent`` header when checking to see if URLs
 exist (see the ``verify_exists`` option on :class:`~django.db.models.URLField`).
@@ -1199,7 +1210,7 @@ exist (see the ``verify_exists`` option on :class:`~django.db.models.URLField`).
 USE_ETAGS
 ---------
 
-Default: ``False``
+Padrão: ``False``
 
 A boolean that specifies whether to output the "Etag" header. This saves
 bandwidth but slows down performance. This is only used if ``CommonMiddleware``
@@ -1210,7 +1221,7 @@ is installed (see :ref:`topics-http-middleware`).
 USE_I18N
 --------
 
-Default: ``True``
+Padrão: ``True``
 
 A boolean that specifies whether Django's internationalization system should be
 enabled. This provides an easy way to turn it off, for performance. If this is
@@ -1222,7 +1233,7 @@ internationalization machinery.
 YEAR_MONTH_FORMAT
 -----------------
 
-Default: ``'F Y'``
+Padrão: ``'F Y'``
 
 The default formatting to use for date fields on Django admin change-list
 pages -- and, possibly, by other parts of the system -- in cases when only the
@@ -1233,5 +1244,6 @@ drilldown, the header for a given month displays the month and the year.
 Different locales have different formats. For example, U.S. English would say
 "January 2006," whereas another locale might say "2006/January."
 
-See :ttag:`allowed date format strings <now>`. See also ``DATE_FORMAT``,
+See :ttag:`allowed date format strings <now>`. Veja também ``DATE_FORMAT``,
 ``DATETIME_FORMAT``, ``TIME_FORMAT`` and ``MONTH_DAY_FORMAT``.
+
