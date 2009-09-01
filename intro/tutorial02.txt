@@ -3,7 +3,7 @@
 ..
 ..   $TranslationStatus: Done $
 ..   $OriginalRevision: 11348 $
-..   $TranslationAuthors: Anderson Santos $
+..   $TranslationAuthors: Anderson Santos, semente $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -28,9 +28,9 @@ automática do Django.
     Gerar sites de administração para sua equipe ou clientes adicionarem,
     editarem ou excluírem conteúdo é um trabalho entediante que não requer
     muita criatividade. Por essa razão, o Django automatiza toda a criação da
-    interface de administração para modelos.
+    interface de administração para os models.
 
-    O Django foi desenvolvido em um ambiente de redacao, onde havia
+    O Django foi desenvolvido em um ambiente de redação, onde havia
     uma clara separação entre "produtores de conteúdo" e o site "público".
     Gerentes de site usam o sistema para adicionar notícias, eventos,
     resultado de esportes, etc, e o conteúdo é exibido no site público. O
@@ -56,7 +56,7 @@ ativá-lo para sua instalação, siga estes três passos:
     * Edite seu arquivo ``meusite/urls.py`` e retire o comentário das linhas
       abaixo de "Uncomment the next two lines...". Esse arquivo é um URLconf;
       entraremos em detalhes sobre URLconfs no próximo tutorial. Por enquanto,
-      tudo o que você tem a saber é que ele mapeia as URL principais para as
+      tudo o que você tem que saber é que ele mapeia as URLs principais para as
       aplicações. No final você deve ter um ``urls.py`` parecido com este:
 
       .. parsed-literal::
@@ -102,9 +102,9 @@ Entre no site de administração
 ==============================
 
 Agora tente acessar o sistema. (Você criou uma conta de superusuário na
-primeira parte deste tutorial, lembra?  If you didn't create one or forgot the password you can
-:ref:`create another one <topics-auth-creating-superusers>`.)  Você deverá ver a página inicial do
-Django admin:
+primeira parte deste tutorial, lembra?  Se você não criou ou esqueceu a senha
+você pode :ref:`criar novamente <topics-auth-creating-superusers>`.)  Você
+deverá ver a página inicial do admin do Django:
 
 .. image:: _images/admin02t.png
    :alt: Página inicial do Django admin
@@ -119,60 +119,60 @@ Torne a aplicação de enquetes editável no site de administração
 Mas onde está nossa aplicação de enquete? Ela não está visível na página
 principal do admin.
 
-Somente uma coisa para ser feita: Nos temos que dizer para o site de
-administração que os objetos "Poll" possuem uma interface de administração.
-Para fazer isto, crie um arquivo chamado ``admin.py`` em seu diretorio ``polls``,
-E edite para que se pareca com isto::
+Apenas uma coisa a ser feita: Nós temos que dizer para o site de administração
+que os objetos "Poll" possuem uma interface de administração.  Para fazer isto,
+crie um arquivo chamado ``admin.py`` em seu diretório ``polls``, e edite para
+que se pareça com isto::
 
     from mysite.polls.models import Poll
     from django.contrib import admin
 
     admin.site.register(Poll)
 
-Você precisara reiniciar o servidor de desenvolvimento para ver suas modificações.
-Normalmente, o servidor recarregar automaticamente toda a vez que você modifica
-um arquivo, mais a ação de criar um novo arquivo não dispara a logica de
-recargar automaticamente.
+Você precisará reiniciar o servidor de desenvolvimento para ver suas
+modificações. Normalmente, o servidor recarrega automaticamente toda a vez que
+você modifica um arquivo, mas a ação de criar um novo arquivo não dispara a
+lógica de recarga automática.
 
-Explore a funcionalidade de administração gratuita
+Explore de graça a funcionalidade de administração
 ==================================================
 
-Agora que nós registramos ``Poll``, o Django sabe que ele deve ser exibida na
+Agora que nós registramos ``Poll``, o Django sabe que ela deve ser exibida na
 página principal do site de administração:
 
 .. image:: _images/admin03t.png
-   :alt: Página principal de administração, agora com enquetes exibidas
+   :alt: Página principal de administração, agora com as enquetes exibidas
 
-Clique em "Polls". Agora você está na página "lista de alteração" para
-as enquetes. Essa página exibe todas as enquetes do banco de dados e deixa
+Clique em "Polls". Agora você está na página "change list" (lista de edição)
+para as enquetes. Essa página exibe todas as enquetes do banco de dados e deixa
 que você escolha uma para alterar. Existe a enquete "What's up?" criada no
 primeiro tutorial:
 
 .. image:: _images/admin04t.png
-   :alt: Lista de alteração de enquetes
+   :alt: Lista de edição de enquetes
 
 Clique na enquete "What's up?" para editá-la:
 
 .. image:: _images/admin05t.png
    :alt: Formulário de edição para a enquete
 
-Coisas para notar aqui:
+Note que:
 
-    * O formulário é gerado automaticamente para modelo Poll.
+    * O formulário é gerado automaticamente para o model Poll.
 
     * Os diferentes tipos de campos (:class:`~django.db.models.DateTimeField`,
-      :class:`~django.db.models.CharField`) correspondem aos respectivos widgets
-      HTML de inserção. Cada tipo de campo sabe como exibir a si mesmo no site de
-      administração do Django.
+      :class:`~django.db.models.CharField`) correspondem aos respectivos
+      widgets HTML de inserção. Cada tipo de campo sabe como se exibir no site
+      de administração do Django.
 
     * Cada :class:`~django.db.models.DateTimeField` ganha um atalho JavaScript
-      gratuito. Datas têm um atalho "Hoje" e um calendário popup, e horas têm
-      um atalho "Agora" e um conveniente popup com listas de horas comumente
-      usadas.
+      de graça. Datas possuem um atalho "Hoje" e um calendário popup, e horas
+      têm um atalho "Agora" e um conveniente popup com listas de horas
+      utilizadas comumente.
 
 A parte inferior da página fornece uma série de opções:
 
-    * Salvar -- Salva as alterações e retorna à lista para edição para este tipo
+    * Salvar -- Salva as alterações e retorna à change list para este tipo
       de objeto.
 
     * Salvar e continuar editando -- Salva as alterações e retorna à página para
@@ -186,22 +186,22 @@ A parte inferior da página fornece uma série de opções:
 
 Altere a "Publication date" clicando nos atalhos "Hoje" e "Agora". Em seguida,
 clique em "Salvar e continuar editando." Então clique em "Histórico" no canto
-superior direito. Você verá uma página exibindo todas as alterações feitas neste
-objeto pelo site de administração do Django, com a hora e o nome de usuário d
-pessoa que fez a alteração:
+superior direito. Você verá uma página exibindo todas as alterações feitas
+neste objeto pelo site de administração do Django, com a hora e o nome de
+usuário da pessoa que fez a alteração:
 
 .. image:: _images/admin06t.png
    :alt: Página de histórico para o objeto Poll.
 
-Personalize o formulário de Administração
+Personalize o formulário de administração
 =========================================
 
 Tire alguns minutos para apreciar todo o código que você não teve que escrever.
-Ao registrar o modelo Poll com ``admin.site.register(Poll)``, o Django foi capaz de
-construir uma representação de formulário padrão. Frequentemente, você desejará
-controlar como o site de administração se parece e
-funciona. Você fará isso informando ao Django sobre as opções que você quer
-quando registra o objeto.
+Ao registrar o model Poll com ``admin.site.register(Poll)``, o Django foi capaz
+de construir uma representação de formulário padrão. Frequentemente, você
+desejará controlar como o site de administração se parecerá e funcionará. Você
+fará isso informando ao Django sobre as opções que você quer quando registra o
+objeto.
 
 Vamos ver como isso funciona reordenando os campos no formulário de edição.
 Substitua a linha ``admin.site.register(Poll)`` por::
@@ -211,9 +211,9 @@ Substitua a linha ``admin.site.register(Poll)`` por::
 
     admin.site.register(Poll, PollAdmin)
 
-Você seguirá este padrão -- criar um objeto modelo no site de administração e então
-passá-lo como segundo argumento para o ``admin.site.register()`` -- sempre que
-precisar alterar as opções do site de administração para um objeto.
+Você seguirá este padrão -- crie um objeto "model admin" e então o passe como
+segundo argumento para o ``admin.site.register()`` -- sempre que precisar
+alterar as opções do admin para um objeto.
 
 Essa mudança específica no código acima faz com que a "Publication date" apareça
 antes do campo "Question":
@@ -237,7 +237,7 @@ grupos (fieldsets)::
     admin.site.register(Poll, PollAdmin)
 
 O primeiro elemento de cada tupla em ``fieldsets`` é o título do grupo. Aqui
-está a aparência do nosso formulário agora:
+está como o nosso formulário se aparenta agora:
 
 .. image:: _images/admin08t.png
    :alt: O formulário possui grupos para campos agora
@@ -254,7 +254,7 @@ que não são comumente utilizados::
             ]
 
 .. image:: _images/admin09.png
-   :alt: Grupo de campos inicialmente recolhido
+   :alt: Fieldset inicialmente recolhido
 
 Adicionando objetos relacionados
 ================================
@@ -265,7 +265,7 @@ múltiplas ``Choices``, e a página de administração não exibe as opções.
 Ainda.
 
 Há duas formas de solucionar esse problema. A primeira é registrar ``Choice``
-no site de  administração, assim como fizemos com ``Poll``. Isto é fácil::
+no site de administração, assim como fizemos com ``Poll``. Isto é fácil::
 
     from mysite.polls.models import Choice
 
@@ -278,9 +278,10 @@ O formulário de "Add choice" se parece com isto:
    :alt: Página de admininitracao para Choice
 
 Nesse formulário, o campo "Poll" é uma caixa de seleção contendo todas as
-enquetes no banco de dados. O Django sabe que :class:`~django.db.models.ForeignKey`
-deve ser representada no site de administracao como um campo ``<select>``. No
-nosso caso, só existe uma enquete até agora.
+enquetes no banco de dados. O Django sabe que uma
+:class:`~django.db.models.ForeignKey` deve ser representada no site de
+administração como um campo ``<select>``. No nosso caso, só existe uma enquete
+até agora.
 
 Observe também o link "Add Another" ao lado de "Poll". Todo objeto com um
 relacionamento de chave estrangeira para outro ganha essa opção gratuitamente.
@@ -293,7 +294,7 @@ Mas, sério, essa é uma maneira ineficiente de adicionar objetos Choice ao
 sistema. Seria muito melhor se você pudesse adicionar várias opções diretamente
 quando criasse um objeto Poll. Vamos fazer isso acontecer.
 
-Remova a chamada ``register()`` do modelo Choice. Então edite o código de
+Remova a chamada ``register()`` do model Choice. Então edite o código de
 registro de ``Poll`` para que fique assim::
 
     class ChoiceInline(admin.StackedInline):
@@ -317,7 +318,7 @@ Carregue a página "Add poll" para ver como está:
 .. image:: _images/admin11t.png
    :alt: Página Add Poll contém Choices agora
 
-Funciona assim: Há três blocos para Choices relacionados -- como especificado
+Funciona assim: há três blocos para Choices relacionados -- como especificado
 em ``extra`` --, mas a cada vez que você retorna à página de "Alteração"
 para um objeto já criado, você ganha outros três slots extras.
 
@@ -336,8 +337,8 @@ são exibidos de uma maneira mais compacta, formatada em tabela:
 .. image:: _images/admin12.png
    :alt: A página Add poll agora com opções mais compactas
 
-Customize a página de lista de edição
-=====================================
+Personalize a página "change list"
+==================================
 
 Agora que a página de administração de Polls está bonita, vamos fazer algumas
 melhorias à página "change list" (lista de edição) -- aquela que exibe todas as
@@ -346,18 +347,18 @@ enquetes do sistema.
 Aqui como ela está até agora:
 
 .. image:: _images/admin04t.png
-   :alt: Página de lista de Enquetes
+   :alt: Página de edição de enquetes
 
 Por padrão, o Django mostra o ``str()`` de cada objeto. Mas algumas vezes seria
 mais útil se pudéssemos mostrar campos individuais. Para fazer isso, use a
 opção ``list_display``, que é uma tupla de nomes de campos a serem exibidos,
-como colunas, na página de lista de edição dos objetos::
+como colunas, na change list dos objetos::
 
     class PollAdmin(admin.ModelAdmin):
         # ...
         list_display = ('question', 'pub_date')
 
-Apenas para facilitar, vamos incluir o método customizado
+Apenas para facilitar, vamos incluir o método personalizado
 ``was_published_today`` do Tutorial 1::
 
     class PollAdmin(admin.ModelAdmin):
@@ -380,8 +381,8 @@ substituídos por espaços). Mas você pode alterar isso fornecendo ao método
         return self.pub_date.date() == datetime.date.today()
     was_published_today.short_description = 'Published today?'
 
-Vamos adicionar uma outra melhoria à página de lista de edição: Filtros. Adicione
-a seguinte linha ao ``PollAdmin``::
+Vamos adicionar uma outra melhoria à lista de edição: Filtros. Adicione a
+seguinte linha ao ``PollAdmin``::
 
     list_filter = ['pub_date']
 
@@ -389,7 +390,7 @@ Isso adiciona uma barra lateral "Filter" que permite às pessoas filtrarem
 a lista de edição pelo campo ``pub_date``:
 
 .. image:: _images/admin14t.png
-   :alt: Página de edição de Enquetes, atualizada
+   :alt: Página de edição de enquetes, atualizada
 
 O tipo de filtro exibido depende do tipo de campo que você está filtrando.
 Devido ao ``pub_date`` ser um DateTimeField, o Django sabe dar as opções
@@ -403,25 +404,25 @@ pesquisa::
 
 Isso adiciona um campo de pesquisa ao topo da lista de edição. Quando alguém
 informa termos de pesquisa, o Django irá pesquisar o campo ``question``. Você
-pode usar quantos campos quiser -- entretanto, porque ele usa um comando
-``LIKE`` internamente, seja moderado para manter seu banco de dados feliz.
+pode usar quantos campos quiser -- entretanto, por ele usar um comando ``LIKE``
+internamente, seja moderado para manter seu banco de dados feliz.
 
 Finalmente, porque os objetos Poll possuem datas, é conveniente acompanhar
 por data. Adicione esta linha::
 
     date_hierarchy = 'pub_date'
 
-Isso adiciona uma navegação hierárquica, por data, no topo da página lista de
-edição. No nível mais acima, ele exibe todos os anos disponíveis. Então desce
-para os meses e, por último, os dias.
+Isso adiciona uma navegação hierárquica, por data, no topo da change list. No
+nível mais acima, ele exibe todos os anos disponíveis. Então desce para os
+meses e, por último, os dias.
 
-Agora é também uma boa hora para observar que a lista de edição fornece uma
-paginação gratuitamente. O padrão é mostrar 50 itens por página. A página da
-lista de edição, campos de pesquisa, filtros, hierarquia por data, ordenação
-por cabeçalho de coluna, todos trabalham em sincronia como deveriam.
+Agora é também uma boa hora para observar que a change list fornece uma
+paginação gratuitamente. O padrão é mostrar 50 itens por página. A change list,
+campos de pesquisa, filtros, hierarquia por data, ordenação por cabeçalho de
+coluna, todos trabalham em sincronia como deveriam.
 
-Customize a aparencia do site de administracao
-==============================================
+Personalize a aparência do site de administracão
+================================================
 
 Obviamente, ter "Django administration" no topo de cada página de admin é
 ridículo. Isso é só um texto de exemplo.
@@ -430,9 +431,9 @@ ridículo. Isso é só um texto de exemplo.
 Django admin é feito com o próprio Django e conseqüentemente sua interface usa
 o sistema de templates nativo do Django. (How meta!)
 
-Abra seu arquivo de settings (``mysite/settings.py``, lembre-se) e veja a
+Abra seu arquivo de configurações (``mysite/settings.py``, lembre-se) e veja a
 configuração :setting:`TEMPLATE_DIRS`. :setting:`TEMPLATE_DIRS` é uma tupla de
-diretórios de arquivos que serão verificados quando carregar os templates do
+diretórios de arquivos que serão checados quando carregar os templates do
 Django, ou seja, caminhos de busca.
 
 Por padrão, :setting:`TEMPLATE_DIRS` vem vazio. Portanto, vamos adicionar uma
@@ -466,26 +467,26 @@ subdiretório ``templates/`` dentro de cada pacote de aplicação, para usar com
 fallback. Veja a :ref:`documentação do template loader <template-loaders>`
 - para a informação completa.
 
-Customize a página inicial de administracao
-===========================================
+Personalize a página inicial de administração
+=============================================
 
-De maneira similar, você pode querer customizar a aparencia da página
-inicial da pagina de administracao do Django.
+De maneira similar, você pode querer personalizar a aparência da página inicial
+do admin do Django.
 
-Por padrão, ele exibe todas as aplicações em :setting:`INSTALLED_APPS`, que estao
-registrados na aplicacao de administracao, em ordem alfabetica. E você pode querer
+Por padrão, ele exibe todas as aplicações em :setting:`INSTALLED_APPS`, que
+estão registrados na aplicação admin, em ordem alfabética. E você pode querer
 fazer alterações significativas no layout. Além do que, a página inicial é
-provavelmente a página mais importante da pagina de administracao, e deve se
+provavelmente a página mais importante da página de administração, e deve ser
 fácil de usar.
 
-O template a ser customizado é o ``admin/index.html``. (Faça o mesmo que foi
+O template a ser personalizado é o ``admin/index.html`` (faça o mesmo que foi
 feito com o ``admin/base_site.html`` na seção anterior -- copie ele do
 diretório padrão para o seu próprio diretório de templates). Edite o arquivo, e
 você verá que ele usa uma variavel de template chamada ``app_list``. Esta
-variavel contem todas as aplicações instaladas no Django. Em vez de usá-la, você
-pode explicitamente fazer os links para os objetos específicos na página de
-administracao de qualquer maneira que voce acha mais apropriado.
+variável contém todas as aplicações instaladas no Django. Em vez de usá-la,
+você pode explicitamente criar os links para os objetos específicos na página
+de administração da maneira que você achar mais apropriado.
 
-Quando você se sentir confortável com o site de administracao, leia a :ref:`parte
-3 deste tutorial <intro-tutorial03>` para começar a trabalhar com parte
-pública da enquete.
+Quando você se sentir confortável com o site de administração, leia a
+:ref:`parte 3 deste tutorial <intro-tutorial03>` para começar a trabalhar com
+parte pública da enquete.
