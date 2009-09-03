@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11298 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -15,69 +15,72 @@
 
 .. _topics-forms-index:
 
-==================
-Working with forms
-==================
+===========================
+Trabalhando com formulários
+===========================
 
-.. admonition:: About this document
+.. admonition:: Sobre este documento
 
-    This document provides an introduction to Django's form handling features.
-    For a more detailed look at the forms API, see :ref:`ref-forms-api`. For
-    documentation of the available field types, see :ref:`ref-forms-fields`.
+    Este documento fornece uma introdução as funcionalidades de manipulação de
+    formulários do Django. Para uma visão mais detalhada da API de forumulários,
+    veja :ref:`ref-forms-api`. Para documentação de tipos de campos disponíveis,
+    veja :ref:`ref-forms-fields`.
 
 .. highlightlang:: html+django
 
-``django.forms`` is Django's form-handling library.
+``django.forms`` é a biblioteca de manipulação de formulários.
 
-While it is possible to process form submissions just using Django's
-:class:`~django.http.HttpRequest` class, using the form library takes care of a
-number of common form-related tasks. Using it, you can:
+Embora seja possível processar submissões de formulário somente usando a classe
+:class:`~django.http.HttpRequest` do Django, usando a biblioteca de formulários
+fica melhor para a realização de uma série de tarefas comunus relacionadas a
+formulários. Usando-o, você pode:
 
-    1. Display an HTML form with automatically generated form widgets.
-    2. Check submitted data against a set of validation rules.
-    3. Redisplay a form in the case of validation errors.
-    4. Convert submitted form data to the relevant Python data types.
+    1. Mostrar um formulário HTML com widgets gerados automaticamente.
+    2. Verificar os dados submetidos conforme um conjuto de regras de validação.
+    3. Re-exibir um formulário no caso de haver erros de validação.
+    4. Converter dados de formulários submetidos a tipos relevantes do Python.
 
-Overview
-========
+Visão geral
+===========
 
-The library deals with these concepts:
+A biblioteca trabalha com os seguintes conceitos:
 
 .. glossary::
 
     Widget
-        A class that corresponds to an HTML form widget, e.g.
-        ``<input type="text">`` or ``<textarea>``. This handles rendering of the
-        widget as HTML.
+        Uma classe que corresponde a um widget de formulário HTML, e.g.
+        ``<input type="text">`` ou ``<textarea>``. Este manipula a renderização
+        do widget como HTML.
 
     Field
-        A class that is responsible for doing validation, e.g.
-        an ``EmailField`` that makes sure its data is a valid e-mail address.
+        Uma classe que é responsável por fazer validação, e.g. um ``EmailField``
+        que assegura-se de que seu dado é um endereço de e-mail válido.
 
     Form
-        A collection of fields that knows how to validate itself and
-        display itself as HTML.
+        Uma coleção de campos que sabem como validar e mostrar a si mesmo como
+        HTML.
 
     Form Media
-        The CSS and JavaScript resources that are required to render a form.
+        Os recursos CSS e Javascript que são requeridos para renderizar um
+        formulário.
 
-The library is decoupled from the other Django components, such as the database
-layer, views and templates. It relies only on Django settings, a couple of
-``django.utils`` helper functions and Django's internationalization hooks (but
-you're not required to be using internationalization features to use this
-library).
+A biblioteca é dissociada de outros componentes do Django, como a camada de
+banco de dados., views e templates. Ele invoca somente do Django settings,
+algumas funções helpers ``django.utils`` e hooks de internacionalização do
+Django (mas você não é obrigado a usar internacionalização para usar esta
+biblioteca).
 
-Form objects
+Objetos Form
 ============
 
-A Form object encapsulates a sequence of form fields and a collection of
-validation rules that must be fulfilled in order for the form to be accepted.
-Form classes are created as subclasses of ``django.forms.Form`` and 
-make use of a declarative style that you'll be familiar with if you've used
-Django's database models.
+Um objeto Form encapsula uma sequencia de campos de formulário e uma coleção de
+regras de validação que devem ser preenchidas para que o furmulário seja aceito.
+Classes Form são criadas como subclasses de ``django.forms.Form`` e fazem uso
+de um estilo declarativo, que se você irá familiarizar-se, pois ele é usado nos
+models de banco de dados do Django.
 
-For example, consider a form used to implement "contact me" functionality on a
-personal Web site:
+Por exemplo, considere um formulário usado para implementar a funcionalidade
+"contact me" num Web site pessoal:
 
 .. code-block:: python
 
@@ -89,78 +92,84 @@ personal Web site:
         sender = forms.EmailField()
         cc_myself = forms.BooleanField(required=False)
 
-A form is composed of ``Field`` objects. In this case, our form has four
-fields: ``subject``, ``message``, ``sender`` and ``cc_myself``. ``CharField``,
-``EmailField`` and ``BooleanField`` are just three of the available field types;
-a full list can be found in :ref:`ref-forms-fields`.
+Um formulário é composto de objetos ``Field``. Neste caso, nosso formulário tem
+quatro campos: ``subject``, ``message``, ``sender`` e ``cc_myself``.
+``CharField``, ``EmailField`` e ``BooleandField`` são somente três dos tipos
+tipos de campos disponíveis; uma lista completa pode ser encontrada em
+:ref:`ref-forms-fields`.
 
-If your form is going to be used to directly add or edit a Django model, you can
-use a :ref:`ModelForm <topics-forms-modelforms>` to avoid duplicating your model
-description.
+Se seu formulário será usado para adicionar ou editar um model do Django
+diretamente, você pode usar um :ref:`ModelForm <topics-forms-modelforms>` para
+evitar duplicações de suas descrições de model.
 
-Using a form in a view
-----------------------
+Usando um formulário num view
+-----------------------------
 
-The standard pattern for processing a form in a view looks like this:
+O padrão para processar um formulário num view parece com isso:
 
 .. code-block:: python
 
    def contact(request):
        if request.method == 'POST': # If the form has been submitted...
-           form = ContactForm(request.POST) # A form bound to the POST data
+           form = ContactForm(request.POST) # Um form com os dados de POST
            if form.is_valid(): # All validation rules pass
-               # Process the data in form.cleaned_data
+               # Processa os dados no form.cleaned_data
                # ...
-               return HttpResponseRedirect('/thanks/') # Redirect after POST
+               return HttpResponseRedirect('/thanks/') # Redireciona depois do POST
        else:
-           form = ContactForm() # An unbound form
+           form = ContactForm() # Um formulário vazio
 
        return render_to_response('contact.html', {
            'form': form,
        })
 
 
-There are three code paths here:
+Existem três caminhos de código aqui:
 
-    1. If the form has not been submitted, an unbound instance of ContactForm is
-       created and passed to the template.
-    2. If the form has been submitted, a bound instance of the form is created
-       using ``request.POST``. If the submitted data is valid, it is processed
-       and the user is re-directed to a "thanks" page.
-    3. If the form has been submitted but is invalid, the bound form instance is
-       passed on to the template.
+    1. Se o form não foi submetido, uma instância **unbound** do ContactForm é
+       criada e passada para o template.
+    2. Se o form foi submetido, uma instância **bound** do form é criada usando
+       o ``request.POST``. Se os dados submetidos forem válidos, ele é
+       processado e o usuário é redirecionado para uma página de
+       "agradecimento".
+    3. Se o formulário foi submitetido mas é inválido, uma instância **bound**
+       do form é passada ao template.
 
 .. versionchanged:: 1.0
-    The ``cleaned_data`` attribute was called ``clean_data`` in earlier releases.
+    O atributo ``cleanded_data`` foi chamado de ``clean_data`` em versões
+    anteriores.
 
-The distinction between **bound** and **unbound** forms is important. An unbound
-form does not have any data associated with it; when rendered to the user, it
-will be empty or will contain default values. A bound form does have submitted
-data, and hence can be used to tell if that data is valid. If an invalid bound
-form is rendered it can include inline error messages telling the user where
-they went wrong.
+A distinção entre formulários **bound** e **unbound** é importante. Um
+formulário unbound não tem qualquer dado associado a ele; quando o formlário for
+renderizado para o usuário, ele estará vazio ou conterá valores padrão. Um
+fomrulário bound possui dados submetidos, e por isso pode ser usado para dizer
+se os dados são válidos. Se um formulário bound e inválido for renderizado ele
+pode incluír mensagens de erros, dizendo ao usuário onde ele errou.
 
-See :ref:`ref-forms-api-bound-unbound` for further information on the
-differences between bound and unbound forms.
+Veja :ref:`ref-forms-api-bound-unbound` para mais informações sobre diferenças
+entre formulários bound e unbound.
 
-Handling file uploads with a form
----------------------------------
+Manipulando upload de arquivos com um form
+------------------------------------------
 
-To see how to handle file uploads with your form see
-:ref:`binding-uploaded-files` for more information.
+Para ver como manipular upload de arquivos com seu formulário veja
+:ref:`binding-uploaded-files` para mais informações.
 
-Processing the data from a form
--------------------------------
 
-Once ``is_valid()`` returns ``True``, you can process the form submission safe
-in the knowledge that it conforms to the validation rules defined by your form.
-While you could access ``request.POST`` directly at this point, it is better to
-access ``form.cleaned_data``. This data has not only been validated but will
-also be converted in to the relevant Python types for you. In the above example,
-``cc_myself`` will be a boolean value. Likewise, fields such as ``IntegerField``
-and ``FloatField`` convert values to a Python int and float respectively.
+Processando os dados de um formulário
+--------------------------------------
 
-Extending the above example, here's how the form data could be processed:
+Uma vez que ``is_valid()`` retorne ``True``, você pode processar a submissão do
+formulário sabendo que ela está em conformidade com as regras de validação
+definidas por seu formulário. Embora você possa acessar ``request.POST``
+diretamente deste ponto, é melhor acessar ``form.cleaned_data``. Estes dados não
+serão somente válidos, mas estarão convertidos em tipos relevantes do Python. No
+exemplo acima, ``cc_myself`` será um valor booleano. Da mesma forma, campos como
+``IntegerField`` e ``FloatField`` serão convertidos para int e float do Python
+respectivamente.
+
+Extendendo o exemplo acima, aqui temos como os dados do formulário podem ser
+processados:
 
 .. code-block:: python
 
@@ -178,25 +187,27 @@ Extending the above example, here's how the form data could be processed:
         send_mail(subject, message, sender, recipients)
         return HttpResponseRedirect('/thanks/') # Redirect after POST
 
-For more on sending e-mail from Django, see :ref:`topics-email`.
+Para saber mais sobre como enviar e-mail do Django, veja :ref:`topics-email`.
 
-Displaying a form using a template
-----------------------------------
+Mostrando um formulário usando um template
+------------------------------------------
 
-Forms are designed to work with the Django template language. In the above
-example, we passed our ``ContactForm`` instance to the template using the
-context variable ``form``. Here's a simple example template::
+O Forms é projetados para trabalhar com a linguagem de templates do Django. No
+exemplo acima, nós passamos nossa instância do ``ContactForm`` para o template
+usando a variável de contexto ``form``. Aqui temos um exemplo simples de
+template:
 
     <form action="/contact/" method="POST">
     {{ form.as_p }}
     <input type="submit" value="Submit" />
     </form>
 
-The form only outputs its own fields; it is up to you to provide the surrounding
-``<form>`` tags and the submit button.
+O form somente mostra seus próprios campos; ele não fornece tags ``<form>`` e
+o botão submit.
 
-``form.as_p`` will output the form with each form field and accompanying label
-wrapped in a paragraph. Here's the output for our example template::
+O ``forms.as_p`` mostrará o formulário com cada campo e sua respectiva label
+envolvidos por um parágrafo. Aqui temos uma saída para nosso template de
+exemplo::
 
    <form action="/contact/" method="POST">
    <p><label for="id_subject">Subject:</label>
@@ -210,21 +221,22 @@ wrapped in a paragraph. Here's the output for our example template::
    <input type="submit" value="Submit" />
    </form>
 
-Note that each form field has an ID attribute set to ``id_<field-name>``, which
-is referenced by the accompanying label tag. This is important for ensuring
-forms are accessible to assistive technology such as screen reader software. You
-can also :ref:`customize the way in which labels and ids are generated
-<ref-forms-api-configuring-label>`.
+Note que cada campo de formulário tem um atributo ID setado para
+``id_<field-name>``, que é referenciado por uma tag label. Isto é importante
+para assegurar que os formulários sejam acessíveis para tecnologias assistivas
+como leitores de tela. Você também pode :ref:`customizar a forma em que as
+labels e ids são gerados <ref-forms-api-configuring-label>`.
 
-You can also use ``form.as_table`` to output table rows (you'll need to provide
-your own ``<table>`` tags) and ``form.as_ul`` to output list items.
+Você pode também usar ``forms.as_table`` para gerar saídas como linhas de
+tabela. (você precisará fornecer suas próprias tags ``<table>``) e
+``forms.as_ul`` para mostrar em items de lista.
 
-Customizing the form template
------------------------------
+Personalizando o templates de formulário
+----------------------------------------
 
-If the default generated HTML is not to your taste, you can completely customize
-the way a form is presented using the Django template language. Extending the
-above example::
+Se o HTML padrão gerado não é de seu gosto, você pode personalizar completamente
+a forma como o formulário é apresentado usando a linguagem de template do
+Django. Extendendo o exemplo acima::
 
     <form action="/contact/" method="POST">
         <div class="fieldWrapper">
@@ -250,10 +262,11 @@ above example::
         <p><input type="submit" value="Send message" /></p>
     </form>
 
-Each named form-field can be output to the template using
-``{{ form.name_of_field }}``, which will produce the HTML needed to display the
-form widget. Using ``{{ form.name_of_field.errors }}`` displays a list of form
-errors, rendered as an unordered list. This might look like::
+Cada campo de formulário nomeado pode ser mostrado ao template usando
+``{{ form.nome_do_campo }}``, que produzirá o HTML necessário para mostrar o
+widget de formulário. Usando ``{{ form.nome_do_campo.errors }}`` mostra uma
+lista de erros de formulário, renderizado como uma lista não ordenada. Ele pode
+parecer com isso::
 
    <ul class="errorlist">
        <li>Sender is required.</li>
@@ -262,6 +275,9 @@ errors, rendered as an unordered list. This might look like::
 The list has a CSS class of ``errorlist`` to allow you to style its appearance.
 If you wish to further customize the display of errors you can do so by looping
 over them::
+A lista tem uma classe CSS ``errorlist`` para permitir que você mude sua
+aparência. Se você desejar personalizar a exibição dos erros, você pode fazê-lo
+iterando sobre eles::
 
     {% if form.subject.errors %}
         <ol>
@@ -271,12 +287,12 @@ over them::
         </ol>
     {% endif %}
 
-Looping over the form's fields
-------------------------------
+Iterando sobre os campos de formulário
+--------------------------------------
 
-If you're using the same HTML for each of your form fields, you can reduce
-duplicate code by looping through each field in turn using a ``{% for %}``
-loop::
+Se você estiver usando o mesmo HTML para cada um dos seus campos de formulário,
+você pode reduzir a duplicidade de código iterando sobre os campos usando um
+loop ``{% for %}``::
 
     <form action="/contact/" method="POST">
         {% for field in form %}
@@ -288,44 +304,44 @@ loop::
         <p><input type="submit" value="Send message" /></p>
     </form>
 
-Within this loop, ``{{ field }}`` is an instance of :class:`BoundField`.
-``BoundField`` also has the following attributes, which can be useful in your
+Dentro deste loop, ``{{ field }}`` é uma instância de :class`BoundField`.
+O ``BoundField`` também tem os seguintes atributos, que podem ser úteis nos seus
 templates:
 
     ``{{ field.label }}``
-        The label of the field, e.g. ``E-mail address``.
+        A label do campo, e.g. ``E-mail address``
 
     ``{{ field.label_tag }}``
-        The field's label wrapped in the appropriate HTML ``<label>`` tag,
+        A label do campo envolvida por uma tag HTML ``<label>``,
         e.g. ``<label for="id_email">E-mail address</label>``
 
     ``{{ field.html_name }}``
-        The name of the field that will be used in the input element's name
-        field. This takes the form prefix into account, if it has been set.
+        O nome do campo que será usado no nome do elemento campo input.
+        Este ercebe o prefixo do formulário, se ele tiver sido definido
 
     ``{{ field.help_text }}``
-        Any help text that has been associated with the field.
+        Qualquer texto de ajuda que deva ser associado com o campo.
 
     ``{{ field.errors }}``
-        Outputs a ``<ul class="errorlist">`` containing any validation errors
-        corresponding to this field. You can customize the presentation of
-        the errors with a ``{% for error in field.errors %}`` loop. In this
-        case, each object in the loop is a simple string containing the error
-        message.
+        Gera um ``<ul class="errorlist">`` contendo qualquer erro de validação
+        correspondendo a este campo. Você pode personalizar a apresentação dos
+        erros com um loop ``{% for error in field.errors %}``. Neste caso, cada
+        objeto no loop é uma string simples contendo a mensagem de erro.
 
-Reusable form templates
------------------------
+Templates de formulário reusáveis
+---------------------------------
 
-If your site uses the same rendering logic for forms in multiple places, you
-can reduce duplication by saving the form's loop in a standalone template and
-using the :ttag:`include` tag to reuse it in other templates::
+Se seu site usa a mesma lógica de renderização para formulários em vários
+lugares, você pode reduzir a duplicidade utilizando um loop de formulário num
+template autônomo e usando a tag :ttag:`include` para reusá-lo noutros
+templates::
 
     <form action="/contact/" method="POST">
         {% include "form_snippet.html" %}
         <p><input type="submit" value="Send message" /></p>
     </form>
 
-    # In form_snippet.html:
+    # No form_snippet.html:
 
     {% for field in form %}
         <div class="fieldWrapper">
@@ -334,8 +350,8 @@ using the :ttag:`include` tag to reuse it in other templates::
         </div>
     {% endfor %}
 
-If the form object passed to a template has a different name within the
-context, you can alias it using the :ttag:`with` tag::
+Se o objeto form passado a um template tem um nome diferente dentro do contexto,
+você pode criar um alias usando a tag :ttag:`with`::
 
     <form action="/comments/add/" method="POST">
         {% with comment_form as form %}
@@ -344,13 +360,13 @@ context, you can alias it using the :ttag:`with` tag::
         <p><input type="submit" value="Submit comment" /></p>
     </form>
 
-If you find yourself doing this often, you might consider creating a custom
-:ref:`inclusion tag<howto-custom-template-tags-inclusion-tags>`.
+Se você se pegar fazendo isso frequentemente, você pode considerar criar uma
+:ref:`inclusion tag<howto-custom-template-tags-inclusion-tags>` personalizada.
 
-Further topics
-==============
+Tópicos adicionais
+==================
 
-This covers the basics, but forms can do a whole lot more:
+Isto cobre o básido, mas os forms podem fazer muito mais:
 
 .. toctree::
    :maxdepth: 1
@@ -361,4 +377,5 @@ This covers the basics, but forms can do a whole lot more:
 
 .. seealso::
 
-    The :ref:`form API reference <ref-forms-index>`.
+    A :ref:`referência de API do form <ref-forms-index>`.
+
