@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
@@ -664,22 +664,23 @@ see the current list of translated languages by looking in
 
 .. _online source: http://code.djangoproject.com/browser/django/trunk/django/conf/global_settings.py
 
-The list is a tuple of two-tuples in the format (language code, language
-name) -- for example, ``('ja', 'Japanese')``. This specifies which languages
-are available for language selection. See :ref:`topics-i18n`.
+A lista é uma tupla de tuplas duplas no formato (código do idioma, nome do
+idioma) -- por exemplo, ``('ja', 'Japanese')``. Isto especifica quais idiomas
+estão disponíveis para seleção. Veja :ref:`topics-i18n`.
 
-Generally, the default value should suffice. Only set this setting if you want
-to restrict language selection to a subset of the Django-provided languages.
+Geralmente, o valor padrão deveria bastar. Somente sete esta configuração se
+você quer restringir a selação de idiomas para um subconjunto de línguas
+fornecidas pelo Django.
 
-If you define a custom ``LANGUAGES`` setting, it's OK to mark the languages as
-translation strings (as in the default value displayed above) -- but use a
-"dummy" ``gettext()`` function, not the one in ``django.utils.translation``.
-You should *never* import ``django.utils.translation`` from within your
-settings file, because that module in itself depends on the settings, and that
-would cause a circular import.
+Se você define uma configuração de ``LANGUAGES`` personalizada, ela está OK para
+marcar as línguas como strings de tradução (como no valor padrão mostrado acima)
+-- mas use uma função ``gettext()`` "dummy", não a que está em
+``django.utils.translation``. Você *nunca* deve importar o
+``django.utils.translation`` de dentro do seu arquivo de configuração, porquê
+este módulo em si depende do settings, e que poderia causar uma importação
+circular.
 
-The solution is to use a "dummy" ``gettext()`` function. Here's a sample
-settings file::
+A solução é usar uma função ``gettext()`` "dummy". Aqui temos um exemplo::
 
     gettext = lambda s: s
 
@@ -688,10 +689,10 @@ settings file::
         ('en', gettext('English')),
     )
 
-With this arrangement, ``django-admin.py makemessages`` will still find and
-mark these strings for translation, but the translation won't happen at
-runtime -- so you'll have to remember to wrap the languages in the *real*
-``gettext()`` in any code that uses ``LANGUAGES`` at runtime.
+Com este arranjo, o ``django-admin.py makemessages`` ainda encontrará e marcará
+estas strings para tradução, mas a tradução não acontecerá em tempo de execução
+-- então você terá de lembrar de envolver os idiomas no ``gettext()`` *real* em
+qualquer código que usar o ``LANGUAGES`` em tempo de execução.
 
 .. setting:: LOCALE_PATHS
 
@@ -797,16 +798,16 @@ MONTH_DAY_FORMAT
 
 Padrão: ``'F j'``
 
-The default formatting to use for date fields on Django admin change-list
-pages -- and, possibly, by other parts of the system -- in cases when only the
-month and day are displayed.
+O formato padrão a ser usado para campos de data nas páginas de listagens do
+Django admin -- e, possivelmente, por outras partes do sistema -- em casos
+onde somente o mês e o dia são mostrados.
 
-For example, when a Django admin change-list page is being filtered by a date
-drilldown, the header for a given day displays the day and month. Different
-locales have different formats. For example, U.S. English would say
-"January 1," whereas Spanish might say "1 Enero."
+Por exemplo, quando uma página de listagem do Django admin está sendo filtrada
+por data, o cabeçalho para um dado dia mostra o dia e o mês. Diferentes
+localidades possuem diferentes formatos. Por exemplo, nos E.U.A costumam dizer
+"January 1," em áreas espanholas pode ser dito "1 Enero."
 
-See :ttag:`allowed date format strings <now>`. Veja também ``DATE_FORMAT``,
+Veja :ttag:`formatos de strings de data permitidos <now>`. Veja também ``DATE_FORMAT``,
 ``DATETIME_FORMAT``, ``TIME_FORMAT`` and ``YEAR_MONTH_FORMAT``.
 
 .. setting:: PREPEND_WWW
@@ -816,21 +817,20 @@ PREPEND_WWW
 
 Padrão: ``False``
 
-Whether to prepend the "www." subdomain to URLs that don't have it. This is only
-used if ``CommonMiddleware`` is installed (see :ref:`topics-http-middleware`).
-Veja também ``APPEND_SLASH``.
-
+Para prefixar o subdomínio "www." nas URLs que não o possuem. Este é somente
+usado se ``CommonMiddleware`` estiver instalado (veja
+:ref:`topics-http-middleware`). Veja também ``APPEND_SLASH``.
 
 .. setting:: PROFANITIES_LIST
 
 PROFANITIES_LIST
 ----------------
 
-A tuple of profanities, as strings, that will trigger a validation error when
-the ``hasNoProfanities`` validator is called.
+Uma tupla de profanities, como strings, que engatilharão um erro de validação
+quando o validador ``hasNoProfanities`` for chamado.
 
-We don't list the default values here, because that would be profane. To see
-the default values, see the file `django/conf/global_settings.py`_.
+Nós não listamos os valores padrão aqui, porque eles podem ser profanos. Para
+ver os valores padrões, veja o arquivo `django/conf/global_settings.py`_.
 
 .. _django/conf/global_settings.py: http://code.djangoproject.com/browser/django/trunk/django/conf/global_settings.py
 .. setting:: ROOT_URLCONF
@@ -864,11 +864,11 @@ SEND_BROKEN_LINK_EMAILS
 
 Padrão: ``False``
 
-Whether to send an e-mail to the ``MANAGERS`` each time somebody visits a
-Django-powered page that is 404ed with a non-empty referer (i.e., a broken
-link). This is only used if ``CommonMiddleware`` is installed (see
-:ref:`topics-http-middleware`. Veja também ``IGNORABLE_404_STARTS``,
-``IGNORABLE_404_ENDS`` and :ref:`howto-error-reporting`.
+Para enviar um e-mail para os ``MANAGERS`` toda vez que alguém visita uma página
+feita com o Django que retornou um erro 404 com um referer não vazio (i.e.
+um link quebrado). Isso só é usado se o ``CommonMiddleware`` estiver instalado
+(veja :ref:`topics-http-middleware`. Veja também ``IGNORABLE_404_STARTS``,
+``IGNORABLE_404_ENDS`` e :ref:`howto-error-reporting`.
 
 .. setting:: SERIALIZATION_MODULES
 
@@ -951,12 +951,12 @@ SESSION_COOKIE_PATH
 
 Padrão: ``'/'``
 
-The path set on the session cookie. This should either match the URL path of your
-Django installation or be parent of that path.
+O caminho setado no cookie da sessão. Isso deve corresponder ao caminho ou a
+URL de sua instalação do Django ou ser antecessor deste caminho.
 
-This is useful if you have multiple Django instances running under the same
-hostname. They can use different cookie paths, and each instance will only see
-its own session cookie.
+Isso é útil se você tem várias instâncias do Django rodando sob o mesmo
+hostname. Eles podem usar diferentes caminhos de cookie, e cada instância
+somente verá seu próprio cookie de sessão.
 
 .. setting:: SESSION_COOKIE_SECURE
 
@@ -965,10 +965,11 @@ SESSION_COOKIE_SECURE
 
 Padrão: ``False``
 
-Whether to use a secure cookie for the session cookie. If this is set to
-``True``, the cookie will be marked as "secure," which means browsers may
-ensure that the cookie is only sent under an HTTPS connection.
-See the :ref:`topics-http-sessions`.
+Para usar um cookie seguro como cookie de sessão. Se este é setado como
+``True``, o cookie será marcado como "secure", o que significa que os
+navegadores podem assegurar que o cookie é somente enviado sob uma conecção
+HTTPS.
+Veja o :ref:`topics-http-sessions`.
 
 .. setting:: SESSION_EXPIRE_AT_BROWSER_CLOSE
 
@@ -977,8 +978,8 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE
 
 Padrão: ``False``
 
-Whether to expire the session when the user closes his or her browser.
-See the :ref:`topics-http-sessions`.
+Para expirar a sessão quando o usuário fecha seu navegador.
+Veja o :ref:`topics-http-sessions`.
 
 .. setting:: SESSION_FILE_PATH
 
@@ -989,10 +990,10 @@ SESSION_FILE_PATH
 
 Padrão: ``None``
 
-If you're using file-based session storage, this sets the directory in
-which Django will store session data. See :ref:`topics-http-sessions`. When
-the default value (``None``) is used, Django will use the standard temporary
-directory for the system.
+Se você estiver usando armazenamento de sessão baseado em arquivos, este seta o
+diretório em que o Django armazenará os dados de sessão.
+Veja :ref:`topics-http-sessions`. Quando o valor padrão ``None`` é usado, o
+Django usará o diretório padrão do sistema.
 
 .. setting:: SESSION_SAVE_EVERY_REQUEST
 
@@ -1001,7 +1002,7 @@ SESSION_SAVE_EVERY_REQUEST
 
 Padrão: ``False``
 
-Whether to save the session data on every request. See
+Para salvar os dados da sessão em toda requisição. Veja
 :ref:`topics-http-sessions`.
 
 .. setting:: SITE_ID
@@ -1011,11 +1012,12 @@ SITE_ID
 
 Padrão: Not defined
 
-The ID, as an integer, of the current site in the ``django_site`` database
-table. This is used so that application data can hook into specific site(s)
-and a single database can manage content for multiple sites.
+O iID, como um inteiro, do site atual na tabela do banco de dados
+``django_site``. Isso é usado de modo que os dados da aplicação possam ser
+presos a um ou mais sites específicos. Um mesmo banco de dados pode gerenciar
+o conteúdo de múltiplos sites.
 
-See :ref:`ref-contrib-sites`.
+Veja :ref:`ref-contrib-sites`.
 
 .. _site framework docs: ../sites/
 
@@ -1031,9 +1033,9 @@ Padrão::
     "django.core.context_processors.i18n",
     "django.core.context_processors.media")
 
-A tuple of callables that are used to populate the context in ``RequestContext``.
-These callables take a request object as their argument and return a dictionary
-of items to be merged into the context.
+Uma tupla com funções chamáveis que são usadas para popular o contexto no
+``RequestContext``. Estas funções recebem um objeto request como seu argumento
+e retornam um dicionário de ítens a serem mesclados ao contexto.
 
 .. setting:: TEMPLATE_DEBUG
 
@@ -1042,13 +1044,13 @@ TEMPLATE_DEBUG
 
 Padrão: ``False``
 
-A boolean that turns on/off template debug mode. If this is ``True``, the fancy
-error page will display a detailed report for any ``TemplateSyntaxError``. This
-report contains the relevant snippet of the template, with the appropriate line
-highlighted.
+Um booleano que liga/desliga o modo debug do template. Se for ``True``, a página
+de erro mostrará um relatório detalhado para qualquer ``TemplateSyntaxError``.
+Este relatório contém o fragmento relevante do template, com a linha apropriada
+em destaque.
 
-Note that Django only displays fancy error pages if ``DEBUG`` is ``True``, so
-you'll want to set that to take advantage of this setting.
+Note que o Django somente mostra páginas de erros se o ``DEBUG`` for ``True``,
+de modo que você precisará setar isso para obter vantagem desta configuração.
 
 Veja também ``DEBUG``.
 
@@ -1059,10 +1061,11 @@ TEMPLATE_DIRS
 
 Padrão: ``()`` (Empty tuple)
 
-List of locations of the template source files, in search order. Note that
-these paths should use Unix-style forward slashes, even on Windows.
+Lista de localizações de arquivos fontes de templates, na ordem de busca. Note
+que estes caminhos devem usar o estilo Unix, com uma barra na frente, mesmo no
+Windows.
 
-See :ref:`topics-templates`..
+Veja :ref:`topics-templates`..
 
 .. setting:: TEMPLATE_LOADERS
 
@@ -1074,8 +1077,8 @@ Padrão::
      ('django.template.loaders.filesystem.load_template_source',
       'django.template.loaders.app_directories.load_template_source')
 
-A tuple of callables (as strings) that know how to import templates from
-various sources. See :ref:`ref-templates-api`.
+Uma tupla de funções (como strings) que sabem como importar templates de várias
+fontes. Veja :ref:`ref-templates-api`.
 
 .. setting:: TEMPLATE_STRING_IF_INVALID
 
@@ -1084,8 +1087,8 @@ TEMPLATE_STRING_IF_INVALID
 
 Padrão: ``''`` (Empty string)
 
-Output, as a string, that the template system should use for invalid (e.g.
-misspelled) variables. See :ref:`invalid-template-variables`..
+Saída, como uma string, que o sistema de template deve usar para variáveis
+inválidas (e.g. com erro de escrita). Veja :ref:`invalid-template-variables`..
 
 .. setting:: TEST_DATABASE_CHARSET
 
@@ -1096,11 +1099,12 @@ TEST_DATABASE_CHARSET
 
 Padrão: ``None``
 
-The character set encoding used to create the test database. The value of this
-string is passed directly through to the database, so its format is
-backend-specific.
+A codificação de caracteres usado para criar as tabelas de testes. O valor desta
+string é passado diretamente para banco de dados, então seu formato é específico
+para os backends.
 
-Supported for the PostgreSQL_ (``postgresql``, ``postgresql_psycopg2``) and MySQL_ (``mysql``) backends.
+Suportado pelos backends PostgreSQL_ (``postgresql``, ``postgresql_psycopg2``) e
+MySQL_ (``mysql``).
 
 .. _PostgreSQL: http://www.postgresql.org/docs/8.2/static/multibyte.html
 .. _MySQL: http://www.mysql.org/doc/refman/5.0/en/charset-database.html
@@ -1114,13 +1118,14 @@ TEST_DATABASE_COLLATION
 
 Padrão: ``None``
 
-The collation order to use when creating the test database. This value is
-passed directly to the backend, so its format is backend-specific.
+A forma de agrupamento a ser usada quando criar as tabelas no banco de dados de
+testes. Este valor é passado diretamente para o backend, de modo que seu formato
+é especifico para os backends.
 
-Only supported for the ``mysql`` backend (see `section 10.3.2`_ of the MySQL
-manual for details).
+Somente suportado pelo backend do ``mysql`` (veja `seção 10.3.2`_ do manual do
+MySQL para detalhes).
 
-.. _section 10.3.2: http://www.mysql.org/doc/refman/5.0/en/charset-database.html
+.. _seção 10.3.2: http://www.mysql.org/doc/refman/5.0/en/charset-database.html
 
 .. setting:: TEST_DATABASE_NAME
 
@@ -1129,13 +1134,13 @@ TEST_DATABASE_NAME
 
 Padrão: ``None``
 
-The name of database to use when running the test suite.
+O nome do banco de dados a ser usado quando se roda os testes.
 
-If the default value (``None``) is used with the SQLite database engine, the
-tests will use a memory resident database. For all other database engines the
-test database will use the name ``'test_' + settings.DATABASE_NAME``.
+Se o valor padrão (``None``) for usado como o motor de banco de dados SQLite, os
+testes usarão um banco de dados em memória. Para todos os outros bancos de dados
+o banco de teste usará o nome ``'test_' + settings.DATABASE_NAME``.
 
-See :ref:`topics-testing`.
+Veja :ref:`topics-testing`.
 
 .. setting:: TEST_RUNNER
 
@@ -1144,10 +1149,10 @@ TEST_RUNNER
 
 Padrão: ``'django.test.simple.run_tests'``
 
-The name of the method to use for starting the test suite. See
+O nome do método a ser usado para começar a suite de testes. Veja
 :ref:`topics-testing`.
 
-.. _Testing Django Applications: ../testing/
+.. _Testando Aplicações Django: ../testing/
 
 .. setting:: TIME_FORMAT
 
@@ -1156,9 +1161,9 @@ TIME_FORMAT
 
 Padrão: ``'P'`` (e.g. ``4 p.m.``)
 
-The default formatting to use for time fields on Django admin change-list
-pages -- and, possibly, by other parts of the system. See
-:ttag:`allowed date format strings <now>`.
+O formato padrão para usar em campos de tempo nas páginas de listagem do Django
+admin -- e, possivelmente, por outras partes do sistema. Veja
+:ttag:`formatos de string de data permitidos <now>`.
 
 Veja também ``DATE_FORMAT``, ``DATETIME_FORMAT``, ``TIME_FORMAT``,
 ``YEAR_MONTH_FORMAT`` and ``MONTH_DAY_FORMAT``.
@@ -1170,30 +1175,32 @@ TIME_ZONE
 
 Padrão: ``'America/Chicago'``
 
-A string representing the time zone for this installation. `See available choices`_.
-(Note that list of available choices lists more than one on the same line;
-you'll want to use just one of the choices for a given time zone. For instance,
-one line says ``'Europe/London GB GB-Eire'``, but you should use the first bit
-of that -- ``'Europe/London'`` -- as your ``TIME_ZONE`` setting.)
+Uma string representando o fuso horário para esta instalação. `Veja opções
+disponíveis`_. (Note que a lista de escolhas disponíveis lista mais de uma na
+mesma linha; você vai querer usar só uma das escolhas para um dado fuso horário.
+Por instância, uma linha diz ``'Europe/London GB GB-Eire'``, mas você deve usar
+o primeiro pedaço dela -- ``'Europe/London'`` -- como sua configuração de
+``TIME_ZONE``.)
 
-Note that this is the time zone to which Django will convert all dates/times --
-not necessarily the timezone of the server. For example, one server may serve
-multiple Django-powered sites, each with a separate time-zone setting.
+Note que este é o mesmo fuso horário para o qual o Django converterá todas as
+datas/horas -- não necessáriamente o fuso horário do servidor. Pore exemplo, um
+servidor pode servir vários sites feitos com o Django, cada um com uma
+configuração de fuso diferentes.
 
-Normally, Django sets the ``os.environ['TZ']`` variable to the time zone you
-specify in the ``TIME_ZONE`` setting. Thus, all your views and models will
-automatically operate in the correct time zone. However, if you're manually
-:ref:`manually configuring settings
-<settings-without-django-settings-module>`, Django will *not* touch the ``TZ``
-environment variable, and it'll be up to you to ensure your processes are
-running in the correct environment.
+Normalmente, o Django seta a variável ``os.environ['TZ']`` para o fuso que você
+especificar na configuração ``TIME_ZONE``. Deste modo, todos os seus views e
+models automaticamente trabalharão no fuso horário correto. Entretanto, se você
+está manualmente, :ref:`configurando o settings
+<settings-without-django-settings-module>`, o Django *não* tocará na variável de
+ambiente ``TZ``, e ele deixará para você assegurar que seu processo está rodando
+no ambiente correto.
 
 .. note::
-    Django cannot reliably use alternate time zones in a Windows environment.
-    If you're running Django on Windows, this variable must be set to match the
-    system timezone.
+    O Django não pode usar com segurança um fuso alternativo no ambiente
+    Windows. Se você estiver rodando o Django no Windows, esta variável deve ser
+    setada pra combinar com o fuso horário do sistema.
 
-.. _See available choices: http://www.postgresql.org/docs/8.1/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE
+.. _Veja opções disponíveis: http://www.postgresql.org/docs/8.1/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE
 
 .. setting:: URL_VALIDATOR_USER_AGENT
 
@@ -1202,8 +1209,8 @@ URL_VALIDATOR_USER_AGENT
 
 Padrão: ``Django/<version> (http://www.djangoproject.com/)``
 
-The string to use as the ``User-Agent`` header when checking to see if URLs
-exist (see the ``verify_exists`` option on :class:`~django.db.models.URLField`).
+A string a ser usada como cabeçalho ``User-Agent`` quando checando a existência
+de URLs (veja a opção ``verify_exists`` em :class:`~django.db.models.URLField`).
 
 .. setting:: USE_ETAGS
 
@@ -1212,9 +1219,9 @@ USE_ETAGS
 
 Padrão: ``False``
 
-A boolean that specifies whether to output the "Etag" header. This saves
-bandwidth but slows down performance. This is only used if ``CommonMiddleware``
-is installed (see :ref:`topics-http-middleware`).
+Um booleano que especifica a saída do cabeçalho "Etag". Este poupa largura de
+banda mas diminui a performance. Isso somente é usado se ``CommonMiddleware``
+estiver instalado (veja :ref:`topics-http-middleware`).
 
 .. setting:: USE_I18N
 
@@ -1223,10 +1230,10 @@ USE_I18N
 
 Padrão: ``True``
 
-A boolean that specifies whether Django's internationalization system should be
-enabled. This provides an easy way to turn it off, for performance. If this is
-set to ``False``, Django will make some optimizations so as not to load the
-internationalization machinery.
+Um booleano que especifica se o sistema de internacionalização do Django deve
+ser habilitado. Este fornece uma forma fácil de desligá-lo, por questões de
+performance. Se estíver setado como ``False``, o Django fará algumas otimizações
+para não carregar os mecanismos de internacionalização.
 
 .. setting:: YEAR_MONTH_FORMAT
 
@@ -1235,15 +1242,15 @@ YEAR_MONTH_FORMAT
 
 Padrão: ``'F Y'``
 
-The default formatting to use for date fields on Django admin change-list
-pages -- and, possibly, by other parts of the system -- in cases when only the
-year and month are displayed.
+O formato padrão a ser usado por campos de datas nas páginas de listagens do
+Django admin -- e, possivelmente, por outras partes do sistema -- em casos onde
+somente o ano e mês são exibidos.
 
-For example, when a Django admin change-list page is being filtered by a date
-drilldown, the header for a given month displays the month and the year.
-Different locales have different formats. For example, U.S. English would say
-"January 2006," whereas another locale might say "2006/January."
+Por exemplo, quando numa página de listagem do Django admin é feita uma
+filtragem por detalhamento de data, o cabeçalho para um dado mês mostra o mês e
+o ano. Diferentes locais têm diferentes formatos. Por exemplo, Nos E.U.A
+costuma-se dizer "Janeiro 2006", e noutros lugares podem dizer "2006/Janeiro."
 
-See :ttag:`allowed date format strings <now>`. Veja também ``DATE_FORMAT``,
+Veja :ttag:`formato de strings de datas permitidos <now>`. Veja também ``DATE_FORMAT``,
 ``DATETIME_FORMAT``, ``TIME_FORMAT`` and ``MONTH_DAY_FORMAT``.
 
