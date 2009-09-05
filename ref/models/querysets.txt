@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 11268 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,207 +16,214 @@
 
 .. _ref-models-querysets:
 
-======================
-QuerySet API reference
-======================
+==========================
+Referência da API QuerySet
+==========================
 
 .. currentmodule:: django.db.models
 
-This document describes the details of the ``QuerySet`` API. It builds on the
-material presented in the :ref:`model <topics-db-models>` and :ref:`database
-query <topics-db-queries>` guides, so you'll probably want to read and
-understand those documents before reading this one.
+Este documento descreve os detalhes da API do ``QuerySet``. Ela se baseia no
+material apresentado nos guias :ref:`model <topics-db-models>` e :ref:`query de
+banco de dados <topics-db-queries>`, então você provavelmente vai querer ler e
+entender esses documentos antes de ler este aqui.
 
-Throughout this reference we'll use the :ref:`example weblog models
-<queryset-model-example>` presented in the :ref:`database query guide
-<topics-db-queries>`.
+Por toda essa referência nós iremos usar os :ref:`models do exemplo weblog
+<queryset-model-example>` apresentado em :ref:`guia de consulta de banco de
+dados <topics-db-queries>`.
 
 .. _when-querysets-are-evaluated:
 
-When QuerySets are evaluated
-============================
+Quando QuerySets são avaliados
+==============================
 
-Internally, a ``QuerySet`` can be constructed, filter, sliced, and generally
-passed around without actually hitting the database. No database activity
-actually occurs until you do something to evaluate the queryset.
+Internamente, um ``QuerySet`` pode ser construído, filtrado, dividido, e
+geralmente passado adiante sem, bem na verdade, atingir o banco de dados.
+Nenhuma atividade de banco de dados realmente ocorre, até que você faça algo
+que avalie o queryset.
 
-You can evaluate a ``QuerySet`` in the following ways:
+Você pode avaliar um ``QuerySet`` das seguintes formas:
 
-    * **Iteration.** A ``QuerySet`` is iterable, and it executes its database
-      query the first time you iterate over it. For example, this will print
-      the headline of all entries in the database::
+    * **Iteração.** Um ``QuerySet`` é iterável, e ele executa suas consultas de
+      banco de dados na primeira vez que você itera sobre ele. Por exemplo, isso
+      irá imprimir o título de todas as entradas do banco de dados::
 
           for e in Entry.objects.all():
               print e.headline
 
-    * **Slicing.** As explained in :ref:`limiting-querysets`, a ``QuerySet`` can
-      be sliced, using Python's array-slicing syntax. Usually slicing a
-      ``QuerySet`` returns another (unevaluated) ``QuerySet``, but Django will
-      execute the database query if you use the "step" parameter of slice
-      syntax.
+    * **Fatiando/Dividindo.** Como explicado em :ref:`limiting-querysets`, um
+      ``QuerySet`` pode ser dividido, usando a sintaxe de fatiamento do Python.
+      Geralmente fatiar um ``QuerySet`` retorna um outro (não avalidado)
+      ``QuerySet``, mas o Django executará a consulta do banco de dados se você
+      usar o parametro "step" da sintaxe de fatiamento.
 
-    * **Pickling/Caching.** See the following section for details of what
-      is involved when `pickling QuerySets`_. The important thing for the
-      purposes of this section is that the results are read from the database.
+    * **Preservamento/Cacheamento.** Veja a seguinte seção para detalhes que é
+      envolvida quando se `preservando QuerySets`_. A coisa importante para
+      proposta desta seção é que os resultados são lidos do banco de dados.
 
-    * **repr().** A ``QuerySet`` is evaluated when you call ``repr()`` on it.
-      This is for convenience in the Python interactive interpreter, so you can
-      immediately see your results when using the API interactively.
+    * **repr().** Um ``QuerySet`` é avaliado quando você chama ``repr()`` sobre
+      ele. Este é por conveniencia um interpretador Python interativo, então
+      você pode imediatamente ver seus resultados quando estiver usando a API
+      interativamente.
 
-    * **len().** A ``QuerySet`` is evaluated when you call ``len()`` on it.
-      This, as you might expect, returns the length of the result list.
+    * **len().** Um ``QuerySet`` e avaliado quando você chama ``len()`` sobre
+      ele. Isso, como você pode esperar, retorna o comprimento da lista de
+      resultados.
 
-      Note: *Don't* use ``len()`` on ``QuerySet``\s if all you want to do is
-      determine the number of records in the set. It's much more efficient to
-      handle a count at the database level, using SQL's ``SELECT COUNT(*)``,
-      and Django provides a ``count()`` method for precisely this reason. See
-      ``count()`` below.
+      Nota: *Não* use ``len()`` sobre ``QuerySet``\s se tudo que você quer fazer
+      é determinar o número de dados de um conjunto. É muito mais eficiente
+      manipular um contador a nível de banco de dados, usando um SQL
+      ``SELECT COUNT(*)``, e o Django provê um método ``count()`` justamente
+      por esta razão. Veja ``count()`` abaixo.
 
-    * **list().** Force evaluation of a ``QuerySet`` by calling ``list()`` on
-      it. For example::
+    * **list().** Força a avaliação de um ``QuerySet`` chamando ``list()`` sobre
+      ele. Por exemplo::
 
           entry_list = list(Entry.objects.all())
 
-      Be warned, though, that this could have a large memory overhead, because
-      Django will load each element of the list into memory. In contrast,
-      iterating over a ``QuerySet`` will take advantage of your database to
-      load data and instantiate objects only as you need them.
+      Esteja avisado, no entanto, que isso poderia resultar num grande consumo
+      de memória, porque o Django carregará cada elemento da lista na sua
+      memória. Em contrast, iterando sobre um ``QuerySet`` você tirará vantagem
+      de seu banco de dados para carregar os dados e instânciar os objetos sobre
+      quando precisar deles.
 
 .. _pickling QuerySets:
 
-Pickling QuerySets
-------------------
+Preservando QuerySets
+---------------------
 
-If you pickle_ a ``QuerySet``, this will force all the results to be loaded
-into memory prior to pickling. Pickling is usually used as a precursor to
-caching and when the cached queryset is reloaded, you want the results to
-already be present and ready for use (reading from the database can take some
-time, defeating the purpose of caching). This means that when you unpickle a
-``QuerySet``, it contains the results at the moment it was pickled, rather
-than the results that are currently in the database.
+Se você preserva_ um ``QuerySet``, este forçará todos os resultados a serem
+carregados em memória para conservação. O preservamento é geralmente usado como
+um precursor para o cache, quando o cache do queryset é reacarregado, você
+terá os resultados já presentes e prontos para o uso (lendo do banco de dados
+pode tomar algum tempo, anulando a proposta do cache). Isto significa que quando
+você desconserva um ``QuerySet``, ele contém os resultados do momento em que foi
+preservado, ao invés dos resultados que estão atualmente no banco de dados.
 
-If you only want to pickle the necessary information to recreate the
-``Queryset`` from the database at a later time, pickle the ``query`` attribute
-of the ``QuerySet``. You can then recreate the original ``QuerySet`` (without
-any results loaded) using some code like this::
+Se você somente quer preservar as informações necessárias para recriar o
+``QuerySet`` do banco de dados desde a última vez, conserve o atributo ``query``
+do ``QuerySet``. Você pode então recriar o ``QuerySet`` original (sem qualquer
+resultado carregado) usando algum código como este::
 
     >>> import pickle
-    >>> query = pickle.loads(s)     # Assuming 's' is the pickled string.
+    >>> query = pickle.loads(s)     # Assumindo 's' como uma string conservada.
     >>> qs = MyModel.objects.all()
-    >>> qs.query = query            # Restore the original 'query'.
+    >>> qs.query = query            # Restaura o 'query' original.
 
-The ``query`` attribute is an opaque object. It represents the internals of
-the query construction and is not part of the public API. However, it is safe
-(and fully supported) to pickle and unpickle the attribute's contents as
-described here.
+O atributo ``query`` é um objeto opaco. Ele representa o construção interna da
+query e não parte da API pública. Entretanto, ele é seguro (e completamente
+suportado) para preservar e reconstruir os conteúdos dos atributos como descrito
+aqui.
 
-.. _pickle: http://docs.python.org/lib/module-pickle.html
+.. _preserva: http://docs.python.org/lib/module-pickle.html
 
 .. _queryset-api:
 
-QuerySet API
+API QuerySet
 ============
 
-Though you usually won't create one manually -- you'll go through a :class:`Manager` -- here's the formal declaration of a ``QuerySet``:
+Embora você geralmente não criará uma manualmente -- você passará um
+:class:`Manager` -- aqui tem a declaração formal de um ``QuerySet``:
 
 .. class:: QuerySet([model=None])
 
-Usually when you'll interact with a ``QuerySet`` you'll use it by :ref:`chaining
-filters <chaining-filters>`. To make this work, most ``QuerySet`` methods return new querysets.
+Normalemente quando você for interagir com um ``QuerySet`` você o usará com
+:ref:`filtros encadeados <chaining-filters>`. Para fazer isto funcionar, a
+maioria dos métodos do ``QuerySet`` retorna novos querysets.
 
-QuerySet methods that return new QuerySets
-------------------------------------------
+Métodos de QuerySet que retornam novos QuerySets
+------------------------------------------------
 
-Django provides a range of ``QuerySet`` refinement methods that modify either
-the types of results returned by the ``QuerySet`` or the way its SQL query is
-executed.
+O Django fornece uma gama de métodos de refinamento do ``QuerySet`` que modifica
+cada tipo de resultados retornados pelo ``QuerySet`` ou a forma como sua
+consulta SQL é executada.
 
 ``filter(**kwargs)``
 ~~~~~~~~~~~~~~~~~~~~
 
-Returns a new ``QuerySet`` containing objects that match the given lookup
-parameters.
+Retorna um novo ``QuerySet`` contendo objetos que combinam com os paramêtros
+dados.
 
-The lookup parameters (``**kwargs``) should be in the format described in
-`Field lookups`_ below. Multiple parameters are joined via ``AND`` in the
-underlying SQL statement.
+Os parametros (``**kwargs``) devem ser no formato descrito em `Campos de
+Pesquisa`_ abaixo. Vários parametros são mesclados via ``AND`` e regras SQL
+subjacentes.
 
 ``exclude(**kwargs)``
 ~~~~~~~~~~~~~~~~~~~~~
 
-Returns a new ``QuerySet`` containing objects that do *not* match the given
-lookup parameters.
+Retorna um novo ``QuerySet`` contendo objetos que *não* combinam com os
+paramêtros dados.
 
-The lookup parameters (``**kwargs``) should be in the format described in
-`Field lookups`_ below. Multiple parameters are joined via ``AND`` in the
-underlying SQL statement, and the whole thing is enclosed in a ``NOT()``.
+Os parametros (``**kwargs``) devem ser no formato descrito em `Campos de
+Pesquisa`_ abaixo. Vários parametros são mesclados via ``AND`` e regras SQL
+subjacentes, e todoa coisa é envolvida por um ``NOT()``.
 
-This example excludes all entries whose ``pub_date`` is later than 2005-1-3
-AND whose ``headline`` is "Hello"::
+Este exemplo exclui todas as entradas cujo ``pub_date`` é maior que 2005-1-3
+e (AND) cujo ``headline`` é igual "Hello"::
 
     Entry.objects.exclude(pub_date__gt=datetime.date(2005, 1, 3), headline='Hello')
 
-In SQL terms, that evaluates to::
+Em termos SQL, isso seria::
 
     SELECT ...
     WHERE NOT (pub_date > '2005-1-3' AND headline = 'Hello')
 
-This example excludes all entries whose ``pub_date`` is later than 2005-1-3
-OR whose headline is "Hello"::
+Este exemplo exclui entradas cujo ``pub_date`` é maior que 2005-1-3 ou (OR) cujo
+``headline`` é "Hello"::
 
     Entry.objects.exclude(pub_date__gt=datetime.date(2005, 1, 3)).exclude(headline='Hello')
 
-In SQL terms, that evaluates to::
+Em termos SQL, isso seria::
 
     SELECT ...
     WHERE NOT pub_date > '2005-1-3'
     OR NOT headline = 'Hello'
 
-Note the second example is more restrictive.
+Note que o segundo exemplo e mais restritivo.
 
 ``order_by(*fields)``
 ~~~~~~~~~~~~~~~~~~~~~
 
-By default, results returned by a ``QuerySet`` are ordered by the ordering
-tuple given by the ``ordering`` option in the model's ``Meta``. You can
-override this on a per-``QuerySet`` basis by using the ``order_by`` method.
-
-Example::
+Por padrão, os resultados retornados por um ``QuerySet`` são ordenado por uma
+tupla dada pela opção ``ordering`` no ``Meta`` do model. Você pode sobrescrever
+isso para uma ``QuerySet`` basicamente usando o método ``order_by``.
+Exemplo::
 
     Entry.objects.filter(pub_date__year=2005).order_by('-pub_date', 'headline')
 
-The result above will be ordered by ``pub_date`` descending, then by
-``headline`` ascending. The negative sign in front of ``"-pub_date"`` indicates
-*descending* order. Ascending order is implied. To order randomly, use ``"?"``,
-like so::
+O resultado acima será ordenado por ``pub_date`` descrescendo, e então por
+``headline`` ascendendo. O sinal negativo na frente do ``"-pub_date"`` indica
+o ordenamento *descendente*. O ordenamento ascendente é implícito. Para ordenar
+randômicamente, use ``"?"``, desta forma::
 
     Entry.objects.order_by('?')
 
-Note: ``order_by('?')`` queries may be expensive and slow, depending on the
-database backend you're using.
+Nota: a consulta ``order_by('?')`` pode ser custosa e lenta, dependendo do
+backend e banco de dados que estiver usando.
 
-To order by a field in a different model, use the same syntax as when you are
-querying across model relations. That is, the name of the field, followed by a
-double underscore (``__``), followed by the name of the field in the new model,
-and so on for as many models as you want to join. For example::
+Para ordenar por um campo de um model diferente, use a mesma sintaxe como quando
+você consulta através de relações de models. Isto é, o nome do campo, seguido
+por um underscore duplo (``__``), seguido pelo nome do campo no novo model, faça
+assim para todos os models que você deseja juntar na consulta. Por exemplo::
 
     Entry.objects.order_by('blog__name', 'headline')
 
-If you try to order by a field that is a relation to another model, Django will
-use the default ordering on the related model (or order by the related model's
-primary key if there is no ``Meta.ordering`` specified. For example::
+Se você tentar ordenar por um campo que é relacionado a outro model, o Django
+usará o ordenamento padrão do model relacionado (ou ordenará pela chave primária
+do model relacionado se ele não tiver um ``Meta.ordering`` especificado. Por
+exemplo::
 
     Entry.objects.order_by('blog')
 
-...is identical to::
+...é identico a::
 
     Entry.objects.order_by('blog__id')
 
-...since the ``Blog`` model has no default ordering specified.
+...desde que o model ``Blog`` não tenha o ordenamento especificado.
 
-Be cautious when ordering by fields in related models if you are also using
-``distinct()``. See the note in the `distinct()`_ section for an explanation
-of how related model ordering can change the expected results.
+Seja cauteloso quando ordenar por campos de models relacionados se você também
+estiver usando ``distinct()``. Veja a nota na seção `distinct()`_ para uma
+explicação e como um model relacionado ordenado pode mudar os resultados
+esperados.
 
 It is permissible to specify a multi-valued field to order the results by (for
 example, a ``ManyToMany`` field). Normally this won't be a sensible thing to
@@ -226,21 +233,24 @@ ordering piece of data for each of the main items you are selecting, the
 ordering may well be exactly what you want to do. Use ordering on multi-valued
 fields with care and make sure the results are what you expect.
 
+Admite-se especificar um campo com multi-valor para ordenar resultados (por
+exemplo, um campo ``ManyToMany``). Normalmente isso não será uma coisa sensível
+a se fazer e ele realmente é uma funcionalidade avançada de uso.
+
 .. versionadded:: 1.0
 
-If you don't want any ordering to be applied to a query, not even the default
-ordering, call ``order_by()`` with no parameters.
-
+Se você não quer que qualquer ordenamento seja aplicado a consulta, nem mesmo o
+ordenamento padrão, chame ``order_by()`` sem parametros.
 .. versionadded:: 1.0
 
-The syntax for ordering across related models has changed. See the `Django 0.96
-documentation`_ for the old behaviour.
+A sintax de para ordenamento através de models relacionados mudou. Veja a
+`documentação do Django 0.96`_ para os comportamentos antigos.
 
-.. _Django 0.96 documentation: http://www.djangoproject.com/documentation/0.96/model-api/#floatfield
+.. _documentação do Django 0.96: http://www.djangoproject.com/documentation/0.96/model-api/#floatfield
 
-There's no way to specify whether ordering should be case sensitive. With
-respect to case-sensitivity, Django will order results however your database
-backend normally orders them.
+Não há formas de especificar se o ordenamento deve ser sensível a maiúsculas e
+minúsculas. Com respeito a case-sensitivity, o Django não ordena resultados por
+mais que seu backend de banco de dados normalmente o faça.
 
 ``reverse()``
 ~~~~~~~~~~~~~
@@ -328,7 +338,7 @@ fields, each dictionary will contain only the field keys/values for the fields
 you specify. If you don't specify the fields, each dictionary will contain a
 key and value for every field in the database table.
 
-Example::
+Exemplo::
 
     >>> Blog.objects.values()
     [{'id': 1, 'name': 'Beatles Blog', 'tagline': 'All the latest Beatles news.'}],
@@ -349,7 +359,7 @@ A couple of subtleties that are worth mentioning:
       or ``foo_id`` and you will get back the same thing (the dictionary key
       will match the field name you passed in).
 
-      For example::
+      For Exemplo::
 
         >>> Entry.objects.values()
         [{'blog_id: 1, 'headline': u'First Entry', ...}, ...]
@@ -390,17 +400,17 @@ individualism.
 
 .. versionadded:: 1.0
 
-This is similar to ``values()`` except that instead of returning a list of
-dictionaries, it returns a list of tuples. Each tuple contains the value from
-the respective field passed into the ``values_list()`` call -- so the first
-item is the first field, etc. For example::
+Este é similar ao ``values()`` exceto que ao invés de retornar uma lista de
+dicionários, ele retorna uma lista de tuplas. Cada tupla contém o valor do
+respectivo campo passado dentro da chamada ``values_list()`` -- então o primeiro
+item é o primeiro campo, etc. Por exemplo::
 
     >>> Entry.objects.values_list('id', 'headline')
     [(1, u'First entry'), ...]
 
-If you only pass in a single field, you can also pass in the ``flat``
-parameter. If ``True``, this will mean the returned results are single values,
-rather than one-tuples. An example should make the difference clearer::
+Se você somente passa um campo singular, você também pode passar num paramêtro
+``flat``. Se ``True``, isto significará que os resultados retornados são valores
+únicos, ao invés de uma tupla. Um exemplo deve fazer a diferença::
 
     >>> Entry.objects.values_list('id').order_by('id')
     [(1,), (2,), (3,), ...]
@@ -408,33 +418,33 @@ rather than one-tuples. An example should make the difference clearer::
     >>> Entry.objects.values_list('id', flat=True).order_by('id')
     [1, 2, 3, ...]
 
-It is an error to pass in ``flat`` when there is more than one field.
+É um erro passa o ``flat`` quando há mais de um campo.
 
-If you don't pass any values to ``values_list()``, it will return all the
-fields in the model, in the order they were declared.
+Se você não passar quaisquer valores ao ``values_list()``, ele irá retornar
+todos os campos no model, na ordem em que foram declarados.
 
 ``dates(field, kind, order='ASC')``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Returns a ``DateQuerySet`` -- a ``QuerySet`` that evaluates to a list of
-``datetime.datetime`` objects representing all available dates of a particular
-kind within the contents of the ``QuerySet``.
+Retorna um ``DateQuerySet`` -- um ``QuerySet`` que avalia uma lista de objetos
+``datetime.datetime`` representando todos as datas disponíveis de um tipo
+particular dentro dos conteúdos do ``QuerySet``.
 
-``field`` should be the name of a ``DateField`` or ``DateTimeField`` of your
+O ``field`` deve ser o nome de um ``DateField`` ou ``DateTimeField`` de seu
 model.
 
-``kind`` should be either ``"year"``, ``"month"`` or ``"day"``. Each
-``datetime.datetime`` object in the result list is "truncated" to the given
-``type``.
+O ``kind`` deve ser ``"year"``, ``"month"`` ou ``"day"``. Cada objeto
+``datetime.datetime`` na lista de resultados é "trucado" para o ``type`` dado.
 
-    * ``"year"`` returns a list of all distinct year values for the field.
-    * ``"month"`` returns a list of all distinct year/month values for the field.
-    * ``"day"`` returns a list of all distinct year/month/day values for the field.
+    * ``"year"`` retorna uma lista de todos os valores de anos distintos para o
+      campo.
+    * ``"month"`` retorna uma lista de todos os valores anos/mês para o campo.
+    * ``"day"`` retorna uma lista de todos os valores ano/mês/dia para o campo.
 
-``order``, which defaults to ``'ASC'``, should be either ``'ASC'`` or
-``'DESC'``. This specifies how to order the results.
+O ``order``, que por padrão é ``'ASC'``, deve ser ``'ASC'`` ou ``'DESC'``. Isto
+especifica como ordenar os resultados.
 
-Examples::
+Exemplos::
 
     >>> Entry.objects.dates('pub_date', 'year')
     [datetime.datetime(2005, 1, 1)]
@@ -452,12 +462,12 @@ Examples::
 
 .. versionadded:: 1.0
 
-Returns an ``EmptyQuerySet`` -- a ``QuerySet`` that always evaluates to
-an empty list. This can be used in cases where you know that you should
-return an empty result set and your caller is expecting a ``QuerySet``
-object (instead of returning an empty list, for example.)
+Retorna um ``EmptyQuerySet`` -- um ``QuerySet`` que sempre avalia para uma lista
+vazia. Este pode ser usado nos casos onde você sabe que você deve retornar uma
+lista de resultados vazia e sua chamada está esperando um objeto ``QuerySet``
+(ao invés de retornar uma lista vazia, por exemplo.)
 
-Examples::
+Exemplos::
 
     >>> Entry.objects.none()
     []
@@ -467,43 +477,44 @@ Examples::
 
 .. versionadded:: 1.0
 
-Returns a ''copy'' of the current ``QuerySet`` (or ``QuerySet`` subclass you
-pass in). This can be useful in some situations where you might want to pass
-in either a model manager or a ``QuerySet`` and do further filtering on the
-result. You can safely call ``all()`` on either object and then you'll
-definitely have a ``QuerySet`` to work with.
+Retorna uma ''cópia'' do ``QuerySet`` atual (ou extende o ``QuerySet`` que você
+passou). Isso pode ser útil em algumas situações onde você pode querer passar
+em cada model manager ou um ``QuerySet`` e fazer uma filtragem maior do
+resultado. Você pode seguramente chamar ``all()`` em cada objeto e então você
+definitivamente terá um ``QuerySet`` para trabalhar com.
 
 .. _select-related:
 
 ``select_related()``
 ~~~~~~~~~~~~~~~~~~~~
 
-Returns a ``QuerySet`` that will automatically "follow" foreign-key
-relationships, selecting that additional related-object data when it executes
-its query. This is a performance booster which results in (sometimes much)
-larger queries but means later use of foreign-key relationships won't require
-database queries.
+Retorna um ``QuerySet`` que automaticamente "seguirá" chaves estrangeiras de
+relacionamentos, selecionando os dados adicionais de objetos relacionados quando
+executar sua consulta. Isso é um aumentador de performance com resultados em
+(algumas vezes mais) consultas maiores, mas significa mais uso de
+relacionamentos de chave estrangeira que não vão exigir consultas de banco de
+dados.
 
-The following examples illustrate the difference between plain lookups and
-``select_related()`` lookups. Here's standard lookup::
+O seguinte exemplo ilustra a diferença entre pesquisas planas e pesquisas
+``select_related()``. Aqui a pesquisa padrão::
 
-    # Hits the database.
+    # Acerta o banco de dados.
     e = Entry.objects.get(id=5)
 
-    # Hits the database again to get the related Blog object.
+    # Acerta o banco de dados novmante para pegar o objeto Blog relacionado.
     b = e.blog
 
-And here's ``select_related`` lookup::
+E aqui uma pesquisa ``select_related``::
 
-    # Hits the database.
+    # Acerta o banco de dados.
     e = Entry.objects.select_related().get(id=5)
 
-    # Doesn't hit the database, because e.blog has been prepopulated
-    # in the previous query.
+    # Não acerta o banco de dados, porque e.blog já foi populado numa consulta
+    # anterior.
     b = e.blog
 
-``select_related()`` follows foreign keys as far as possible. If you have the
-following models::
+O ``select_related()`` segue chaves estrangeiras tão longe quanto possível. Se
+você tem os seguintes models::
 
     class City(models.Model):
         # ...
@@ -516,39 +527,40 @@ following models::
         # ...
         author = models.ForeignKey(Person)
 
-...then a call to ``Book.objects.select_related().get(id=4)`` will cache the
-related ``Person`` *and* the related ``City``::
+...então uma chamada para ``Book.objects.select_related().get(id=4)`` fará cache
+do objeto relacionado ``Person`` *e* do ``City``::
 
     b = Book.objects.select_related().get(id=4)
-    p = b.author         # Doesn't hit the database.
-    c = p.hometown       # Doesn't hit the database.
+    p = b.author         # Não acerta o banco de dados.
+    c = p.hometown       # Não acerta o banco de dados.
 
-    b = Book.objects.get(id=4) # No select_related() in this example.
-    p = b.author         # Hits the database.
-    c = p.hometown       # Hits the database.
+    b = Book.objects.get(id=4) # Nenhum select_related() neste exemplo.
+    p = b.author         # Acerta o banco de dados.
+    c = p.hometown       # Acerta o banco de dados.
 
-Note that, by default, ``select_related()`` does not follow foreign keys that
-have ``null=True``.
+Note que, por padrão, ``selected_related()`` não segue chaves estrangeiras que
+tenham ``null=True``.
 
-Usually, using ``select_related()`` can vastly improve performance because your
-app can avoid many database calls. However, in situations with deeply nested
-sets of relationships ``select_related()`` can sometimes end up following "too
-many" relations, and can generate queries so large that they end up being slow.
+Normalmente, usar o ``select_related()`` pode melhorar muito a performance
+pois sua aplicação pode evitar muitas chamadas de banco de dados. Entretanto,
+em situações com conjuntos profundamente aninhados de relacionamentos, o
+``select_related`` pode algumas vezes acabar seguindo "relacionamentos de mais",
+e pode gerar consultas tão grandes que elas acabam sendo lentas.
 
-In these situations, you can use the ``depth`` argument to ``select_related()``
-to control how many "levels" of relations ``select_related()`` will actually
-follow::
+Nestas situações, você pode usar o argumento ``depth`` para controlar quantos
+"níveis" de relações o ``select_related()`` realmente irá seguir::
 
     b = Book.objects.select_related(depth=1).get(id=4)
-    p = b.author         # Doesn't hit the database.
-    c = p.hometown       # Requires a database call.
+    p = b.author         # Não acerta o banco de dados.
+    c = p.hometown       # Requer uma chamada de banco de dados.
 
-Sometimes you only want to access specific models that are related to your root
-model, not all of the related models. In these cases, you can pass the related
-field names to ``select_related()`` and it will only follow those relations.
-You can even do this for models that are more than one relation away by
-separating the field names with double underscores, just as for filters. For
-example, if you have this model::
+Algumas vezes você somente quer acessar um model específico que está relacionado
+ao seu model raiz, não todos os models relacionados. Nestes casos, você pode
+passar os nomes dos campos ao ``select_related()`` e ele somente seguirá estas
+relações.
+Você pode até fazer isso para os models que estão a mais de uma relação de
+distância, separando os nomes dos campos com underscores duplos, assim como nos
+filtros. Por exemplo, se você tem este model::
 
     class Room(models.Model):
         # ...
@@ -560,27 +572,27 @@ example, if you have this model::
         room = models.ForeignKey(Room)
         subject = models.ForeignKey(...)
 
-...and you only needed to work with the ``room`` and ``subject`` attributes,
-you could write this::
+...e você somente precisa trabalhar com os atributos ``room`` e ``subject``,
+você poderia escrever isso::
 
     g = Group.objects.select_related('room', 'subject')
 
-This is also valid::
+Isso também é válido::
 
     g = Group.objects.select_related('room__building', 'subject')
 
-...and would also pull in the ``building`` relation.
+...e também puxar a relação ``building``.
 
-You can only refer to ``ForeignKey`` relations in the list of fields passed to
-``select_related``. You *can* refer to foreign keys that have ``null=True``
-(unlike the default ``select_related()`` call). It's an error to use both a
-list of fields and the ``depth`` parameter in the same ``select_related()``
-call, since they are conflicting options.
+Você somente pode referenciar à relações ``ForeignKey`` na lista de campos
+passada ao ``selected_related``. Você *pode* referenciar chaves estrangeiras que
+tenham ``null=True`` (indiferente da chamada padrão do ``select_related()``). É
+um erro usar ambos, uma lista de campos e o paramêtro ``depth``, na mesma
+chamada do ``select_related()``, já que eles são opções conflitantes.
 
 .. versionadded:: 1.0
 
-Both the ``depth`` argument and the ability to specify field names in the call
-to ``select_related()`` are new in Django version 1.0.
+Ambos, o argumento ``depth`` e a abilidade de especificar nomes de campos em
+chamadas do ``select_related()``, são novidades do Django 1.0.
 
 .. _extra:
 
@@ -604,7 +616,7 @@ of the arguments is required, but you should use at least one of them.
     It should be a dictionary mapping attribute names to SQL clauses to use to
     calculate that attribute.
 
-    Example::
+    Exemplo::
 
         Entry.objects.extra(select={'is_recent': "pub_date > '2006-01-01'"})
 
@@ -652,7 +664,7 @@ of the arguments is required, but you should use at least one of them.
     you should use a ``django.utils.datastructures.SortedDict`` for the
     ``select`` value, not just a normal Python dictionary.
 
-    This will work, for example::
+    This will work, for Exemplo::
 
         Blog.objects.extra(
             select=SortedDict([('a', '%s'), ('b', '%s')]),
@@ -672,7 +684,7 @@ of the arguments is required, but you should use at least one of them.
     ``where`` and ``tables`` both take a list of strings. All ``where``
     parameters are "AND"ed to any other search criteria.
 
-    Example::
+    Exemplo::
 
         Entry.objects.extra(where=['id IN (3, 4, 5, 20)'])
 
@@ -709,7 +721,7 @@ of the arguments is required, but you should use at least one of them.
     querysets), of the form ``table_name.column_name`` or an alias for a column
     that you specified in the ``select`` parameter to ``extra()``.
 
-    For example::
+    For Exemplo::
 
         q = Entry.objects.extra(select={'is_recent': "pub_date > '2006-01-01'"})
         q = q.extra(order_by = ['-is_recent'])
@@ -728,7 +740,7 @@ of the arguments is required, but you should use at least one of them.
     should automatically quote. The ``params`` argument is a list of any extra
     parameters to be substituted.
 
-    Example::
+    Exemplo::
 
         Entry.objects.extra(where=['headline=%s'], params=['Lennon'])
 
@@ -744,57 +756,56 @@ of the arguments is required, but you should use at least one of them.
 
         Entry.objects.extra(where=['headline=%s'], params=['Lennon'])
 
-QuerySet methods that do not return QuerySets
----------------------------------------------
+Métodos do QuerySet que não retornam QuerySets
+----------------------------------------------
 
-The following ``QuerySet`` methods evaluate the ``QuerySet`` and return
-something *other than* a ``QuerySet``.
+Os seguintes métodos do ``QuerySet`` avaliam o ``QuerySet`` e retornam *algo*
+diferente de um ``QuerySet``.
 
-These methods do not use a cache (see :ref:`caching-and-querysets`). Rather,
-they query the database each time they're called.
+Estes métodos não usam um cache (veja :ref:`caching-and-querysets`). Ao invés,
+eles consultam o banco de dados toda vez que são chamados.
 
 .. _get-kwargs:
 
 ``get(**kwargs)``
 ~~~~~~~~~~~~~~~~~
 
-Returns the object matching the given lookup parameters, which should be in
-the format described in `Field lookups`_.
+Retorna o objeto combinado com o dado parametro, que deve estar no formato
+descrito em `Campos de pesquisa`_.
 
-``get()`` raises ``MultipleObjectsReturned`` if more than one object was
-found. The ``MultipleObjectsReturned`` exception is an attribute of the model
-class.
+O ``get()`` lança um ``MultipleObjectsReturned`` se mais de um objeto for
+encontrado. A exceção ``MultipleObjectsReturned`` é um atributo da classe model.
 
-``get()`` raises a ``DoesNotExist`` exception if an object wasn't found for
-the given parameters. This exception is also an attribute of the model class.
-Example::
+O ``get()`` lança uma exceção ``DoesNotExist`` se um objeto não foi encontrado
+para os parametros dados. Esta exceção também é um atributo da classe model.
+Exemplo::
 
     Entry.objects.get(id='foo') # raises Entry.DoesNotExist
 
-The ``DoesNotExist`` exception inherits from
-``django.core.exceptions.ObjectDoesNotExist``, so you can target multiple
-``DoesNotExist`` exceptions. Example::
+A exceção ``DoesNotExist`` herda do
+``django.core.exceptions.ObjectDoesNotExist``, então você pode atingir várias
+exceções ``DoesNotExist``. Exemplo::
 
     from django.core.exceptions import ObjectDoesNotExist
     try:
         e = Entry.objects.get(id=3)
         b = Blog.objects.get(id=1)
     except ObjectDoesNotExist:
-        print "Either the entry or blog doesn't exist."
+        print "Ou entry ou blog não existe."
 
 ``create(**kwargs)``
 ~~~~~~~~~~~~~~~~~~~~
 
-A convenience method for creating an object and saving it all in one step.  Thus::
+Um método conveniente para criar um objeto e salvá-lo em um passo. Deste modo::
 
     p = Person.objects.create(first_name="Bruce", last_name="Springsteen")
 
-and::
+e::
 
     p = Person(first_name="Bruce", last_name="Springsteen")
     p.save(force_insert=True)
 
-are equivalent.
+são equivalentes.
 
 The :ref:`force_insert <ref-models-force-insert>` parameter is documented
 elsewhere, but all it means is that a new object will always be created.
@@ -807,15 +818,14 @@ exception if you are using manual primary keys.
 ``get_or_create(**kwargs)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A convenience method for looking up an object with the given kwargs, creating
-one if necessary.
+Um método conveniente para procurar um objeto com os argumentos, e criá-lo se
+necessário.
 
-Returns a tuple of ``(object, created)``, where ``object`` is the retrieved or
-created object and ``created`` is a boolean specifying whether a new object was
-created.
+Retorna um tupla de ``(object, created)``, onde ``object`` é objeto recebido ou
+criado e ``created`` é um booleano especificando se um novo objeto foi criado.
 
-This is meant as a shortcut to boilerplatish code and is mostly useful for
-data-import scripts. For example::
+Isto age como um atalho de código e é mais útil para scripts de importação de
+dados. Por exemplo::
 
     try:
         obj = Person.objects.get(first_name='John', last_name='Lennon')
@@ -851,11 +861,10 @@ all the pertinent details. The internal implementation has some more
 error-checking than this and handles some extra edge-conditions; if you're
 interested, read the code.
 
-If you have a field named ``defaults`` and want to use it as an exact lookup in
-``get_or_create()``, just use ``'defaults__exact'``, like so::
+Se você tem um campo chamado ``defaults`` e quer usá-lo numa pesquisa exata no
+``get_or_create()``, é só usar ``'defaults__extact'``, desta forma::
 
     Foo.objects.get_or_create(defaults__exact='bar', defaults={'defaults': 'baz'})
-
 
 The ``get_or_create()`` method has similar error behaviour to ``create()``
 when you are using manually specified primary keys. If an object needs to be
@@ -875,33 +884,33 @@ has a side effect on your data. For more, see `Safe methods`_ in the HTTP spec.
 ``count()``
 ~~~~~~~~~~~
 
-Returns an integer representing the number of objects in the database matching
-the ``QuerySet``. ``count()`` never raises exceptions.
+Retorna um inteiro representando o número de objetos no banco de dados
+combinando com o ``QuerySet``. O ``count()`` nunca lança exceções.
 
-Example::
+Exemplo::
 
-    # Returns the total number of entries in the database.
+    # Retorna o numero total de entradas no banco de dados.
     Entry.objects.count()
 
-    # Returns the number of entries whose headline contains 'Lennon'
+    # Retorna o número de entradas cujo headline contém 'Lennon'
     Entry.objects.filter(headline__contains='Lennon').count()
 
-``count()`` performs a ``SELECT COUNT(*)`` behind the scenes, so you should
-always use ``count()`` rather than loading all of the record into Python
-objects and calling ``len()`` on the result.
+O ``count()`` realiza um ``SELECT COUNT(*)`` por trás das cenas, então você deve
+sempre usar ``count()`` ao invés de carregar todos os objetos do banco e chamar
+``len()`` sobre o resultado.
 
-Depending on which database you're using (e.g. PostgreSQL vs. MySQL),
-``count()`` may return a long integer instead of a normal Python integer. This
-is an underlying implementation quirk that shouldn't pose any real-world
-problems.
+Dependendo de qual banco de dados você estiver usando (e.g. PostgreSQL vs.
+MySQL), ``count()`` pode retornar um inteiro long ao invés de um inteiro normal
+do Python. Esta é uma implementação evasiva subjacente que não deve causar
+quaisquer problemas no mundo real.
 
 ``in_bulk(id_list)``
 ~~~~~~~~~~~~~~~~~~~~
 
-Takes a list of primary-key values and returns a dictionary mapping each
-primary-key value to an instance of the object with the given ID.
+Recebe uma lista de valores de chaves primárias e retorna um dicionário mapeando
+cada valor de chave primária para uma instância de objeto com o dado ID.
 
-Example::
+Exemplo::
 
     >>> Blog.objects.in_bulk([1])
     {1: <Blog: Beatles Blog>}
@@ -910,375 +919,379 @@ Example::
     >>> Blog.objects.in_bulk([])
     {}
 
-If you pass ``in_bulk()`` an empty list, you'll get an empty dictionary.
+Se você passar ao ``in_bulk()`` uma lista vazia, você terá um dicionário vazio.
 
 ``iterator()``
 ~~~~~~~~~~~~~~
 
-Evaluates the ``QuerySet`` (by performing the query) and returns an
-`iterator`_ over the results. A ``QuerySet`` typically reads all of
-its results and instantiates all of the corresponding objects the
-first time you access it; ``iterator()`` will instead read results and
-instantiate objects in discrete chunks, yielding them one at a
-time. For a ``QuerySet`` which returns a large number of objects, this
-often results in better performance and a significant reduction in
-memory use.
+Avalia o ``QuerySet`` (para realizar uma consulta) e retorna um `iterador`_
+sobre os resultados. Um ``QuerySet`` tipicamente lê todos os seus resultados e
+instancia todos os objetos correspondentes na primeira vez que você acessá-los;
+o ``iterator()``, no entanto, lerá os resultados e instanciará objetos em
+pedaços discretos, fornecendo-os um por vez. Para um ``QuerySet`` que retorna um
+número grande de objetos, este frequentemente resulta em melhor performance e
+redução significante no uso de memória.
 
-Note that using ``iterator()`` on a ``QuerySet`` which has already
-been evaluated will force it to evaluate again, repeating the query.
+Note que usando o ``iterator()`` sobre um ``QuerySet`` que já foi avaliado, irá
+forçá-lo a avaliá-lo novamente, repetindo a consulta.
 
-.. _iterator: http://www.python.org/dev/peps/pep-0234/
+.. _iterador: http://www.python.org/dev/peps/pep-0234/
 
 ``latest(field_name=None)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Returns the latest object in the table, by date, using the ``field_name``
-provided as the date field.
+Retorna o último objeto na tabela, por data, usando o ``field_name`` fornecido
+como o campo de data.
 
-This example returns the latest ``Entry`` in the table, according to the
-``pub_date`` field::
+Este exemplo retorna a última ``Entry`` na tabela, de acordo com o campo
+``pub_date``::
 
     Entry.objects.latest('pub_date')
 
-If your model's ``Meta`` specifies ``get_latest_by``, you can leave off the
-``field_name`` argument to ``latest()``. Django will use the field specified in
-``get_latest_by`` by default.
+Se o ``Meta`` do seu model especifica ``get_latest_by``, você pode deixar vazio
+o argumento ``field_name`` do ``latest()``. O Django usará o campo especificado
+em `get_latest_by`` por padrão.
 
-Like ``get()``, ``latest()`` raises ``DoesNotExist`` if an object doesn't
-exist with the given parameters.
+Assim como ``get()``, ``latest()`` lançam ``DoesNotExist`` se um objeto não existe com
+os paramêtros fornecidos.
 
-Note ``latest()`` exists purely for convenience and readability.
+Note que ``latest()`` existe puramente por conveniência e legibilidade.
 
 .. _field-lookups:
 
-Field lookups
--------------
+Campos de Pesquisa
+------------------
 
-Field lookups are how you specify the meat of an SQL ``WHERE`` clause. They're
-specified as keyword arguments to the ``QuerySet`` methods ``filter()``,
-``exclude()`` and ``get()``.
+Campos de pesquis são como você especifica o cerne de uma cláusula SQL
+``WHERE``. Eles são especificados como argumentos nomeados dos métodos do
+``QuerySet`` ``filter()``, ``exclude()`` e ``get()``.
 
-For an introduction, see :ref:`field-lookups-intro`.
+Para uma introdução, veja :ref:`field-lookups-intro`.
 
 exact
 ~~~~~
 
-Exact match. If the value provided for comparison is ``None``, it will
-be interpreted as an SQL ``NULL`` (See isnull_ for more details).
+Combinação exata. Se o valor fornecido para comparação for ``None``, ele será
+interpretado como um SQL ``NULL`` (Veja isnull_ para mais detalhes).
 
-Examples::
+Exemplos::
 
     Entry.objects.get(id__exact=14)
     Entry.objects.get(id__exact=None)
 
-SQL equivalents::
+SQL equivalente::
 
     SELECT ... WHERE id = 14;
     SELECT ... WHERE id IS NULL;
 
 .. versionchanged:: 1.0
-   The semantics of ``id__exact=None`` have changed in Django 1.0. Previously,
-   it was (intentionally) converted to ``WHERE id = NULL`` at the SQL level,
-   which would never match anything. It has now been changed to behave the
-   same as ``id__isnull=True``.
+   A semântica de ``id__exact=None`` mudou no Django 1.0. Anteriormente, ela era
+   (intencionalmente) convetido para ``WHERE id = NULL`` a nível de SQL, o que
+   nunca combinaria com nada. Agora ela foi mudada para fazer o mesmo utilizando
+   ``id__isnull=True``.
 
 .. admonition:: MySQL comparisons
 
-    In MySQL, a database table's "collation" setting determines whether
-    ``exact`` comparisons are case-sensitive. This is a database setting, *not*
-    a Django setting. It's possible to configure your MySQL tables to use
-    case-sensitive comparisons, but some trade-offs are involved. For more
-    information about this, see the :ref:`collation section <mysql-collation>`
-    in the :ref:`databases <ref-databases>` documentation.
+    No MySQL, uma configuração de "collation" de tabela do banco de dados
+    determina se comparações ``exact`` são sensíveis a maiúsculas. Essa é uma
+    configuração de banco de dados, *não* uma configuração do Django. É possível
+    configurar suas tabelas MySQL para usar a comparação sensível a maiúsculas,
+    mas algumas pecinhas estão envolvidas. Para mais informação sobre isto, veja
+    a :ref:`seção collation <mysql-collation>` na documentação de
+    :ref:`banco de dados <ref-databases>`.
+
 
 iexact
 ~~~~~~
 
-Case-insensitive exact match.
+Combinação exata sensível a maiúsculas.
 
-Example::
+Exemplo::
 
     Blog.objects.get(name__iexact='beatles blog')
 
-SQL equivalent::
+SQL equivalente::
 
     SELECT ... WHERE name ILIKE 'beatles blog';
 
-Note this will match ``'Beatles Blog'``, ``'beatles blog'``, ``'BeAtLes
+Note que isto combinará ``'Beatles Blog'``, ``'beatles blog'``, ``'BeAtLes
 BLoG'``, etc.
 
 .. admonition:: SQLite users
 
-    When using the SQLite backend and Unicode (non-ASCII) strings, bear in
-    mind the :ref:`database note <sqlite-string-matching>` about string
-    comparisons. SQLite does not do case-insensitive matching for Unicode
-    strings.
+    Quando estiver usando o backend SQLite e strings Unicode (não ASCII), tenha
+    em mente a :ref:`anotação de banco de dados <sqlite-string-matching>` sobre
+    comparação de strings. O SQLite não faz checagem não sensivel a maiúsculas
+    em strings Unicode.
 
 contains
 ~~~~~~~~
 
-Case-sensitive containment test.
+Teste de contimento sensível a maiúsculas.
 
-Example::
+Exemplo::
 
     Entry.objects.get(headline__contains='Lennon')
 
-SQL equivalent::
+SQL equivalente::
 
     SELECT ... WHERE headline LIKE '%Lennon%';
 
-Note this will match the headline ``'Today Lennon honored'`` but not
+Note que este combinará o headline  ``'Today Lennon honored'`` mas não
 ``'today lennon honored'``.
 
-SQLite doesn't support case-sensitive ``LIKE`` statements; ``contains`` acts
-like ``icontains`` for SQLite.
+O SQLite não suporta regras ``LIKE`` sensíveis a maiúsculas; ``contains`` age
+como ``icontains`` no SQLite.
 
 icontains
 ~~~~~~~~~
 
-Case-insensitive containment test.
+Teste de contimento insensível a maiúsculas.
 
-Example::
+Exemplo::
 
     Entry.objects.get(headline__icontains='Lennon')
 
-SQL equivalent::
+SQL equivalente::
 
     SELECT ... WHERE headline ILIKE '%Lennon%';
 
 .. admonition:: SQLite users
 
-    When using the SQLite backend and Unicode (non-ASCII) strings, bear in
-    mind the :ref:`database note <sqlite-string-matching>` about string
-    comparisons.
+    Quando estiver usando o backend SQLite e strings Unicode (não ASCII), tenha
+    em mente a :ref:`anotação de banco de dados <sqlite-string-matching>` sobre
+    comparação de strings.
 
 in
 ~~
 
-In a given list.
+Numa dada lista.
 
-Example::
+Exemplo::
 
     Entry.objects.filter(id__in=[1, 3, 4])
 
-SQL equivalent::
+SQL equivalente::
 
     SELECT ... WHERE id IN (1, 3, 4);
 
-You can also use a queryset to dynamically evaluate the list of values
-instead of providing a list of literal values. The queryset must be
-reduced to a list of individual values using the ``values()`` method,
-and then converted into a query using the ``query`` attribute::
+Você pode também usar um queryset para avaliar dinamicamente a lista de valores
+ao invés de fornecer uma lista de valores literais. O queryset deve ser reduzido
+a uma lista de valores individuais usando o método ``values()``, e então
+convertido dentro de uma consulta usando o atributo ``query``::
 
     q = Blog.objects.filter(name__contains='Cheddar').values('pk').query
     e = Entry.objects.filter(blog__in=q)
 
 .. warning::
 
-    This ``query`` attribute should be considered an opaque internal attribute.
-    It's fine to use it like above, but its API may change between Django
-    versions.
+    Este atributo ``query`` deve ser considerado um atributo interno opaco. É
+    legal usá-lo como acima, mas sua API pode mudar entre as versões do Django.
 
-This queryset will be evaluated as subselect statement::
+Este queryset será avaliado como uma regra de subselect::
 
     SELECT ... WHERE blog.id IN (SELECT id FROM ... WHERE NAME LIKE '%Cheddar%')
 
 gt
 ~~
 
-Greater than.
+Maior que.
 
-Example::
+Exemplo::
 
     Entry.objects.filter(id__gt=4)
 
-SQL equivalent::
+SQL equivalente::
 
     SELECT ... WHERE id > 4;
 
 gte
 ~~~
 
-Greater than or equal to.
+Maior ou igual a.
 
 lt
 ~~
 
-Less than.
+Menor que.
 
 lte
 ~~~
 
-Less than or equal to.
+Menor ou igual a.
 
 startswith
 ~~~~~~~~~~
 
-Case-sensitive starts-with.
+Começa com sensível a maiúsculas.
 
-Example::
+Exemplo::
 
     Entry.objects.filter(headline__startswith='Will')
 
-SQL equivalent::
+SQL equivalente::
 
     SELECT ... WHERE headline LIKE 'Will%';
 
-SQLite doesn't support case-sensitive ``LIKE`` statements; ``startswith`` acts
-like ``istartswith`` for SQLite.
+O SQLite não suporta regras ``LIKE`` sensíveis a maiúsculas; o ``startswith``
+age como ``istartswith`` no SQLite.
 
 istartswith
 ~~~~~~~~~~~
 
-Case-insensitive starts-with.
+Começa com insensível a maiúsculas.
 
-Example::
+Exemplo::
 
     Entry.objects.filter(headline__istartswith='will')
 
-SQL equivalent::
+SQL equivalente::
 
     SELECT ... WHERE headline ILIKE 'Will%';
 
 .. admonition:: SQLite users
 
-    When using the SQLite backend and Unicode (non-ASCII) strings, bear in
-    mind the :ref:`database note <sqlite-string-matching>` about string
-    comparisons.
+    Quando estiver usando o backend SQLite e strings Unicode (não ASCII), tenha
+    em mente a :ref:`anotação de banco de dados <sqlite-string-matching>` sobre
+    comparação de strings.
 
 endswith
 ~~~~~~~~
 
-Case-sensitive ends-with.
+Termina com sensível a maiúsculas.
 
-Example::
+Exemplo::
 
     Entry.objects.filter(headline__endswith='cats')
 
-SQL equivalent::
+SQL equivalente::
 
     SELECT ... WHERE headline LIKE '%cats';
 
-SQLite doesn't support case-sensitive ``LIKE`` statements; ``endswith`` acts
-like ``iendswith`` for SQLite.
+O SQLite não suporta regras ``LIKE`` sensíveis a maiúsculas; o ``endswith``
+age como ``iendswith`` no SQLite.
 
 iendswith
 ~~~~~~~~~
 
-Case-insensitive ends-with.
+Termina com insensível a maiúsculas.
 
-Example::
+Exemplo::
 
     Entry.objects.filter(headline__iendswith='will')
 
-SQL equivalent::
+SQL equivalente::
 
     SELECT ... WHERE headline ILIKE '%will'
 
 .. admonition:: SQLite users
 
-    When using the SQLite backend and Unicode (non-ASCII) strings, bear in
-    mind the :ref:`database note <sqlite-string-matching>` about string
-    comparisons.
+    Quando estiver usando o backend SQLite e strings Unicode (não ASCII), tenha
+    em mente a :ref:`anotação de banco de dados <sqlite-string-matching>` sobre
+    comparação de strings.
 
 range
 ~~~~~
 
-Range test (inclusive).
+Teste de faixa (inclusivo).
 
-Example::
+Exemplo::
 
     start_date = datetime.date(2005, 1, 1)
     end_date = datetime.date(2005, 3, 31)
     Entry.objects.filter(pub_date__range=(start_date, end_date))
 
-SQL equivalent::
+SQL equivalente::
 
     SELECT ... WHERE pub_date BETWEEN '2005-01-01' and '2005-03-31';
 
-You can use ``range`` anywhere you can use ``BETWEEN`` in SQL -- for dates,
-numbers and even characters.
+Você pode usar ``range`` onde você puder usar ``BETWEEN`` no SQL -- para datas,
+números ou mesmo caracteres.
 
 year
 ~~~~
 
-For date/datetime fields, exact year match. Takes a four-digit year.
+Para campos date/datetime, combinação exata de ano. Recebe um ano com quatro
+dígitos.
 
-Example::
+Exemplo::
 
     Entry.objects.filter(pub_date__year=2005)
 
-SQL equivalent::
+SQL equivalente::
 
     SELECT ... WHERE EXTRACT('year' FROM pub_date) = '2005';
 
-(The exact SQL syntax varies for each database engine.)
+(A sintaxe exata do SQL varia para cada motor de banco de dados.)
 
 month
 ~~~~~
 
-For date/datetime fields, exact month match. Takes an integer 1 (January)
-through 12 (December).
+Para campos date/datetime, combinação exata de mês. Recebe um inteiro 1
+(Janeiro) até 12 (Dezembro).
 
-Example::
+Exemplo::
 
     Entry.objects.filter(pub_date__month=12)
 
-SQL equivalent::
+SQL equivalente::
 
     SELECT ... WHERE EXTRACT('month' FROM pub_date) = '12';
 
-(The exact SQL syntax varies for each database engine.)
+(A sintaxe exata do SQL varia para cada motor de banco de dados.)
 
 day
 ~~~
 
-For date/datetime fields, exact day match.
+Para campos date/datetime, combinação exata de dia.
 
-Example::
+Exemplo::
 
     Entry.objects.filter(pub_date__day=3)
 
-SQL equivalent::
+SQL equivalente::
 
     SELECT ... WHERE EXTRACT('day' FROM pub_date) = '3';
 
-(The exact SQL syntax varies for each database engine.)
+(A sintaxe exata do SQL varia para cada motor de banco de dados.)
 
-Note this will match any record with a pub_date on the third day of the month,
-such as January 3, July 3, etc.
+Note que isto combinará com qualquer dado com um pub_date no terceiro dia do
+mês, como Janeiro 3, Julho 3, etc.
 
 isnull
 ~~~~~~
 
-Takes either ``True`` or ``False``, which correspond to SQL queries of
-``IS NULL`` and ``IS NOT NULL``, respectively.
+Recebe um ``True`` ou ``False``, que coresponde a consultas SQL ``IS NULL`` e
+``IS NOT NULL``, respectivamente.
 
-Example::
+Exemplo::
 
     Entry.objects.filter(pub_date__isnull=True)
 
-SQL equivalent::
+SQL equivalente::
 
     SELECT ... WHERE pub_date IS NULL;
 
 search
 ~~~~~~
 
-A boolean full-text search, taking advantage of full-text indexing. This is
-like ``contains`` but is significantly faster due to full-text indexing.
+Um booleano de busca full-text, recebendo vantagem do indexamento full-text.
+Este é como o ``contains`` mas é significativamente mais rápido, devido ao
+indexamento full-text.
 
-Example::
-    
+Exemplo::
+
     Entry.objects.filter(headline__search="+Django -jazz Python")
 
-SQL equivalent::
+SQL equivalente::
 
     SELECT ... WHERE MATCH(tablename, headline) AGAINST (+Django -jazz Python IN BOOLEAN MODE);
 
-Note this is only available in MySQL and requires direct manipulation of the
-database to add the full-text index. By default Django uses BOOLEAN MODE for
-full text searches. `Please check MySQL documentation for additional details. <http://dev.mysql.com/doc/refman/5.1/en/fulltext-boolean.html>`_
+Note que isso somente está disponível no MySQL e requer manipulação direta do
+banco de dados para adicionar o index full-text. Por padrão o Django usa
+BOOLEAN MODE nas buscas em full-text. `Por favor verifique a documentação do
+MySQL para detalhes adicionais.
+<http://dev.mysql.com/doc/refman/5.1/en/fulltext-boolean.html>`_
 
 
 regex
@@ -1286,17 +1299,17 @@ regex
 
 .. versionadded:: 1.0
 
-Case-sensitive regular expression match.
+Combinação por expressão regular sensível a maiúsculas.
 
-The regular expression syntax is that of the database backend in use. In the
-case of SQLite, which doesn't natively support regular-expression lookups, the
-syntax is that of Python's ``re`` module.
+A sintaxe de expressão regular é a que o beckend do banco de dados usa. No caso
+do SQLite, que não suporta nativamente, pesquisa com expressões regulares, a
+sintaxe é a do módulo Python ``re``.
 
-Example::
+Exemplo::
 
     Entry.objects.get(title__regex=r'^(An?|The) +')
 
-SQL equivalents::
+SQL equivalentes::
 
     SELECT ... WHERE title REGEXP BINARY '^(An?|The) +'; -- MySQL
 
@@ -1314,13 +1327,13 @@ iregex
 
 .. versionadded:: 1.0
 
-Case-insensitive regular expression match.
+Combinação por expressão regular insensível a maiúsculas.
 
-Example::
+Exemplo::
 
     Entry.objects.get(title__iregex=r'^(an?|the) +')
 
-SQL equivalents::
+SQL equivalentes::
 
     SELECT ... WHERE title REGEXP '^(an?|the) +'; -- MySQL
 
