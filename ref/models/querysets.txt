@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
@@ -257,86 +257,88 @@ mais que seu backend de banco de dados normalmente o faça.
 
 .. versionadded:: 1.0
 
-Use the ``reverse()`` method to reverse the order in which a queryset's
-elements are returned. Calling ``reverse()`` a second time restores the
-ordering back to the normal direction.
+Use o método ``reverse()`` para reverter a ordem em que os elementos de uma
+queryset são retornados. Chamando ``reverse()`` uma segunda vez restaura a
+ordem de volta a direção normal.
 
-To retrieve the ''last'' five items in a queryset, you could do this::
+Para receber os ''últimos'' cinco elementos de um queryset, você pode fazer
+isso::
 
     my_queryset.reverse()[:5]
 
-Note that this is not quite the same as slicing from the end of a sequence in
-Python. The above example will return the last item first, then the
-penultimate item and so on. If we had a Python sequence and looked at
-``seq[-5:]``, we would see the fifth-last item first. Django doesn't support
-that mode of access (slicing from the end), because it's not possible to do it
-efficiently in SQL.
+Perceba que isto não é a mesma coisa que tirar um pedação ao final de uma
+sequência no Python. O exemplo acima retornará o último ítem primeiro, e então
+o penultimo item e assim por diante. Se nós temos uma sequência do Python e
+olhamos em ``seq[-5:]``, nós veriamos o quinto-último elemento primeiro. O
+Django não suporta este modo de acesso (fatiamento ao final), porquê ele não é
+possível de ser feito eficientemente no SQL.
 
-Also, note that ``reverse()`` should generally only be called on a
-``QuerySet`` which has a defined ordering (e.g., when querying against
-a model which defines a default ordering, or when using
-``order_by()``). If no such ordering is defined for a given
-``QuerySet``, calling ``reverse()`` on it has no real effect (the
-ordering was undefined prior to calling ``reverse()``, and will remain
-undefined afterward).
+Também, note que o ``reverse()`` geralmente só deve ser chamado sobre um
+``QuerySet`` que tem um ordenamento definido (e.g. quando a consulta é feita
+contra um model que tem o ordenamento definido, ou quando usa-se o
+``order_by()``). Se nenhum ordenamento foi definido para o ``QuerySet``, chamar
+o ``reverse()`` sobre ele não terá o efeito real (o ordenamento estava
+indefinido antes da chamada do ``reverse()``, e permanecerá undefinido depois).
 
 ``distinct()``
 ~~~~~~~~~~~~~~
 
-Returns a new ``QuerySet`` that uses ``SELECT DISTINCT`` in its SQL query. This
-eliminates duplicate rows from the query results.
+Retorna um novo ``QuerySet`` que usa ``SELECT DISTINCT`` na sua consulta SQL.
+Isso elimina duplicatas nos resultados da consulta.
 
-By default, a ``QuerySet`` will not eliminate duplicate rows. In practice, this
-is rarely a problem, because simple queries such as ``Blog.objects.all()``
-don't introduce the possibility of duplicate result rows. However, if your
-query spans multiple tables, it's possible to get duplicate results when a
-``QuerySet`` is evaluated. That's when you'd use ``distinct()``.
+Por padrão, um ``QuerySet`` não eliminará linhas duplicadas. Na prática, isto
+raramente é um problema, porque consultas simples como ``Blog.objects.all()``
+não introduzem a possibilidade de duplicatas no resultado. No entanto, se sua
+consulta atinge várias tabelas, é possível receber resultados duplicados quando
+um ``QuerySet`` for avaliado. Nessas horas você deve usar ``distinct()``.
 
 .. note::
-    Any fields used in an `order_by(*fields)`_ call are included in the SQL
-    ``SELECT`` columns. This can sometimes lead to unexpected results when
-    used in conjunction with ``distinct()``. If you order by fields from a
-    related model, those fields will be added to the selected columns and they
-    may make otherwise duplicate rows appear to be distinct. Since the extra
-    columns don't appear in the returned results (they are only there to
-    support ordering), it sometimes looks like non-distinct results are being
-    returned.
+    Quaisquer campos usados numa chamada `order_by(*fields)`_ são incluídos nas
+    colunas do SQL ``SELECT``. Isso pode conduzir, as vezes, a resultados
+    inesperados quando usa em conjunto com ``distinct()``. Se você ordena por
+    campos de um model relacionado, estes campos podem ser adicionados as
+    colunas selecionadas e eles podem fazer, de outra forma, as linhas
+    duplicadas parecerem ser distintas. Desde que as colunas extras não aparecem
+    nos resultados retornados (eles somente estão lá para apoiar o ordenamento),
+    algumas vezes parecem como se resultados não distintos estão sendo
+    devolvidos.
 
-    Similarly, if you use a ``values()`` query to restrict the columns
-    selected, the columns used in any ``order_by()`` (or default model
-    ordering) will still be involved and may affect uniqueness of the results.
+    Similarmente, se você usa uma consulta ``values()`` para as colunas
+    restritas selecionadas, as colunas usadas em qualquer ``order_by()`` (ou
+    ordenamento padrão do model) ainda estarão envolvidos e pode afetar a
+    unicidade dos resultados.
 
-    The moral here is that if you are using ``distinct()`` be careful about
-    ordering by related models. Similarly, when using ``distinct()`` and
-    ``values()`` together, be careful when ordering by fields not in the
-    ``values()`` call.
-
+    A moral aqui é que se você estiver usando ``distinct()`` deve ser cuidadoso
+    com o ordenamento por models relacionados. Identicamente, quando usamos
+    ``distinct()`` e ``values()`` juntos, deve-se ter cuidado ao ordenar por
+    campos que não estão na chamada ``values()``.
 
 ``values(*fields)``
 ~~~~~~~~~~~~~~~~~~~
 
-Returns a ``ValuesQuerySet`` -- a ``QuerySet`` that evaluates to a list of
-dictionaries instead of model-instance objects.
+Retorna um ``ValuesQuerySet()`` -- um ``QuerySet`` que avalia para uma lista de
+dicionários ao invés de objetos de instância de models.
 
-Each of those dictionaries represents an object, with the keys corresponding to
-the attribute names of model objects.
+Cada um destes dicionários representa um objeto, com as chaves correspondendo
+aos nomes dos atributos dos objetos de model.
 
-This example compares the dictionaries of ``values()`` with the normal model
-objects::
+Este exemplo compara os dicionários de ``values()`` com os objetos normais de
+model::
 
-    # This list contains a Blog object.
+    # Esta lista contém um objeto Blog.
     >>> Blog.objects.filter(name__startswith='Beatles')
     [<Blog: Beatles Blog>]
 
-    # This list contains a dictionary.
+    # Esta lista contém um dicionário.
     >>> Blog.objects.filter(name__startswith='Beatles').values()
     [{'id': 1, 'name': 'Beatles Blog', 'tagline': 'All the latest Beatles news.'}]
 
-``values()`` takes optional positional arguments, ``*fields``, which specify
-field names to which the ``SELECT`` should be limited. If you specify the
-fields, each dictionary will contain only the field keys/values for the fields
-you specify. If you don't specify the fields, each dictionary will contain a
-key and value for every field in the database table.
+``values()`` recebe argumentos posicionais opcionais, ``*fields``, que
+especificam nomes de campos aos quais o ``SELECT`` deve ser limitado. Se você
+especificar os fields, cada dicionário conterá somente o campo chave/valor para
+os campos que você determinou. Se você não especificar os campos, cada
+dicionário terá uma chave e um valor para todos os campos da tabela do banco de
+dados.
 
 Exemplo::
 
@@ -345,21 +347,22 @@ Exemplo::
     >>> Blog.objects.values('id', 'name')
     [{'id': 1, 'name': 'Beatles Blog'}]
 
-A couple of subtleties that are worth mentioning:
+Algumas sutilesas que valem a pena mencionar:
 
-    * The ``values()`` method does not return anything for
-      :class:`~django.db.models.ManyToManyField` attributes and will raise an
-      error if you try to pass in this type of field to it.
-    * If you have a field called ``foo`` that is a
-      :class:`~django.db.models.ForeignKey`, the default ``values()`` call
-      will return a dictionary key called ``foo_id``, since this is the name
-      of the hidden model attribute that stores the actual value (the ``foo``
-      attribute refers to the related model). When you are calling
-      ``values()`` and passing in field names, you can pass in either ``foo``
-      or ``foo_id`` and you will get back the same thing (the dictionary key
-      will match the field name you passed in).
+    * O método ``values()`` não retorna nada para atributos
+      :class:`~django.db.models.ManyToManyField` e gerará um erro se você
+      tentar passar este tipo de campo para ele.
 
-      For Exemplo::
+    * Se você tem um campo chamado ``foo`` que é um
+      :class:`~django.db.models.ForeignKey`, a chamada padrão de ``values()``
+      retornará uma chave de dicionário chamada ``foo_id``, uma vez que este é o
+      nome do atributo oculto do model que armazena o valor real (o atributo
+      ``foo`` refere-se ao model relacionado). Quando você estiver chamando
+      ``values()`` e passando em nomes de campos, você pdoe passar ambos ``foo``
+      ou ``foo_id`` e você terá de volta a mesma coisa (a chave do dicionário
+      combinará o nome do campo que você passou).
+
+      Por Exemplo::
 
         >>> Entry.objects.values()
         [{'blog_id: 1, 'headline': u'First Entry', ...}, ...]
@@ -369,31 +372,32 @@ A couple of subtleties that are worth mentioning:
 
         >>> Entry.objects.values('blog_id')
         [{'blog_id': 1}, ...]
-    * When using ``values()`` together with ``distinct()``, be aware that
-      ordering can affect the results. See the note in the `distinct()`_
-      section, above, for details.
+    * Quando estiver usando ``values()`` junto com ``distinct()``, esteja alerta
+      pois o ordenamento pode afetar os resultados. Veja a nota na seção
+      `distinct()`_, acima, para detalhes.
 
 .. versionadded:: 1.0
 
-Previously, it was not possible to pass ``blog_id`` to ``values()`` in the above
-example, only ``blog``.
+Anteriormente, não seria possível passar ``blog_id`` ao ``values()`` no exemplo
+acima, somente ``blog``.
 
-A ``ValuesQuerySet`` is useful when you know you're only going to need values
-from a small number of the available fields and you won't need the
-functionality of a model instance object. It's more efficient to select only
-the fields you need to use.
+Um ``ValuesQuerySet`` é útil quando você sabe que vai precisar de valores de um
+pequeno número de campos disponíveis e você não precisa de funcionalidade de um
+objeto de instância de model. É mais eficiente selecionar somente os campos que
+você precisa usar.
 
-Finally, note a ``ValuesQuerySet`` is a subclass of ``QuerySet``, so it has all
-methods of ``QuerySet``. You can call ``filter()`` on it, or ``order_by()``, or
-whatever. Yes, that means these two calls are identical::
+Finalmente, perceba que um ``ValuesQuerySet`` é uma subclasse de ``QuerySet``,
+então ele terá todos os método do ``QuerySet``. Você pode chamar o ``filter()``
+sobre ele, ou ``order_by()``, ou ou que seja. Sim, isto significa que essas duas
+chamadas são identicas::
 
     Blog.objects.values().order_by('id')
     Blog.objects.order_by('id').values()
 
-The people who made Django prefer to put all the SQL-affecting methods first,
-followed (optionally) by any output-affecting methods (such as ``values()``),
-but it doesn't really matter. This is your chance to really flaunt your
-individualism.
+As pessoas que fizeram o Django preferem colocar todos os métodos que afetam SQL
+primeiro, seguidos (opicionalmente) por quaisquer métodos que afetam a saída (
+como o ``values()``), mas isso não importa realmente. Esta é a sua chance de
+ostentar seu individualismo.
 
 ``values_list(*fields)``
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -599,41 +603,40 @@ chamadas do ``select_related()``, são novidades do Django 1.0.
 ``extra(select=None, where=None, params=None, tables=None, order_by=None, select_params=None)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Sometimes, the Django query syntax by itself can't easily express a complex
-``WHERE`` clause. For these edge cases, Django provides the ``extra()``
-``QuerySet`` modifier -- a hook for injecting specific clauses into the SQL
-generated by a ``QuerySet``.
+Algumas vezes, a sintaxe de consulta do Django, por si só, não expressa um
+cláusula complexa ``WHERE``. Para esta orla de casos, o Django fornece o
+modificador ``extra()`` do ``QuerySet`` -- um hook para injetar clausulas
+específicas dentro do SQL gerado pelo ``QuerySet``.
 
-By definition, these extra lookups may not be portable to different database
-engines (because you're explicitly writing SQL code) and violate the DRY
-principle, so you should avoid them if possible.
+Por definição, estas pesquisas extra podem não ser portáveis para diferentes
+bancos de dados (pois você está escrevendo código SQL explicitamente) e violando
+o principio DRY, então você deve evitá-los se possível.
 
-Specify one or more of ``params``, ``select``, ``where`` or ``tables``. None
-of the arguments is required, but you should use at least one of them.
+Especificar um ou mais de ``params``, ``select``, ``where`` ou ``tables``.
+Nenhum dos argumentos é obrigatório, mas você deve usar pelo menos um deles.
 
 ``select``
-    The ``select`` argument lets you put extra fields in the ``SELECT`` clause.
-    It should be a dictionary mapping attribute names to SQL clauses to use to
-    calculate that attribute.
+    O argumento ``select`` deixa você colocar campos extras na cláusula
+    ``SELECT``. Ele deve ser um dicionário que mapea nomes de atributos para que
+    a cláusula SQL calcule estes atributos.
 
     Exemplo::
 
         Entry.objects.extra(select={'is_recent': "pub_date > '2006-01-01'"})
 
-    As a result, each ``Entry`` object will have an extra attribute,
-    ``is_recent``, a boolean representing whether the entry's ``pub_date`` is
-    greater than Jan. 1, 2006.
+    Como um resultado, cada objeto ``Entry`` terá um atributo extra,
+    ``is_recent``, um booleano representando se o ``pub_date`` da entrada é
+    maior que Jan. 1, 2006.
 
-    Django inserts the given SQL snippet directly into the ``SELECT``
-    statement, so the resulting SQL of the above example would be::
+    O Django insere o dado pedaço de SQL diretamente dentor da regra ``SELECT``,
+    então o SQL resultante do exemplo acima deveria ser::
 
         SELECT blog_entry.*, (pub_date > '2006-01-01')
         FROM blog_entry;
 
-
-    The next example is more advanced; it does a subquery to give each
-    resulting ``Blog`` object an ``entry_count`` attribute, an integer count
-    of associated ``Entry`` objects::
+    o próximo exemplo é mais avançado; ele faz uma sub-consulta para cada objeto
+    ``Blog`` resultando num atributo ``entry_count``, um contador inteiro de
+    objetos ``Entry`` associados::
 
         Blog.objects.extra(
             select={
@@ -641,118 +644,118 @@ of the arguments is required, but you should use at least one of them.
             },
         )
 
-    (In this particular case, we're exploiting the fact that the query will
-    already contain the ``blog_blog`` table in its ``FROM`` clause.)
+    (Neste caso particular, nós estamos explorando o fato de que a consulta
+    já conterá a tabela ``blog_blog`` na cláusula ``FROM``.)
 
-    The resulting SQL of the above example would be::
+    O SQL resultante do exemplo acima deveria ser::
 
         SELECT blog_blog.*, (SELECT COUNT(*) FROM blog_entry WHERE blog_entry.blog_id = blog_blog.id) AS entry_count
         FROM blog_blog;
 
-    Note that the parenthesis required by most database engines around
-    subqueries are not required in Django's ``select`` clauses. Also note that
-    some database backends, such as some MySQL versions, don't support
-    subqueries.
+    Note que os parenteses requeridos pela maioria dos bancos de dados a volta
+    da sub-consulta não são obrigatório na cláusula ``select`` do Django. Também
+    note que alguns backends de banco de dados, como algumas versões do MySQL,
+    não suportam sub-consultas.
 
     .. versionadded:: 1.0
 
-    In some rare cases, you might wish to pass parameters to the SQL fragments
-    in ``extra(select=...)``. For this purpose, use the ``select_params``
-    parameter. Since ``select_params`` is a sequence and the ``select``
-    attribute is a dictionary, some care is required so that the parameters
-    are matched up correctly with the extra select pieces.  In this situation,
-    you should use a ``django.utils.datastructures.SortedDict`` for the
-    ``select`` value, not just a normal Python dictionary.
+    Em alguns casos raros, você pode querer passar paramêtros para os fragmentos
+    SQL no ``extra(select=...)``. Para este proposito, use o paramêtro
+    ``select_params``. Já que  ``select_params`` é uma sequência de atributos
+    ``select`` como um dicionário, algums cuidados são requeridos para que os
+    parametros sejam combinados corretamente com as partes do select extra.
+    Nesta situação, você deve usar um ``django.utils.datastructures.SortedDict``
+    para o valor ``select``, não somente um dicionário normal do Python.
 
-    This will work, for Exemplo::
+    Isso funcionará, por exemplo::
 
         Blog.objects.extra(
             select=SortedDict([('a', '%s'), ('b', '%s')]),
             select_params=('one', 'two'))
 
-    The only thing to be careful about when using select parameters in
-    ``extra()`` is to avoid using the substring ``"%%s"`` (that's *two*
-    percent characters before the ``s``) in the select strings. Django's
-    tracking of parameters looks for ``%s`` and an escaped ``%`` character
-    like this isn't detected. That will lead to incorrect results.
+    A única coisa que se deve ter cuidado quando usar parametros de select no
+    ``extra()`` é para evitar usar um substring ``"%%s"`` (que são dois
+    caracteres porcento antes do ``s``) nas strings select. O monitoramento de
+    parametros do Django procura por ``%s`` e um caracter de escape ``%`` como
+    este não detectado. Isso conduzirá a resultados incorretos.
 
 ``where`` / ``tables``
-    You can define explicit SQL ``WHERE`` clauses -- perhaps to perform
-    non-explicit joins -- by using ``where``. You can manually add tables to
-    the SQL ``FROM`` clause by using ``tables``.
+    Você pode definir explicitamnte uma cláusula SQL ``WHERE`` -- talvez para
+    executar joins não explícitos -- usando ``where``. Você pode manual
+    adicionar tabelas a cláusula SQL ``FROM`` usando ``tables``.
 
-    ``where`` and ``tables`` both take a list of strings. All ``where``
-    parameters are "AND"ed to any other search criteria.
+    ``where`` e ``tables`` ambos recebem uma lista de strings. Todos os
+    paramêtros de ``where`` são separados por "AND" para qualquer critério de
+    busca.
 
     Exemplo::
 
         Entry.objects.extra(where=['id IN (3, 4, 5, 20)'])
 
-    ...translates (roughly) into the following SQL::
+    ...é traduzido (aproximadamente) para o seguinte SQL::
 
         SELECT * FROM blog_entry WHERE id IN (3, 4, 5, 20);
 
-    Be careful when using the ``tables`` parameter if you're specifying
-    tables that are already used in the query. When you add extra tables
-    via the ``tables`` parameter, Django assumes you want that table included
-    an extra time, if it is already included. That creates a problem,
-    since the table name will then be given an alias. If a table appears
-    multiple times in an SQL statement, the second and subsequent occurrences
-    must use aliases so the database can tell them apart. If you're
-    referring to the extra table you added in the extra ``where`` parameter
-    this is going to cause errors.
+    Seja cuidadoso quando estiver usando o parametro ``tables`` se você estiver
+    especificando tabelas que já são usadas na consulta. Quando você adiciona
+    tabelas extras via paramêtro ``tables``, o Django assume que você quer que
+    aquela tabela tenha uma inclusão extra, se ela á estiver incluída. Isto cria
+    um problema, já que o nome da tabela terá de ser um alias. Se a tabela
+    aparece várias vezes no SQL, a segunda e subsequentes ocorrencias devem usar
+    pseudônimos, desta forma o banco de dados pode distringui-las. Se você está
+    referindo-se a tabelas extras que você adicionou no parametro ``where`` isto
+    causará erros.
 
-    Normally you'll only be adding extra tables that don't already appear in
-    the query. However, if the case outlined above does occur, there are a few
-    solutions. First, see if you can get by without including the extra table
-    and use the one already in the query. If that isn't possible, put your
-    ``extra()`` call at the front of the queryset construction so that your
-    table is the first use of that table. Finally, if all else fails, look at
-    the query produced and rewrite your ``where`` addition to use the alias
-    given to your extra table. The alias will be the same each time you
-    construct the queryset in the same way, so you can rely upon the alias
-    name to not change.
+    Normalmente você somente adicionará tabelas extra que já não estão
+    aparecendo na consulta. Entretanto, se o caso mostrado acima ocorrer, há
+    poucas soluções. Primeiro, veja se você pode obter resultado sem incluir a
+    tabela extra que já esteja na consulta. Se isso não for possível, coloque
+    sua chamada ``extra()`` na frente da construção do queryset de modo que esse
+    será o primeiro uso desta tabela. O alias será o mesmo cada vez que você
+    construir o queryset da mesma forma, então você pode confiar que o nome do
+    alias não mudará.
 
 ``order_by``
-    If you need to order the resulting queryset using some of the new fields
-    or tables you have included via ``extra()`` use the ``order_by`` parameter
-    to ``extra()`` and pass in a sequence of strings. These strings should
-    either be model fields (as in the normal ``order_by()`` method on
-    querysets), of the form ``table_name.column_name`` or an alias for a column
-    that you specified in the ``select`` parameter to ``extra()``.
+    Se você precisa ordenar o queryset resultante usando algum dos novos campos
+    ou tabelas que você incluiu via ``extra()`` use o paramêtro ``order_by()``
+    e passe uma sequencia de strings. Estas strings devem ser os campos dos
+    models (como um método ``order_by`` normal de queryset), no formato
+    ``nome_da_tabela.nome_da_coluna`` ou um alias para uma coluna que você
+    especificou no paramêtro ``select`` do ``extra()``.
 
-    For Exemplo::
+    Por exemplo::
 
         q = Entry.objects.extra(select={'is_recent': "pub_date > '2006-01-01'"})
         q = q.extra(order_by = ['-is_recent'])
 
-    This would sort all the items for which ``is_recent`` is true to the front
-    of the result set (``True`` sorts before ``False`` in a descending
-    ordering).
+    Isso sortiaria todos os ítens para que ``is_recent`` seja vertadeiro e
+    postos na frente do conjunto de resultados (``True`` é ordenado na frente,
+    e ``False`` no ordenamento descendente).
 
-    This shows, by the way, that you can make multiple calls to
-    ``extra()`` and it will behave as you expect (adding new constraints each
-    time).
+    Isso mostra, a propósito, que você pode fazer várias chamadas para o
+    ``extra()`` e ele se comportará como você espera (adicionando novos
+    limitadores a cada vez).
 
 ``params``
-    The ``where`` parameter described above may use standard Python database
-    string placeholders -- ``'%s'`` to indicate parameters the database engine
-    should automatically quote. The ``params`` argument is a list of any extra
-    parameters to be substituted.
+    O parametro ``where`` descrito acima pode usar marcadores de string de banco
+    de dados padrão do Python -- ``'%s'`` para indicar parametros do banco de
+    dados que devem ser citados automaticamente. O argumento ``params`` é uma
+    lista de qualquer paramêtro extra a ser substituído.
 
     Exemplo::
 
         Entry.objects.extra(where=['headline=%s'], params=['Lennon'])
 
-    Always use ``params`` instead of embedding values directly into ``where``
-    because ``params`` will ensure values are quoted correctly according to
-    your particular backend. (For example, quotes will be escaped correctly.)
+    Sempre use ``params`` ao invé sde embutir valores diretamente dentor do
+    ``where``, porque ``params`` irá assegurar que os valores são colocados
+    entre aspas corretamente de acordo com o seu backend particular. (Por
+    exemplo, aspas podem ser escapadas corretamente.)
 
-    Bad::
+    Ruim::
 
         Entry.objects.extra(where=["headline='Lennon'"])
 
-    Good::
+    Bom::
 
         Entry.objects.extra(where=['headline=%s'], params=['Lennon'])
 
@@ -807,13 +810,14 @@ e::
 
 são equivalentes.
 
-The :ref:`force_insert <ref-models-force-insert>` parameter is documented
-elsewhere, but all it means is that a new object will always be created.
-Normally you won't need to worry about this. However, if your model contains a
-manual primary key value that you set and if that value already exists in the
-database, a call to ``create()`` will fail with an ``IntegrityError`` since
-primary keys must be unique. So remember to be prepared to handle the
-exception if you are using manual primary keys.
+O paramêtro :ref:`force_insert <ref-models-force-insert>` é documentado em outro
+lugar, mas tudo isso significa que um novo objeto sempre será criado.
+Normalmente você não vai precisar se preocupar com isto. Entretanto, se seu
+model contém uma chave primária de valor manual, que você seta e se este valor
+já existe no banco de dados, uma chama do ``create()`` falhará com um
+``IntegerityError`` já que a chave primária deve ser única. Então lembre-se de
+estar preparado para tratar essa exceção se você estiver usando chaves primárias
+manuais.
 
 ``get_or_create(**kwargs)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -833,18 +837,18 @@ dados. Por exemplo::
         obj = Person(first_name='John', last_name='Lennon', birthday=date(1940, 10, 9))
         obj.save()
 
-This pattern gets quite unwieldy as the number of fields in a model goes up.
-The above example can be rewritten using ``get_or_create()`` like so::
+Este padrão fica muito pesado quando o número de campos de um model se eleva.
+O exemplo acima pode ser rescrito usando ``get_or_create()`` desta forma::
 
     obj, created = Person.objects.get_or_create(first_name='John', last_name='Lennon',
                       defaults={'birthday': date(1940, 10, 9)})
 
-Any keyword arguments passed to ``get_or_create()`` -- *except* an optional one
-called ``defaults`` -- will be used in a ``get()`` call. If an object is found,
-``get_or_create()`` returns a tuple of that object and ``False``. If an object
-is *not* found, ``get_or_create()`` will instantiate and save a new object,
-returning a tuple of the new object and ``True``. The new object will be
-created roughly according to this algorithm::
+Qualquer argumento nomeado passado para o ``get_or_create()`` -- *exceto* um
+opcional chamado ``defaults`` -- serão usado numa chamada ``get()``. Se um
+objeto é encontrado, ``get_or_create()`` retorna uma tupla deste objeto e
+``False``. Se um objeto *não* é encontrado, ``get_or_create()`` instânciará e
+salvará um novo objeto, retornando uma tupla do novo objeto e ``True``. O novo
+objeto será criado aproximadamente de acordo com este algorítimo::
 
     defaults = kwargs.pop('defaults', {})
     params = dict([(k, v) for k, v in kwargs.items() if '__' not in k])
@@ -852,34 +856,35 @@ created roughly according to this algorithm::
     obj = self.model(**params)
     obj.save()
 
-In English, that means start with any non-``'defaults'`` keyword argument that
-doesn't contain a double underscore (which would indicate a non-exact lookup).
-Then add the contents of ``defaults``, overriding any keys if necessary, and
-use the result as the keyword arguments to the model class. As hinted at
-above, this is a simplification of the algorithm that is used, but it contains
-all the pertinent details. The internal implementation has some more
-error-checking than this and handles some extra edge-conditions; if you're
-interested, read the code.
+Em ingês, isso significar começar com um argumento nomeado não-``'defaults'``
+que não contém um underscore duplo (o que poderia indicar uma pesquisão
+inexata). Então adicione os conteúdos do ``defaults``, sobrecrevendo qualquer
+chave se necesário, e use o resultado como um argumento nomeado para a classe
+model. Como insinuado acima, esta é uma simplificação do algorítimo que é usado,
+mas ele contém todos os detalhes pertinente. A implementação interna tem mais
+checagens de erro que estas e manipula algmas condições extras afiadas; se você
+estiver interessado, leia o código.
 
 Se você tem um campo chamado ``defaults`` e quer usá-lo numa pesquisa exata no
 ``get_or_create()``, é só usar ``'defaults__extact'``, desta forma::
 
     Foo.objects.get_or_create(defaults__exact='bar', defaults={'defaults': 'baz'})
 
-The ``get_or_create()`` method has similar error behaviour to ``create()``
-when you are using manually specified primary keys. If an object needs to be
-created and the key already exists in the database, an ``IntegrityError`` will
-be raised.
+o método ``get_or_create()`` tem um comportamento de erro semelhante ao
+``create()`` quando você está especificando chaves primárias manualmente. Se um
+objeto precisa ser criado e a chave já existe no banco de dados, um
+``IntegrityError`` será lançado.
 
-Finally, a word on using ``get_or_create()`` in Django views. As mentioned
-earlier, ``get_or_create()`` is mostly useful in scripts that need to parse
-data and create new records if existing ones aren't available. But if you need
-to use ``get_or_create()`` in a view, please make sure to use it only in
-``POST`` requests unless you have a good reason not to. ``GET`` requests
-shouldn't have any effect on data; use ``POST`` whenever a request to a page
-has a side effect on your data. For more, see `Safe methods`_ in the HTTP spec.
+Finalmente, uma palabra em uso ``get_or_create()`` nos views do Django. Como
+mencionado antes, ``get_or_create()`` é útil principalmente em scripts que
+precisam parsear dados e criar novos registros se não existirem disponíveis.
+Porém, se você prexia usar ``get_or_create()`` num view, por favor, esteja certo
+de usá-lo em requisições ``POST`` exceto que você tenha uma boa razão para não
+fazê-lo. Requisições ``GET`` não devem ter dados efetivos; Use ``POST`` sempre
+num requisição a uma página que tenha efeito unilateral nos seus dados. Para
+mais, veja `Métodos seguros`_ na especificação do HTTP.
 
-.. _Safe methods: http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.1.1
+.. _Métodos seguros: http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.1.1
 
 ``count()``
 ~~~~~~~~~~~
