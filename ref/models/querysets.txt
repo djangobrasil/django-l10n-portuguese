@@ -225,13 +225,15 @@ estiver usando ``distinct()``. Veja a nota na seção `distinct()`_ para uma
 explicação e como um model relacionado ordenado pode mudar os resultados
 esperados.
 
-It is permissible to specify a multi-valued field to order the results by (for
-example, a ``ManyToMany`` field). Normally this won't be a sensible thing to
-do and it's really an advanced usage feature. However, if you know that your
-queryset's filtering or available data implies that there will only be one
-ordering piece of data for each of the main items you are selecting, the
-ordering may well be exactly what you want to do. Use ordering on multi-valued
-fields with care and make sure the results are what you expect.
+É permissível especificar um campo com valores múltiplos para ordenar os
+resultados (por exemplo, um campo ``ManyToMany``). Normalmente isso não será uma
+coisa sensível a se fazer e realmente não é uma funcionalidade avançada.
+Entretanto, se você sabe que a filtragem de seu queryset ou dados absolutos
+implica que haverá somente um ordenamento de parte dos dados para cada um dos
+ítens principais que você estiver selecionando, o ordenamento pode bem ser
+exatamente o que você precisa fazer. use o ordenamento em campos com
+multi-valores com cuidado e assegure-se de que os resultados sejam os que você
+espera.
 
 Admite-se especificar um campo com multi-valor para ordenar resultados (por
 exemplo, um campo ``ManyToMany``). Normalmente isso não será uma coisa sensível
