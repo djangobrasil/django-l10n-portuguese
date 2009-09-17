@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 11332 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,24 +16,25 @@
 
 .. _ref-forms-api:
 
-=============
-The Forms API
-=============
+====================
+A API de formulários
+====================
 
 .. currentmodule:: django.forms
 
-.. admonition:: About this document
+.. admonition:: Sobre este documento
 
-    This document covers the gritty details of Django's forms API. You should
-    read the :ref:`introduction to working with forms <topics-forms-index>`
-    first.
+    Este documento cobre os detalhes arenosos da API de formulário do Django.
+    Você deve ler a :ref:`introdução ao trabalho com formulários
+    <topics-forms-index>` primeiro.
 
 .. _ref-forms-api-bound-unbound:
 
-Bound and unbound forms
------------------------
+Bound e unbound formulários
+---------------------------
 
 A :class:`Form` instance is either **bound** to a set of data, or **unbound**.
+Uma instância :class:`Form` **bound** para um conjunto de dados, ou **unbound**.
 
     * If it's **bound** to a set of data, it's capable of validating that data
       and rendering the form as HTML with the data displayed in the HTML.
@@ -84,14 +85,14 @@ another :class:`Form` instance. There is no way to change data in a
 :class:`Form` instance. Once a :class:`Form` instance has been created, you
 should consider its data immutable, whether it has data or not.
 
-Using forms to validate data
-----------------------------
+Usando formulários para validar dados
+-------------------------------------
 
 .. method:: Form.is_valid()
 
-The primary task of a :class:`Form` object is to validate data. With a bound
-:class:`Form` instance, call the :meth:`~Form.is_valid` method to run validation
-and return a boolean designating whether the data was valid::
+A primeira tarefa de um objeto :class:`Form` é validar dados. Com uma instância
+de preenchida de um formulário, chame o método :meth:`~Forms.is_valid` para
+executar a validação e retornar um booleano designando se ele foi validado::
 
     >>> data = {'subject': 'hello',
     ...         'message': 'Hi there',
@@ -101,9 +102,9 @@ and return a boolean designating whether the data was valid::
     >>> f.is_valid()
     True
 
-Let's try with some invalid data. In this case, ``subject`` is blank (an error,
-because all fields are required by default) and ``sender`` is not a valid
-e-mail address::
+Vamos tentar com algum dado inválido. Neste caso, ``subject`` esta em branco (um
+erro, pois todos os campos são obrigatórios por padrão) e ``sender`` é um
+endereço de email inválido::
 
     >>> data = {'subject': '',
     ...         'message': 'Hi there',
@@ -115,29 +116,31 @@ e-mail address::
 
 .. attribute:: Form.errors
 
-Access the :attr:`~Form.errors` attribute to get a dictionary of error
-messages::
+Acesse o atributo :attr:`~Form.erros` para pegar um dicionários com as mensagens
+de erro::
 
     >>> f.errors
     {'sender': [u'Enter a valid e-mail address.'], 'subject': [u'This field is required.']}
 
-In this dictionary, the keys are the field names, and the values are lists of
-Unicode strings representing the error messages. The error messages are stored
-in lists because a field can have multiple error messages.
+Neste dicionário, as chaves são nomes de campos, e os valores são listas de
+strings Unicode representando as mensagens de erro. As mensagens de erro são
+armazenadas na lista porque um campo pode ter mais de uma mensagem de erro.
 
-You can access :attr:`~Form.errors` without having to call
-:meth:`~Form.is_valid` first. The form's data will be validated the first time
-either you call :meth:`~Form.is_valid` or access :attr:`~Form.errors`.
+Você pode acessar :attr:`~Form.errors` sem ter de chamar
+:meth:`~Form.is_valid` primeiro. Os dados do formulário estarão validados na
+primeira vez que você chamar :meth:`Form.is_valid` ou acessar o
+:attr:`~Form.errors`.
 
-The validation routines will only get called once, regardless of how many times
-you access :attr:`~Form.errors` or call :meth:`~Form.is_valid`. This means that
-if validation has side effects, those side effects will only be triggered once.
+As rotinas de validação serão chamadas somente uma vez, indiferente de quantas
+vezes você acessar :attr:`~Forms.errors` ou chamar :meth:`~Form.is_valid`. Isso
+significa que se a validação tem efeitos de sentido único, estes efeitos somente
+serão disparados uma vez.
 
-Behavior of unbound forms
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Comportamento de formulário vazios
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-It's meaningless to validate a form with no data, but, for the record, here's
-what happens with unbound forms::
+É sem sentido validar um formulário sem dados, mas, para registro, aqui está
+o que acontece com formulários vazios::
 
     >>> f = ContactForm()
     >>> f.is_valid()
@@ -145,29 +148,30 @@ what happens with unbound forms::
     >>> f.errors
     {}
 
-Dynamic initial values
-----------------------
+Valores iniciais dinâmicos
+--------------------------
 
 .. attribute:: Form.initial
 
-Use ``initial`` to declare the initial value of form fields at runtime. For
-example, you might want to fill in a ``username`` field with the username of the
-current session.
+Use ``initial`` para declarar valores iniciais de campos de formulários em tempo
+de execução. Por exemplo, você pode querer preencher um campo ``username`` com o
+nome de usuário da sessão atual.
 
-To accomplish this, use the ``initial`` argument to a ``Form``. This argument,
-if given, should be a dictionary mapping field names to initial values. Only
-include the fields for which you're specifying an initial value; it's not
-necessary to include every field in your form. For example::
+Para realizar isso, use o argumento ``initial`` de um ``Form``. Este argumento,
+se fornecido, deve ser um dicionário mapeando os nomes dos campos com valores
+iniciais. Somente inclua os campos que você estiver especificando um valor
+inicial; não é necessário incluír todos os campos do seu formulário. Por
+exemplo::
 
     >>> f = ContactForm(initial={'subject': 'Hi there!'})
 
-These values are only displayed for unbound forms, and they're not used as
-fallback values if a particular value isn't provided.
+Estes valores são somente mostrados para formulários vazios, e eles não são
+usados como valores de recuo se um valor particular não é fornecido.
 
-Note that if a ``Field`` defines ``initial`` *and* you include ``initial`` when
-instantiating the ``Form``, then the latter ``initial`` will have precedence. In
-this example, ``initial`` is provided both at the field level and at the form
-instance level, and the latter gets precedence::
+Note que se um ``Field`` define ``initial`` *e* você inclui ``initial`` quando
+instância o ``Form``, então mais tarde ``initial`` terá prioridade. Neste
+exemplo, ``initial`` é fornecido a nível de campo e a nível de instância de
+formulário, e mais tarde terá prioridade::
 
     >>> class CommentForm(forms.Form):
     ...     name = forms.CharField(initial='class')
@@ -179,23 +183,23 @@ instance level, and the latter gets precedence::
     <tr><th>Url:</th><td><input type="text" name="url" /></td></tr>
     <tr><th>Comment:</th><td><input type="text" name="comment" /></td></tr>
 
-Accessing "clean" data
-----------------------
+Acessando dados "limpos"
+------------------------
 
-Each ``Field`` in a ``Form`` class is responsible not only for validating data,
-but also for "cleaning" it -- normalizing it to a consistent format. This is a
-nice feature, because it allows data for a particular field to be input in
-a variety of ways, always resulting in consistent output.
+Cada ``Field`` numa classe ``Form`` é responsável não somente por validar dados,
+mas também por limpá-los -- normalizando-os para um formato consistente. Essa é
+funcionalidade legal, pois ela permite dados de um campo particular ser inserido
+de diversas formas, sempre resultando numa saída consistente.
 
-For example, ``DateField`` normalizes input into a Python ``datetime.date``
-object. Regardless of whether you pass it a string in the format
-``'1994-07-15'``, a ``datetime.date`` object or a number of other formats,
-``DateField`` will always normalize it to a ``datetime.date`` object as long as
-it's valid.
+Por exemplo, ``DateField`` normaliza a entrada num objeto ``datetime.date`` do
+Python. Indiferentemente de você passar a ele uma string no formato
+``'1994-07-15'``, um objeto ``datetime.date`` ou um número de outros formatos,
+``DateField`` sempre será normalizado para um objeto ``datetime.date`` assim
+que ele for validado.
 
-Once you've created a ``Form`` instance with a set of data and validated it,
-you can access the clean data via the ``cleaned_data`` attribute of the ``Form``
-object::
+Uma vez que você tenha criado uma instância do ``Form`` com um conjunto de dados
+e validado-os, você pode acessar os dados limpos via atributo ``cleaned_data``
+do objeto ``Form``::
 
     >>> data = {'subject': 'hello',
     ...         'message': 'Hi there',
@@ -210,12 +214,12 @@ object::
 .. versionchanged:: 1.0
     The ``cleaned_data`` attribute was called ``clean_data`` in earlier releases.
 
-Note that any text-based field -- such as ``CharField`` or ``EmailField`` --
-always cleans the input into a Unicode string. We'll cover the encoding
-implications later in this document.
+Note que qualquer campo baseado em texto -- como um ``CharField`` ou
+``EmailField`` -- sempre limpa a entrada numa string Unicode. Nós iremos cobrir
+as implicações da codificação mais tarde nesse documento.
 
-If your data does *not* validate, your ``Form`` instance will not have a
-``cleaned_data`` attribute::
+Se seus dados *não* validam, sua instância do ``Form`` não terá um atributo
+``cleaned_data``::
 
     >>> data = {'subject': '',
     ...         'message': 'Hi there',
@@ -229,10 +233,10 @@ If your data does *not* validate, your ``Form`` instance will not have a
     ...
     AttributeError: 'ContactForm' object has no attribute 'cleaned_data'
 
-``cleaned_data`` will always *only* contain a key for fields defined in the
-``Form``, even if you pass extra data when you define the ``Form``. In this
-example, we pass a bunch of extra fields to the ``ContactForm`` constructor,
-but ``cleaned_data`` contains only the form's fields::
+``cleaned_data`` sempre conterá *somente* uma chave para campos definidos no
+``Form``, mesmo se você passar um dados extra quando você definir o ``Form``.
+Neste exemplo, nós passamos um grupo de campos extras ao construtor do
+``ContactForm``, mas o ``cleaned_data`` contém somente os campos do formulário::
 
     >>> data = {'subject': 'hello',
     ...         'message': 'Hi there',
@@ -247,10 +251,10 @@ but ``cleaned_data`` contains only the form's fields::
     >>> f.cleaned_data # Doesn't contain extra_field_1, etc.
     {'cc_myself': True, 'message': u'Hi there', 'sender': u'foo@example.com', 'subject': u'hello'}
 
-``cleaned_data`` will include a key and value for *all* fields defined in the
-``Form``, even if the data didn't include a value for fields that are not
-required. In this example, the data dictionary doesn't include a value for the
-``nick_name`` field, but ``cleaned_data`` includes it, with an empty value::
+``cleanded_data`` incluirá uma chave e um valor para *todos* os campos definidos
+no ``Form``, mesmo se os dados não incluem um valor por campo, pois isso não é
+obrigatório. Neste exemplo, o dicionário de dados não inclui um valor para o
+campo ``nick_name``, mas ``cleaned_data`` o inclui, com um valor vazio::
 
     >>> class OptionalPersonForm(Form):
     ...     first_name = CharField()
@@ -263,22 +267,24 @@ required. In this example, the data dictionary doesn't include a value for the
     >>> f.cleaned_data
     {'nick_name': u'', 'first_name': u'John', 'last_name': u'Lennon'}
 
-In this above example, the ``cleaned_data`` value for ``nick_name`` is set to an
-empty string, because ``nick_name`` is ``CharField``, and ``CharField``\s treat
-empty values as an empty string. Each field type knows what its "blank" value
-is -- e.g., for ``DateField``, it's ``None`` instead of the empty string. For
-full details on each field's behavior in this case, see the "Empty value" note
-for each field in the "Built-in ``Field`` classes" section below.
+Neste exemplo acima, o valor ``cleaned_data`` para ``nick_name`` é setado para
+uma estring vazia, porque o ``nick_name`` é ``CharField``, e ``CharField``\s
+tratam valores vazios como uma string vazia. Cada tipo de campo sabe como seus
+valores "brancos" são -- e.g., para ``DateField``, ele é ``None`` ao invés de
+uma string vazia. Para detalhes completos sobre cada comportamento de campo
+neste caso, veja a nota "Valor vazio" para cada campos na seção "classes
+``Field`` embutidas" abaixo.
 
-You can write code to perform validation for particular form fields (based on
-their name) or for the form as a whole (considering combinations of various
-fields). More information about this is in :ref:`ref-forms-validation`.
+Você pode escrever código para executar validação para campos de formulário
+específicos (baseados nos seus nomes) ou para um formulário como um todo
+(considerando combinações de vários campos). Mais informações sobre isso está
+em :ref:`ref-forms-validation`.
 
-Outputting forms as HTML
-------------------------
+Mostrando os formulários como HTML
+----------------------------------
 
-The second task of a ``Form`` object is to render itself as HTML. To do so,
-simply ``print`` it::
+A segunda tarefa de um objeto ``Form`` é renderizar a si mesmo como HTML. Para
+fazê-lo, simplesmente chame ``print``::
 
     >>> f = ContactForm()
     >>> print f
@@ -287,11 +293,11 @@ simply ``print`` it::
     <tr><th><label for="id_sender">Sender:</label></th><td><input type="text" name="sender" id="id_sender" /></td></tr>
     <tr><th><label for="id_cc_myself">Cc myself:</label></th><td><input type="checkbox" name="cc_myself" id="id_cc_myself" /></td></tr>
 
-If the form is bound to data, the HTML output will include that data
-appropriately. For example, if a field is represented by an
-``<input type="text">``, the data will be in the ``value`` attribute. If a
-field is represented by an ``<input type="checkbox">``, then that HTML will
-include ``checked="checked"`` if appropriate::
+Se o formulário está preenchido com dados, a saída HTML incluirá esses dados
+apropriadamente. Por exemplo, se um campo é representado por um
+``<input type="text">``, o dados estará no atributo ``value``. Se um campo é
+representado por um ``<input type="checkbox">``, quando este HTML incluir
+``checked="checked"`` se apropriado::
 
     >>> data = {'subject': 'hello',
     ...         'message': 'Hi there',
@@ -304,42 +310,44 @@ include ``checked="checked"`` if appropriate::
     <tr><th><label for="id_sender">Sender:</label></th><td><input type="text" name="sender" id="id_sender" value="foo@example.com" /></td></tr>
     <tr><th><label for="id_cc_myself">Cc myself:</label></th><td><input type="checkbox" name="cc_myself" id="id_cc_myself" checked="checked" /></td></tr>
 
-This default output is a two-column HTML table, with a ``<tr>`` for each field.
-Notice the following:
+Esta saída padrão é um tabela HTML com duas colunas, com um ``<tr>`` para cada
+campo: Note o seguinte:
 
-    * For flexibility, the output does *not* include the ``<table>`` and
-      ``</table>`` tags, nor does it include the ``<form>`` and ``</form>``
-      tags or an ``<input type="submit">`` tag. It's your job to do that.
+    * Para flexibilidade, a saída *não* incluí as tags ``<table>`` e
+      ``</table>``, nem incluí as tags ``<form>`` ``</form>`` ou um
+      ``<input type="submit">``. É seu trabalho fazer isso.
 
-    * Each field type has a default HTML representation. ``CharField`` and
-      ``EmailField`` are represented by an ``<input type="text">``.
-      ``BooleanField`` is represented by an ``<input type="checkbox">``. Note
-      these are merely sensible defaults; you can specify which HTML to use for
-      a given field by using widgets, which we'll explain shortly.
+    * Cada tipo de campo tem uma representação padrão do HTML. ``CharField`` e
+      ``EmailField`` são representado por um ``<input type="text">``. O
+      ``BooleanField`` é representado por um ``<input type="checkbox">``. Note
+      estes são simplesmente padrões sensiveis; você pode especificar qual HTML
+      usar para um dado campo usando widgets, que nós explanaremos logo.
 
-    * The HTML ``name`` for each tag is taken directly from its attribute name
-      in the ``ContactForm`` class.
+    * O ``nome`` de cada tag HTML é dado diretamente por seu atributo name na
+      classe ``ContactForm``.
 
-    * The text label for each field -- e.g. ``'Subject:'``, ``'Message:'`` and
-      ``'Cc myself:'`` is generated from the field name by converting all
-      underscores to spaces and upper-casing the first letter. Again, note
-      these are merely sensible defaults; you can also specify labels manually.
+    * O texto da label de cada campo -- e.g. ``'Subject:'``, ``'Message:'`` e
+      ``'Cc myself:'`` é gerado a partir do nome do campo convertendo todos os
+      undersocres em espaços e capitalizando a primeira letra. Novamente,
+      perceba que estes são meramente padrões sensíveis; você pode também
+      especificar labels manualmente.
 
-    * Each text label is surrounded in an HTML ``<label>`` tag, which points
-      to the appropriate form field via its ``id``. Its ``id``, in turn, is
-      generated by prepending ``'id_'`` to the field name. The ``id``
-      attributes and ``<label>`` tags are included in the output by default, to
-      follow best practices, but you can change that behavior.
+    * Cada texto de label é envolvido por uma tag HTML ``<label>``, que aponta
+      para o campo de formulário apropriado, via ``id`` do campo. Seu ``id``,
+      por sua vez, é gerado prefixado por um ``'id_'`` no nome do campo. Os
+      atributo ``id`` e tag ``<label>`` são incluídos na saída por padrão,
+      seguindo as melhores práticas, mas você pode mudar este comportamento.
 
-Although ``<table>`` output is the default output style when you ``print`` a
-form, other output styles are available. Each style is available as a method on
-a form object, and each rendering method returns a Unicode object.
+Embora a saída ``<table>`` seja o estilo de saída padrão quando você ``imprime``
+um formulário, outros estilos de saídas estão disponíveis. Cada estilo está
+disponível como um método no objeto form, e cada método de renderização retorna
+um objeto Unicode.
 
 ``as_p()``
 ~~~~~~~~~~
 
-``Form.as_p()`` renders the form as a series of ``<p>`` tags, with each ``<p>``
-containing one field::
+``Form.as_p()`` renderiza o formulário como uma série de tags ``<p>``, com cada
+``<p>`` contendo um campo::
 
     >>> f = ContactForm()
     >>> f.as_p()
@@ -353,9 +361,9 @@ containing one field::
 ``as_ul()``
 ~~~~~~~~~~~
 
-``Form.as_ul()`` renders the form as a series of ``<li>`` tags, with each
-``<li>`` containing one field. It does *not* include the ``<ul>`` or ``</ul>``,
-so that you can specify any HTML attributes on the ``<ul>`` for flexibility::
+``Form.as_ul()`` renderiza o formulário como uma séria de tags ``<li>``, com
+cada ``<li>`` contendo um campo. Ele *não* inclui as tags ``<ul>`` ou ``</ul>``,
+então você pode especificar quaisquer atributos sobre o ``<ul>``::
 
     >>> f = ContactForm()
     >>> f.as_ul()
@@ -369,9 +377,10 @@ so that you can specify any HTML attributes on the ``<ul>`` for flexibility::
 ``as_table()``
 ~~~~~~~~~~~~~~
 
-Finally, ``Form.as_table()`` outputs the form as an HTML ``<table>``. This is
-exactly the same as ``print``. In fact, when you ``print`` a form object, it
-calls its ``as_table()`` method behind the scenes::
+Finalmente, ``Form.as_table()`` mostar o formulário como uma ``<table>`` HTML.
+Isso é exatamente o mesmo que o ``print``. De fato, quando você executa um
+``print`` um objeto form, ele chama seu método ``as_table()`` por trás das
+cenas::
 
     >>> f = ContactForm()
     >>> f.as_table()
@@ -384,24 +393,25 @@ calls its ``as_table()`` method behind the scenes::
 
 .. _ref-forms-api-configuring-label:
 
-Configuring HTML ``<label>`` tags
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Configurando tags HTML ``<label>``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-An HTML ``<label>`` tag designates which label text is associated with which
-form element. This small enhancement makes forms more usable and more accessible
-to assistive devices. It's always a good idea to use ``<label>`` tags.
+Uma tag HTML ``<label>`` designa que um texto está associado a um elemento do
+formulário. Este pequeno reforço faz o formulário mais usável e acessível para
+dispositivos de assistência. É sempre uma boa idéia usar as tags ``<label>``.
 
-By default, the form rendering methods include HTML ``id`` attributes on the
-form elements and corresponding ``<label>`` tags around the labels. The ``id``
-attribute values are generated by prepending ``id_`` to the form field names.
-This behavior is configurable, though, if you want to change the ``id``
-convention or remove HTML ``id`` attributes and ``<label>`` tags entirely.
+Por padrão, os métodos de renderização incluem atributos ``id`` aos elementos do
+formulário e envolvem as labels com tags ``<label>``. O atributo ``id`` terá seu
+valor gerado prefixando os nomes dos campos com um ``'id_'``. Este comportamento
+é configurável, contudo, se você desejar mudar a convenção do ``id`` ou remover
+os atributos ``id`` do HTML e as tags ``<label>`` inteiramente.
 
-Use the ``auto_id`` argument to the ``Form`` constructor to control the label
-and ``id`` behavior. This argument must be ``True``, ``False`` or a string.
+use o argumento ``auto_id`` no construtor do ``Form`` para controlar o
+comportamento das labels e ``id``. Este argumento deve ser ``True``, ``False``
+ou uma string.
 
-If ``auto_id`` is ``False``, then the form output will not include ``<label>``
-tags nor ``id`` attributes::
+Se o ``auto_id`` for ``False``, então o formulário mostrado não incluirá tags
+``<label>`` nem atributos ``id``::
 
     >>> f = ContactForm(auto_id=False)
     >>> print f.as_table()
@@ -420,9 +430,9 @@ tags nor ``id`` attributes::
     <p>Sender: <input type="text" name="sender" /></p>
     <p>Cc myself: <input type="checkbox" name="cc_myself" /></p>
 
-If ``auto_id`` is set to ``True``, then the form output *will* include
-``<label>`` tags and will simply use the field name as its ``id`` for each form
-field::
+Se o ``auto_id`` for ``True``, então o formulário mostrado **incluirá** tags
+``<label>`` e simplesmente usará o  nome dos campos como seu ``id`` para cada
+campo do formulário::
 
     >>> f = ContactForm(auto_id=True)
     >>> print f.as_table()
@@ -441,11 +451,11 @@ field::
     <p><label for="sender">Sender:</label> <input type="text" name="sender" id="sender" /></p>
     <p><label for="cc_myself">Cc myself:</label> <input type="checkbox" name="cc_myself" id="cc_myself" /></p>
 
-If ``auto_id`` is set to a string containing the format character ``'%s'``,
-then the form output will include ``<label>`` tags, and will generate ``id``
-attributes based on the format string. For example, for a format string
-``'field_%s'``, a field named ``subject`` will get the ``id`` value
-``'field_subject'``. Continuing our example::
+Se ``auto_id`` for uma string contendo o caracter de formatação ``'%s'``, então
+o formulário mostrado incluirá as tags ``<label>``, e será gerado um atributo
+``id`` baseado na string passada. Por exemplo, para uma string de formatação
+``'field_%s'``, um nome de campo ``subject`` terá o valor do ``id`` igual a
+``'field_subject'``. Continuando nosso exemplo::
 
     >>> f = ContactForm(auto_id='id_for_%s')
     >>> print f.as_table()
@@ -464,14 +474,15 @@ attributes based on the format string. For example, for a format string
     <p><label for="id_for_sender">Sender:</label> <input type="text" name="sender" id="id_for_sender" /></p>
     <p><label for="id_for_cc_myself">Cc myself:</label> <input type="checkbox" name="cc_myself" id="id_for_cc_myself" /></p>
 
-If ``auto_id`` is set to any other true value -- such as a string that doesn't
-include ``%s`` -- then the library will act as if ``auto_id`` is ``True``.
+Se o ``auto_id`` for setado para qualquer outro valor verdadeiro -- como uma
+string que não inclui ``%s`` -- então a biblioteca agirá como se o ``auto_id``
+fosse ``True``.
 
-By default, ``auto_id`` is set to the string ``'id_%s'``.
+Por padrão, ``auto_id`` é setado como uma string ``'id_%s'``.
 
-Normally, a colon (``:``) will be appended after any label name when a form is
-rendered. It's possible to change the colon to another character, or omit it
-entirely, using the ``label_suffix`` parameter::
+Normalmente, dois pontos (``:``) serão adicionados após qualquer nome de label
+quando um formulário for renderizado. É possível mudar os dois pontos por outro
+caracter, ou omiti-lo inteiramente, usando o paramêtro ``label_suffix``::
 
     >>> f = ContactForm(auto_id='id_for_%s', label_suffix='')
     >>> print f.as_ul()
@@ -486,20 +497,20 @@ entirely, using the ``label_suffix`` parameter::
     <li><label for="id_for_sender">Sender -></label> <input type="text" name="sender" id="id_for_sender" /></li>
     <li><label for="id_for_cc_myself">Cc myself -></label> <input type="checkbox" name="cc_myself" id="id_for_cc_myself" /></li>
 
-Note that the label suffix is added only if the last character of the
-label isn't a punctuation character (``.``, ``!``, ``?`` or ``:``)
+Note que o sufixo da label é adicionado somente se o último caracter da label
+não é um caracter de pontuação (``.``, ``!``, ``?`` or ``:``)
 
-Notes on field ordering
-~~~~~~~~~~~~~~~~~~~~~~~
+Notas sobre o campo de ordenação
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In the ``as_p()``, ``as_ul()`` and ``as_table()`` shortcuts, the fields are
-displayed in the order in which you define them in your form class. For
-example, in the ``ContactForm`` example, the fields are defined in the order
-``subject``, ``message``, ``sender``, ``cc_myself``. To reorder the HTML
-output, just change the order in which those fields are listed in the class.
+Nos atalhos ``as_p()``, ``as_ul()`` e ``as_table()``, os campos são mostrados na
+ordem em que você definir na sua classe form. Por exemplo, no exemplo
+``ContactForm``, os campos são definidos nessa ordem: ``subject``, ``message``,
+``sender``, ``cc_myself``. Para re-ordenar a saída HTML, é só mudar a ordem em
+que esses campos foram listados na classe.
 
-How errors are displayed
-~~~~~~~~~~~~~~~~~~~~~~~~
+Como os erros são mostrados
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you render a bound ``Form`` object, the act of rendering will automatically
 run the form's validation if it hasn't already happened, and the HTML output
@@ -530,12 +541,12 @@ method you're using::
     <p>Sender: <input type="text" name="sender" value="invalid e-mail address" /></p>
     <p>Cc myself: <input checked="checked" type="checkbox" name="cc_myself" /></p>
 
-Customizing the error list format
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Personalização do formato da lista de erros
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-By default, forms use ``django.forms.util.ErrorList`` to format validation
-errors. If you'd like to use an alternate class for displaying errors, you can
-pass that in at construction time::
+Por padrão, formulários usam ``django.forms.util.ErrorList`` para formatar os
+erros de validação. Se você gostaria de usar uma classe alternativa para mostrar
+os erros, você pode passá-la na hora da construção::
 
     >>> from django.forms.util import ErrorList
     >>> class DivErrorList(ErrorList):
@@ -553,14 +564,16 @@ pass that in at construction time::
     <p>Sender: <input type="text" name="sender" value="invalid e-mail address" /></p>
     <p>Cc myself: <input checked="checked" type="checkbox" name="cc_myself" /></p>
 
-More granular output
-~~~~~~~~~~~~~~~~~~~~
+Saída mais granular
+~~~~~~~~~~~~~~~~~~~
 
-The ``as_p()``, ``as_ul()`` and ``as_table()`` methods are simply shortcuts for
-lazy developers -- they're not the only way a form object can be displayed.
+Os métodos ``as_p()``, ``as_ul()`` e ``as_table()`` são simplesmente atalhos
+para desenvolvedores preguiçosos -- eles não são a única forma de um objeto form
+ser mostrado.
 
-To display the HTML for a single field in your form, use dictionary lookup
-syntax using the field's name as the key, and print the resulting object::
+Para mostrar o HTML para um único campo no seu formulário, use a sintaxe de
+acesso de dicionário, usando o nome do campo como chave, e imprimindo o
+objeto resultante::
 
     >>> f = ContactForm()
     >>> print f['subject']
@@ -572,16 +585,16 @@ syntax using the field's name as the key, and print the resulting object::
     >>> print f['cc_myself']
     <input type="checkbox" name="cc_myself" id="id_cc_myself" />
 
-Call ``str()`` or ``unicode()`` on the field to get its rendered HTML as a
-string or Unicode object, respectively::
+Chame ``str()`` ou ``unicode()`` sobre um campo para obter seu HTML renderizado
+como uma string ou objeto Unicode, respectivamente::
 
     >>> str(f['subject'])
     '<input id="id_subject" type="text" name="subject" maxlength="100" />'
     >>> unicode(f['subject'])
     u'<input id="id_subject" type="text" name="subject" maxlength="100" />'
 
-Form objects define a custom ``__iter__()`` method, which allows you to loop
-through their fields::
+Objetos de formulário definem um método personalizado ``__iter__()``, que
+permite você iterar sobre seus campos::
 
     >>> f = ContactForm()
     >>> for field in f: print field
@@ -590,7 +603,8 @@ through their fields::
     <input type="text" name="sender" id="id_sender" />
     <input type="checkbox" name="cc_myself" id="id_cc_myself" />
 
-The field-specific output honors the form object's ``auto_id`` setting::
+A saída de um campo específico honra a configuração ``auto_id`` de objetos de
+formulários::
 
     >>> f = ContactForm(auto_id=False)
     >>> print f['message']
@@ -599,9 +613,9 @@ The field-specific output honors the form object's ``auto_id`` setting::
     >>> print f['message']
     <input type="text" name="message" id="id_message" />
 
-For a field's list of errors, access the field's ``errors`` attribute. This
-is a list-like object that is displayed as an HTML ``<ul class="errorlist">``
-when printed::
+Para uma lista de erros dos campos, acesse o atributo ``errors`` dos campos.
+Este é uma objeto tipo lista que é mostrado como um HTML
+``<ul class="errorlist">`` quando impresso::
 
     >>> data = {'subject': 'hi', 'message': '', 'sender': '', 'cc_myself': ''}
     >>> f = ContactForm(data, auto_id=False)
@@ -620,26 +634,27 @@ when printed::
 
 .. _binding-uploaded-files:
 
-Binding uploaded files to a form
---------------------------------
+Vinculando arquivos enviados a um formulário
+--------------------------------------------
 
 .. versionadded:: 1.0
 
-Dealing with forms that have ``FileField`` and ``ImageField`` fields
-is a little more complicated than a normal form.
+Lidar com formulários que possuem campos ``FileField`` e ``ImageField`` é um
+pouco mais complicado que um formulário normal.
 
-Firstly, in order to upload files, you'll need to make sure that your
-``<form>`` element correctly defines the ``enctype`` as
+Primeiramente, a fim de fazer o upload de arquivos, você precisará estar certo
+de que seu elemento ``<form>`` define corretamente o atributo ``enctype`` como
 ``"multipart/form-data"``::
 
   <form enctype="multipart/form-data" method="post" action="/foo/">
 
-Secondly, when you use the form, you need to bind the file data. File
-data is handled separately to normal form data, so when your form
-contains a ``FileField`` and ``ImageField``, you will need to specify
-a second argument when you bind your form. So if we extend our
-ContactForm to include an ``ImageField`` called ``mugshot``, we
-need to bind the file data containing the mugshot image::
+Depois, quando você usar o formulário, você precisa tratar os dados do arquivo.
+Dados de arquivos são manipulados separadamente dos dados normais de formulário,
+então quando seu formulário contiver um ``FieldField`` e ``ImageField``, você
+precisará especificar um segundo argumento quando for vincular o formulário.
+Então se nós extendemos nosso ContacForm para incluir um ``ImageField`` chamado
+``mugshot``, nós precisamos vincular os dados do arquivo que contém a imagem
+mugshot::
 
     # Bound form with an image field
     >>> from django.core.files.uploadedfile import SimpleUploadedFile
@@ -650,9 +665,9 @@ need to bind the file data containing the mugshot image::
     >>> file_data = {'mugshot': SimpleUploadedFile('face.jpg', <file data>)}
     >>> f = ContactFormWithMugshot(data, file_data)
 
-In practice, you will usually specify ``request.FILES`` as the source
-of file data (just like you use ``request.POST`` as the source of
-form data)::
+Na prática, você normalemente especificará ``request.FILES`` como a fonte de
+dados do arquivo (da mesma forma do ``request.POST`` como a fonte de dados de
+formulários)::
 
     # Bound form with an image field, data from the request
     >>> f = ContactFormWithMugshot(request.POST, request.FILES)
@@ -660,21 +675,23 @@ form data)::
 Constructing an unbound form is the same as always -- just omit both
 form data *and* file data::
 
+
     # Unbound form with a image field
     >>> f = ContactFormWithMugshot()
 
-Testing for multipart forms
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Testando formulários multipart
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you're writing reusable views or templates, you may not know ahead of time
-whether your form is a multipart form or not. The ``is_multipart()`` method
-tells you whether the form requires multipart encoding for submission::
+Se você está escrevendo views ou templates reusáveis, você pode não saber,
+antes do tempo, se seu formulário é um formulário multipart ou não. O método
+``is_multipart()`` diz a você se o formulário requer codificação multipart para
+sua submissão::
 
     >>> f = ContactFormWithMugshot()
     >>> f.is_multipart()
     True
 
-Here's an example of how you might use this in a template::
+Aqui temos um exemplo de como você pode usar isso num template::
 
     {% if form.is_multipart %}
         <form enctype="multipart/form-data" method="post" action="/foo/">
@@ -684,19 +701,19 @@ Here's an example of how you might use this in a template::
     {{ form }}
     </form>
 
-Subclassing forms
------------------
+Extendendo formulários
+----------------------
 
-If you have multiple ``Form`` classes that share fields, you can use
-subclassing to remove redundancy.
+Se você tem várias classes ``Form`` que compartilham campos, você pode usar
+herança para eliminar a redundância.
 
-When you subclass a custom ``Form`` class, the resulting subclass will
-include all fields of the parent class(es), followed by the fields you define
-in the subclass.
+Quando você extende uma classe ``Form`` personalizada, à subclasse resultante
+será incluso todos os campos da(s) classe(s) pai, seguido pelos campos que
+você definiu na subclasse.
 
-In this example, ``ContactFormWithPriority`` contains all the fields from
-``ContactForm``, plus an additional field, ``priority``. The ``ContactForm``
-fields are ordered first::
+Neste exemplo, o ``ContactFormWithPriority`` contém todos os campos do
+``ContactForm``, mais um campo adicional, ``priority``. Os campos do
+``ContactForm`` são ordenados primeiro::
 
     >>> class ContactFormWithPriority(ContactForm):
     ...     priority = forms.CharField()
@@ -708,10 +725,9 @@ fields are ordered first::
     <li>Cc myself: <input type="checkbox" name="cc_myself" /></li>
     <li>Priority: <input type="text" name="priority" /></li>
 
-It's possible to subclass multiple forms, treating forms as "mix-ins." In this
-example, ``BeatleForm`` subclasses both ``PersonForm`` and ``InstrumentForm``
-(in that order), and its field list includes the fields from the parent
-classes::
+É possível extender vários formulários, tratando formulários como "mix-ins".
+Neste exemplo, ``BeatleForm`` extende ambos ``PersonForm`` e ``InstrumentForm``
+(nessa ordem), e sua lita de campos inclui os campos das classes pai::
 
     >>> class PersonForm(Form):
     ...     first_name = CharField()
@@ -734,8 +750,8 @@ Prefixes for forms
 
 .. attribute:: Form.prefix
 
-You can put several Django forms inside one ``<form>`` tag. To give each
-``Form`` its own namespace, use the ``prefix`` keyword argument::
+Você pode colocar vários formulários Django dentro de uma tag ``<form>``. Para
+dar a cada ``Form`` seu próprio namespace, use o argumento ``prefix``::
 
     >>> mother = PersonForm(prefix="mother")
     >>> father = PersonForm(prefix="father")
@@ -745,3 +761,4 @@ You can put several Django forms inside one ``<form>`` tag. To give each
     >>> print father.as_ul()
     <li><label for="id_father-first_name">First name:</label> <input type="text" name="father-first_name" id="id_father-first_name" /></li>
     <li><label for="id_father-last_name">Last name:</label> <input type="text" name="father-last_name" id="id_father-last_name" /></li>
+
