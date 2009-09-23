@@ -3,7 +3,7 @@
 ..
 ..   $TranslationStatus: Done $
 ..   $OriginalRevision: 11348 $
-..   $TranslationAuthors: Marinho Brandão, wiliamsouza $
+..   $TranslationAuthors: Marinho Brandão, wiliamsouza, semente $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -351,7 +351,7 @@ fornece um atalho para isso. Aqui esta a view ``detail()``, reescrita::
         p = get_object_or_404(Poll, pk=poll_id)
         return render_to_response('polls/detail.html', {'poll': p})
 
-A função :func:`~django.shortcuts.get_object_or_404` recebe um modelo do Django
+A função :func:`~django.shortcuts.get_object_or_404` recebe um model do Django
 como primeiro argumento e um número arbitrário de argumentos chave,
 que ele passa para a função do módulo :meth:`~django.db.models.QuerySet.get`.
 E levanta uma exceção :exc:`~django.http.Http404` se o objeto não existir.
@@ -361,7 +361,7 @@ E levanta uma exceção :exc:`~django.http.Http404` se o objeto não existir.
     Porquê usamos uma função auxiliar :func:`~django.shortcuts.get_object_or_404`
     ao invés de automaticamente capturar as exceções
     :exc:`~django.core.exceptions.ObjectDoesNotExist` em alto nível ou fazer a
-    API de modelo levantar :exc:`~django.http.Http404` ao invés de
+    API do model levantar :exc:`~django.http.Http404` ao invés de
     :exc:`~django.core.exceptions.ObjectDoesNotExist`?
 
     Porque isso seria acoplar a camada de modelo com a camada de visão. Um dos
@@ -394,9 +394,9 @@ ver em ``django/conf/urls/defaults.py``, ``handler404`` é definido para
 
 Mais quatro coisas a se notar sobre views 404:
 
-    * If :setting:`DEBUG` is set to ``True`` (in your settings module) then your
-      404 view will never be used (and thus the ``404.html`` template will never
-      be rendered) because the traceback will be displayed instead.
+    * Se o :setting:`DEBUG` for definido como ``True`` (no seu módulo settings)
+      sua view 404 nunca será usada (e assim o seu template ``404.html`` nunca
+      será renderizado) porque o traceback será exibido em seu lugar.
 
     * A view 404 também é chamada se o Django não conseguir encontrar uma
       combinação depois de checar todas as expressões regulares da URLconf;
@@ -407,22 +407,23 @@ Mais quatro coisas a se notar sobre views 404:
       view padrão de 404 irá usar este template para todos os erros
       404;
 
-    * If :setting:`DEBUG` is set to ``False`` (in your settings module) and if
-      you didn't create a ``404.html`` file, an ``Http500`` is raised instead.
-      So remember to create a ``404.html``.
+    * Se o :setting:`DEBUG` for definido como ``False`` (no seu módulo
+      settings) e se você não criou um arquivo ``404.html``, um ``Http500``
+      será levantado em seu lugar. Então lembre-se de criar um ``404.html``.
 
 Escreva uma view do código 500 (erro no servidor)
 =================================================
 
-Similarmente, URLconfs pode definir uma ``handler500``, que aponta para uma view a ser chamada
-em caso de erro no servidor. Erros de servidor acontecem quando você tem erros de tempo de
-execução no código da view.
+Similarmente, URLconfs pode definir uma ``handler500``, que aponta para uma
+view a ser chamada em caso de erro no servidor. Erros de servidor acontecem
+quando você tem erros de tempo de execução no código da view.
 
 Use o sistema de templates
 ==========================
 
-De volta para view ``detail()`` da nossa aplicação de enquentes. Dada a variável
-de contexto ``poll``, aqui está como o template ``polls/detail.htm`` deve ser:
+De volta para a view ``detail()`` da nossa aplicação de enquentes. Dada a
+variável de contexto ``poll``, aqui está como o template ``polls/detail.htm``
+deve ser:
 
 .. code-block:: html+django
 
@@ -473,7 +474,8 @@ como abaixo::
         (r'^polls/(?P<poll_id>\d+)/vote/$', 'vote'),
     )
 
-Esta é funcionalmente idêntico a formatação anterior. Somente mais arrumado.
+Isto é funcionalmente idêntico a formatação anterior. Somente um pouco mais
+arrumado.
 
 Desacoplando as URLconfs
 ========================
@@ -498,7 +500,7 @@ poll e insira um :func:`~django.conf.urls.defaults.include`::
 
     ...
     urlpatterns = patterns('',
-    (r'^polls/', include('mysite.polls.urls')),
+        (r'^polls/', include('mysite.polls.urls')),
         ...
 
 O :func:`~django.conf.urls.defaults.include` simplesmente referencia outra
