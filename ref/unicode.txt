@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 11332 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,67 +16,69 @@
 
 .. _ref-unicode:
 
-======================
-Unicode data in Django
-======================
+=======================
+Dados Unicode no Django
+=======================
 
 .. versionadded:: 1.0
 
-Django natively supports Unicode data everywhere. Providing your database can
-somehow store the data, you can safely pass around Unicode strings to
-templates, models and the database.
+O Django nativamente suporta dados Unicode por toda parte. Proporcionando ao seu
+banco de dados uma forma de armazenar os dados, e dando-lhe a segurança de
+passar strings Unicode aos templates, models e pro banco de dados.
 
-This document tells you what you need to know if you're writing applications
-that use data or templates that are encoded in something other than ASCII.
+Este documento lhe conta o que você precisa saber se você estiver escrevendo
+aplicações que usam dados ou templates que estão codificados em algum outro
+formato ASCII.
 
-Creating the database
-=====================
+Criando o banco de dados
+========================
 
-Make sure your database is configured to be able to store arbitrary string
-data. Normally, this means giving it an encoding of UTF-8 or UTF-16. If you use
-a more restrictive encoding -- for example, latin1 (iso8859-1) -- you won't be
-able to store certain characters in the database, and information will be lost.
+Esteja certo que seu banco de dados está configurado para armazenar strings
+arbitrárias. Normalmente, isto significa tê-las numa codificação UTF-8 ou
+UTF-16. Se você usa mais de uma codificação restritiva -- por exemplo, latin1
+(iso8859-1) -- você não poderá armazenar certos caracteres no banco de dados,
+e informações serão perdidas.
 
- * MySQL users, refer to the `MySQL manual`_ (section 10.3.2 for MySQL 5.1) for
-   details on how to set or alter the database character set encoding.
+ * Usuários do MySQL, consultem o `manual do MySQL`_ (seção 10.3.2 para MySQL
+   5.1) para detalhes sobre como setar ou alterar a codificação do banco de
+   dados.
+ * Usuários de PostgreSQL, consultem o `manual do PostgreSQL`_ (seção 21.2.2 no
+   PostgresSQL 8) para detalhes sobre criar bancos de dados com a codificação
+   correta.
+ * Usuários de SQLite, não há nada que você precise fazer. O SQLite sepre usa o
+   UTF-8 para codificação interna.
 
- * PostgreSQL users, refer to the `PostgreSQL manual`_ (section 21.2.2 in
-   PostgreSQL 8) for details on creating databases with the correct encoding.
+.. _manual do MySQL: http://www.mysql.org/doc/refman/5.1/en/charset-database.html
+.. _manual do PostgreSQL: http://www.postgresql.org/docs/8.2/static/multibyte.html#AEN24104
 
- * SQLite users, there is nothing you need to do. SQLite always uses UTF-8
-   for internal encoding.
+Todos os backends de banco de dados do Django automaticamente covertem strings
+Unicode para o formato apropriado do banco de dados. Eles também convertem
+automaticamente strings recebidas de bancos de dados em strings Unicode do
+Python. Você não precisa dizer ao Django qual codificação seu banco de dados
+usa: isso é manipulado transparentemente.
 
-.. _MySQL manual: http://www.mysql.org/doc/refman/5.1/en/charset-database.html
-.. _PostgreSQL manual: http://www.postgresql.org/docs/8.2/static/multibyte.html#AEN24104
+Par mais, veja a seção "API de banco de dados" abaixo.
 
-All of Django's database backends automatically convert Unicode strings into
-the appropriate encoding for talking to the database. They also automatically
-convert strings retrieved from the database into Python Unicode strings. You
-don't even need to tell Django what encoding your database uses: that is
-handled transparently.
+Manipulação genérica de string
+==============================
 
-For more, see the section "The database API" below.
-
-General string handling
-=======================
-
-Whenever you use strings with Django -- e.g., in database lookups, template
-rendering or anywhere else -- you have two choices for encoding those strings.
-You can use Unicode strings, or you can use normal strings (sometimes called
-"bytestrings") that are encoded using UTF-8.
+Sempre que você usa strings com o Django -- e.g., no banco de dados,
+renderização de templates ou algo mais -- você tem duas escolhas de codificação
+de strings. Você pode usar strings Unicode, ou vocÊ pode usar strings normais (
+algumas chamadas "bytestrings") que são codificadas usando UTF-8.
 
 .. admonition:: Warning
 
-    A bytestring does not carry any information with it about its encoding.
-    For that reason, we have to make an assumption, and Django assumes that all
-    bytestrings are in UTF-8.
+    Uma bytestring não carrega qualquer informação com ela sobre sua
+    codificação. Por esta razão, nós temos que fazer uma suposição, e o Django
+    assume que toda bytestring é UTF-8.
 
-    If you pass a string to Django that has been encoded in some other format,
-    things will go wrong in interesting ways. Usually, Django will raise a
-    ``UnicodeDecodeError`` at some point.
+    Se você passar uma string para o Django que já foi codificada em algum outro
+    formato, as coisas podem ir por um caminho errado e de formas interessantes.
+    Normalmente, o Django lançará um erro ``UnicodeDecodeError`` neste ponto.
 
-If your code only uses ASCII data, it's safe to use your normal strings,
-passing them around at will, because ASCII is a subset of UTF-8.
+Se seu código somente usa dados ASCII, ele é seguro para usar strings normais,
+passando-as a vontade, porque o ASCII é sub-conjunto do UTF-8.
 
 Don't be fooled into thinking that if your :setting:`DEFAULT_CHARSET` setting is set
 to something other than ``'utf-8'`` you can use that other encoding in your
@@ -110,58 +112,60 @@ if you examine an object and it claims to be a
 Calling ``unicode()`` with the lazy translation as the argument will generate a
 Unicode string in the current locale.
 
-For more details about lazy translation objects, refer to the
-:ref:`internationalization <topics-i18n>` documentation.
+Para mais detalhes sobre traduções tardias de objetos, leia a documentação de
+:ref:`internacionalização <topics-i18n>`.
 
-Useful utility functions
-------------------------
+Utilitário de funções úteis
+---------------------------
 
-Because some string operations come up again and again, Django ships with a few
-useful functions that should make working with Unicode and bytestring objects
-a bit easier.
+Por algumas operações de string serem muito repetitivas, o Django vem
+acompanhado de funções úteis que devem fazer o trabalho com objetos Unicode e
+bytestring ficar um pouco mais fácil.
 
-Conversion functions
-~~~~~~~~~~~~~~~~~~~~
+Fuções de conversão
+~~~~~~~~~~~~~~~~~~~
 
-The ``django.utils.encoding`` module contains a few functions that are handy
-for converting back and forth between Unicode and bytestrings.
+O módulo ``django.utils.encoding`` contém algumas funções que são capazes de
+realizar conversões entre strings Unicode e bytestrings.
 
     * ``smart_unicode(s, encoding='utf-8', strings_only=False, errors='strict')``
-      converts its input to a Unicode string. The ``encoding`` parameter
-      specifies the input encoding. (For example, Django uses this internally
-      when processing form input data, which might not be UTF-8 encoded.) The
-      ``strings_only`` parameter, if set to True, will result in Python
-      numbers, booleans and ``None`` not being converted to a string (they keep
-      their original types). The ``errors`` parameter takes any of the values
-      that are accepted by Python's ``unicode()`` function for its error
-      handling.
+      converte sua entrada para uma string Unicode. O parametro ``encoding``
+      especifica a codificação da entrada. (Por exemplo, o Django usa isso
+      internamente quando processa dados de formulários, que podem não ter
+      codificação UTF-8.) O parametro ``strings_only ``, se setado como True,
+      resultará em números Python, booleanos e ``None`` sem conversão para uma
+      string (eles mantêm seus tipos originais). O parametro ``errors`` recebe
+      qualquer um dos valores que são aceitos pela função ``unicode()`` do
+      Python para sua manipulação de erros.
 
-      If you pass ``smart_unicode()`` an object that has a ``__unicode__``
-      method, it will use that method to do the conversion.
+      Se você passar ao ``smart_unicode()`` um objeto que tem um método
+      ``__unicode__``, ele usará este método para fazer a conversão.
 
     * ``force_unicode(s, encoding='utf-8', strings_only=False,
-      errors='strict')`` is identical to ``smart_unicode()`` in almost all
-      cases. The difference is when the first argument is a :ref:`lazy
-      translation <lazy-translations>` instance. While ``smart_unicode()``
-      preserves lazy translations, ``force_unicode()`` forces those objects to a
-      Unicode string (causing the translation to occur). Normally, you'll want
-      to use ``smart_unicode()``. However, ``force_unicode()`` is useful in
-      template tags and filters that absolutely *must* have a string to work
-      with, not just something that can be converted to a string.
+      errors='strict')`` é identico ao ``smart_unicode()`` em quase todos os
+      casos. A diferença é quando o primeiro argumento é uma instância de
+      :ref:`tradução tardia <lazy-translation>`. Enquanto ``smart_unicode()``
+      preserva a tradução tardia, ``force_unicode()`` força estes objetos a
+      serem strings Unicode (causando a ocorrência da tradução). Normalmente,
+      você desejará usar ``smart_unicode()``. Entretanto, ``force_unicode()`` é
+      útil em template tags e filtros que *devem* ter absolutamente uma string
+      para trabalhar com, não algo que pode ser convertido numa string.
 
     * ``smart_str(s, encoding='utf-8', strings_only=False, errors='strict')``
-      is essentially the opposite of ``smart_unicode()``. It forces the first
-      argument to a bytestring. The ``strings_only`` parameter has the same
-      behavior as for ``smart_unicode()`` and ``force_unicode()``. This is
-      slightly different semantics from Python's builtin ``str()`` function,
-      but the difference is needed in a few places within Django's internals.
+      é essencialmente o oposto de ``smart_unicode()``. Ele força o primeiro
+      argumento a ser uma bytestring. O parametro ``strings_only`` tem o mesmo
+      comportamento que do ``smart_unicode()`` e ``force_unicode()``. Essa é uma
+      semântica ligeiramente diferente da função nativa do Python ``str()``,
+      mas a diferença é necessária em alguns poucos lugares internos do Django.
 
-Normally, you'll only need to use ``smart_unicode()``. Call it as early as
-possible on any input data that might be either Unicode or a bytestring, and
-from then on, you can treat the result as always being Unicode.
 
-URI and IRI handling
-~~~~~~~~~~~~~~~~~~~~
+Normalmente, você somente precisará usar ``smart_unicode()``. Chamando-o tão
+cedo quanto possível sobre qualquer entrada de dados que podem ser Unicode ou
+bytestring, e a partir de então, você pode tratar os resultados como sempre faz
+com Unicode.
+
+Manipulação de URI e IRI
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 Web frameworks have to deal with URLs (which are a type of IRI_). One
 requirement of URLs is that they are encoded using only ASCII characters.
@@ -378,3 +382,4 @@ you cannot control.
 Django does not decode the data of file uploads, because that data is normally
 treated as collections of bytes, rather than strings. Any automatic decoding
 there would alter the meaning of the stream of bytes.
+
