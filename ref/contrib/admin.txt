@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 11268 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,60 +16,60 @@
 
 .. _ref-contrib-admin:
 
-=====================
-The Django admin site
-=====================
+======================
+O site admin do Django
+======================
 
 .. module:: django.contrib.admin
-   :synopsis: Django's admin site.
+   :synopsis: O site de administração do Django.
 
 .. currentmodule:: django.contrib.admin
 
-One of the most powerful parts of Django is the automatic admin interface. It
-reads metadata in your model to provide a powerful and production-ready
-interface that content producers can immediately use to start adding content to
-the site. In this document, we discuss how to activate, use and customize
-Django's admin interface.
+Uma das mais poderosas partes do Django é a inteface de administração
+automática. Ela lê os metadados de seu model para fornecer uma inteface poderosa
+e pronta para produção que produtores de conteúdo podem imediatamente usar para
+começar a adicionar conteúdos ao site. Neste documento, nós discutimos como
+ativar, usar e personalizar a interface de administração do Django.
 
-.. admonition:: Note
+.. admonition:: Nota
 
-    The admin site has been refactored significantly since Django 0.96. This
-    document describes the newest version of the admin site, which allows for
-    much richer customization. If you follow the development of Django itself,
-    you may have heard this described as "newforms-admin."
+    O site admin foi significantemente refatorado desde a versão 0.96. Este
+    documento descreve a versão mais nova do site admin, que permite
+    customizações mais ricas. Se você acompanha o desenvolvimento do Django em
+    si, você pode ter ouvido isso descrito como "newforms-admin."
 
-Overview
-========
+Visão geral
+===========
 
-There are five steps in activating the Django admin site:
+Há cinco passos para ativar o site admin do Django:
 
-    1. Add ``django.contrib.admin`` to your ``INSTALLED_APPS`` setting.
+    1. Adicione ``django.contrib.admin`` no seu ``INSTALLED_APPS``.
 
-    2. Determine which of your application's models should be editable in the
-       admin interface.
+    2. Determine quais models de aplicações devem ser editados pela interface
+       admin.
 
-    3. For each of those models, optionally create a ``ModelAdmin`` class that
-       encapsulates the customized admin functionality and options for that
-       particular model.
+    3. Para cada um destes models, opicionalmente, crie uma classe
+       ``ModelAdmin`` que encapsula as funcionalidades customizadas do admin e
+       opções para este model particular.
 
-    4. Instantiate an ``AdminSite`` and tell it about each of your models and
-       ``ModelAdmin`` classes.
+    4. Instancie um ``AdminSite`` e o informe sobre cada um de seus models e
+       classes ``ModelAdmin``.
 
-    5. Hook the ``AdminSite`` instance into your URLconf.
+    5. Ligue a instância ``AdminSite`` ao seu URLconf.
 
 .. seealso::
 
-    For information about serving the media files (images, JavaScript, and CSS)
-    associated with the admin in production, see :ref:`serving-media-files`.
+    Para informações sobre como servir arquivos de mídia (imagens, JavaScript, e
+    CSS) associado ao admin em produção, veja :ref:`serving-media-files`.
 
-``ModelAdmin`` objects
+Objetos ``ModelAdmin``
 ======================
 
 .. class:: ModelAdmin
 
-The ``ModelAdmin`` class is the representation of a model in the admin
-interface. These are stored in a file named ``admin.py`` in your application.
-Let's take a look at a very simple example of the ``ModelAdmin``::
+A classe ``ModelAdmin`` é a representação de um model na interface de
+administração. Este são armazenados num arquivo chamado ``admin.py`` na sua
+aplicação. Vamos dar uma olhada num exemplo muito simples de ``ModelAdmin``::
 
     from django.contrib import admin
     from myproject.myapp.models import Author
@@ -78,63 +78,64 @@ Let's take a look at a very simple example of the ``ModelAdmin``::
         pass
     admin.site.register(Author, AuthorAdmin)
 
-.. admonition:: Do you need a ``ModelAdmin`` object at all?
+.. admonition:: Você precisa de um objeto ``ModelAdmin`` sempre?
 
-    In the preceding example, the ``ModelAdmin`` class doesn't define any
-    custom values (yet). As a result, the default admin interface will be
-    provided. If you are happy with the default admin interface, you don't
-    need to define a ``ModelAdmin`` object at all -- you can register the
-    model class without providing a ``ModelAdmin`` description. The
-    preceding example could be simplified to::
+    No exemplo anterior, a classe ``ModelAdmin`` não define quaisquer valores
+    personalizados (ainda). Como um resultado, a interface admin padrão será
+    fornecida. Se você estiver feliz com a interface admin padrão, você não
+    precisa definir um objeto ``ModelAdmin`` sempre -- você poder registrar a
+    classe model sem fornecer uma descrição do ``ModelAdmin``. O exemplo
+    anterior poderia ser simplicado para::
 
         from django.contrib import admin
         from myproject.myapp.models import Author
 
         admin.site.register(Author)
 
-``ModelAdmin`` Options
-----------------------
+Opções ``ModelAdmin``
+---------------------
 
-The ``ModelAdmin`` is very flexible. It has several options for dealing with
-customizing the interface. All options are defined on the ``ModelAdmin``
-subclass::
+O ``ModelAdmin`` é muito flexível. Ele tem várias opções para lidar com
+customização da interface. Todas as opções são definidas na subclasse
+``ModelAdmin``::
 
     class AuthorAdmin(admin.ModelAdmin):
         date_hierarchy = 'pub_date'
 
 .. attribute:: ModelAdmin.date_hierarchy
 
-Set ``date_hierarchy`` to the name of a ``DateField`` or ``DateTimeField`` in
-your model, and the change list page will include a date-based drilldown
-navigation by that field.
+Sete o ``date_hierarchy`` com o nome de um ``DateField`` ou ``DateTimeField`` do
+seu model, e a lista de dados incluirá uma navegação por data, utilizando o
+campo informado.
 
-Example::
+Exemplo::
 
     date_hierarchy = 'pub_date'
 
 .. attribute:: ModelAdmin.form
 
-By default a ``ModelForm`` is dynamically created for your model. It is used
-to create the form presented on both the add/change pages. You can easily
-provide your own ``ModelForm`` to override any default form behavior on the
-add/change pages.
+Por padrão um ``ModelForm`` é dinamicamente criado para seu model. Ele é usado
+para criar o formulário apresentado em ambas as páginas adicionar/editar. Você
+pode facilmente fornecer seu próprio ``ModelForm`` para sobrescrever qualquer
+comportamento de formulário nas páginas adicionar/editar.
 
-For an example see the section `Adding custom validation to the admin`_.
+Para um exemplo veja a seção `Adicionando validação personalizada ao admin`_.
 
 .. attribute:: ModelAdmin.fieldsets
 
-Set ``fieldsets`` to control the layout of admin "add" and "change" pages.
+Sete ``fieldsets`` para controlar o layout das páginas "adicionar" e "editar" do
+admin.
 
-``fieldsets`` is a list of two-tuples, in which each two-tuple represents a
-``<fieldset>`` on the admin form page. (A ``<fieldset>`` is a "section" of the
-form.)
+``fieldsets`` é uma lista de tuplas duplas, em que cada tupla dupla representa
+um ``<fieldset>`` sobre a página de formulário do admin. (Um ``<fieldset>`` é
+uma "seção" do formulário.)
 
-The two-tuples are in the format ``(name, field_options)``, where ``name`` is a
-string representing the title of the fieldset and ``field_options`` is a
-dictionary of information about the fieldset, including a list of fields to be
-displayed in it.
+As tuplas duplas estão no formato ``(name, field_options)``, onde ``name`` é uma
+string representando o título do fieldset e ``field_options`` é um dicionário
+com informações sobre o fieldset, incluíndo uma lista de campos para serem
+mostrados nele.
 
-A full example, taken from the ``django.contrib.flatpages.FlatPage`` model::
+Um exemplo completo, recebido do model ``django.contrib.flatpages.FlatPage``::
 
     class FlatPageAdmin(admin.ModelAdmin):
         fieldsets = (
@@ -147,92 +148,94 @@ A full example, taken from the ``django.contrib.flatpages.FlatPage`` model::
             }),
         )
 
-This results in an admin page that looks like:
+Isso resulta numa página admin que parece com:
 
     .. image:: _images/flatfiles_admin.png
 
-If ``fieldsets`` isn't given, Django will default to displaying each field
-that isn't an ``AutoField`` and has ``editable=True``, in a single fieldset,
-in the same order as the fields are defined in the model.
+Se o ``fieldsets`` não for fornecido, o Django mostrará o padrão de cada campo
+que não for um ``AutoField`` e tenha um ``editable=True``, em um fieldset único,
+na mesma ordem em que os campos foram definidos no model.
 
-The ``field_options`` dictionary can have the following keys:
+O dicionário ``field_optinos`` pode ter as seguintes chaves:
 
     * ``fields``
-        A tuple of field names to display in this fieldset. This key is
-        required.
+        Uma tupla com nomes de campos que serão mostrados no fieldset. Esta
+        chave é obrigatória.
 
-        Example::
+        Exemplo::
 
             {
             'fields': ('first_name', 'last_name', 'address', 'city', 'state'),
             }
 
-        To display multiple fields on the same line, wrap those fields in
-        their own tuple. In this example, the ``first_name`` and ``last_name``
-        fields will display on the same line::
+        Para mostrar vários campos na mesma linha, envolva-os em suas próprias
+        tuplas. Neste exemplo, os campos ``first_name`` e ``last_name`` serão
+        mostrados na mesma linha::
 
             {
             'fields': (('first_name', 'last_name'), 'address', 'city', 'state'),
             }
 
     * ``classes``
-        A list containing extra CSS classes to apply to the fieldset.
+        Uma lista contendo classes extra de CSS para serem aplicadas ao
+        fieldset.
 
-        Example::
+        Exemplo::
 
             {
             'classes': ['wide', 'extrapretty'],
             }
 
-        Two useful classes defined by the default admin site stylesheet are
-        ``collapse`` and ``wide``. Fieldsets with the ``collapse`` style will
-        be initially collapsed in the admin and replaced with a small
-        "click to expand" link. Fieldsets with the ``wide`` style will be
-        given extra horizontal space.
+        Duas classes úteis definidas por padrão no site admin são ``collapse``
+        e ``wide``. Os fieldsets com o estilo ``collapse`` serão inicialmente
+        encolhidos no admin e substituídos por um link "click para expandir".
+        Os fieldsets com o estilo ``wide`` ocuparão um espaço horizontal extra.
 
     * ``description``
-        A string of optional extra text to be displayed at the top of each
-        fieldset, under the heading of the fieldset.
+        Uma string de texto opcional extra para ser mostrado no topo de cada
+        fieldset, abaixo do cabeçalho do fieldset.
 
-        Note that this value is *not* HTML-escaped when it's displayed in
-        the admin interface. This lets you include HTML if you so desire.
-        Alternatively you can use plain text and
-        ``django.utils.html.escape()`` to escape any HTML special
-        characters.
+        Note que este valor *não* tem o HTML escapado quando é mostrado na
+        interface do admin. Isso permite você incluir HTML se assim desejar.
+        Aleternativamente você poder usar texto plano e
+        ``django.utils.html.escape()`` para escapar quaisquer caracteres
+        especiais de HTML.
 
 .. attribute:: ModelAdmin.fields
 
-Use this option as an alternative to ``fieldsets`` if the layout does not
-matter and if you want to only show a subset of the available fields in the
-form. For example, you could define a simpler version of the admin form for
-the ``django.contrib.flatpages.FlatPage`` model as follows::
+Use esta opção como uma alternativa ao ``fieldsets`` se o layout não importar
+e se você deseja somente mostrar um sub-conjunto de campos disponíveis no
+formulário. Por exemplo, você poderia definir uma versão mais simples do
+formulário do admin para o model ``django.contrib.flatpages.FlatPage`` desta
+forma::
 
     class FlatPageAdmin(admin.ModelAdmin):
         fields = ('url', 'title', 'content')
 
-In the above example, only the fields 'url', 'title' and 'content' will be
-displayed, sequentially, in the form.
+No exemplo acima, somente os campos 'url', 'title' e 'content' serão mostrados,
+sequencialmente, no formulário.
 
-.. admonition:: Note
+.. admonition:: Nota
 
-    This ``fields`` option should not be confused with the ``fields``
-    dictionary key that is within the ``fieldsets`` option, as described in
-    the previous section.
+    Estas opções ``fields`` não devem ser confundidas com a chave de dicionário
+    ``fields`` que fica dentro da opção ``fieldsets``, como descrito na seção
+    anterior.
 
 .. attribute:: ModelAdmin.exclude
 
-This attribute, if given, should be a list of field names to exclude from the
-form.
+Este atributo, se fornecido, deve ser uma lista com nomes de campos a se escluir
+do formulário.
 
-For example, let's consider the following model::
+Por exemplo, vamos considerar o seguinte model::
 
     class Author(models.Model):
         name = models.CharField(max_length=100)
         title = models.CharField(max_length=3)
         birth_date = models.DateField(blank=True, null=True)
 
-If you want a form for the ``Author`` model that includes only the ``name``
-and ``title`` fields, you would specify ``fields`` or ``exclude`` like this::
+Se você deseja um formulário do model ``Author`` que inclui somente os campos
+``name`` e ``title``, você poderia especificar ``fields`` ou ``exclude`` desta
+forma::
 
     class AuthorAdmin(admin.ModelAdmin):
         fields = ('name', 'title')
@@ -240,9 +243,9 @@ and ``title`` fields, you would specify ``fields`` or ``exclude`` like this::
     class AuthorAdmin(admin.ModelAdmin):
         exclude = ('birth_date',)
 
-Since the Author model only has three fields, ``name``, ``title``, and
-``birth_date``, the forms resulting from the above declarations will contain
-exactly the same fields.
+Assim o model Author somente terá três campos, ``name``, ``title``, e
+``birth_date``, os formulários resultantes das declarações acima conterão
+extamante os mesmos campos.
 
 .. attribute:: ModelAdmin.filter_horizontal
 
@@ -253,30 +256,29 @@ list of fields that should be displayed as a horizontal filter interface. See
 
 .. attribute:: ModelAdmin.filter_vertical
 
-Same as ``filter_horizontal``, but is a vertical display of the filter
-interface.
+O mesmo que ``filter_horizontal``, mas é um display vertical do filtro.
 
 .. attribute:: ModelAdmin.list_display
 
-Set ``list_display`` to control which fields are displayed on the change list
-page of the admin.
+Configure o ``list_display`` para controlar quais campos são mostrados na
+listagem do admin.
 
-Example::
+Exemplo::
 
     list_display = ('first_name', 'last_name')
 
-If you don't set ``list_display``, the admin site will display a single column
-that displays the ``__unicode__()`` representation of each object.
+Se você não seta ``list_display``, o site admin mostrará uma única coluna que
+mostra o ``__unicode__()`` representando cada objeto.
 
-You have four possible values that can be used in ``list_display``:
+Você tem quatro valores possível que podem ser usado no ``list_display``:
 
-    * A field of the model. For example::
+    * Uma campo de model. Por exemplo::
 
           class PersonAdmin(admin.ModelAdmin):
               list_display = ('first_name', 'last_name')
 
-    * A callable that accepts one parameter for the model instance. For
-      example::
+    * Uma função que aceita um paramêtro para a instância do model. Por
+      exemplo::
 
           def upper_case_name(obj):
               return ("%s %s" % (obj.first_name, obj.last_name)).upper()
@@ -285,8 +287,8 @@ You have four possible values that can be used in ``list_display``:
           class PersonAdmin(admin.ModelAdmin):
               list_display = (upper_case_name,)
 
-    * A string representing an attribute on the ``ModelAdmin``. This behaves
-      same as the callable. For example::
+    * Uma string representando um atributo no ``ModelAdmin``. Este se comporta
+      da mesma forma que a função acima. Por exemplo::
 
           class PersonAdmin(admin.ModelAdmin):
               list_display = ('upper_case_name',)
@@ -295,9 +297,9 @@ You have four possible values that can be used in ``list_display``:
                 return ("%s %s" % (obj.first_name, obj.last_name)).upper()
               upper_case_name.short_description = 'Name'
 
-    * A string representing an attribute on the model. This behaves almost
-      the same as the callable, but ``self`` in this context is the model
-      instance. Here's a full model example::
+    * Uma string representando um atributo no model. Este se comporta quase como
+      a função acima, a diferença é que o ``self`` neste contexto é a instância
+      do model. Aqui temos um exemplo completo::
 
           class Person(models.Model):
               name = models.CharField(max_length=50)
@@ -310,26 +312,26 @@ You have four possible values that can be used in ``list_display``:
           class PersonAdmin(admin.ModelAdmin):
               list_display = ('name', 'decade_born_in')
 
-A few special cases to note about ``list_display``:
+Uns poucos casos especiais para se tomar nota sobre o ``list_display``::
 
-    * If the field is a ``ForeignKey``, Django will display the
-      ``__unicode__()`` of the related object.
+    * Se o campo é um ``ForeignKey``, o Django mostrará o ``__unicode`__()`` do
+      objeto relacionado.
 
-    * ``ManyToManyField`` fields aren't supported, because that would entail
-      executing a separate SQL statement for each row in the table. If you
-      want to do this nonetheless, give your model a custom method, and add
-      that method's name to ``list_display``. (See below for more on custom
-      methods in ``list_display``.)
+    * Campos ``ManyToManyField`` não são suportados, pois poderiam implicar em
+    execução de consultas SQL em separado pra cada linha da tabela. Se você
+    deseja fazer isso de qualquer forma, dê ao seu model um método
+    personalizado, e adicione o nome desse método no ``list_display``. (Veja
+    abaixo para saber mais sobre métodos personalizados no ``list_display``.)
 
-    * If the field is a ``BooleanField`` or ``NullBooleanField``, Django will
-      display a pretty "on" or "off" icon instead of ``True`` or ``False``.
+    * Se o campo é um ``BooleanField`` ou ``NullBooleanField``, o Django
+      mostrará um belo ícone "on" ou "off" ao invés de ``True`` ou ``False``.
 
-    * If the string given is a method of the model, ``ModelAdmin`` or a
-      callable, Django will HTML-escape the output by default. If you'd rather
-      not escape the output of the method, give the method an ``allow_tags``
-      attribute whose value is ``True``.
+    * Se a string fornecida é um método do model, ``ModelAdmin`` ou uma função,
+      o Django espacará o HTML da saída por padrão. Se você gostaria de não
+      escapar a saída do método, de ao método um atributo ``allow_tags`` cujo o
+      valor é ``True``.
 
-      Here's a full example model::
+      Aqui temos um exemplo completo::
 
           class Person(models.Model):
               first_name = models.CharField(max_length=50)
@@ -343,12 +345,11 @@ A few special cases to note about ``list_display``:
           class PersonAdmin(admin.ModelAdmin):
               list_display = ('first_name', 'last_name', 'colored_name')
 
-    * If the string given is a method of the model, ``ModelAdmin`` or a
-      callable that returns True or False Django will display a pretty "on" or
-      "off" icon if you give the method a ``boolean`` attribute whose value is
-      ``True``.
+    * Se a string dada é um método do model, ``ModelAdmin`` ou uma função que
+      retorna True ou False o Django mostrará um belo ícone "on" ou "off" se
+      você der ao método um atributo ``boolean`` cujo o valor é ``True``.
 
-      Here's a full example model::
+      Aqui temos um exemplo completo do model::
 
           class Person(models.Model):
               first_name = models.CharField(max_length=50)
@@ -361,22 +362,21 @@ A few special cases to note about ``list_display``:
           class PersonAdmin(admin.ModelAdmin):
               list_display = ('name', 'born_in_fifties')
 
-
-    * The ``__str__()`` and ``__unicode__()`` methods are just as valid in
-      ``list_display`` as any other model method, so it's perfectly OK to do
-      this::
+    * Os métodos ``__str__()`` e ``__unicode__()`` não só são válidos no
+      ``list_display`` como em qualquer outro método de model, então é
+      perfeitamente OK usar isso::
 
           list_display = ('__unicode__', 'some_other_field')
 
-    * Usually, elements of ``list_display`` that aren't actual database fields
-      can't be used in sorting (because Django does all the sorting at the
-      database level).
+    * Normalmente, os elementos do ``list_display`` que não estão dentre os
+      campos do bancos de dados atual não podem ser usado em ordenamentos (pois
+      o Django não sabe como sortealos a nível de banco de dados).
 
-      However, if an element of ``list_display`` represents a certain database
-      field, you can indicate this fact by setting the ``admin_order_field``
-      attribute of the item.
+      Entretanto, se um elemento de um ``list_display`` representa um certo
+      campo do banco de dados, você pode indicar este fato configurando o
+      atributo ``admin_order_field`` do item.
 
-      For example::
+      Por exemplo::
 
         class Person(models.Model):
             first_name = models.CharField(max_length=50)
@@ -390,27 +390,27 @@ A few special cases to note about ``list_display``:
         class PersonAdmin(admin.ModelAdmin):
             list_display = ('first_name', 'colored_first_name')
 
-      The above will tell Django to order by the ``first_name`` field when
-      trying to sort by ``colored_first_name`` in the admin.
+      O exemplo acima dirá ao Django para ordenar o campo ``first_name`` quando
+      tentar sortear pelo ``colored_first_name`` no admin.
 
 .. attribute:: ModelAdmin.list_display_links
 
-Set ``list_display_links`` to control which fields in ``list_display`` should
-be linked to the "change" page for an object.
+Seta um ``list_display_links`` para controlar quais campos no ``list_display``
+deveriam ser linkados à página de edição de um objeto.
 
-By default, the change list page will link the first column -- the first field
-specified in ``list_display`` -- to the change page for each item. But
-``list_display_links`` lets you change which columns are linked. Set
-``list_display_links`` to a list or tuple of field names (in the same format as
-``list_display``) to link.
+Por padrão, a página de listagem linkará a primeira coluna -- o primeiro campo
+especificado no ``list_display`` -- para a página de edição de cada item. Mas
+``list_display_links`` permite você mudar quais colunas serão linkadas.
+Configure ``list_display_links`` com uma lista de tuplas com nomes de campos (no
+mesmo formato como ``list_display``) para linkar.
 
-``list_display_links`` can specify one or many field names. As long as the
-field names appear in ``list_display``, Django doesn't care how many (or how
-few) fields are linked. The only requirement is: If you want to use
-``list_display_links``, you must define ``list_display``.
+O ``list_display_links`` pode especificar um ou mais nomes de campos. Tantos
+quanto os nomes dos campos que aparecerem no ``list_display``, o Django não se
+preocupa com quantos campos (ou quão poucos) serão linkados. O único requisito
+é: Se você usar ``list_display_links``, você deve definir ``list_display``.
 
-In this example, the ``first_name`` and ``last_name`` fields will be linked on
-the change list page::
+Neste exemplo, os campos ``first_name`` e ``last_name`` serão linkados na página
+de listagem::
 
     class PersonAdmin(admin.ModelAdmin):
         list_display = ('first_name', 'last_name', 'birthday')
@@ -418,93 +418,93 @@ the change list page::
 
 .. attribute:: ModelAdmin.list_filter
 
-Set ``list_filter`` to activate filters in the right sidebar of the change list
-page of the admin. This should be a list of field names, and each specified
-field should be either a ``BooleanField``, ``CharField``, ``DateField``,
-``DateTimeField``, ``IntegerField`` or ``ForeignKey``.
+Configure o ``list_filter`` para ativar os filtros na barra à direita da
+listagem do admin. Este deve ser uma lista de nomes de campos, e cada campo
+especificado devem ser ``BooleanField``, ``CharField``, ``DateField``,
+``DateTimeField``, ``IntegerField`` ou ``ForeignKey``.
 
-This example, taken from the ``django.contrib.auth.models.User`` model, shows
-how both ``list_display`` and ``list_filter`` work::
+Este exemplo, pêgo do model ``django.contrib.auth.models.User``, mostra como
+ambos ``list_display`` e ``list_filter`` funcionam::
 
     class UserAdmin(admin.ModelAdmin):
         list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
         list_filter = ('is_staff', 'is_superuser')
 
-The above code results in an admin change list page that looks like this:
+O código acima resulta numa página de listagem do admim que parece com este:
 
     .. image:: _images/users_changelist.png
 
-(This example also has ``search_fields`` defined. See below.)
+(Este exemplo tem um ``search_fields`` definido. Veja abaixo.)
 
 .. attribute:: ModelAdmin.list_per_page
 
-Set ``list_per_page`` to control how many items appear on each paginated admin
-change list page. By default, this is set to ``100``.
+Configure o ``list_per_page`` para controlar quantos ítens devem aparecer em
+cada página da paginação da listagem. Por padrão, é setado para ``100``.
 
 .. attribute:: ModelAdmin.list_select_related
 
-Set ``list_select_related`` to tell Django to use ``select_related()`` in
-retrieving the list of objects on the admin change list page. This can save you
-a bunch of database queries.
+Configure ``list_select_related`` para dizer ao Django para usar
+``select_related()`` na lista de objetos recebida na listagem do admin. Isso
+pode poupar um monte de consultas no banco de dados.
 
-The value should be either ``True`` or ``False``. Default is ``False``.
+O valor deve ser ``True`` ou ``False``. O padrão é ``False``.
 
-Note that Django will use ``select_related()``, regardless of this setting,
-if one of the ``list_display`` fields is a ``ForeignKey``.
+Note que o Django usará ``select_related()``, indiferente desta configuração,
+se um dos campos no ``list_display`` for um ``ForeignKey``.
 
-For more on ``select_related()``, see
-:ref:`the select_related() docs <select-related>`.
+Para mais sobre ``select_related()``, veja
+:ref:`a documentação do select_related() <select-related>`.
 
 .. attribute:: ModelAdmin.inlines
 
-See ``InlineModelAdmin`` objects below.
+Veja objetos ``InlineModelAdmin`` abaixo.
 
 .. attribute:: ModelAdmin.ordering
 
-Set ``ordering`` to specify how objects on the admin change list page should be
-ordered. This should be a list or tuple in the same format as a model's
-``ordering`` parameter.
+Configure ``ordering`` para especificar como os objetos na listagem do admin
+devem ser ordenados. Este deve ser uma lista de tuplas no mesmo formato do
+parâmetro ``ordering`` do model.
 
-If this isn't provided, the Django admin will use the model's default ordering.
+Se este não for fornecido, o Django admin usará o ordenamento padrão do model.
 
-.. admonition:: Note
+.. admonition:: Nota
 
-    Django will only honor the first element in the list/tuple; any others
-    will be ignored.
+    O Django somente honra o primeiro elemento na lista/tupla; qualquer outro
+    será ignorado.
 
 .. attribute:: ModelAdmin.prepopulated_fields
 
-Set ``prepopulated_fields`` to a dictionary mapping field names to the fields
-it should prepopulate from::
+Configure ``prepopulated_fields`` com um mapeamento num dicionário com os campos
+que devem ser pré-populados a partir de outro campo::
 
     class ArticleAdmin(admin.ModelAdmin):
         prepopulated_fields = {"slug": ("title",)}
 
-When set, the given fields will use a bit of JavaScript to populate from the
-fields assigned. The main use for this functionality is to automatically
-generate the value for ``SlugField`` fields from one or more other fields. The
-generated value is produced by concatenating the values of the source fields,
-and then by transforming that result into a valid slug (e.g. substituting
-dashes for spaces).
+Quando configurado, os campos dados usaram um pouco de JavaScript para popular
+os campos atribuídos. O principal uso para esta funcionalidade é a de
+automaticamente gerar um valor para campos ``SlugField`` a partir de um ou mais
+campos. O valor gerado é produzido concatenando os valores do campo originário,
+e então transformando este resultado num slug válido (e.g. substituíndo barras
+por espaços).
 
-``prepopulated_fields`` doesn't accept ``DateTimeField``, ``ForeignKey``, nor
-``ManyToManyField`` fields.
+O ``prepopulated_fields`` não aceita campos ``DateTimeField``, ``ForeignKey``,
+nem ``ManyToManyField``.
 
 .. attribute:: ModelAdmin.radio_fields
 
-By default, Django's admin uses a select-box interface (<select>) for
-fields that are ``ForeignKey`` or have ``choices`` set. If a field is present
-in ``radio_fields``, Django will use a radio-button interface instead.
-Assuming ``group`` is a ``ForeignKey`` on the ``Person`` model::
+Por padrão, o admin do Django usa uma interface com select-box (<select>) para
+campos que são ``ForeignKey`` ou que tem ``choices`` configurado. Se um campo é
+apresentado no ``radio_fields``, o Django usará uma interface com radio-button
+ao invés. Assumindo que ``group`` é um ``ForeignKey`` no model ``Person``::
 
     class PersonAdmin(admin.ModelAdmin):
         radio_fields = {"group": admin.VERTICAL}
 
-You have the choice of using ``HORIZONTAL`` or ``VERTICAL`` from the
-``django.contrib.admin`` module.
+Você tem a escolha de usar ``HORIZONTAL`` ou ``VERTICAL`` do módulo
+``django.contrib.admin``.
 
-Don't include a field in ``radio_fields`` unless it's a ``ForeignKey`` or has
-``choices`` set.
+Não inclua um campo no ``radio_fields`` a menos que seja um ``ForeignKey`` ou
+tenha ``choices`` setado.
 
 .. attribute:: ModelAdmin.raw_id_fields
 
@@ -738,8 +738,8 @@ on your ``ModelAdmin``::
 Keep in mind that this will be prepended with ``MEDIA_URL``. The same rules
 apply as :ref:`regular media definitions on forms <topics-forms-media>`.
 
-Adding custom validation to the admin
--------------------------------------
+Adicionando validação personalizada ao admin
+--------------------------------------------
 
 Adding custom validation of data in the admin is quite easy. The automatic admin
 interface reuses :mod:`django.forms`, and the ``ModelAdmin`` class gives you
@@ -1186,3 +1186,4 @@ respectively::
         ('^basic-admin/(.*)', basic_site.root),
         ('^advanced-admin/(.*)', advanced_site.root),
     )
+
