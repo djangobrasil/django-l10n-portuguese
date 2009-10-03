@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
@@ -403,14 +403,14 @@ makemessages
 ------------
 
 .. versionchanged:: 1.0
-   Before 1.0 this was the ``bin/make-messages.py`` command.
+   Antes da versão 1.0 este era o comando ``bin/make-messages.py``.
 
-Runs over the entire source tree of the current directory and pulls out all
-strings marked for translation. It creates (or updates) a message file in the
-conf/locale (in the django tree) or locale (for project and application)
-directory. After making changes to the messages files you need to compile them
-with ``compilemessages`` for use with the builtin gettext support. See the
-:ref:`i18n documentation <how-to-create-language-files>` for details.
+Executa sobre toda árvore de código, no diretório atual, e extrai todas as
+strings marcadas para tradução. Ele cria (ou atualiza) um arquivo de mensagem em
+conf/locale (na árvore do django) ou um diretório locale (para o projeto e
+aplicação). Depois de fazer mudanças nos arquivos de mensagens você precisa
+compilá-los com ``compilemessages`` para usar com o suporte embutido do gettext.
+Veja :ref:`a documentaçõ i18n <how-to-create-language-files>` para detalhes.
 
 --all
 ~~~~~
@@ -458,7 +458,7 @@ mensagens. Atualmente são suportados:
 --verbosity
 ~~~~~~~~~~~
 
-User ``--verbosity`` para especificar o quanto de notificações e informações de
+Use ``--verbosity`` para especificar o quanto de notificações e informações de
 debug o ``django-admin.py`` deverá imprimir no console.
 
 	* ``0`` significa nenhuma saída.
@@ -467,7 +467,7 @@ debug o ``django-admin.py`` deverá imprimir no console.
 
 Exemplo de uso::
 
-    django-admin.py loaddata --verbosity=2
+    django-admin.py makemessages --verbosity=2
 
 reset <appname appname ...>
 ---------------------------
@@ -676,44 +676,45 @@ deve-se omitir a opção ``--settings`` ou anular o ``DJANGO_SETTINGS_MODULE``.
 syncdb
 ------
 
-Creates the database tables for all apps in ``INSTALLED_APPS`` whose tables
-have not already been created.
+Cria as tabelas do banco de dados para todas as aplicações em ``INSTALLED_APPS``
+cujo as tabelas ainda não foram criadas.
 
-Use this command when you've added new applications to your project and want to
-install them in the database. This includes any apps shipped with Django that
-might be in ``INSTALLED_APPS`` by default. When you start a new project, run
-this command to install the default apps.
+Use este comando quando você tiver adicionado novas aplicações ao seu projeto e
+quiser instalá-las no banco de dados. Isso inclui quaisquer aplicações entregues
+com o Django, que podem estar no ``INSTALLED_APPS`` por padrão. Quando você
+iniciar um novo projeto, execute este comando para instalar as aplicações
+padrão.
 
-.. admonition:: Syncdb will not alter existing tables
+.. admonition:: Syncdb não altera tabelas existentes
 
-   ``syncdb`` will only create tables for models which have not yet been
-   installed. It will *never* issue ``ALTER TABLE`` statements to match
-   changes made to a model class after installation. Changes to model classes
-   and database schemas often involve some form of ambiguity and, in those
-   cases, Django would have to guess at the correct changes to make. There is
-   a risk that critical data would be lost in the process.
+   ``syncdb`` somente criará tabelas para os models que não foram instalados
+   ainda. Ele *nunca* emite uma consulta ``ALTER TABLE`` para combinar mudanças
+   feitas na classe do model depois da instalação. Mudanças de models e esquemas
+   de banco de dados normalmente envolvem alguma forma de ambiguidade e, em
+   alguns casos, o Django não adivinhará quais as mudanças corretas fazer. Há um
+   risco de que dados críticos poderiam ser perdidos no processo.
 
-   If you have made changes to a model and wish to alter the database tables
-   to match, use the ``sql`` command to display the new SQL structure and
-   compare that to your existing table schema to work out the changes.
+   Se você tem feito mudanças em models e deseja alterar as tabelas do banco de
+   dados, use o comando ``sql`` para mostrar a nova estrutura do SQL e compare-a
+   com o seu esquema de tabelas atual, para fazer as mudanças.
 
-If you're installing the ``django.contrib.auth`` application, ``syncdb`` will
-give you the option of creating a superuser immediately.
+Se você estiver instalando a aplicação ``django.contrib.auth``, o ``syncdb``
+dará a você a opção de criar um superusuário imediatamente.
 
-``syncdb`` will also search for and install any fixture named ``initial_data``
-with an appropriate extension (e.g. ``json`` or ``xml``). See the
-documentation for ``loaddata`` for details on the specification of fixture
-data files.
+O ``syncdb`` também procurará por, e instalará, qualquer fixture chamada
+``initial_data`` com uma extenção apropriada (e.g. ``json`` ou ``xml``). Veja
+a documentação para ``loaddata`` para detalhes sobre a especificação de arquivos
+de dados de fixture.
 
 --verbosity
 ~~~~~~~~~~~
 
-Use ``--verbosity`` to specify the amount of notification and debug information
-that ``django-admin.py`` should print to the console.
+Use ``--verbosity`` para especificar o quanto de notificações e informações de
+debug o ``django-admin.py`` deverá imprimir no console.
 
-	* ``0`` means no output.
-	* ``1`` means normal output (default).
-	* ``2`` means verbose output.
+	* ``0`` significa nenhuma saída.
+	* ``1`` significa saída normal (padrão).
+	* ``2`` significa saída prolixa.
 
 Exemplo de uso::
 
@@ -722,32 +723,32 @@ Exemplo de uso::
 --noinput
 ~~~~~~~~~
 
-Use the ``--noinput`` option to suppress all user prompting, such as
-"Are you sure?" confirmation messages. This is useful if ``django-admin.py``
-is being executed as an unattended, automated script.
+Use a opção ``--noinput`` para suprimir todo prompt ao usuário, como mensagens
+de confirmação "Are you sure?". Isso é útil se o ``django-admin.py`` for
+executado de forma autônoma, por um script.
 
 test
 ----
 
-Runs tests for all installed models. See :ref:`topics-testing` for more
-information.
+Executa os testes todos os models. Veja :ref:`topics-testing` para mais
+informações.
 
 --noinput
 ~~~~~~~~~
 
-Use the ``--noinput`` option to suppress all user prompting, such as
-"Are you sure?" confirmation messages. This is useful if ``django-admin.py``
-is being executed as an unattended, automated script.
+Use a opção ``--noinput`` para suprimir todo prompt ao usuário, como mensagens
+de confirmação "Are you sure?". Isso é útil se o ``django-admin.py`` for
+executado de forma autônoma, por um script.
 
 --verbosity
 ~~~~~~~~~~~
 
-Use ``--verbosity`` to specify the amount of notification and debug information
-that ``django-admin.py`` should print to the console.
+Use ``--verbosity`` para especificar o quanto de notificações e informações de
+debug o ``django-admin.py`` deverá imprimir no console.
 
-	* ``0`` means no output.
-	* ``1`` means normal output (default).
-	* ``2`` means verbose output.
+	* ``0`` significa nenhuma saída.
+	* ``1`` significa saída normal (padrão).
+	* ``2`` significa saída prolixa.
 
 Exemplo de uso::
 
@@ -758,70 +759,70 @@ testserver <fixture fixture ...>
 
 .. versionadded:: 1.0
 
-Runs a Django development server (as in ``runserver``) using data from the
-given fixture(s).
+Executa um servidor de desenvolvimento Django (como no ``runserver``) usando
+dados de fixture(s) fornecida(s).
 
-For example, this command::
+Por exemplo, este comando::
 
     django-admin.py testserver mydata.json
 
-...would perform the following steps:
+...executaria os seguintes passos:
 
-    1. Create a test database, as described in :ref:`topics-testing`.
-    2. Populate the test database with fixture data from the given fixtures.
-       (For more on fixtures, see the documentation for ``loaddata`` above.)
-    3. Runs the Django development server (as in ``runserver``), pointed at
-       this newly created test database instead of your production database.
+    1. Cria um banco de dados de teste, como descrito em :ref:`topics-testing`.
+    2. Popula o banco de dados de teste com os dados das fixtures. (Para saber
+       mais sobre fixtures, veja a documentação para ``loaddata`` acima.)
+    3. Executa o servidor de desenvolvimento do Django (como no ``runserver``),
+       apontando para este novo banco de dados criado, ao invés do seu banco de
+       dados de produção.
 
-This is useful in a number of ways:
+Isso é útil de diversas formas:
 
-    * When you're writing :ref:`unit tests <topics-testing>` of how your views
-      act with certain fixture data, you can use ``testserver`` to interact with
-      the views in a Web browser, manually.
+    * Quando você estiver escrevendo :ref:`unit tests <topics-testing>` de como
+      seus views agem com certos dados de fixture, você pode usar ``testserver``
+      para interagir com os views no navegador Web, manualmente.
 
-    * Let's say you're developing your Django application and have a "pristine"
-      copy of a database that you'd like to interact with. You can dump your
-      database to a fixture (using the ``dumpdata`` command, explained above),
-      then use ``testserver`` to run your Web application with that data. With
-      this arrangement, you have the flexibility of messing up your data
-      in any way, knowing that whatever data changes you're making are only
-      being made to a test database.
+    * Vamos dizer que você está desenvolvendo sua aplicação Django e tem uma
+      cópia antiga do banco de dados com a qual você gostaria de interagir. Você
+      pode extrair seu banco de dados para uma fixture (usando o comando
+      ``dumpdata``, explicado acima), e então usar ``textserver`` para rodar sua
+      aplicação Web com estes dados. Com este arranjo, você tem a flexibilidade
+      de interagir com seus dados de qualquer forma, sabendo que qualquer dado
+      mudado está tendo efeito somente no seu banco de dados de teste.
 
-Note that this server does *not* automatically detect changes to your Python
-source code (as ``runserver`` does). It does, however, detect changes to
+Note que este servidor *não* detecta automaticamente mudanças no seu código
+Python (como ``runserver`` faz). Ele, no entanto, detecta mudanças nos seus
 templates.
 
---addrport [port number or ipaddr:port]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--addrport [número da porta ou ipaddr:port]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use ``--addrport`` to specify a different port, or IP address and port, from
-the default of 127.0.0.1:8000. This value follows exactly the same format and
-serves exactly the same function as the argument to the ``runserver`` subcommand.
+Use ``--addrport`` para especificar uma porta diferente, ou endereço de IP e
+porta, do padrão 127.0.0.1:8000. Este valor segue exatamente o mesmo formato e
+exerce a mesma função do argumento para o subcomando ``runserver``.
 
-Examples:
+Exemplos:
 
-To run the test server on port 7000 with ``fixture1`` and ``fixture2``::
+Para rodar o servidor de test na porta 7000 com o ``fixture1`` e ``fixture2``::
 
     django-admin.py testserver --addrport 7000 fixture1 fixture2
     django-admin.py testserver fixture1 fixture2 --addrport 7000
 
-(The above statements are equivalent. We include both of them to demonstrate
-that it doesn't matter whether the options come before or after the fixture
-arguments.)
+(As regras acima são equivalente. Nós incluímos ambas para demonstrar que não
+importa se as opções vem antes ou depois dos argumentos de fixture.)
 
-To run on 1.2.3.4:7000 with a ``test`` fixture::
+Para rodar sobre 1.2.3.4:7000 um fixture ``test``::
 
     django-admin.py testserver --addrport 1.2.3.4:7000 test
 
 --verbosity
 ~~~~~~~~~~~
 
-Use ``--verbosity`` to specify the amount of notification and debug information
-that ``django-admin.py`` should print to the console.
+Use ``--verbosity`` para especificar o quanto de notificações e informações de
+debug o ``django-admin.py`` deverá imprimir no console.
 
-	* ``0`` means no output.
-	* ``1`` means normal output (default).
-	* ``2`` means verbose output.
+	* ``0`` significa nenhuma saída.
+	* ``1`` significa saída normal (padrão).
+	* ``2`` significa saída prolixa.
 
 Exemplo de uso::
 
@@ -830,14 +831,14 @@ Exemplo de uso::
 validate
 --------
 
-Validates all installed models (according to the ``INSTALLED_APPS`` setting)
-and prints validation errors to standard output.
+Valida todos os models instalados (de acordo com a configuração
+``INSTALLED_APPS``) e imprime erros de validação na saída padrão.
 
-Default options
-===============
+Opções padrão
+=============
 
-Although some subcommands may allow their own custom options, every subcommand
-allows for the following options:
+Embora alguns subcomandos possam permitir suas próprias opções personalizadas,
+todo subcomando permite as seguintes opções:
 
 --pythonpath
 ------------
@@ -846,14 +847,14 @@ Exemplo de uso::
 
     django-admin.py syncdb --pythonpath='/home/djangoprojects/myproject'
 
-Adds the given filesystem path to the Python `import search path`_. If this
-isn't provided, ``django-admin.py`` will use the ``PYTHONPATH`` environment
-variable.
+Adiciona o caminho do sistema de arquivos para o `caminho de busca`_ do Python.
+Se este não for fornecido, o ``django-admin.py`` usará a variável de ambiente
+``PYTHONPATH``.
 
-Note that this option is unnecessary in ``manage.py``, because it takes care of
-setting the Python path for you.
+Note que esta opção é desnecessária para o ``manage.py``, pois ele se preocupa
+de setar o caminho do Python por você.
 
-.. _import search path: http://diveintopython.org/getting_to_know_python/everything_is_an_object.html
+.. _caminho de busca: http://diveintopython.org/getting_to_know_python/everything_is_an_object.html
 
 --settings
 ----------
@@ -862,13 +863,13 @@ Exemplo de uso::
 
     django-admin.py syncdb --settings=mysite.settings
 
-Explicitly specifies the settings module to use. The settings module should be
-in Python package syntax, e.g. ``mysite.settings``. If this isn't provided,
-``django-admin.py`` will use the ``DJANGO_SETTINGS_MODULE`` environment
-variable.
+Explicitamente especifica o módulo settings a se usar. O módulo settings deve
+estar na sintaxe de pacotes Python, e.g. ``mysite.settings``. Se este não for
+fornecido, ``django-admin.py`` usará a variável de ambiente
+``DJANGO_SETTINGS_MODULE``.
 
-Note that this option is unnecessary in ``manage.py``, because it uses
-``settings.py`` from the current project by default.
+Note que esta opção é desnecessária no ``manage.py``, pois ele usa o
+``settings.py`` do projeto atual por padrão.
 
 --traceback
 -----------
@@ -877,35 +878,36 @@ Exemplo de uso::
 
     django-admin.py syncdb --traceback
 
-By default, ``django-admin.py`` will show a simple error message whenever an
-error occurs. If you specify ``--traceback``, ``django-admin.py``  will
-output a full stack trace whenever an exception is raised.
+Por padrão, ``django-admin.py`` mostrará uma mensagem de erro simples sempre que
+um erro ocorrer. Se você especificar ``--traceback``, o ``django-admin.py``
+mostrará uma pilha completa sempre que uma exceção for lançada.
 
-Extra niceties
-==============
+Sutilezas extra
+===============
 
-Syntax coloring
----------------
+Sintaxe colorida
+----------------
 
-The ``django-admin.py`` / ``manage.py`` commands that output SQL to standard
-output will use pretty color-coded output if your terminal supports
-ANSI-colored output. It won't use the color codes if you're piping the
-command's output to another program.
+Os comandos ``django-admin.py`` / ``manage.py`` que mostram SQL na saída padrão
+usarão uma saída de código colorida se seu terminal suporta saída ANSI-colored.
+Ele não usa os códigos de cor se você estiver tunelando comandos para um outro
+programa.
 
 Bash completion
 ---------------
 
-If you use the Bash shell, consider installing the Django bash completion
-script, which lives in ``extras/django_bash_completion`` in the Django
-distribution. It enables tab-completion of ``django-admin.py`` and
-``manage.py`` commands, so you can, for instance...
+Se você usa o terminal Bash, considere instalar o script bash completion do
+Django, que reside em ``extras/django_bash_completion`` na distribuição do
+Django. Ele habilita o auto completar com tab dos comandos ``django-admin.py`` e
+``manage.py``, então você pode, por instância...
 
-    * Type ``django-admin.py``.
-    * Press [TAB] to see all available options.
-    * Type ``sql``, then [TAB], to see all available options whose names start
-      with ``sql``.
+    * Escrever ``django-admin.py``.
+    * Precionar [TAB] para ver todas as opções disponíveis.
+    * Escrever ``sql``, então [TAB], para ver todas as opções disponíveis cujo
+      nome começa com ``sql``.
 
 
 
-See :ref:`howto-custom-management-commands` for how to add customized actions.
+Veja :ref:`howto-custom-management-commands` para saber como adicionar ações
+customizadas.
 
