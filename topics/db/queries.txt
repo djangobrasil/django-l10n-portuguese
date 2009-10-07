@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 11332 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,20 +16,20 @@
 
 .. _topics-db-queries:
 
-==============
-Making queries
-==============
+=================
+Fazendo consultas
+=================
 
 .. currentmodule:: django.db.models
 
-Once you've created your :ref:`data models <topics-db-models>`, Django
-automatically gives you a database-abstraction API that lets you create,
-retrieve, update and delete objects. This document explains how to use this
-API. Refer to the :ref:`data model reference <ref-models-index>` for full
-details of all the various model lookup options.
+Uma vez que você tenha criado seus :ref:`data models <topics-db-models>`, o
+Django automaticamente lhe dá uma API de abstração de banco de dados que permite
+você criar, receber, atualizar e deletar objetos. Este documento explica como
+usar esta API. Visite a :ref:`referência do model <ref-models-index>` para
+detalhes completos de todas opções de model.
 
-Throughout this guide (and in the reference), we'll refer to the following
-models, which comprise a weblog application:
+Por todo esse guia (e na referência), nós iremos refereir aos seguintes models,
+que compreendem um aplicação de weblog:
 
 .. _queryset-model-example:
 
@@ -59,85 +59,89 @@ models, which comprise a weblog application:
         def __unicode__(self):
             return self.headline
 
-Creating objects
-================
+Criando objetos
+===============
 
-To represent database-table data in Python objects, Django uses an intuitive
-system: A model class represents a database table, and an instance of that
-class represents a particular record in the database table.
+Para representar dados de uma tabela de banco de dados em objetos Python, o
+Django usa um sistema intuitivo: Uma classe model representa uma tabela de banco
+de dados, e uma instância dessa classe representa um dado em particular dentro
+da tabela.
 
-To create an object, instantiate it using keyword arguments to the model class,
-then call ``save()`` to save it to the database.
+Para criar um objeto, instâncie-o usando argumentos nomeados para a classe
+model, e então chame ``save()`` para salvá-lo no banco de dados.
 
 You import the model class from wherever it lives on the Python path, as you
 may expect. (We point this out here because previous Django versions required
 funky model importing.)
 
-Assuming models live in a file ``mysite/blog/models.py``, here's an example::
+Assumimos que os models estão em ``mysite/blog/models.py``, aqui tem um
+exemplo::
 
     >>> from mysite.blog.models import Blog
     >>> b = Blog(name='Beatles Blog', tagline='All the latest Beatles news.')
     >>> b.save()
 
-This performs an ``INSERT`` SQL statement behind the scenes. Django doesn't hit
-the database until you explicitly call ``save()``.
+Isso executa uma consulta SQL ``INSERT`` por trás das cenas. O Django não
+executa nada no banco de dados até que você, explicitamente ``save()``.
 
-The ``save()`` method has no return value.
+O método ``save()`` não retorna valores.
 
 .. seealso::
 
-    ``save()`` takes a number of advanced options not described here.
-    See the documentation for ``save()`` for complete details.
+    O ``save()`` recebe algumas opções avançadas não descritas aqui.
+    Veja a documentação do ``save()`` para detalhes completos.
 
-    To create an object and save it all in one step see the ```create()```
-    method.
+    Para criar um objeto e salvá-lo em um passo veja o método ```create()```.
 
-Saving changes to objects
-=========================
+Salvando mudanças de objetos
+============================
 
-To save changes to an object that's already in the database, use ``save()``.
+Para salvar mudanças de um objeto que já existe no banco de dados, use
+``save()``.
 
-Given a ``Blog`` instance ``b5`` that has already been saved to the database,
-this example changes its name and updates its record in the database::
+Dado uma instância ``b5`` do ``Blog`` que já está salvo no banco de dados, este
+exemplo muda seu nome e o atualiza no banco de dados::
 
     >> b5.name = 'New name'
     >> b5.save()
 
-This performs an ``UPDATE`` SQL statement behind the scenes. Django doesn't hit
-the database until you explicitly call ``save()``.
+Isso executa uma consulta SQL ``UPDATE`` por trás das cenas. O Django não acessa
+o banco de dados até que você, explicitamente, chame ``save()``.
 
-Saving ``ForeignKey`` and ``ManyToManyField`` fields
+Salvando campos ``ForeignKey`` e ``ManyToManyField``
 ----------------------------------------------------
 
-Updating ``ForeignKey`` fields works exactly the same way as saving a normal
-field; simply assign an object of the right type to the field in question::
+Atualizar um campo ``ForeignKey`` funciona exatamente da mesma forma como salvar
+um campo normal; simplesmente atribuindo um objeto do tipo certo ao campo em
+questão::
 
     >>> cheese_blog = Blog.objects.get(name="Cheddar Talk")
     >>> entry.blog = cheese_blog
     >>> entry.save()
 
-Updating a ``ManyToManyField`` works a little differently; use the ``add()``
-method on the field to add a record to the relation::
+Atualizar um ``ManyToManyField`` funciona um pouco diferente; usa o método
+``add()`` sobre o campo para adicionar um dado a relação::
 
     >> joe = Author.objects.create(name="Joe")
     >> entry.authors.add(joe)
 
-Django will complain if you try to assign or add an object of the wrong type.
+O Django se queixará se você tentar atribuir ou adicionar um objeto do tipo
+errado.
 
-Retrieving objects
-==================
+Recebendo objetos
+=================
 
-To retrieve objects from your database, you construct a ``QuerySet`` via a
-``Manager`` on your model class.
+Para receber objetos de seu banco de dados, você constrói uma ``QuerySet``
+através do ``Manager`` de sua classe model.
 
-A ``QuerySet`` represents a collection of objects from your database. It can
-have zero, one or many *filters* -- criteria that narrow down the collection
-based on given parameters. In SQL terms, a ``QuerySet`` equates to a ``SELECT``
-statement, and a filter is a limiting clause such as ``WHERE`` or ``LIMIT``.
+Um ``QuerySet`` representa uma coleção de objetos do banco de dados. Ela poder
+nenhum, um ou muitos *filtros* -- critérios que apurem a coleção baseado nos
+parâmetros dados. Em termos SQL, um ``QuerySet`` equipara-se a uma consulta
+``SELECT``, e um filtro é uma clausula limitadora como ``WHERE`` ou ``LIMIT``.
 
-You get a ``QuerySet`` by using your model's ``Manager``. Each model has at
-least one ``Manager``, and it's called ``objects`` by default. Access it
-directly via the model class, like so::
+Você obtem um ``QuerySet`` usando o ``Manager`` de seu model. Cada model tem
+pelo menos um ``Manager``, e ele é chamado ``objects`` por padrão. Acesse-o
+diretamente via classe model, desta forma::
 
     >>> Blog.objects
     <django.db.models.manager.Manager object at ...>
@@ -149,67 +153,68 @@ directly via the model class, like so::
 
 .. note::
 
-    ``Managers`` are accessible only via model classes, rather than from model
-    instances, to enforce a separation between "table-level" operations and
-    "record-level" operations.
+    O ``Managers`` são acessível somente via classes, ao invés de instâncias,
+    para reforçar a separação entre operações a nível de tabela e operações a
+    nível de dado.
 
-The ``Manager`` is the main source of ``QuerySets`` for a model. It acts as a
-"root" ``QuerySet`` that describes all objects in the model's database table.
-For example, ``Blog.objects`` is the initial ``QuerySet`` that contains all
-``Blog`` objects in the database.
+O ``Manager`` é a principal fonte de ``QuerySets`` para um model. Ele age como
+uma ``QuerySet`` "raiz" que descreve todos os objetos de uma tabela de banco de
+dados. Por exemplo, ``Blog.objects`` é o ``QuerySet`` inicial que contém todos
+os objetos do ``Blog`` no banco de dados.
 
-Retrieving all objects
-----------------------
+Recebendo todos os objetos
+--------------------------
 
-The simplest way to retrieve objects from a table is to get all of them.
-To do this, use the ``all()`` method on a ``Manager``::
+A forma mais simples de receber objetos da tabela é obtendo todos eles.
+Para fazer isso, use o método ``all()`` de um ``Manager``::
 
     >>> all_entries = Entry.objects.all()
 
-The ``all()`` method returns a ``QuerySet`` of all the objects in the database.
+O método ``all()`` retorna um `QuerySet`` de todos os objetos do banco de dados.
 
-(If ``Entry.objects`` is a ``QuerySet``, why can't we just do ``Entry.objects``?
-That's because ``Entry.objects``, the root ``QuerySet``, is a special case
-that cannot be evaluated. The ``all()`` method returns a ``QuerySet`` that
-*can* be evaluated.)
+(Se ``Entry.objects`` é um ``QuerySet``, porquê nós fizemos um
+``Entry.objects``? Isso é porque ``Entry.objects``, o ``QuerySet`` raiz, é um
+caso especial que não pode ser avaliado. O método ``all()`` retorna um
+``QuerySet`` que *pode* ser avaliado.)
 
-Retrieving specific objects with filters
-----------------------------------------
+Recebendo objetos específicos com filtros
+-----------------------------------------
 
-The root ``QuerySet`` provided by the ``Manager`` describes all objects in the
-database table. Usually, though, you'll need to select only a subset of the
-complete set of objects.
+O ``QuerySet`` raiz fornecido pelo ``Manager`` descreve todos os objetos na
+tabela de banco de dados. Geralmente, contudo, você precisará selecionar somente
+um conjunto de objetos.
 
-To create such a subset, you refine the initial ``QuerySet``, adding filter
-conditions. The two most common ways to refine a ``QuerySet`` are:
+Para criar um subconjunto, você precisar refinar o ``QuerySet`` inicial,
+adicionando confições ao filtro. As duas formas mais comuns de refinar um
+``QuerySet`` são::
 
     ``filter(**kwargs)``
-        Returns a new ``QuerySet`` containing objects that match the given
-        lookup parameters.
+        Retorna um novo ``QuerySet`` contendo objetos que combinam com os
+        parâmetros fornecidos.
 
     ``exclude(**kwargs)``
-        Returns a new ``QuerySet`` containing objects that do *not* match the
-        given lookup parameters.
+        Retorna um novo ``QuerySet`` contendo objetos que *não* combinam com os
+        parâmetros fornecidos.
 
-The lookup parameters (``**kwargs`` in the above function definitions) should
-be in the format described in `Field lookups`_ below.
+Os parâmetros (``**kwargs`` na definição de função acima) devem estar no formato
+descrito em `Campos de pesquisa`_ abaixo.
 
-For example, to get a ``QuerySet`` of blog entries from the year 2006, use
-``filter()`` like so::
+Por exemplo, para obter um ``QuerySet`` de entradas de blog do ano 2006, use o
+``filter()`` desta forma::
 
     Entry.objects.filter(pub_date__year=2006)
 
-We don't have to add an ``all()`` -- ``Entry.objects.all().filter(...)``. That
-would still work, but you only need ``all()`` when you want all objects from the
-root ``QuerySet``.
+Nós não temos que adicionar um ``all()`` -- ``Entry.objects.all().filter(...)``.
+Que continua funcionando, mas você somente precisa de ``all()`` quando deseja
+obter todos os objetos do ``QuerySet`` raiz.
 
 .. _chaining-filters:
 
-Chaining filters
-~~~~~~~~~~~~~~~~
+Filtros encadeados
+~~~~~~~~~~~~~~~~~~
 
-The result of refining a ``QuerySet`` is itself a ``QuerySet``, so it's
-possible to chain refinements together. For example::
+O resultado de refinar uma ``QuerySet`` é, em si, um ``QuerySet``, então é
+possível encadear refinamentos juntos. Por exemplo::
 
     >>> Entry.objects.filter(
     ...     headline__startswith='What'
@@ -219,80 +224,82 @@ possible to chain refinements together. For example::
     ...     pub_date__gte=datetime(2005, 1, 1)
     ... )
 
-This takes the initial ``QuerySet`` of all entries in the database, adds a
-filter, then an exclusion, then another filter. The final result is a
-``QuerySet`` containing all entries with a headline that starts with "What",
-that were published between January 1, 2005, and the current day.
+Isso recebe o ``QuerySet`` inicial de todas as entradas do banco de dados,
+adiciona um filtro, então uma exclusão, e então um outro filtro. O resultado
+final é um ``QuerySet`` contendo todas as entradas com um cabeçalho que começa
+com "What", que foi publicado entre Janeiro 1, 2005 e a data atual.
 
 .. _filtered-querysets-are-unique:
 
-Filtered QuerySets are unique
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+QuerySets filtrados são únicos
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Each time you refine a ``QuerySet``, you get a brand-new ``QuerySet`` that is
-in no way bound to the previous ``QuerySet``. Each refinement creates a
-separate and distinct ``QuerySet`` that can be stored, used and reused.
+Cada vez que você refina um ``QuerySet``, você tem um ``QuerySet`` novo que não
+é vinculado ao ``QuerySet`` anterior. Cada refinamento cria um ``QuerySet``
+separado e distinto que pode ser armazenado, usado e reusado.
 
-Example::
+Exemplo::
 
     >> q1 = Entry.objects.filter(headline__startswith="What")
     >> q2 = q1.exclude(pub_date__gte=datetime.now())
     >> q3 = q1.filter(pub_date__gte=datetime.now())
 
-These three ``QuerySets`` are separate. The first is a base ``QuerySet``
-containing all entries that contain a headline starting with "What". The second
-is a subset of the first, with an additional criteria that excludes records
-whose ``pub_date`` is greater than now. The third is a subset of the first,
-with an additional criteria that selects only the records whose ``pub_date`` is
-greater than now. The initial ``QuerySet`` (``q1``) is unaffected by the
-refinement process.
+Este três ``QuerySet`` são separadas. O primeiro é um ``QuerySet`` base contendo
+todas as entradas que contenham um cabeçalho começando com "What". O segundo é
+um subconjunto do primeir, com um critério adicional que exclui dados cujo o
+``pub_date`` é maior que agora. O terceiro é um subconjunto do primeiro, com um
+critério adicional que seleciona somente os dados cujo ``pub_date`` é maior que
+agora. O ``QuerySet`` inicial (``q1``) não é afetado pelo processo de
+refinamento.
 
 .. _querysets-are-lazy:
 
-QuerySets are lazy
+QuerySets são lazy
 ~~~~~~~~~~~~~~~~~~
 
-``QuerySets`` are lazy -- the act of creating a ``QuerySet`` doesn't involve any
-database activity. You can stack filters together all day long, and Django won't
-actually run the query until the ``QuerySet`` is *evaluated*. Take a look at
-this example::
+Os ``QuerySets`` are lazy -- o ato de criar um  ``QuerySet`` não envolve
+qualquer atividade de banco de dados. Você pode empilhar filtros juntos ao longo
+do dia, e o Django não os executa no banco de dados até que o ``QuerySet`` seja
+*avaliado*. Dê uma olhada nesse exemplo::
 
     >>> q = Entry.objects.filter(headline__startswith="What")
     >>> q = q.filter(pub_date__lte=datetime.now())
     >>> q = q.exclude(body_text__icontains="food")
     >>> print q
 
-Though this looks like three database hits, in fact it hits the database only
-once, at the last line (``print q``). In general, the results of a ``QuerySet``
-aren't fetched from the database until you "ask" for them. When you do, the
-``QuerySet`` is *evaluated* by accessing the database. For more details on
-exactly when evaluation takes place, see :ref:`when-querysets-are-evaluated`.
+Embora isso pareça como três hits no banco de dados, de fato o banco de dados
+foi consultado somente na última linha (``print q``). Geralmente, os resultados
+de um ``QuerySet`` não são buscados do banco de dados até que você "peça" por
+eles. Quando você o faz, o ``QuerySet`` é *avaliado* para acessar o banco de
+dados. Para mais detalhes sobre exatamente quando as avaliações tomam seu lugar,
+veja :ref:`when-querysets-are-evaluated`.
 
-Other QuerySet methods
-~~~~~~~~~~~~~~~~~~~~~~
+Outros métodos do QuerySet
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Most of the time you'll use ``all()``, ``filter()`` and ``exclude()`` when you
-need to look up objects from the database. However, that's far from all there is; see the :ref:`QuerySet API Reference <queryset-api>` for a complete list
-of all the various ``QuerySet`` methods.
+Na maior parte do tempo você usará ``all()``, ``filter()`` e ``exclude()``
+quando você precisar pesquisar por objetos no banco de dados. Entretanto, isso
+não é tudo que há; veja a :ref:`Referência de API do QuerySet <queryset-api>`
+para uma lista completa de todos os vários métodos do ``QuerySet``.
 
 .. _limiting-querysets:
 
-Limiting QuerySets
-------------------
+Limitando QuerySets
+-------------------
 
-Use a subset of Python's array-slicing syntax to limit your ``QuerySet`` to a
-certain number of results. This is the equivalent of SQL's ``LIMIT`` and
-``OFFSET`` clauses.
+Use a sintaxe de array-slicing do Python para limitar seu ``QuerySet`` com um
+certo número de resultados. Este é o equivalente as clausulas SQL ``LIMIT`` e
+``OFFSET``.
 
-For example, this returns the first 5 objects (``LIMIT 5``)::
+Por exemplo, isso retorna os primeiros 5 objetos (``LIMIT 5``)::
 
     >>> Entry.objects.all()[:5]
 
-This returns the sixth through tenth objects (``OFFSET 5 LIMIT 5``)::
+Isso retorna do sexto ao décimo objeto (``OFFSET 5 LIMIT 5``)::
 
     >>> Entry.objects.all()[5:10]
 
-Negative indexing (i.e. ``Entry.objects.all()[-1]``) is not supported.
+Indexação negativa (i.e. ``Entry.objects.all()[-1]``) não é suportada.
 
 Generally, slicing a ``QuerySet`` returns a new ``QuerySet`` -- it doesn't
 evaluate the query. An exception is if you use the "step" parameter of Python
@@ -301,107 +308,109 @@ return a list of every *second* object of the first 10::
 
     >>> Entry.objects.all()[:10:2]
 
-To retrieve a *single* object rather than a list
-(e.g. ``SELECT foo FROM bar LIMIT 1``), use a simple index instead of a
-slice. For example, this returns the first ``Entry`` in the database, after
-ordering entries alphabetically by headline::
+Para receber um *único* objeto ao invés de uma lista
+(e.g. ``SELECT foo  FROM bar  LIMIT 1``), use um index simples ao invés de um
+slice. Por exemplo, isso retorna a primeira ``Entry`` do banco de dados, depois
+de ordenar as entradas alfabéticamente pelos cabeçalhos::
 
     >>> Entry.objects.order_by('headline')[0]
 
-This is roughly equivalent to::
+Isso é o equivalente a::
 
     >>> Entry.objects.order_by('headline')[0:1].get()
 
-Note, however, that the first of these will raise ``IndexError`` while the
-second will raise ``DoesNotExist`` if no objects match the given criteria. See
-``get()`` for more details.
+Note, no entanto, que o primeiro desses será lançado ``IndexError`` enquanto o
+segundo lançará ``DoesNotExists`` se nenhum objeto combinar com o critério dado.
+Veja ``get()`` para mais detalhes.
 
 .. _field-lookups-intro:
 
-Field lookups
--------------
+Campos de pesquisa
+------------------
 
-Field lookups are how you specify the meat of an SQL ``WHERE`` clause. They're
-specified as keyword arguments to the ``QuerySet`` methods ``filter()``,
-``exclude()`` and ``get()``.
+Campos de pesquisa são como você especifica o cerne de uma clausula ``WHERE``.
+Eles são especificado como argumento nomeados para o método ``filter()`` do
+``QuerySet``.
 
-Basic lookups keyword arguments take the form ``field__lookuptype=value``.
-(That's a double-underscore). For example::
+Os argumentos básicos de pesquisa tem a forma ``campo__tipodepesquisa=valor``.
+(Isso é um underscore duplo). Por exemplo::
 
     >>> Entry.objects.filter(pub_date__lte='2006-01-01')
 
-translates (roughly) into the following SQL::
+é traduzido para o seguinte SQL::
 
     SELECT * FROM blog_entry WHERE pub_date <= '2006-01-01';
 
-.. admonition:: How this is possible
+.. admonition:: Como isso é possível
 
-   Python has the ability to define functions that accept arbitrary name-value
-   arguments whose names and values are evaluated at runtime. For more
-   information, see `Keyword Arguments`_ in the official Python tutorial.
+   O Python tem a abilidade de definir funções que aceitam argumentos de
+   nome-valor arbitrários cujo os nomes e valores são avaliados em tempo de
+   execução. Para mais informações, veja `Keyword Arguments`_ no tutorial
+   oficial do Python.
 
    .. _`Keyword Arguments`: http://docs.python.org/tut/node6.html#SECTION006720000000000000000
 
-If you pass an invalid keyword argument, a lookup function will raise
+Se você passar um argumento inválido, uma função de pesquisa gerará o erro
 ``TypeError``.
 
-The database API supports about two dozen lookup types; a complete reference
-can be found in the :ref:`field lookup reference <field-lookups>`. To give you a taste of what's available, here's some of the more common lookups
-you'll probably use:
+A API de banco de dados suporta sobre dois dos tipos de pesquisa; uma referência
+completa poe ser encontrada em :ref:`referencia dos campos de pesquisa
+<field-lookups>`. Para dar a você um gosto do que está disponível, aqui temos
+algumas das pesquisas mais comuns que você provavelmente usa::
 
     :lookup:`exact`
-        An "exact" match. For example::
+        Uma combinação "extata". Por exemplo::
 
             >>> Entry.objects.get(headline__exact="Man bites dog")
 
-        Would generate SQL along these lines:
+        Podria gerar o SQL ao longo dessas linhas:
 
         .. code-block:: sql
 
             SELECT ... WHERE headline = 'Man bites dog';
 
-        If you don't provide a lookup type -- that is, if your keyword argument
-        doesn't contain a double underscore -- the lookup type is assumed to be
-        ``exact``.
+        Se você não fornecer um tipo de pesquisa -- isto é, se seu argumento não
+        contém um underscore duplo -- o tipo de pesquisa é assumido como
+        ``exact``
 
-        For example, the following two statements are equivalent::
+        Por exemplo, as duas clausulas seguintes são equivalentes::
 
-            >>> Blog.objects.get(id__exact=14)  # Explicit form
-            >>> Blog.objects.get(id=14)         # __exact is implied
+            >>> Blog.objects.get(id__exact=14)  # Forma explicita
+            >>> Blog.objects.get(id=14)         # __exact é implícito
 
-        This is for convenience, because ``exact`` lookups are the common case.
+        Isso é uma conveniência, pois pesquisas ``exact`` são um caso comum.
 
     :lookup:`iexact`
-        A case-insensitive match. So, the query::
+        Uma combinação não sensível a maiúsculas. Então, a consulta::
 
             >>> Blog.objects.get(name__iexact="beatles blog")
 
-        Would match a ``Blog`` titled "Beatles Blog", "beatles blog", or even
-        "BeAtlES blOG".
+        Poderia combinar um ``Blog`` entitulado "Beatles Blog", "beatles blog",
+        ou mesmo "BeAtlEs blOG".
 
     :lookup:`contains`
-        Case-sensitive containment test. For example::
+        Sensível a maiúsculas, testa se contém. Por exemplo::
 
             Entry.objects.get(headline__contains='Lennon')
 
-        Roughly translates to this SQL:
+        É traduzido para este SQL:
 
         .. code-block:: sql
 
             SELECT ... WHERE headline LIKE '%Lennon%';
 
-        Note this will match the headline ``'Today Lennon honored'`` but not
+        Note que combinará com cabeçalhos ``'Today Lennon honored'`` mas não
         ``'today lennon honored'``.
 
-        There's also a case-insensitive version, :lookup:`icontains`.
+        Há também uma versão não sensível a maiúsculas, :lookup:icontains`.
 
     :lookup:`startswith`, :lookup:`endswith`
-        Starts-with and ends-with search, respectively. There are also
-        case-insensitive versions called :lookup:`istartswith` and
+        Começa com e termina com, respecitivamente. Há também a versão não
+        sensível a maiúsculas chamada :lookup:`istartswith` e
         :lookup:`iendswith`.
 
-Again, this only scratches the surface. A complete reference can be found in the
-:ref:`field lookup reference <field-lookups>`.
+De novo, estes são somente arranhões na superfície. Uma referência completa pode
+ser encontrada na :ref:`referência os campos de pesquisa <field-lookups>`.
 
 Lookups that span relationships
 -------------------------------
@@ -522,7 +531,7 @@ can be combined with ``pk`` to perform a query on the primary key of a model::
 
     # Get blogs entries with id 1, 4 and 7
     >>> Blog.objects.filter(pk__in=[1,4,7])
-    
+
     # Get all blog entries with id > 14
     >>> Blog.objects.filter(pk__gt=14)
 
@@ -645,7 +654,7 @@ example::
 Lookup functions can mix the use of ``Q`` objects and keyword arguments. All
 arguments provided to a lookup function (be they keyword arguments or ``Q``
 objects) are "AND"ed together. However, if a ``Q`` object is provided, it must
-precede the definition of any keyword arguments. For example::
+precede the definition of any keyword arguments. Por exemplo::
 
     Poll.objects.get(
         Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6)),
@@ -714,7 +723,7 @@ method of a ``QuerySet``.
 When Django deletes an object, it emulates the behavior of the SQL
 constraint ``ON DELETE CASCADE`` -- in other words, any objects which
 had foreign keys pointing at the object to be deleted will be deleted
-along with it. For example::
+along with it. Por exemplo::
 
     b = Blog.objects.get(pk=1)
     # This will delete the Blog and all of its Entry objects.
@@ -734,7 +743,7 @@ Updating multiple objects at once
 .. versionadded:: 1.0
 
 Sometimes you want to set a field to a particular value for all the objects in
-a ``QuerySet``. You can do this with the ``update()`` method. For example::
+a ``QuerySet``. You can do this with the ``update()`` method. Por exemplo::
 
     # Update all the headlines with pub_date in 2007.
     Entry.objects.filter(pub_date__year=2007).update(headline='Everything is the same')
@@ -747,7 +756,7 @@ To update ``ForeignKey`` fields, set the new value to be the new model
 instance you want to point to. Example::
 
     >>> b = Blog.objects.get(pk=1)
-    
+
     # Change every Entry so that it belongs to this Blog.
     >>> Entry.objects.all().update(blog=b)
 
@@ -897,7 +906,7 @@ in the :ref:`related objects reference <ref-models-relations>`.
 
 To assign the members of a related set in one fell swoop, just assign to it
 from any iterable object. The iterable can contain object instances, or just
-a list of primary key values. For example::
+a list of primary key values. Por exemplo::
 
     b = Blog.objects.get(id=1)
     b.entry_set = [e1, e2]
@@ -949,7 +958,7 @@ define a :class:`~django.db.models.OneToOneField` on your model, instances of
 that model will have access to the related object via a simple attribute of the
 model.
 
-For example::
+Por exemplo::
 
     class EntryDetail(models.Model):
         entry = models.OneToOneField(Entry)
@@ -1021,3 +1030,4 @@ Finally, it's important to note that the Django database layer is merely an
 interface to your database. You can access your database via other tools,
 programming languages or database frameworks; there's nothing Django-specific
 about your database.
+
