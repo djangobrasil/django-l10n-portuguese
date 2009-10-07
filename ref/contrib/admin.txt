@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
@@ -508,146 +508,156 @@ tenha ``choices`` setado.
 
 .. attribute:: ModelAdmin.raw_id_fields
 
-By default, Django's admin uses a select-box interface (<select>) for
-fields that are ``ForeignKey``. Sometimes you don't want to incur the
-overhead of having to select all the related instances to display in the
-drop-down.
+Por padrão, o admin do Django usa um select-box (<select>) para campos que são
+``ForeignKey``. Algumas vezes você pode não desejar ficar sujeito a um overhead
+ao selecionar todos as instâncias relacionadas num drop-down.
 
-``raw_id_fields`` is a list of fields you would like to change
-into a ``Input`` widget for either a ``ForeignKey`` or ``ManyToManyField``::
+O ``raw_id_fields`` é uma lista de campos que você gostaria de mudar dentro de
+um widget ``Input`` tanto para ``ForeignKey`` quanto ``ManyToManyField``::
 
     class ArticleAdmin(admin.ModelAdmin):
         raw_id_fields = ("newspaper",)
 
 .. attribute:: ModelAdmin.save_as
 
-Set ``save_as`` to enable a "save as" feature on admin change forms.
+Seta ``save_as`` para habilitar um "save as" no formulário de edição do admin.
 
-Normally, objects have three save options: "Save", "Save and continue editing"
-and "Save and add another". If ``save_as`` is ``True``, "Save and add another"
-will be replaced by a "Save as" button.
+Normalmente, objetos tem três opções de salve: "Salvar", "Salvar e continuar
+editando" e "Salvar e adicionar outro". Se ``save_as`` for ``True``, o "Salvar e
+adicionar outro" será substituído por um botão "Salvar como".
 
-"Save as" means the object will be saved as a new object (with a new ID),
-rather than the old object.
+.. admonition:: Nota do tradutor
 
-By default, ``save_as`` is set to ``False``.
+    Se você não estiver utilizando uma versão do Django traduzida, os botões
+    "Salvar e continuar editando", "Salvar", "Salvar e adicionar outro" e
+    "Salvar como", serão, respectivamente, "Save", "Save and continue editing",
+    "Save and add another" e "Save as".
+
+"Salvar como" significa que o objeto será salvo como um novo objeto (com um novo
+ID), ao invés de um objeto já existente.
+
+Por padrão, ``save_as`` é setado como ``False``.
+
 
 .. attribute:: ModelAdmin.save_on_top
 
-Set ``save_on_top`` to add save buttons across the top of your admin change
-forms.
+Seta ``save_on_top`` para adicionar os botões de salvar no topo do formulário
+de edição do admin.
 
-Normally, the save buttons appear only at the bottom of the forms. If you set
-``save_on_top``, the buttons will appear both on the top and the bottom.
+Normalmente, os botões salvar aparecem somente na base do formulário. Se você
+setar ``save_on_top``, os botões aparecerão em ambos os lugares, na base e no
+topo.
 
-By default, ``save_on_top`` is set to ``False``.
+Por padrão, ``save_on_top`` é setado como ``False``.
 
 .. attribute:: ModelAdmin.search_fields
 
-Set ``search_fields`` to enable a search box on the admin change list page.
-This should be set to a list of field names that will be searched whenever
-somebody submits a search query in that text box.
+Configure ``search_fields`` para habilitar uma caixa de busca na página de
+listagem do admin. Este deve ser configurado com uma lista de nomes de campos
+que serão afetados pela busca, sempre que alguém submeter um texto por esta
+caixa de texto.
 
-These fields should be some kind of text field, such as ``CharField`` or
-``TextField``. You can also perform a related lookup on a ``ForeignKey`` with
-the lookup API "follow" notation::
+Estes campos devem ser algum tipo de campo de texto, como ``CharField`` ou
+``TextField``. Você pode também executar uma pesquisa relacionada a
+``ForeignKey`` com a lookup API "siga" a notação::
 
     search_fields = ['foreign_key__related_fieldname']
 
-When somebody does a search in the admin search box, Django splits the search
-query into words and returns all objects that contain each of the words, case
-insensitive, where each word must be in at least one of ``search_fields``. For
-example, if ``search_fields`` is set to ``['first_name', 'last_name']`` and a
-user searches for ``john lennon``, Django will do the equivalent of this SQL
-``WHERE`` clause::
+Quando alguém faz uma busca pelo admin, o Django divide a consulta em palavras e
+retorna todos os objetos que contém cada uma das palavras, diferenciando
+maiúsculas, onde pelo menos uma das palavras deve estar no ``search_fields``.
+Por exemplo, se ``search_fields`` é setado para ``['first_name', 'last_name']``
+e um usuário procura por ``john lennon``, o Django fará o equivalente a esta
+clausula SQL ``WHERE``::
 
     WHERE (first_name ILIKE '%john%' OR last_name ILIKE '%john%')
     AND (first_name ILIKE '%lennon%' OR last_name ILIKE '%lennon%')
 
-For faster and/or more restrictive searches, prefix the field name
-with an operator:
+Para buscas mais rápidas e/ou mais restritivas, prefixe o nome do campo com um
+operador:
 
 ``^``
-    Matches the beginning of the field. For example, if ``search_fields`` is
-    set to ``['^first_name', '^last_name']`` and a user searches for
-    ``john lennon``, Django will do the equivalent of this SQL ``WHERE``
-    clause::
+    Combina com o início do campo. Por exemplo, se ``search_fields`` é setado
+    para ``['^first_name', '^last_name']`` e um usuário procurar por
+    ``john lennon``, o Django fará o equivalente a clausula SQL ``WHERE``::
 
         WHERE (first_name ILIKE 'john%' OR last_name ILIKE 'john%')
         AND (first_name ILIKE 'lennon%' OR last_name ILIKE 'lennon%')
 
-    This query is more efficient than the normal ``'%john%'`` query, because
-    the database only needs to check the beginning of a column's data, rather
-    than seeking through the entire column's data. Plus, if the column has an
-    index on it, some databases may be able to use the index for this query,
-    even though it's a ``LIKE`` query.
+    Esta consulta é mais eficiente que a normal ``'%john%'``, pois o banco de
+    dados somente precisa checar o início dos dados da coluna, ao invés de
+    procurar através de todo ele. Ainda mais, se a coluna tem um index nela,
+    alguns bancos de dados podem ser capazes de usar o index para esta consulta,
+    mesmo sendo uma consulta ``LIKE``.
 
 ``=``
-    Matches exactly, case-insensitive. For example, if
-    ``search_fields`` is set to ``['=first_name', '=last_name']`` and
-    a user searches for ``john lennon``, Django will do the equivalent
-    of this SQL ``WHERE`` clause::
+    Combina exatamente, não diferencia maiúsculas. Por exemplo, se
+    ``search_fields`` for configurado para ``['=first_name', '=last_name']`` e
+    um usuário procura por ``john lennon``, o Django fará o equivalente a
+    clausula SQL ``WHERE``::
 
         WHERE (first_name ILIKE 'john' OR last_name ILIKE 'john')
         AND (first_name ILIKE 'lennon' OR last_name ILIKE 'lennon')
 
-    Note that the query input is split by spaces, so, following this example,
-    it's currently not possible to search for all records in which
-    ``first_name`` is exactly ``'john winston'`` (containing a space).
+    Note que a entrada da consulta é dividida nos espaços, então, seguindo este
+    exemplo, atualmente não é possível procurar por todos os dados em que
+    ``first_name`` é exatamente ``'john winston'`` (contendo espaço).
 
 ``@``
-    Performs a full-text match. This is like the default search method but uses
-    an index. Currently this is only available for MySQL.
+    Executa uma combinação full-text. Essa é como o método de procura padrão,
+    mas usa um index. Atualmente isso só está desponível para MySQL.
 
 .. attribute:: ModelAdmin.change_list_template
 
-Path to a custom template that will be used by the model objects "change list"
-view. Templates can override or extend base admin templates as described in
-`Overriding Admin Templates`_.
+Caminho para um template personalizado que será usado pelos objetos model na
+visão de "listagem". Os templates podem sobrescrever ou extender os templates
+de base do admin como descrito em `Sobrescrevendo Templates do Admin`_.
 
-If you don't specify this attribute, a default template shipped with Django
-that provides the standard appearance is used.
+Se você não especificar este atributo, um template padrão é entregue com o
+Django que fornece a aparência padrão do admin.
 
 .. attribute:: ModelAdmin.change_form_template
 
-Path to a custom template that will be used by both the model object creation
-and change views. Templates can override or extend base admin templates as
-described in `Overriding Admin Templates`_.
+Caminho para o template personalizado que será usado na visão de criação e
+edição de um objeto model. Os templates podem sobrescrever ou extender os
+templates de base do admin como descrito em
+`Sobrescrevendo Templates do Admin`_.
 
-If you don't specify this attribute, a default template shipped with Django
-that provides the standard appearance is used.
+Se você não especificar este atributo, um template padrão é entregue com o
+Django que fornece a aparência padrão do admin.
 
 .. attribute:: ModelAdmin.object_history_template
 
-Path to a custom template that will be used by the model object change history
-display view. Templates can override or extend base admin templates as
-described in `Overriding Admin Templates`_.
+Caminho para um template que será usado na visão de histórico do objeto model.
+Os templates podem sobrescrever ou extender os templates de base do admin como
+descrito em `Sobrescrevendo Templates do Admin`_.
 
-If you don't specify this attribute, a default template shipped with Django
-that provides the standard appearance is used.
+Se você não especificar este atributo, um template padrão é entregue com o
+Django que fornece a aparência padrão do admin.
 
 .. attribute:: ModelAdmin.delete_confirmation_template
 
-Path to a custom template that will be used by the view responsible of showing
-the confirmation page when the user decides to delete one or more model
-objects. Templates can override or extend base admin templates as described in
-`Overriding Admin Templates`_.
+Caminho para um template personalizado que será usado pela visão responsável por
+mostrar a confirmação de exclusão de um ou mais objetos. Os templates podem
+sobrescrever ou extender os templates de base do admin como descrito em
+`Sobrescrevendo Templates do Admin`_.
 
-If you don't specify this attribute, a default template shipped with Django
-that provides the standard appearance is used.
+Se você não especificar este atributo, um template padrão é entregue com o
+Django que fornece a aparência padrão do admin.
 
 .. _model-admin-methods:
 
-``ModelAdmin`` methods
-----------------------
+Métodos do ``ModelAdmin``
+-------------------------
 
 .. method:: ModelAdmin.save_model(self, request, obj, form, change)
 
-The ``save_model`` method is given the ``HttpRequest``, a model instance,
-a ``ModelForm`` instance and a boolean value based on whether it is adding or
-changing the object. Here you can do any pre- or post-save operations.
+O método ``save_model`` recebe o ``HttpRequest``, uma intância do model, uma
+instância de ``ModelForm`` e um valor booleano indicando se está adicionando ou
+editando um objeto. Aqui você pode fazer quaisquer operações pré ou pós
+salvamento.
 
-For example to attach ``request.user`` to the object prior to saving::
+Por exemplo, para atachar ``request.user`` ao objeto antes de salvá-lo::
 
     class ArticleAdmin(admin.ModelAdmin):
         def save_model(self, request, obj, form, change):
@@ -656,12 +666,12 @@ For example to attach ``request.user`` to the object prior to saving::
 
 .. method:: ModelAdmin.save_formset(self, request, form, formset, change)
 
-The ``save_formset`` method is given the ``HttpRequest``, the parent
-``ModelForm`` instance and a boolean value based on whether it is adding or
-changing the parent object.
+O método ``save_formset`` recebe o ``HttpRequest``, a instância do ``ModelForm``
+pai e um valor booleano que indica se está adicionando ou editando um objeto
+pai.
 
-For example to attach ``request.user`` to each changed formset
-model instance::
+Pro exemplo para atachar ``request.user`` a cada instância de formset de
+mudança::
 
     class ArticleAdmin(admin.ModelAdmin):
         def save_formset(self, request, form, formset, change):
@@ -671,44 +681,48 @@ model instance::
                 instance.save()
             formset.save_m2m()
 
-Other methods
-~~~~~~~~~~~~~
+Outros métodos
+~~~~~~~~~~~~~~
 
 .. method:: ModelAdmin.add_view(self, request, form_url='', extra_context=None)
 
-Django view for the model instance addition page. See note below.
+Um view do Django para a página de inclusão de instância de model. Veja a nota
+abaixo.
 
 .. method:: ModelAdmin.change_view(self, request, object_id, extra_context=None)
 
-Django view for the model instance edition page. See note below.
+Um view do Django para a página de edição de instância de model. Veja nota
+abaixo.
 
 .. method:: ModelAdmin.changelist_view(self, request, extra_context=None)
 
-Django view for the model instances change list/actions page. See note below.
+Um view do Django para página de listagem/ações de instância de model. Veja nota
+abaixo.
 
 .. method:: ModelAdmin.delete_view(self, request, object_id, extra_context=None)
 
-Django view for the model instance(s) deletion confirmation page. See note below.
+Um view do Django para página de confirmação de exclusão de instância e model.
+Veja nota abaixo.
 
 .. method:: ModelAdmin.history_view(self, request, object_id, extra_context=None)
 
-Django view for the page that shows the modification history for a given model
-instance.
+Um view do Django para a página que mostra o histórico de modificações de uma
+instância de model.
 
-Unlike the hook-type ``ModelAdmin`` methods detailed in the previous section,
-these five methods are in reality designed to be invoked as Django views from
-the admin application URL dispatching handler to render the pages that deal
-with model instances CRUD operations. As a result, completely overriding these
-methods will significantly change the behavior of the admin application.
+Diferentemente dos métodos tipo hook do ``ModelAdmin`` detalhados na seção
+anterior, estes cinco métodos são na verdade, projetados para serem invocados
+como views do Django pelo URL dispatcher da aplicação admin que renderizam
+páginas com instâncias de model para operações CRUD. Como resultado, a completa
+sobrescrita destes métodos mudará o comportamento da aplicação admin.
 
-One comon reason for overriding these methods is to augment the context data
-that is provided to the template that renders the view. In the following
-example, the change view is overridden so that the rendered template is
-provided some extra mapping data that would not otherwise be available::
+Uma razão comum para sobrescrever estes métodos é para aumentar o contexto dos
+dados que são fornecidos para o template que renderiza o view. No exemplo a
+seguir, o view de edição é sobrescrito de modo que ao template renderizado  é
+fornecido alguns dados extras que caso contrário não estariam disponíveis::
 
     class MyModelAdmin(admin.ModelAdmin):
 
-        # A template for a very customized change view:
+        # Um template para um view bastante personalizada:
         change_form_template = 'admin/myapp/extras/openstreetmap_change_form.html'
 
         def get_osm_info(self):
@@ -721,12 +735,12 @@ provided some extra mapping data that would not otherwise be available::
             return super(MyModelAdmin, self).change_view(request, object_id,
                 extra_context=my_context)
 
-``ModelAdmin`` media definitions
---------------------------------
+Definições de mídia ``ModelAdmin``
+----------------------------------
 
-There are times where you would like add a bit of CSS and/or JavaScript to
-the add/change views. This can be accomplished by using a Media inner class
-on your ``ModelAdmin``::
+Tem vezes em que você gostaria de adicionar um pouco de CSS e/ou JavaScript aos
+views adicionar/editar. Isso pode ser realizado usando uma classe interna Media
+no seu ``ModelAdmin``::
 
     class ArticleAdmin(admin.ModelAdmin):
         class Media:
@@ -735,44 +749,45 @@ on your ``ModelAdmin``::
             }
             js = ("my_code.js",)
 
-Keep in mind that this will be prepended with ``MEDIA_URL``. The same rules
-apply as :ref:`regular media definitions on forms <topics-forms-media>`.
+Tenha em mente que este será prefixado com ``MEDIA_URL``. A mesma regra se
+aplica nas :ref:`regras de definições de mídia em formulários
+<topics-forms-media>`.
 
 Adicionando validação personalizada ao admin
 --------------------------------------------
 
-Adding custom validation of data in the admin is quite easy. The automatic admin
-interface reuses :mod:`django.forms`, and the ``ModelAdmin`` class gives you
-the ability define your own form::
+Adicionando validação personalizada de dados no admin é bem simples. A interface
+automática de administração reusa o :mod:`django.forms`, e a classe
+``ModelAdmin`` tem a mesma abilidade de definir seu próprio formulário::
 
     class ArticleAdmin(admin.ModelAdmin):
         form = MyArticleAdminForm
 
-``MyArticleAdminForm`` can be defined anywhere as long as you import where
-needed. Now within your form you can add your own custom validation for
-any field::
+O ``MyArticleAdminForm`` pode ser definido em qualquer lugar dentro de seu
+caminho de import. Agora com seu form você pode adicionar sua própria validação
+para qualquer campo::
 
     class MyArticleAdminForm(forms.ModelForm):
         class Meta:
             model = Article
 
         def clean_name(self):
-            # do something that validates your data
+            # faça algo que valide seus dados
             return self.cleaned_data["name"]
 
-It is important you use a ``ModelForm`` here otherwise things can break. See the
-:ref:`forms <ref-forms-index>` documentation on :ref:`custom validation
-<ref-forms-validation>` and, more specifically, the
-:ref:`model form validation notes <overriding-modelform-clean-method>` for more
-information.
+É importante usar um ``ModelForm`` aqui, caso contrário algo pode não funcionar.
+Veja a documentação :ref:`forms <ref-forms-index>` em :ref:`valização
+personalizada <ref-forms-validation>` e, mais especificamente, o :ref:`notas de
+validação de formulários <overriding-modelform-clean-method>` para mais
+informações.
 
 .. _admin-inlines:
 
-``InlineModelAdmin`` objects
+Objetos ``InlineModelAdmin``
 ============================
 
-The admin interface has the ability to edit models on the same page as a
-parent model. These are called inlines. Suppose you have these two models::
+A interface admin tem a abilidade de editar models na mesma página de um model
+pai. Este são chamados de inlines. Suponhamos que você tenha dois models::
 
      class Author(models.Model):
         name = models.CharField(max_length=100)
@@ -781,8 +796,9 @@ parent model. These are called inlines. Suppose you have these two models::
         author = models.ForeignKey(Author)
         title = models.CharField(max_length=100)
 
-You can edit the books authored by an author on the author page. You add
-inlines to a model by specifying them in a ``ModelAdmin.inlines``::
+Você pode editar os livros escritos por um autor na página do autor. Você pode
+adicionar inlines ao seu model para especificá-los em um
+``ModelAdmin.inlines``::
 
     class BookInline(admin.TabularInline):
         model = Book
@@ -792,69 +808,68 @@ inlines to a model by specifying them in a ``ModelAdmin.inlines``::
             BookInline,
         ]
 
-Django provides two subclasses of ``InlineModelAdmin`` and they are:
+O Django fornece duas subclasses ao ``InlineModelAdmin`` e elas são:
 
     * ``TabularInline``
     * ``StackedInline``
 
-The difference between these two is merely the template used to render them.
+A diferença entre estas duas é meramente o template utilizado para
+renderizá-las.
 
-``InlineModelAdmin`` options
------------------------------
+Opções ``InlineModelAdmin``
+---------------------------
 
-The ``InlineModelAdmin`` class is a subclass of ``ModelAdmin`` so it inherits
-all the same functionality as well as some of its own:
+A classe ``InilneModelAdmin`` é uma subclasse de ``ModelAdmin`` de modo que ele
+herda todas as mesmas funcionalidades assim como as suas próprias:
 
 ``model``
 ~~~~~~~~~
 
-The model in which the inline is using. This is required.
+O model em que o inline é usado. Este é obrigatório.
 
 ``fk_name``
 ~~~~~~~~~~~
-
-The name of the foreign key on the model. In most cases this will be dealt
-with automatically, but ``fk_name`` must be specified explicitly if there are
-more than one foreign key to the same parent model.
+O nome da chave estrangeira no model. Na maioria dos casos este será tratado
+de forma automática, mas ``fk_name`` deve ser especificada explicitamente se
+houver mais de uma chave estrangeira para o mesmo model pai.
 
 ``formset``
 ~~~~~~~~~~~
 
-This defaults to ``BaseInlineFormSet``. Using your own formset can give you
-many possibilities of customization. Inlines are built around
+O padrão para ``BaseInlineFormSet``. Usar seu próprio formset pode dar a você
+muitas possibilidades de personalização. Inlines são embutidos a volta de
 :ref:`model formsets <model-formsets>`.
 
 ``form``
 ~~~~~~~~
 
-The value for ``form`` defaults to ``BaseModelForm``. This is what is
-passed through to ``formset_factory`` when creating the formset for this
-inline.
+O valor para ``form`` padrão para ``BaseModelForm``. Este é o que é passado
+através do ``formset_factory`` quando está criando o formset para este inline.
 
 ``extra``
 ~~~~~~~~~
 
-This controls the number of extra forms the formset will display in addition
-to the initial forms. See the
-:ref:`formsets documentation <topics-forms-formsets>` for more information.
+Este controla o número de formulários extra que um formset mostrará além dos
+formulário inciais. Veja a :ref:`documentação dos formsets
+<topics-forms-formsets>` para mais informações.
 
 ``max_num``
 ~~~~~~~~~~~
 
-This controls the maximum number of forms to show in the inline. This doesn't
-directly correlate to the number of objects, but can if the value is small
-enough. See :ref:`model-formsets-max-num` for more information.
+Este controla o número máximo de formulários que serão mostrados num inline.
+Este não é diretamente correlacionado ao número de objetos, mas pode ser se o
+valor for pequeno o suficiente. Veja :ref:`model-formsets-max-num` para mais
+informações.
 
 ``raw_id_fields``
 ~~~~~~~~~~~~~~~~~
 
-By default, Django's admin uses a select-box interface (<select>) for
-fields that are ``ForeignKey``. Sometimes you don't want to incur the
-overhead of having to select all the related instances to display in the
-drop-down.
+Por padrão, o admin do Django usa um select-box (<select>) para campos que são
+``ForeignKey``. Algumas vezes você pode não desejar ficar sujeito a um overhead
+ao selecionar todos as instâncias relacionadas num drop-down.
 
-``raw_id_fields`` is a list of fields you would like to change
-into a ``Input`` widget for either a ``ForeignKey`` or ``ManyToManyField``::
+O ``raw_id_fields`` é uma lista de campos que você gostaria de mudar dentro de
+um widget ``Input`` tanto para ``ForeignKey`` quanto para ``ManuToManyField``::
 
     class BookInline(admin.TabularInline):
         model = Book
@@ -863,32 +878,33 @@ into a ``Input`` widget for either a ``ForeignKey`` or ``ManyToManyField``::
 ``template``
 ~~~~~~~~~~~~
 
-The template used to render the inline on the page.
+O template usado para renderizar o inline na página.
 
 ``verbose_name``
 ~~~~~~~~~~~~~~~~
 
-An override to the ``verbose_name`` found in the model's inner ``Meta`` class.
+Uma sobrescrita para ``verbose_name`` encontrado na classe interna ``Meta`` do
+model.
 
 ``verbose_name_plural``
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-An override to the ``verbose_name_plural`` found in the model's inner ``Meta``
-class.
+Uma sobrescrita para o ``verbose_name_plural`` encontrado na classe interna
+``Meta`` do model.
 
-Working with a model with two or more foreign keys to the same parent model
----------------------------------------------------------------------------
+Trabalhando com um model com duas ou mais chaves estrangeiras para o mesmo model pai
+------------------------------------------------------------------------------------
 
-It is sometimes possible to have more than one foreign key to the same model.
-Take this model for instance::
+Algumas vezes é possível haver mais de uma chave estrangeira para o mesmo model.
+Vejamos esta instância de model::
 
     class Friendship(models.Model):
         to_person = models.ForeignKey(Person, related_name="friends")
         from_person = models.ForeignKey(Person, related_name="from_friends")
 
-If you wanted to display an inline on the ``Person`` admin add/change pages
-you need to explicitly define the foreign key since it is unable to do so
-automatically::
+Se você quiser mostrar um inline nas páginas adicionar/editar do admin para
+``Person``, você precisa explicitamente definir a chave primária, tendo em vista
+que ele não consegue definir automáticamente::
 
     class FriendshipInline(admin.TabularInline):
         model = Friendship
@@ -899,20 +915,20 @@ automatically::
             FriendshipInline,
         ]
 
-Working with Many-to-Many Intermediary Models
-----------------------------------------------
+Trabalhando com Models Intermediários Many-to-Many
+--------------------------------------------------
 
-By default, admin widgets for many-to-many relations will be displayed inline
-on whichever model contains the actual reference to the ``ManyToManyField``.
-However, when you specify an intermediary model using the ``through``
-argument to a ``ManyToManyField``, the admin will not display a widget by
-default. This is because each instance of that intermediary model requires
-more information than could be displayed in a single widget, and the layout
-required for multiple widgets will vary depending on the intermediate model.
+Por padrão, os widgets do admin para relações muito-para-muitos serão mostrados
+inlines não importando qual model contém a referência atual para o
+``ManyToManyField``. No entanto, quando você especificar um model intermediário
+usando o argumento ``through`` para um ``ManyToManyField``, o admin não mostrará
+o widget por padrão. Isso porque cada instância de model intermediário requer
+mais informações que poderiam ser mostradas num único widget, e o layout
+requerido por vários widgets irão variar dependendo do model intermediário.
 
-However, we still want to be able to edit that information inline. Fortunately,
-this is easy to do with inline admin models. Suppose we have the following
-models::
+No entanto, nós ainda queremos ter a possibilidade de editar estar informações
+inline. Felizmente, isso é fácil de fazer com admin models inline. Suponhamos
+que temos os seguintes models::
 
     class Person(models.Model):
         name = models.CharField(max_length=128)
@@ -927,18 +943,19 @@ models::
         date_joined = models.DateField()
         invite_reason = models.CharField(max_length=64)
 
-The first step in displaying this intermediate model in the admin is to
-define an inline class for the ``Membership`` model::
+O primeiro passo em mostrar este model intermediário no admin é definir uma
+classe inline para o model ``Membership``::
 
     class MembershipInline(admin.TabularInline):
         model = Membership
         extra = 1
 
-This simple example uses the default ``InlineModelAdmin`` values for the
-``Membership`` model, and limits the extra add forms to one. This could be
-customized using any of the options available to ``InlineModelAdmin`` classes.
+Este exemplo simples usa o valor padrão ``InlineModelAdmin`` para o model
+``Membership``, e limita os formulários adicionais para um. Isso poderia ser
+personalizado usando qualquer uma das opções disponíveis para classes
+``InlineModelAdmin``.
 
-Now create admin views for the ``Person`` and ``Group`` models::
+Agora crie visões no admin para os models ``Person`` e ``Group``::
 
     class PersonAdmin(admin.ModelAdmin):
         inlines = (MembershipInline,)
@@ -946,19 +963,19 @@ Now create admin views for the ``Person`` and ``Group`` models::
     class GroupAdmin(admin.ModelAdmin):
         inlines = (MembershipInline,)
 
-Finally, register your ``Person`` and ``Group`` models with the admin site::
+Finalmente, registre seus models ``Person`` e ``Group`` no site admin::
 
     admin.site.register(Person, PersonAdmin)
     admin.site.register(Group, GroupAdmin)
 
-Now your admin site is set up to edit ``Membership`` objects inline from
-either the ``Person`` or the ``Group`` detail pages.
+Agora seu site admin está configurado para editar objetos ``Membership`` tanto
+da página de detalhes do ``Person`` quanto do ``Group``.
 
-Using generic relations as an inline
-------------------------------------
+Usando relações genéricas como um inline
+----------------------------------------
 
-It is possible to use an inline with generically related objects. Let's say
-you have the following models::
+É possível usar um inline com objetos relacionados genericamente. Vamos dizer
+que você tenha os seguintes models::
 
     class Image(models.Model):
         image = models.ImageField(upload_to="images")
@@ -969,10 +986,10 @@ you have the following models::
     class Product(models.Model):
         name = models.CharField(max_length=100)
 
-If you want to allow editing and creating ``Image`` instance on the ``Product``
-add/change views you can simply use ``GenericInlineModelAdmin`` provided by
-``django.contrib.contenttypes.generic``. In your ``admin.py`` for this
-example app::
+Se você quer permitir a edição e criação de instâncias ``Image`` sobre
+``Product`` você pode simplesmente usar ``GenericInlineModelAdmin`` fornecido
+pelo ``django.contrib.contenttypes.generic``. No seu ``admin.py`` para esta
+aplicação de exemplo::
 
     from django.contrib import admin
     from django.contrib.contenttypes import generic
@@ -989,59 +1006,59 @@ example app::
 
     admin.site.register(Product, ProductAdmin)
 
-``django.contrib.contenttypes.generic`` provides both a ``GenericTabularInline``
-and ``GenericStackedInline`` and behave just like any other inline. See the
-:ref:`contenttypes documentation <ref-contrib-contenttypes>` for more specific
-information.
+O ``django.contrib.contenttypes.generic`` fornece ambos um
+``GenericTabularInline`` e ``GenericStackedInline`` e se comporta como qualquer
+outro inline. Veja a :ref:`documentação do contenttypes
+<ref-contrib-contenttypes>` para informações mais específicas.
 
-Overriding Admin Templates
-==========================
+Sobrescrevendo Templates do Admin
+=================================
 
-It is relatively easy to override many of the templates which the admin module
-uses to generate the various pages of an admin site. You can even override a few
-of these templates for a specific app, or a specific model.
+É relativamente fácil sobrescrever a maior parte dos templates que o módulo de
+admin usa para gerar as várias páginas de um site admin. Você pode sobrescrever
+somente algumas partes desses templates para uma app específica, ou um model
+específico.
 
-Set up your projects admin template directories
------------------------------------------------
+Configurando os diretórios de template do admin do seu projeto
+--------------------------------------------------------------
 
-The admin template files are located in the ``contrib/admin/templates/admin``
-directory.
+Os arquivos de template do admin estão localizados no diretório
+``contrib/admin/templates/admin``.
 
-In order to override one or more of them, first create an ``admin`` directory in
-your project's ``templates`` directory. This can be any of the directories you
-specified in ``TEMPLATE_DIRS``.
+A fim de sobrescrever um ou mais deles, primeiro crie um diretório ``admin`` no
+diretórios de templates do seu projeto. Este pode ser qualquer um dos diretórios
+que você especificou no ``TEMPLATE_DIRS``.
 
-Within this ``admin`` directory, create sub-directories named after your app.
-Within these app subdirectories create sub-directories named after your models.
-Note, that the admin app will lowercase the model name when looking for the
-directory, so make sure you name the directory in all lowercase if you are going
-to run your app on a case-sensitive filesystem.
+Dentro deste diretório ``admin``, crie sub-diretórios com o nome de suas apps.
+Dentro destes sub-diretórios crie sub-diretórios com o nome de seus models.
+Perceba, que a aplicação admin procura por nomes de diretórios em minúsculo,
+então esteja certo do nome deles está todo em minúsculo, caso você esteja
+rodando sua aplicação num sistemas de arquivo case-sensitive.
 
-To override an admin template for a specific app, copy and edit the template
-from the ``django/contrib/admin/templates/admin`` directory, and save it to one
-of the directories you just created.
+Para sobrescrever um template do admin para uma app específica, copie e edite o
+template do diretório ``django/contrib/admin/templates/admin``, e salve-o num
+dos diretórios criados a pouco.
 
-For example, if we wanted to add a tool to the change list view for all the
-models in an app named ``my_app``, we would copy
-``contrib/admin/templates/admin/change_list.html`` to the
-``templates/admin/my_app/`` directory of our project, and make any necessary
-changes.
+Por exemplo, se nós procurarmos adicionar uma ferramenta na visão de listagem
+para todos os models de uma aplicação chamada ``my_app``, nós copiariámos
+``contrib/admin/templates/admin/change_list.html`` para o diretório
+``templates/admin/my_app/`` de seu projeto, e fariámos as mudanças necessárias.
 
-If we wanted to add a tool to the change list view for only a specific model
-named 'Page', we would copy that same file to the
-``templates/admin/my_app/page`` directory of our project.
+Caso desejássemos adicionar uma ferramenta na visão de listagem somente para um
+model específico chamado 'Page', nós poderiámos copiar aquele mesmo arquivo para
+o diretório ``templates/admin/my_app/page`` de seu projeto.
 
-Overriding vs. replacing an admin template
-------------------------------------------
+Sobrescrever vs. substituir um template do admin
+------------------------------------------------
 
-Because of the modular design of the admin templates, it is usually neither
-necessary nor advisable to replace an entire template. It is almost always
-better to override only the section of the template which you need to change.
+Por causa do design modular dos templates do admin, geralmente é necessário, mas
+nem sempre aconselhável, substituir todo um template. É quase semper melhor
+sobrescrever somente a seção do template que precisa ser mudada.
 
-To continue the example above, we want to add a new link next to the ``History``
-tool for the ``Page`` model. After looking at ``change_form.html`` we determine
-that we only need to override the ``object-tools`` block. Therefore here is our
-new ``change_form.html`` :
+Para continuar o exemplo acima, nós queremos adicionar um novo link próximo ao
+``History`` para o model ``Page``. Depois de olhar no ``change_form.html`` nós
+determinamos que somente precisamos sobrescrever o bloco ``object-tools``.
+Assim, aqui está o novo ``change_form.html`` :
 
 .. code-block:: html+django
 
@@ -1061,79 +1078,81 @@ new ``change_form.html`` :
     {% endif %}{% endif %}
     {% endblock %}
 
-And that's it! If we placed this file in the ``templates/admin/my_app``
-directory, our link would appear on every model's change form.
+E era isso! Se nós colocarmos este arquivo no diretório
+``templates/admin/my_app``, nosso link apareceria em todos os formulários de
+edição dos models.
 
-Templates which may be overridden per app or model
---------------------------------------------------
+Templates que podem ser sobrescritos por uma app ou model
+---------------------------------------------------------
 
-Not every template in ``contrib/admin/templates/admin`` may be overridden per
-app or per model. The following can:
+Nem todo template em ``contrib/admin/templates/admin`` pode ser sobrescrito por
+app ou por model. Os seguintes podem:
 
     * ``change_form.html``
     * ``change_list.html``
     * ``delete_confirmation.html``
     * ``object_history.html``
 
-For those templates that cannot be overridden in this way, you may still
-override them for your entire project. Just place the new version in your
-``templates/admin`` directory. This is particularly useful to create custom 404
-and 500 pages.
+Para a maioria dos templates que não são sobrescritos desta forma, você pode
+ainda sobrescrevê-los pra o seu projeto inteiro. É só colocar uma nova versão
+no seu diretório ``templates/admin``. Este é particularmente útil para criar
+páginas de erro 404 e 500.
 
 .. note::
 
-    Some of the admin templates, such as ``change_list_request.html`` are used
-    to render custom inclusion tags. These may be overridden, but in such cases
-    you are probably better off creating your own version of the tag in question
-    and giving it a different name. That way you can use it selectively.
+    Alguns dos templates do admin, como o ``change_list_request.html`` são
+    usados para renderizar inclusion tags personalizadas. Estas podem ser
+    sobrescritas, mas em alguns casos provavelmente é melhor você criar sua
+    própria versão da tag em questão e dá-lhe um nome diferente. Desta forma
+    você pode usá-la seletivamente.
 
-Root and login templates
+
+Template raiz e de login
 ------------------------
 
-If you wish to change the index or login templates, you are better off
-creating your own ``AdminSite`` instance (see below), and changing the
-:attr:`AdminSite.index_template` or :attr:`AdminSite.login_template`
-properties.
+Se você deseja mudar o template index ou de login, seria melhor você criar sua
+própria instância de ``AdminSite`` (veja abaixo), e mudar as propriedades
+:attr:`AdminSite.index_template` ou :attr:`AdminSite.login_template`.
 
-``AdminSite`` objects
+Objetos ``AdminSite``
 =====================
 
-A Django administrative site is represented by an instance of
-``django.contrib.admin.sites.AdminSite``; by default, an instance of
-this class is created as ``django.contrib.admin.site`` and you can
-register your models and ``ModelAdmin`` instances with it.
+Um site de administração do Django é representado por uma instância do
+``django.contrib.admin.sites.AdminSite``; por padrão, uma instância desta classe
+é criada como ``django.contrib.admin.site`` e você pode registrar seus models
+e instâncias do ``modelAdmin`` nele.
 
-If you'd like to set up your own administrative site with custom
-behavior, however, you're free to subclass ``AdminSite`` and override
-or add anything you like. Then, simply create an instance of your
-``AdminSite`` subclass (the same way you'd instantiate any other
-Python class), and register your models and ``ModelAdmin`` subclasses
-with it instead of using the default.
+Se você gostaria de configurar de setar sua própria interface de administração
+com comportamentos personalizados, contudo, você é livre para extender o
+``AdminSite`` e sobrescrever ou adicionar qualquer coisa que queira. Então,
+simplesmente crie uma instância de sua classe extendida do ``AdminSite`` (da
+mesma forma como você instancia qualquer outra classe Python), e registre seus
+models e subclasses de ``ModelAdmin`` com ele ao invés de usar o padrão.
 
-``AdminSite`` attributes
-------------------------
+Atributos do ``AdminSite``
+--------------------------
 
 .. attribute:: AdminSite.index_template
 
-Path to a custom template that will be used by the admin site main index view.
-Templates can override or extend base admin templates as described in
-`Overriding Admin Templates`_.
+Caminho para um template personalizado que será usado pela página principal do
+site de administração. Os templates podem sobrescrever ou extender os templates
+base do admin como descrito em `Sobrescrevendo Templates do Admin`_.
 
 .. attribute:: AdminSite.login_template
 
-Path to a custom template that will be used by the admin site login view.
-Templates can override or extend base admin templates as described in
-`Overriding Admin Templates`_.
+Caminho para um templates personalizado que será usado pela página de login do
+site admin. Os templates podem sobrescrever ou extender os templates base do
+admin como descrito em `Sobrescrevendo Templates do Admin`_.
 
-Hooking ``AdminSite`` instances into your URLconf
--------------------------------------------------
+Vinculando instâncias do ``AdminSite`` ao seu URLconf
+-----------------------------------------------------
 
-The last step in setting up the Django admin is to hook your ``AdminSite``
-instance into your URLconf. Do this by pointing a given URL at the
-``AdminSite.urls`` method.
+O último passo ao configurar o admin do Django é vincular o sua instância
+``AdminSite`` dentro do seu URLconf. Faça isso apontando uma certa URL para o
+método ``AdminSite.urls``.
 
-In this example, we register the default ``AdminSite`` instance
-``django.contrib.admin.site`` at the URL ``/admin/`` ::
+Neste exemplo, nós registramos a instância padrão ``AdminSite`` do
+``django.contrib.admin.site`` na URL ``/admin`` ::
 
     # urls.py
     from django.conf.urls.defaults import *
@@ -1145,11 +1164,11 @@ In this example, we register the default ``AdminSite`` instance
         ('^admin/(.*)', admin.site.root),
     )
 
-Above we used ``admin.autodiscover()`` to automatically load the
-``INSTALLED_APPS`` admin.py modules.
+Acima nós usamos ``admin.autodiscover()`` para automaticamente carregar os
+módulos admin.py do ``INSTALLED_APPS``.
 
-In this example, we register the ``AdminSite`` instance
-``myproject.admin.admin_site`` at the URL ``/myadmin/`` ::
+Neste exemplo, nós registramos a instância do ``AdminSite``
+``myproject.admin.admin_site`` na URL ``/myadmin/`` ::
 
     # urls.py
     from django.conf.urls.defaults import *
@@ -1159,24 +1178,24 @@ In this example, we register the ``AdminSite`` instance
         ('^myadmin/(.*)', admin_site.root),
     )
 
-There is really no need to use autodiscover when using your own ``AdminSite``
-instance since you will likely be importing all the per-app admin.py modules
-in your ``myproject.admin`` module.
+Realmente não há necessidade de usar o autodiscover quando estiver usando sua
+própria instância do ``AdminSite``, tendo em vista que você provavelmente já
+tenha importado todos os seus módulos admin.py das aplicações no seu módulo
+``myproject.admin``.
 
-Note that the regular expression in the URLpattern *must* group everything in
-the URL that comes after the URL root -- hence the ``(.*)`` in these examples.
+Note que a expressão regular no URLpattern *deve* agrupar tudo que vier após
+a raiz da URL -- por isso o ``(.*)`` nestes exemplos.
 
-Multiple admin sites in the same URLconf
-----------------------------------------
+Vários sites admin no mesmo URLconf
+-----------------------------------
 
-It's easy to create multiple instances of the admin site on the same
-Django-powered Web site. Just create multiple instances of ``AdminSite`` and
-root each one at a different URL.
+É fácil criar várias instâncias de admin no mesmo site feito em Django. É só
+criar várias instâncias do ``AdminSite`` e colocá-los em URLs diferentes.
 
-In this example, the URLs ``/basic-admin/`` and ``/advanced-admin/`` feature
-separate versions of the admin site -- using the ``AdminSite`` instances
-``myproject.admin.basic_site`` and ``myproject.admin.advanced_site``,
-respectively::
+Neste exemplo, as URLs ``/baisc-admin/`` e ``/advanced-admin/`` realçam versões
+separadas do site admin -- usando as instâncias do ``AdminSite``
+``myproject.admin.basic_site`` e ``myproject.admin.advanced_site``,
+respectivamente::
 
     # urls.py
     from django.conf.urls.defaults import *
