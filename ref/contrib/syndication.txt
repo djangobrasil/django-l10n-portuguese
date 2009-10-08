@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Draft $
 ..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
@@ -281,39 +281,40 @@ uma requisição para uma URL :file:`/rss/beats/0613`:
       .. versionadded:: 1.0
          :meth:`get_object()` pode manipular a url :file:`/rss/beats/`.
 
-      The :meth:`get_object()` method also has a chance to handle the
-      :file:`/rss/beats/` url. In this case, :data:`bits` will be an
-      empty list. In our example, ``len(bits) != 1`` and an
-      :exc:`ObjectDoesNotExist` exception will be raised, so
-      :file:`/rss/beats/` will generate a 404 page. But you can handle this case
-      however you like. For example, you could generate a combined feed for all
-      beats.
+      O método :meth:`get_object()` também tem a oportunidade de lidar com a url
+      :file:`/rss/beats/`. Neste caso, :data:`bits` será uma lista vazia. No
+      nosso exemplo, ``len(bits) != 1`` e uma exceção :exc:`ObjectDoesNotExist`
+      serão lançados, então :file:`/rss/beats/` gerará uma página 404. Mas você
+      pode lidar com este caso da forma como quiser. Por exemplo, você poderia
+      gerar um feed combinado para todas as batidas.
 
-    * To generate the feed's ``<title>``, ``<link>`` and ``<description>``,
-      Django uses the :meth:`title()`, :meth:`link()` and :meth:`description()`
-      methods. In the previous example, they were simple string class
-      attributes, but this example illustrates that they can be either strings
-      *or* methods. For each of :attr:`title`, :attr:`link` and
-      :attr:`description`, Django follows this algorithm:
+    * Para gerar o ``<title>``, ``<link>`` e ``<description>`` do feed,
+      O Django usa os métodos :meth:`title()`, :meth:`link()` e
+      :meth:`description()`. No exemplo anterior, eles foram uma string simples
+      num atributo da classe, mas este exemplo ilustra que eles podem ser tanto
+      strings quanto métodos. Para cada um :attr:`title`, :attr:`link` e
+      :attr:`description`, o Django segue este algorítimo:
 
-        * First, it tries to call a method, passing the ``obj`` argument, where
-          ``obj`` is the object returned by :meth:`get_object()`.
+        * Primeiro, ele tenta chamar o método, passando o argumento ``obj``,
+          onde ``obj`` é o objeto retornado por :meth:`get_object()`.
 
-        * Failing that, it tries to call a method with no arguments.
+        * Caso falhe, ele tenta chamar o método sem argumentos.
 
-        * Failing that, it uses the class attribute.
+        * Caso falhe, ele usa o atributo da classe.
 
-      Inside the :meth:`link()` method, we handle the possibility that ``obj``
-      might be ``None``, which can occur when the URL isn't fully specified. In
-      some cases, you might want to do something else in this case, which would
-      mean you'd need to check for ``obj`` existing in other methods as well.
-      (The :meth:`link()` method is called very early in the feed generation
-      process, so it's a good place to bail out early.)
+      Dentro do método :meth:`link()`, nós lidamos com a possibilidade de que o
+      ``obj`` pode ser ``None``, isso pode ocorrer quando a URL não foi
+      completamente especificada. Em alguns casos, você pode querer fazer algo a
+      mais, o que poderia significar que você precisará chegar a existência do
+      ``obj`` nos outros métodos também.
+      (O método :meth:`link()` é chamada muito antes do processo de geração do
+      feed, então é um bom lugar para liberá-lo logo.)
 
-    * Finally, note that :meth:`items()` in this example also takes the ``obj``
-      argument. The algorithm for :attr:`items` is the same as described in the
-      previous step -- first, it tries :meth:`items(obj)`, then :meth:`items()`,
-      then finally an :attr:`items` class attribute (which should be a list).
+    * Finalmente, no que :meth:`items()` nesse exemplo também recebe o argumento
+      ``obj``. O algoritmo para o :attr:`items` é o mesmo descrito no passo
+      anterior -- primeiro, ele tenta o :meth:`items(obj)`, depois
+      :meth:`items()`, e finalmente o atributo da classe :attr:`items` (que
+      deve ser uma lista).
 
 The ``ExampleFeed`` class below gives full documentation on methods and
 attributes of :class:`~django.contrib.syndication.feeds.Feed` classes.
