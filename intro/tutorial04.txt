@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, waiting for revision $
+..   $TranslationStatus: Done $
 ..   $OriginalRevision: 11348 $
 ..   $TranslationAuthors: Wiliam Alves de Souza $
 ..
@@ -21,14 +21,14 @@ Escrevendo sua primeira aplicação Django, parte 4
 =================================================
 
 Este tutorial inicia-se onde o :ref:`Tutorial 3 <intro-tutorial03>` terminou.
-Estamos continuando a aplicação Web de Enquete e vai focar em uma forma simples
-de processamento de formulário e a redução de nosso código.
+Estamos continuando a aplicação web de enquete e concentraremos em uma forma
+simples de processamento de formulário e a redução de nosso código.
 
 Escreva um simples formulário
 =============================
 
-Vamos atualizar o template de detalhes da enquete ("polls/detail.html") do último
-tutorial, para que ele contenha um elemento HTML <Form>:
+Vamos atualizar nosso template de detalhamento da enquete ("polls/detail.html")
+do último tutorial, para que ele contenha um elemento HTML ``<form>``:
 
 .. code-block:: html+django
 
@@ -46,15 +46,15 @@ tutorial, para que ele contenha um elemento HTML <Form>:
 
 Uma rápida explicação:
 
-    * O template acima exibe um botão radio para cada opção da enquete.
-      O ``value`` de cada botão radio está associado ao ID da opção.
-      O ``name`` de cada botão radio é a escolha (``choice``). Isso significa
-      que, quando alguém escolhe um dos botões de radio e submete a formulário,
-      ele vai enviar ``choice=3`` por POST. Este são os formulários HTML 101.
+    * O template acima exibe um botão radio para cada opção da enquete.  O
+      ``value`` de cada botão radio está associado ao ID da opção.  O ``name``
+      de cada botão radio é a escolha (``choice``). Isso significa que, quando
+      alguém escolhe um dos botões de radio e submete a formulário, ele vai
+      enviar ``choice=3`` por POST. Este são os formulários HTML 101.
 
-    * Nós definimos o parâmetro ``action`` do formulário para
-      /polls/{{ poll.id }}/vote/, e definimos ``method=post``. Usando ``method=post``
-      (em vez de ``method=get``) é muito importante, porque o ato de enviar este
+    * Nós definimos o parâmetro ``action`` do formulário para /polls/{{ poll.id
+      }}/vote/, e definimos ``method=post``. Usando ``method=post`` (em vez de
+      ``method=get``) é muito importante, porque o ato de enviar este
       formulário irá alterar dados do lado servidor. Sempre que criar um
       formulário que modifique os dados do lado do servidor, utilize
       ``method="post"``. Esta dica não é específica do Django; mais sim uma boa
@@ -94,7 +94,7 @@ Então, vamos criar um função ``vote()`` em ``mysite/polls/views.py``::
             # user hits the Back button.
             return HttpResponseRedirect(reverse('mysite.polls.views.results', args=(p.id,)))
 
-Este código inclui algumas coisas que ainda não foram cobertos, neste tutorial:
+Este código inclui algumas coisas que ainda não foram cobertas neste tutorial:
 
     * :attr:`request.POST <django.http.HttpRequest.POST>` é um objeto como
       dicionários que lhe permite acessar os dados submetidos pelas suas chaves.
@@ -102,23 +102,24 @@ Este código inclui algumas coisas que ainda não foram cobertos, neste tutorial
       tal como uma string. Os valores de :attr:`request.POST
       <django.http.HttpRequest.POST>` são sempre strings.
 
-      Note que Django também prove :attr:`request.GET
-      <django.http.HttpRequest.GET>` para acesar dados GET da mesma forma -- mas
-      nós estamos usando :attr:`request.GET <django.http.HttpRequest.GET>`
-      explicitamente no nosso código, para garantir que os dados só podem ser
-      alterados por meio de uma chamada POST.
+      Note que Django também fornece :attr:`request.GET
+      <django.http.HttpRequest.GET>` para acesar dados GET da mesma forma --
+      mas nós estamos usando :attr:`request.POST
+      <django.http.HttpRequest.POST>` explicitamente no nosso código, para
+      garantir que os dados só podem ser alterados por meio de uma chamada
+      POST.
 
     * ``request.POST['choice']`` irá levantar a exceção :exc:`KeyError` caso uma
       ``choice`` não seja fornecida via POST. O código acima checa por
       :exc:`KeyError` e re-exibe o formulário da enquete com as mensagens de
-      erro se uma ``choice`` não é fornecida.
+      erro se uma ``choice`` não for fornecida.
  
     * Após incrementar uma opção, o código retorna um
       :class:`~django.http.HttpResponseRedirect` em vez de um normal
       :class:`~django.http.HttpResponse`.
-      :class:`~django.http.HttpResponseRedirect`` recebe um único argumento:
-      a URL para o qual o usuário será redirecionado (veja o ponto
-      seguinte para saber como nos construímos a URL, neste caso).
+      :class:`~django.http.HttpResponseRedirect`` recebe um único argumento: a
+      URL para o qual o usuário será redirecionado (veja o ponto seguinte para
+      saber como construímos a URL, neste caso).
 
       Como o comentário Python acima salienta, você deve sempre retornar uma
       :class:`~django.http.HttpResponseRedirect` depois de lidar com sucesso com
@@ -127,21 +128,21 @@ Este código inclui algumas coisas que ainda não foram cobertos, neste tutorial
 
     * Estamos usando a função :func:`~django.core.urlresolvers.reverse` no
       construtor do :class:`~django.http.HttpResponseRedirect` neste exemplo.
-      Essa função ajuda a evitar ter que escrever na mão a URL na função view.
-      É dado o nome da view de que queremos passar o controle e uma porção da
-      variável do padrão de URL que aponta para essa view. Neste caso, usando o
-      URLConf criado no Tutorial 3, esta chamada a
+      Essa função ajuda a evitar ter que escrever na mão a URL na função de
+      view. É dado o nome da view de que queremos passar o controle e uma
+      porção da variável do padrão de URL que aponta para essa view. Neste
+      caso, usando o URLConf criado no Tutorial 3, esta chamada a
       :func:`~django.core.urlresolvers.reverse` irá retornar uma string como::
 
         '/polls/3/results/'
 
-      ... Onde o ``3`` é o valor de ``p.id``. Esta URL redirecionada irá então
-      chamar a view``'results'`` afim de exibir a página final. Note que você
+      ... onde o ``3`` é o valor de ``p.id``. Esta URL redirecionada irá então
+      chamar a view ``'results'`` afim de exibir a página final. Note que você
       precisará usar o nome completo da ``view`` aqui (incluindo o prefixo).
 
 Como mencionado no Tutorial 3, ``request`` é um objeto
 :class:`~django.http.HttpRequest`. Para mais informações sobre o objeto
-:class:`~django.http.HttpRequest`, veja :ref:` documentação do request e
+:class:`~django.http.HttpRequest`, veja a :ref:`documentação do request e
 response <ref-request-response>`.
 
 Depois que alguém votar em uma enquete, a view ``vote()``  redireciona para a
@@ -176,17 +177,17 @@ Use views genéricas: Menos código é melhor
 ==========================================
 
 As views ``detail()`` (do :ref:`Tutorial 3 <intro-tutorial03>`) e ``results()``
-são estupidamente simples -- e, como já mencionado acima, são redundante.
-A view, ``index()`` (também do Tutorial 3), que exibe uma lista de enquetes, é
+são estupidamente simples -- e, como já mencionado acima, são redundantes.  A
+view, ``index()`` (também do Tutorial 3), que exibe uma lista de enquetes, é
 semelhante.
 
-Estas ``views`` representam um caso básico comum de Desenvolvimento Web:
-obtendo dados do banco de dados de acordo com um parâmetro passado na URL,
-carregando um template e devolvendo um template renderizado. Porque isto é
-muito comum, Django fornece um atalho, chamado  sistema de "views genéricas".
+Estas views representam um caso comum do desenvolvimento Web básico: obter
+dados do banco de dados de acordo com um parâmetro passado na URL, carregar um
+template e devolvê-lo renderizado. Por isto ser muito comum, o Django fornece
+um atalho, chamado sistema de "views genéricas".
 
 Views genéricas abstraem padrões comuns para um ponto onde você nem precisa
-de escrever código Python para escrever um aplicação.
+escrever código Python para escrever uma aplicação.
 
 Vamos converter a nossa aplicação de enquete para utilizar o sistema de views
 genéricas, por isso podemos excluir um monte do nosso próprio código. Iremos
@@ -200,21 +201,22 @@ apenas ter que executar alguns passos para fazer a conversão. Nós iremos:
 
     4. Corrigir a manipulação de URL para as novas views.
 
-Read on for details.
+Leia a respeito para obter mais detalhes.
 
 .. admonition:: Por que o código se arrastou?
 
-   Geralmente, quando escrevendo uma aplicação Django, você vai avaliar se views
-   genéricas são uma escolha adequada para o seu problema e você irá utilizá-los
-   desde o início em vez de refatorar seu código no meio do caminho. Mas este
-   tutorial intencionalmente tem focado em escrever views genéricas "do jeito
-   mais difícil" até agora, para se concentrar nos conceitos fundamentais.
+   Geralmente, quando estiver escrevendo uma aplicação Django, você vai avaliar
+   se views genéricas são uma escolha adequada para o seu problema e você irá
+   utilizá-las desde o início em vez de refatorar seu código no meio do
+   caminho. Mas este tutorial intencionalmente tem focado em escrever views "do
+   jeito mais difícil" até agora, para concentrarmos nos conceitos
+   fundamentais.
 
    Você deve saber matemática básica antes de você começar a usar uma
    calculadora.
 
-Em primeiro lugar, abra ``polls/urls.py`` URLconf. Ele esta assim, de acordo com
-o tutorial até o momento::
+Em primeiro lugar, abra a URLconf ``polls/urls.py``. Ela esta assim, de acordo
+com o tutorial até o momento::
 
     from django.conf.urls.defaults import *
 
@@ -253,73 +255,73 @@ página de detalhe para um tipo particular de objeto.
       genérica.
 
     * A view genérica :func:`~django.views.generic.list_detail.object_detail`
-      espera o valor ID capturado da URL a ser chamada ``"object_id"``,
-      de modo que alteramos ``poll_id`` para ``object_id`` para view genérica.
+      espera o valor ID capturado da URL em ``"object_id"``, de modo que
+      alteramos ``poll_id`` para ``object_id`` para as views genérica.
 
-    * Nós adicionamos o nome, ``poll_results``, para os resultados da view assim
-      nós temos uma maneira de se referir à sua URL depois (veja a documentação
-      sobre :ref:`naming URL patterns <naming-url-patterns>` para informações).
-      Também estamos usando a função :func:`~django.conf.urls.default.url` de
-      :mod:`django.conf.urls.defaults` aqui. É um bom hábito usar
-      :func:`~django.conf.urls.defaults.url` quando você estiver fornecendo um
-      padrão de nome como este.
+    * Nós adicionamos um nome, ``poll_results``, para os resultados da view
+      assim nós temos uma maneira de se referir à sua URL depois (veja a
+      documentação sobre :ref:`naming URL patterns <naming-url-patterns>` para
+      informações).  Também estamos usando a função
+      :func:`~django.conf.urls.default.url` de :mod:`django.conf.urls.defaults`
+      aqui. É um bom hábito usar :func:`~django.conf.urls.defaults.url` quando
+      você estiver fornecendo um padrão de nome como este.
 
 Por padrão, a view genérica
 :func:`~django.views.generic.list_detail.object_detail` utiliza um template
-chamado ``<app name>/<model name>_detail.html``. Em nosso caso, ela vai utilizar
-o template ``"polls/poll_detail.html"``. Assim, renomeie o seu template
-``polls/detail.html`` para ``polls/poll_detail.html`` e e altere a linha
+chamado ``<app name>/<model name>_detail.html``. Em nosso caso, ela vai
+utilizar o template ``"polls/poll_detail.html"``. Assim, renomeie o seu
+template ``polls/detail.html`` para ``polls/poll_detail.html`` e altere a linha
 :func:`~django.shortcuts.render_to_response em ``vote()``.
 
-semelhantemente, a view genérica
+Semelhantemente, a view genérica
 :func:`~django.views.generic.list_detail.object_list` utiliza um template
 chamado ``<app name>/<model name>_list.html``. Assim, renomeie
 ``polls/index.html`` para ``polls/poll_list.html``.
 
-Porque nós temos mais de uma entrada no URLconf que usa
+Por termos mais de uma entrada na URLconf que usa
 :func:`~django.views.generic.list_detail.object_detail` para a aplicação de
 enquete, nós especificamos manualmente um nome para a view de resultados:
 ``template_name='polls/results.html'``. Caso contrário, as duas views
 utilizariam o mesmo template. Note que nós usamos ``dict()`` para retornar um
 dicionário alterado no lugar.
 
-.. note:: :meth:`django.db.models.QuerySet.all` e preguiçosa
+.. note:: :meth:`django.db.models.QuerySet.all` é preguiçosa
 
     Poderá parecer um pouco assustador ver ``Poll.objects.all()`` ser utilizado
     na view de detalhe que necessita apenas de um objeto ``Poll`` mas não se
     preocupe; ``Poll.objects.all()`` é na verdade um objeto especial chamado de
     :class:`~django.db.models.QuerySet`, que é "preguiçosa" e não toca no seu
-    banco de dados a menos que seja absolutamente necessário. No o momento que
+    banco de dados a menos que seja absolutamente necessário. No momento em que
     a consulta ao banco de dados acontecer, a view genérica
     :func:`~django.views.generic.list_detail.object_detail` terá limitado o seu
     escopo para um único objeto, de modo que a eventual consulta só irá
-    selecionar uma linha de base de dados.
+    selecionar uma linha da base de dados.
 
-    Se você quiser saber mais sobre seu funcionamento, A documentação de banco
+    Se você quiser saber mais sobre seu funcionamento, a documentação de banco
     de dados do Django :ref:`explica a natureza preguiçosa dos abjetos QuerySet
     <querysets-are-lazy>`.
 
 Nas partes anteriores deste tutorial, os templates tem sido fornecidos com um
 ``context`` que contém as variáveis de contexto `poll`` e ``latest_poll_list``.
-No entanto, as views genérica fornecem as variáveis ``object`` e ``object_list``
-como contexto. Portanto, você precisa mudar seus templates para combinar com as
-novas variáveis de contexto. Vá através de seus templates, e altere qualquer
-referência a ``latest_poll_list`` para ``object_list`` e alterar qualquer
-referência de ``poll`` para ``object``.
+No entanto, as views genérica fornecem as variáveis ``object`` e
+``object_list`` como contexto. Portanto, você precisa mudar seus templates para
+combinar com as novas variáveis de contexto. Vá através de seus templates, e
+altere qualquer referência a ``latest_poll_list`` para ``object_list`` e altere
+qualquer referência de ``poll`` para ``object``.
 
 Agora você pode deletar as views, ``index()``, ``detail()`` e ``results()``
 do arquivo ``polls/views.py``.  Não precisamos delas mais -- elas foram
 substituídas por views genéricas.
 
-A view ``vote()`` ainda é necessária.No entanto, ela deve ser modificado para
+A view ``vote()`` ainda é necessária. No entanto, ela deve ser modificada para
 corresponder ao novo contexto de variáveis. Na chamada
-:func:`~django.shortcuts.render_to_response`, renomeie a variável de
-contexto de ``poll`` para ``object``.
+:func:`~django.shortcuts.render_to_response`, renomeie a variável de contexto
+de ``poll`` para ``object``.
 
-A última coisa a fazer é corrigir o manipulador da URL para levar em conta
-a utilização de views genéricas. Na view  anterior ``vote()``, usamos a
-função :func:`~django.core.urlresolvers.reverse` para evitar escrever na mão
-nossa URLs. Agora que mudamos para view genérica, nós vamos precisar alterar a
+A última coisa a fazer é corrigir o manipulador da URL para levar em conta a
+utilização de views genéricas. Na view ``vote()`` acima, usamos a função
+:func:`~django.core.urlresolvers.reverse` para evitar escrever na mão nossas
+URLs. Agora que mudamos para view genérica, nós vamos precisar alterar a
 chamada :func:`~django.core.urlresolvers.reverse` para apontar de volta para a
 nossa nova view genérica. Nós não podemos simplesmente utilizar a função view
 mais -- views genéricas podem ser (e são) utilizada várias vezes - mas podemos
@@ -327,7 +329,7 @@ usar o nome que foi dado::
 
     return HttpResponseRedirect(reverse('poll_results', args=(p.id,)))
 
-Execute o servidor e use o sua nova aplicação de enquete baseada em views
+Execute o servidor e use sua nova aplicação de enquete baseada em views
 genéricas.
 
 Para maiores detalhes sobre views genéricas, consulte a :ref:`documentação
@@ -336,15 +338,15 @@ sobre views genéricas <topics-http-generic-views>`.
 Brevemente
 ==========
 
-O tutorial acaba aqui por enquanto. Futuras partes deste tutorial:
+O tutorial acaba aqui por enquanto. Futuras partes deste tutorial cobrirão:
 
     * Processamento avançado de formulário
     * Usando o framework de RSS
     * Usando o framework de cache
     * Usando o framework de comentários
     * Características avançadas da interface de administração: Permissões
-    * Características avançadas da interface de administração:
-      Customização JavaScript
+    * Características avançadas da interface de administração: JavaScript
+      personalizado
 
 Por enquanto, você pode querer verificar alguns pontos em :ref:`para onde ir a
 partir daqui <intro-whatsnext>`
