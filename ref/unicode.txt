@@ -80,37 +80,38 @@ algumas chamadas "bytestrings") que são codificadas usando UTF-8.
 Se seu código somente usa dados ASCII, ele é seguro para usar strings normais,
 passando-as a vontade, porque o ASCII é sub-conjunto do UTF-8.
 
-Don't be fooled into thinking that if your :setting:`DEFAULT_CHARSET` setting is set
-to something other than ``'utf-8'`` you can use that other encoding in your
-bytestrings! :setting:`DEFAULT_CHARSET` only applies to the strings generated as
-the result of template rendering (and e-mail). Django will always assume UTF-8
-encoding for internal bytestrings. The reason for this is that the
-:setting:`DEFAULT_CHARSET` setting is not actually under your control (if you are the
-application developer). It's under the control of the person installing and
-using your application -- and if that person chooses a different setting, your
-code must still continue to work. Ergo, it cannot rely on that setting.
+Não se engane em pensar que se sua configuração :setting:`DEFAULT_CHARSET` é
+qualquer coisa diferente de ``'utf-8'`` que você pode usar nas suas bytestrings!
+:setting:`DEFAULT_CHARSET` somente se aplica a strings geradas como resultado de
+renderização de templates (e e-mail). O Django sempre assumirá a codificação
+UTF-8 para bytestrings internas. A razão disso é que na verdade a configuração
+:setting:`DEFAULT_CHARSET` não está sob seu controle (se você é um desenvolvedor
+de aplicações). Está sob controle da pessoa que instala e usa sua aplicação --
+e se essa pessoa escolher uma configuração diferente, seu código pode ainda
+continuar funcionando. Portanto, ela não pode contar com essa configuração.
 
-In most cases when Django is dealing with strings, it will convert them to
-Unicode strings before doing anything else. So, as a general rule, if you pass
-in a bytestring, be prepared to receive a Unicode string back in the result.
+Na maioria dos casos quando o Django está lidando com strings, ele as converterá
+para Unicode antes de fazer algo mais. Então, como uma regra geral, se você
+passa uma bytestring, esteja preparado para receber uma string Unicode de volta
+no resultado.
 
-Translated strings
+Strings traduzidas
 ------------------
 
-Aside from Unicode strings and bytestrings, there's a third type of string-like
-object you may encounter when using Django. The framework's
-internationalization features introduce the concept of a "lazy translation" --
-a string that has been marked as translated but whose actual translation result
-isn't determined until the object is used in a string. This feature is useful
-in cases where the translation locale is unknown until the string is used, even
-though the string might have originally been created when the code was first
-imported.
+Além das string Unicode e bytestrings, há um terceiro tipo de objeto do tipo
+string que você pode encontrar enquanto usa o Django. As funcionalidades do
+framework de internacionalização introduzem o conceito de uma "tradução
+lazy" -- uma string que foi marcada como traduzida mas cujo resultado atual da
+tradução não é determinado até que o objeto seja utilizado numa string. Esta
+funcionalidade é útil em casos onde a localização da tradução é desconhecida até
+que a string seja usada, mesmo pensando que a string possa ter sigo
+originalmente criada quando o código foi importado pela primeira vez.
 
-Normally, you won't have to worry about lazy translations. Just be aware that
-if you examine an object and it claims to be a
-``django.utils.functional.__proxy__`` object, it is a lazy translation.
-Calling ``unicode()`` with the lazy translation as the argument will generate a
-Unicode string in the current locale.
+Normalmente, você não terá de se preocupar com traduções lazy. Somente esteja
+alerta que se você examinar um objeto e ele afirma ser um objeto
+``django.utils.functional.__proxy__``, ele é uma tradução lazy. Chamando
+``unicode()`` com a tradução lazy como argumento gerará uma string Unicode na
+localização atual.
 
 Para mais detalhes sobre traduções tardias de objetos, leia a documentação de
 :ref:`internacionalização <topics-i18n>`.
@@ -144,7 +145,7 @@ realizar conversões entre strings Unicode e bytestrings.
     * ``force_unicode(s, encoding='utf-8', strings_only=False,
       errors='strict')`` é identico ao ``smart_unicode()`` em quase todos os
       casos. A diferença é quando o primeiro argumento é uma instância de
-      :ref:`tradução tardia <lazy-translation>`. Enquanto ``smart_unicode()``
+      :ref:`tradução lazy <lazy-translations>`. Enquanto ``smart_unicode()``
       preserva a tradução tardia, ``force_unicode()`` força estes objetos a
       serem strings Unicode (causando a ocorrência da tradução). Normalmente,
       você desejará usar ``smart_unicode()``. Entretanto, ``force_unicode()`` é
@@ -283,62 +284,65 @@ something like "Jack visited Paris & Orléans". (In fact, the ``iri_to_uri()``
 call isn't strictly necessary in the above example, because all the
 non-ASCII characters would have been removed in quoting in the first line.)
 
-.. _above: `URI and IRI handling`_
+.. _above: `Manipulação de URI e IRI`_
 
-The database API
-================
+A API de banco de dados
+=======================
 
-You can pass either Unicode strings or UTF-8 bytestrings as arguments to
-``filter()`` methods and the like in the database API. The following two
-querysets are identical::
+Você pode passar tanto strings Unicode ou bytestrings UTF-8 como argumentos para
+os métodos ``filter()`` e seus semelhantes da API de banco de dados. Os dois
+querysets a seguir são identicos::
 
     qs = People.objects.filter(name__contains=u'Å')
-    qs = People.objects.filter(name__contains='\xc3\x85') # UTF-8 encoding of Å
+    qs = People.objects.filter(name__contains='\xc3\x85') # Codificação UTF-8 de Å
 
 Templates
 =========
 
-You can use either Unicode or bytestrings when creating templates manually::
+Você pode usar tanto Unicode quanto bytestrings quando criar templates
+manualmente::
 
 	from django.template import Template
 	t1 = Template('This is a bytestring template.')
 	t2 = Template(u'This is a Unicode template.')
 
-But the common case is to read templates from the filesystem, and this creates
-a slight complication: not all filesystems store their data encoded as UTF-8.
-If your template files are not stored with a UTF-8 encoding, set the :setting:`FILE_CHARSET`
-setting to the encoding of the files on disk. When Django reads in a template
-file, it will convert the data from this encoding to Unicode. (:setting:`FILE_CHARSET`
-is set to ``'utf-8'`` by default.)
+Porém o caso mais comum é ler os templates do sistema de arquivos, e isso gera
+uma ligeira complicação: nem todos os sistemas de arquivos armazenam seus dados
+codificados em UTF-8. Se seus arquivos de template não são armazenados com
+codificação UTF-8, configure o :setting:`FILE_CHARSET` para codificar os
+arquivos no disco. Quando o Django lê um arquivo de template, ele converterá
+os dados dele para Unicode. (:setting:`FILE_CHARSET` é configurado como
+``'utf-8'`` por padrão.)
 
-The :setting:`DEFAULT_CHARSET` setting controls the encoding of rendered templates.
-This is set to UTF-8 by default.
+A configuração :setting:`DEFAULT_CHARSET` controla a codificação de templates
+renderizados. Isto é configurado como UTF-8 por padrão.
 
-Template tags and filters
--------------------------
+Template tags e filtros
+-----------------------
 
-A couple of tips to remember when writing your own template tags and filters:
+Algumas dicas para se lembrar quando escrever suas próprias template tags e
+filtros:
 
-    * Always return Unicode strings from a template tag's ``render()`` method
-      and from template filters.
+    * Sempre retorne strings Unicode de um método render de uma template tag e
+      de um filtro.
 
-    * Use ``force_unicode()`` in preference to ``smart_unicode()`` in these
-      places. Tag rendering and filter calls occur as the template is being
-      rendered, so there is no advantage to postponing the conversion of lazy
-      translation objects into strings. It's easier to work solely with Unicode
-      strings at that point.
+    * Use ``force_unicode()`` de preferência, ao invés de ``smart_unicode()``
+      nestes lugares. As chamadas de renderização de tags e filtros ocorrem
+      quando o template estiver em renderização, assim não há vantagem em adiar
+      a conversão de objetos de traduções lazy. É mais fácil trabalhar
+      unicamente com strings Unicode neste ponto.
 
 E-mail
 ======
 
-Django's e-mail framework (in ``django.core.mail``) supports Unicode
-transparently. You can use Unicode data in the message bodies and any headers.
-However, you're still obligated to respect the requirements of the e-mail
-specifications, so, for example, e-mail addresses should use only ASCII
-characters.
+O framework de email do Django (em ``django.core.mail``) suporta Unicode
+transparentemente. Você pode usar dados Unicode no corpo das mensagens e
+qualquer cabeçalho. Entretanto, você ainda será obrigado a respeitar os
+requerimentos das especificações do e-mail, desta forma, por exemplo, endereços
+de e-mail devem usar somente caracteres ASCII.
 
-The following code example demonstrates that everything except e-mail addresses
-can be non-ASCII::
+O seguinte código de exemplo demonstra que tudo, exceto endereços de e-mail,
+podem ser não ASCII::
 
     from django.core.mail import EmailMessage
 
@@ -348,38 +352,40 @@ can be non-ASCII::
     body = u'...'
     EmailMessage(subject, body, sender, recipients).send()
 
-Form submission
-===============
+Submissão de formulários
+========================
 
-HTML form submission is a tricky area. There's no guarantee that the
-submission will include encoding information, which means the framework might
-have to guess at the encoding of submitted data.
+Submissão de formulários HTML é uma área complicada. Não há garantias de que a
+submissão incluirá informações de codificação, o que significa que o framework
+pode ter de advinhar a codificação dos dados submetidos.
 
-Django adopts a "lazy" approach to decoding form data. The data in an
-``HttpRequest`` object is only decoded when you access it. In fact, most of
-the data is not decoded at all. Only the ``HttpRequest.GET`` and
-``HttpRequest.POST`` data structures have any decoding applied to them. Those
-two fields will return their members as Unicode data. All other attributes and
-methods of ``HttpRequest`` return data exactly as it was submitted by the
-client.
+O Django adota uma abordagem "lazy" para decodificar dados de formulário. Os
+dados num objeto ``HttpRequest`` é somente decodificado quando você o acessa. De
+fato, a maior parte dos dados não é decodificada. Somente as estruturas de dados
+``HttpRequest.GET`` e ``HttpRequest.POST`` tem qualquer decodificação aplicada
+nelas. Estes dois campos retornar]ao seus membros como dados Unicode. Todos os
+outros atributos e método do ``HttpRequest`` retornam exatamente o dado como
+foi submetido pelo cliente.
 
-By default, the :setting:`DEFAULT_CHARSET` setting is used as the assumed encoding
-for form data. If you need to change this for a particular form, you can set
-the ``encoding`` attribute on an ``HttpRequest`` instance. For example::
+Por padrão, a configuração :setting:`DEFAULT_CHARSET` é usada como a codificação
+assumida pelos dados do formulário. Se você precisa mudar isso para um
+formulário particular, você pode configurar o atributo ``encoding`` de uma
+instância ``HttpRequest``. Por exemplo::
 
     def some_view(request):
-        # We know that the data must be encoded as KOI8-R (for some reason).
+        # Nós sabemos que os dados devem ser codificados como KOI8-R
+        # (por alguma razão).
         request.encoding = 'koi8-r'
         ...
 
-You can even change the encoding after having accessed ``request.GET`` or
-``request.POST``, and all subsequent accesses will use the new encoding.
+Você ainda pode mudar a codificação depois de accessado o ``request.GET`` ou
+``request.POST``, e todos os acessos subsequentes usarão a nova codificação.
 
-Most developers won't need to worry about changing form encoding, but this is
-a useful feature for applications that talk to legacy systems whose encoding
-you cannot control.
+A maioria dos desenvolvedores não precisam se preocupar em mudar a codificação
+de um formulário, mas essa é uma funcionalidade útil quando falamos de sistemas
+legadas cuja codificação você não pode controlar.
 
-Django does not decode the data of file uploads, because that data is normally
-treated as collections of bytes, rather than strings. Any automatic decoding
-there would alter the meaning of the stream of bytes.
+O django não codifica dados de arquivos de upload, pois esses dados são
+normalmente tratados como coleções de bytes, ao invés de strings. Qualquer
+decodificação automática não alteraria o sentido do fluxo de bytes.
 
