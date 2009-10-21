@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 11332 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,106 +16,107 @@
 
 .. _ref-generic-views:
 
-=============
-Generic views
-=============
+================================
+Generic views (Visões genéricas)
+================================
 
-Writing Web applications can be monotonous, because we repeat certain patterns
-again and again. In Django, the most common of these patterns have been
-abstracted into "generic views" that let you quickly provide common views of
-an object without actually needing to write any Python code.
+Escrever aplicações Web pode ser monotono, pois nós repetimos certos padrões
+repetidamente. No Django, os mais comuns dentre esses padrões são abstraidos
+dentro de "generic views" que permitem você rapidamente fornecer views comuns
+de um objeto sem precisar escrever qualquer código Python.
 
-A general introduction to generic views can be found in the :ref:`topic guide
+Uma introdução geral d generic views pode ser encontrado em :ref:`topic guide
 <topics-generic-views>`.
 
-This reference contains details of Django's built-in generic views, along with
-a list of all keyword arguments that a generic view expects. Remember that
-arguments may either come from the URL pattern or from the ``extra_context``
-additional-information dictionary.
+Esta referência contém detalhes das generic views embutidas do Django, junto com
+uma lista de todos os argumentos que uma generic view espera. Lembre-se que
+argumentos podem vir tanto de uma URL quanto de infomações adicionais num
+dicionário ``extra-context``.
 
-Most generic views require the ``queryset`` key, which is a ``QuerySet``
-instance; see :ref:`topics-db-queries` for more information about ``QuerySet``
-objects.
+A maioria dos generic views requer a chave ``queryset``, que é uma instância do
+``QuerySet``; veja :ref:`topics-db-queries` para mais informações sobre objetos
+``QuerySet``.
 
 "Simple" generic views
 ======================
 
-The ``django.views.generic.simple`` module contains simple views to handle a
-couple of common cases: rendering a template when no view logic is needed,
-and issuing a redirect.
+O módulo ``django.views.generic.simple`` contém views simples para manipular
+alguns casos comuns: renderizar um template quando nenhuma view lógica é
+necessária, e emitir redirecionamentos.
 
 ``django.views.generic.simple.direct_to_template``
 --------------------------------------------------
 
-**Description:**
+**Descrição:**
 
-Renders a given template, passing it a ``{{ params }}`` template variable,
-which is a dictionary of the parameters captured in the URL.
+Renderiza um dado template, passando-o uma variável de template
+``{{ params }}``, que é um dicionário de parametros capturados numa URL.
 
-**Required arguments:**
+**Argumentos obrigatórios:**
 
-    * ``template``: The full name of a template to use.
+    * ``template``: O nome completo de um template a se usar.
 
-**Optional arguments:**
+**Argumentos opcionais:**
 
-    * ``extra_context``: A dictionary of values to add to the template
-      context. By default, this is an empty dictionary. If a value in the
-      dictionary is callable, the generic view will call it
-      just before rendering the template.
+    * ``extra_context``: Um dicionário de valores para adicionar ao contexto do
+      template. Por padrão, este é um dicionário vazio. Se um valor no
+      dicionário for chamável, o generic view o chamará assim que estiver
+      renderizando o template.
 
-    * ``mimetype``: The MIME type to use for the resulting document. Defaults
-      to the value of the ``DEFAULT_CONTENT_TYPE`` setting.
+    * ``mimetype``: O tipo MIME a ser usado no documento resultante. Por padrão
+      é o valor da configuração ``DEFAULT_CONTEXT_TYPE``.
 
-**Example:**
+**Exemplo:**
 
-Given the following URL patterns::
+Dados os seguintes padrões de URL::
 
     urlpatterns = patterns('django.views.generic.simple',
         (r'^foo/$',             'direct_to_template', {'template': 'foo_index.html'}),
         (r'^foo/(?P<id>\d+)/$', 'direct_to_template', {'template': 'foo_detail.html'}),
     )
 
-... a request to ``/foo/`` would render the template ``foo_index.html``, and a
-request to ``/foo/15/`` would render the ``foo_detail.html`` with a context
-variable ``{{ params.id }}`` that is set to ``15``.
+... uma requisição para ``/foo/`` renderizaria o template ``foo_index.html``, e
+uma requisição para ``/foo/15/`` renderizaria o ``foo_detail.html`` com uma
+variável de contexto ``{{ params.id }}`` que está setado como ``15``.
 
 ``django.views.generic.simple.redirect_to``
 -------------------------------------------
 
-**Description:**
+**Descrição:**
 
-Redirects to a given URL.
+Redireciona para uma dada URL.
 
-The given URL may contain dictionary-style string formatting, which will be
-interpolated against the parameters captured in the URL. Because keyword
-interpolation is *always* done (even if no arguments are passed in), any ``"%"``
-characters in the URL must be written as ``"%%"`` so that Python will convert
-them to a single percent sign on output.
+A dada URL pode conter strings na forma de dicionário, que serão intercaladas
+contra os parametros capturados na URL. Pois a interpolação de chaves é
+*sempre* feita (mesmo se nenhum argumento for passado), qualquer caracter
+``"%"`` na URL deve ser escrito como ``"%%"`` assim o Python os converterá para
+um único sinal de percentual na saída.
 
-If the given URL is ``None``, Django will return an ``HttpResponseGone`` (410).
+Se uma dada URL é ``None``, o Django retornará um ``HttpResponseGone`` (410).
 
-**Required arguments:**
+**Argumentos obrigatórios:**
 
-    * ``url``: The URL to redirect to, as a string. Or ``None`` to raise a 410
-      (Gone) HTTP error.
+    * ``url``: A URL para onde redirecionar, como uma string. Ou ``None`` para
+      lançar um erro HTTP 410 (Gone).
 
-**Example:**
+**Exemplo:**
 
-This example redirects from ``/foo/<id>/`` to ``/bar/<id>/``::
+Este exemplo redireciona de ``/foo/<id>/`` para ``/bar/<id>/``::
 
     urlpatterns = patterns('django.views.generic.simple',
         ('^foo/(?P<id>\d+)/$', 'redirect_to', {'url': '/bar/%(id)s/'}),
     )
 
-This example returns a 410 HTTP error for requests to ``/bar/``::
+Este exemplo retorna um erro HTTP 410 para a requisição ``/bar/``::
 
     urlpatterns = patterns('django.views.generic.simple',
         ('^bar/$', 'redirect_to', {'url': None}),
     )
 
-This example shows how ``"%"`` characters must be written in the URL in order
-to avoid confusion with Python's string formatting markers. If the redirect
-string is written as ``"%7Ejacob/"`` (with only a single ``%``), an exception would be raised::
+Este exemplo mostra como caracteres ``"%"`` devem ser escritos na URL afim de
+evitar confusão com os marcadores de strings do Python. Se a strings de
+redirecionamento é escrita como ``"%7Ejacob/"`` (com somente um ``%``), uma
+exceção poderia ser lançada::
 
     urlpatterns = patterns('django.views.generic.simple',
         ('^bar/$', 'redirect_to', {'url': '%%7Ejacob.'}),
@@ -130,13 +131,13 @@ are views for displaying drilldown pages for date-based data.
 ``django.views.generic.date_based.archive_index``
 -------------------------------------------------
 
-**Description:**
+**Descrição:**
 
 A top-level index page showing the "latest" objects, by date. Objects with
 a date in the *future* are not included unless you set ``allow_future`` to
 ``True``.
 
-**Required arguments:**
+**Argumentos obrigatórios:**
 
     * ``queryset``: A ``QuerySet`` of objects for which the archive serves.
 
@@ -216,13 +217,13 @@ In addition to ``extra_context``, the template's context will be:
 ``django.views.generic.date_based.archive_year``
 ------------------------------------------------
 
-**Description:**
+**Descrição:**
 
 A yearly archive page showing all available months in a given year. Objects
 with a date in the *future* are not displayed unless you set ``allow_future``
 to ``True``.
 
-**Required arguments:**
+**Argumentos obrigatórios:**
 
     * ``year``: The four-digit year for which the archive serves.
 
@@ -301,13 +302,13 @@ In addition to ``extra_context``, the template's context will be:
 ``django.views.generic.date_based.archive_month``
 -------------------------------------------------
 
-**Description:**
+**Descrição:**
 
 A monthly archive page showing all objects in a given month. Objects with a
 date in the *future* are not displayed unless you set ``allow_future`` to
 ``True``.
 
-**Required arguments:**
+**Argumentos obrigatórios:**
 
     * ``year``: The four-digit year for which the archive serves (a string).
 
@@ -389,12 +390,12 @@ In addition to ``extra_context``, the template's context will be:
 ``django.views.generic.date_based.archive_week``
 ------------------------------------------------
 
-**Description:**
+**Descrição:**
 
 A weekly archive page showing all objects in a given week. Objects with a date
 in the *future* are not displayed unless you set ``allow_future`` to ``True``.
 
-**Required arguments:**
+**Argumentos obrigatórios:**
 
     * ``year``: The four-digit year for which the archive serves (a string).
 
@@ -461,13 +462,13 @@ In addition to ``extra_context``, the template's context will be:
 ``django.views.generic.date_based.archive_day``
 -----------------------------------------------
 
-**Description:**
+**Descrição:**
 
 A day archive page showing all objects in a given day. Days in the future throw
 a 404 error, regardless of whether any objects exist for future days, unless
 you set ``allow_future`` to ``True``.
 
-**Required arguments:**
+**Argumentos obrigatórios:**
 
     * ``year``: The four-digit year for which the archive serves (a string).
 
@@ -551,7 +552,7 @@ In addition to ``extra_context``, the template's context will be:
 ``django.views.generic.date_based.archive_today``
 -------------------------------------------------
 
-**Description:**
+**Descrição:**
 
 A day archive page showing all objects for *today*. This is exactly the same as
 ``archive_day``, except the ``year``/``month``/``day`` arguments are not used,
@@ -560,13 +561,13 @@ and today's date is used instead.
 ``django.views.generic.date_based.object_detail``
 -------------------------------------------------
 
-**Description:**
+**Descrição:**
 
 A page representing an individual object. If the object has a date value in the
 future, the view will throw a 404 error by default, unless you set
 ``allow_future`` to ``True``.
 
-**Required arguments:**
+**Argumentos obrigatórios:**
 
     * ``year``: The object's four-digit year (a string).
 
@@ -661,11 +662,11 @@ object page.
 ``django.views.generic.list_detail.object_list``
 ------------------------------------------------
 
-**Description:**
+**Descrição:**
 
 A page representing a list of objects.
 
-**Required arguments:**
+**Argumentos obrigatórios:**
 
     * ``queryset``: A ``QuerySet`` that represents the objects.
 
@@ -778,11 +779,11 @@ any other value for ``page`` will result in a 404 error.
 
 A page representing an individual object.
 
-**Description:**
+**Descrição:**
 
 A page representing an individual object.
 
-**Required arguments:**
+**Argumentos obrigatórios:**
 
     * ``queryset``: A ``QuerySet`` that contains the object.
 
@@ -855,12 +856,12 @@ library <topics-forms-index>` to build and display the form.
 ``django.views.generic.create_update.create_object``
 ----------------------------------------------------
 
-**Description:**
+**Descrição:**
 
 A page that displays a form for creating an object, redisplaying the form with
 validation errors (if there are any) and saving the object.
 
-**Required arguments:**
+**Argumentos obrigatórios:**
 
     * Either ``form_class`` or ``model`` is required.
 
@@ -929,14 +930,14 @@ In addition to ``extra_context``, the template's context will be:
 ``django.views.generic.create_update.update_object``
 ----------------------------------------------------
 
-**Description:**
+**Descrição:**
 
 A page that displays a form for editing an existing object, redisplaying the
 form with validation errors (if there are any) and saving changes to the
 object. This uses a form automatically generated from the object's
 model class.
 
-**Required arguments:**
+**Argumentos obrigatórios:**
 
     * Either ``form_class`` or ``model`` is required.
 
@@ -1022,14 +1023,14 @@ In addition to ``extra_context``, the template's context will be:
 ``django.views.generic.create_update.delete_object``
 ----------------------------------------------------
 
-**Description:**
+**Descrição:**
 
 A view that displays a confirmation page and deletes an existing object. The
 given object will only be deleted if the request method is ``POST``. If this
 view is fetched via ``GET``, it will display a confirmation page that should
 contain a form that POSTs to the same URL.
 
-**Required arguments:**
+**Argumentos obrigatórios:**
 
     * ``model``: The Django model class of the object that the form will
       create.
@@ -1086,3 +1087,4 @@ In addition to ``extra_context``, the template's context will be:
       variable's name depends on the ``template_object_name`` parameter, which
       is ``'object'`` by default. If ``template_object_name`` is ``'foo'``,
       this variable's name will be ``foo``.
+
