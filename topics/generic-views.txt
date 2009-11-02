@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 11268 $
-..   $TranslationAuthors:  $
+..   $TranslationAuthors: Felipe Bernardo Zorzo $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -15,55 +15,57 @@
 
 .. _topics-generic-views:
 
-=============
-Generic views
-=============
+===============
+Views genéricas
+===============
 
-Writing Web applications can be monotonous, because we repeat certain patterns
-again and again. Django tries to take away some of that monotony at the model
-and template layers, but Web developers also experience this boredom at the view
-level.
+Escrever aplicações web pode ser monótono, porque nós repetimos certos padrões
+várias e várias vezes. O Django tenta tirar um pouco dessa monotonia nas
+camadas de model e template, mas os desenvolvedores web também experimentam 
+esse tédio na camada da view.
 
-Django's *generic views* were developed to ease that pain. They take certain
-common idioms and patterns found in view development and abstract them so that
-you can quickly write common views of data without having to write too much
-code.
+As *views genéricas* do Django foram criadas para diminuir esse sofrimento. 
+Elas pegam padrões comuns encontrados no desenvolvimento web e abstraem eles,
+assim você pode escrever rapidamente views comuns sem ter que escrever muito
+código.
 
-We can recognize certain common tasks, like displaying a list of objects, and
-write code that displays a list of *any* object. Then the model in question can
-be passed as an extra argument to the URLconf.
+Podemos identificar algumas tarefas comuns, como mostrar uma lista de objetos,
+e escrever código que mostre um lista de *qualquer* objeto. Então, o model em
+questão pode ser passado como um argumento extra ao URLconf.
 
-Django ships with generic views to do the following:
+O Django vem com views genéricas que fazem o seguinte:
 
-    * Perform common "simple" tasks: redirect to a different page and
-      render a given template.
+    * Efetuam "simples" tarefas comuns: redirecionar para uma página 
+      diferente e renderizar determinado template.
 
-    * Display list and detail pages for a single object. If we were creating an
-      application to manage conferences then a ``talk_list`` view and a
-      ``registered_user_list`` view would be examples of list views. A single
-      talk page is an example of what we call a "detail" view.
+    * Mostrar uma lista e página com detalhes de um único objeto. Se estamos
+      criando uma aplicação para gerenciar conferências, então uma view
+      ``talk_list`` e uma view ``registered_user_list`` seriam exemplo
+      de views de listas. Uma única página de conversa seria o que chamamos
+      de view de "detalhe".
 
-    * Present date-based objects in year/month/day archive pages,
-      associated detail, and "latest" pages. The Django Weblog's
-      (http://www.djangoproject.com/weblog/) year, month, and
-      day archives are built with these, as would be a typical
-      newspaper's archives.
+    * Apresentar objetos baseados em data em páginas categorizadas por
+      ano/mês/dia, os detalhes associados, e as "últimas" páginas. Os
+      arquivos por ano, mês e dia do Blog da Django Brasil 
+      (http://www.djangobrasil.org/weblog/) foram construídos com
+      nessas views, como exemplo de um típico arquivo de jornal.
 
-    * Allow users to create, update, and delete objects -- with or
-      without authorization.
+    * Permitir usuários a criar, atualizar e deletar objetos -- com ou
+      sem autorização.
 
-Taken together, these views provide easy interfaces to perform the most common
-tasks developers encounter.
+Juntas, essas views oferecem uma interface fácil para realizar as tarefas
+mais comuns que os desenvolvedores encontram.
 
-Using generic views
-===================
+Usando views genéricas
+======================
 
-All of these views are used by creating configuration dictionaries in
-your URLconf files and passing those dictionaries as the third member of the
-URLconf tuple for a given pattern.
+Todas essas views são usadas através da criação de dicionários de 
+configurações nos seus arquivos URLconf e passando esses dicionários
+como o terceiro membro da tupla URLconf para um determinado padrão.
 
-For example, here's a simple URLconf you could use to present a static "about"
-page::
+Por exemplo, aqui está uma simples URLconf que poderíamos usar para apresentar
+uma página estática "sobre"::
+
 
     from django.conf.urls.defaults import *
     from django.views.generic.simple import direct_to_template
@@ -74,16 +76,17 @@ page::
         })
     )
 
-Though this might seem a bit "magical" at first glance  -- look, a view with no
-code! --, actually the ``direct_to_template`` view simply grabs information from
-the extra-parameters dictionary and uses that information when rendering the
-view.
+Isso pode parecer um pouco "mágico" à primeira vista -- olhe, uma view sem 
+código! --, atualmente a view ``direct_to_template`` simplesmente pega a
+informação do dicionário de parâmetros extras e usa essa informação ao
+renderizar a view.
 
-Because this generic view -- and all the others -- is a regular view functions
-like any other, we can reuse it inside our own views. As an example, let's
-extend our "about" example to map URLs of the form ``/about/<whatever>/`` to
-statically rendered ``about/<whatever>.html``. We'll do this by first modifying
-the URLconf to point to a view function:
+Como essa view genérica -- e todas as outras -- é uma view normal como
+qualquer outra, podemos reusá-la dentro de nossas próprias views. Como
+exemplo, vamos extender nossa página "sobre" para mapear as URLs na forma
+``/about/<qualquer coisa>/`` para arquivos ``about/<qualquer coisa>.html``.
+Nós faremos isso modificando primeiramente a URLconf, para apontar para uma
+função de view:
 
 .. parsed-literal::
 
@@ -98,7 +101,7 @@ the URLconf to point to a view function:
         **('^about/(\w+)/$', about_pages),**
     )
 
-Next, we'll write the ``about_pages`` view::
+Depois, vamos escrever a view ``about_pages``::
 
     from django.http import Http404
     from django.template import TemplateDoesNotExist
@@ -110,29 +113,30 @@ Next, we'll write the ``about_pages`` view::
         except TemplateDoesNotExist:
             raise Http404()
 
-Here we're treating ``direct_to_template`` like any other function. Since it
-returns an ``HttpResponse``, we can simply return it as-is. The only slightly
-tricky business here is dealing with missing templates. We don't want a
-nonexistent template to cause a server error, so we catch
-``TemplateDoesNotExist`` exceptions and return 404 errors instead.
+Aqui tratamos o ``direct_to_template`` como qualquer outra função. Uma vez que
+ela retorna um ``HttpResponse``, podemos fazer como o exemplo. O único 
+pequeno truque aqui é lidar com a falta de templates. Não queremos que
+um template inexistente cause um erro do servidor, então, capturamos as
+exceções ``TemplateDoesNotExist`` e retornamos um erro 404.
 
-.. admonition:: Is there a security vulnerability here?
+.. admonition:: Existe uma falha de segurança aqui?
 
-    Sharp-eyed readers may have noticed a possible security hole: we're
-    constructing the template name using interpolated content from the browser
-    (``template="about/%s.html" % page``). At first glance, this looks like a
-    classic *directory traversal* vulnerability. But is it really?
+    Os leitores mais atendos podem ter percebido uma possível falha de 
+    segurança: estamos contruindo o nome do template usando conteúdo 
+    do navegador (``template="about/%s.html" % page``). A primeira vista,
+    isso parece uma clássica vulnerabilidade *directory traversal*. Mas
+    realmente é?
 
-    Not exactly. Yes, a maliciously crafted value of ``page`` could cause
-    directory traversal, but although ``page`` *is* taken from the request URL,
-    not every value will be accepted. The key is in the URLconf: we're using
-    the regular expression ``\w+`` to match the ``page`` part of the URL, and
-    ``\w`` only accepts letters and numbers. Thus, any malicious characters
-    (dots and slashes, here) will be rejected by the URL resolver before they
-    reach the view itself.
+    Não exatamente. Sim, um valor malicioso para ``page`` poderia causar
+    *directory traversal*, porém, a variável ``page`` *é* advinda da 
+    URL, e não é qualquer valor que será aceito. A chave para isso está
+    na URLconf: estamos usando a expressão regular ``\w+`` para obter 
+    parte da URL, e ``\w`` aceita somente letras e números. Portanto,
+    qualquer caracter malicioso (pontos e barras, aqui) serão rejeitados
+    pelo resolvedor de URL antes de chegar à view.
 
-Generic views of objects
-========================
+Views genéricas de objetos
+==========================
 
 The ``direct_to_template`` certainly is useful, but Django's generic views
 really shine when it comes to presenting views on your database content. Because
