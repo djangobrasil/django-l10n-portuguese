@@ -30,10 +30,10 @@ Ela consistirá em duas partes:
     * Um site de administração que você poderá adicionar, alterar e deletar
       enquetes.
 
-Iremos assumir que você já possui o `Django instalado <intro-install>`. Você
-pode saber se o Django está instalado rodando o interpretador interativo do
-Python e digitando ``import django``. Se esse comando rodar com sucesso, sem
-nenhum erro, o Django está instalado.
+Iremos assumir que você já possui o :ref:`Django instalado
+<intro-install>`. Você pode saber se o Django está instalado rodando o
+interpretador interativo do Python e digitando ``import django``. Se esse
+comando rodar com sucesso, sem nenhum erro, o Django está instalado.
 
 .. admonition:: Onde conseguir ajuda:
 
