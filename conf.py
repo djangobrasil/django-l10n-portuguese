@@ -134,8 +134,8 @@ latex_documents = [
 ]
 
 # Additional stuff for the LaTeX preamble.
-latex_preamble = 'Esta é a tradução da documentação oficial do Django, mantida ' +\
-                 'pelo grupo de localização do Django para o Português.'
+latex_preamble = u'Esta é a tradução da documentação oficial do Django, mantida ' +\
+                 u'pelo grupo de localização do Django para o Português.'
 
 # Documents to append as an appendix to all manuals.
 #latex_appendices = []
