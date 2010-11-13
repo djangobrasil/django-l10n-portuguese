@@ -48,7 +48,7 @@ os dados do formulário acima seriam acessíveis como ``request.FILES['file']``.
 
 Note que ``request.FILES`` somente conterá dados se o método request for
 ``POST`` e o ``<form>`` postado tiver um atributo
-``enctype="multpart/form-data"``. Caso contrário, ``request.FILES`` será vazio.
+``enctype="multipart/form-data"``. Caso contrário, ``request.FILES`` será vazio.
 
 Na maior parte do tempo, você simplesmente passará os dados do arquivo do
 ``request`` como descrito em :ref:`binding-uploaded-files`. Isso deveria parecer

@@ -147,7 +147,7 @@ precisamente por que nós estamos descontentes com o status quo, então, por
 favor, saiba que só porque o "<Framework X>" faz algo, não é razão suficiente
 para adicionar essa funcionalidade ao Django.
 
-Porque vocês escreveram o Django do ziero, ao invés de usar outras bibliotecas Python?
+Porque vocês escreveram o Django do zero, ao invés de usar outras bibliotecas Python?
 --------------------------------------------------------------------------------------
 
 Quando o Django foi escrito inicialmente, alguns anos atrás, Adrian e Simon
