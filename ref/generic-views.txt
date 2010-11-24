@@ -122,65 +122,65 @@ exceção poderia ser lançada::
         ('^bar/$', 'redirect_to', {'url': '%%7Ejacob.'}),
     )
 
-Date-based generic views
-========================
+Generic view baseada em dados
+=============================
 
-Date-based generic views (in the module ``django.views.generic.date_based``)
-are views for displaying drilldown pages for date-based data.
-
+Generic views baseada em datas (no módulo ``django.views.generic.date_based``)
+são views para mostrar páginas de pesquisa para datos baseados em datas.
+ 
 ``django.views.generic.date_based.archive_index``
 -------------------------------------------------
 
 **Descrição:**
 
-A top-level index page showing the "latest" objects, by date. Objects with
-a date in the *future* are not included unless you set ``allow_future`` to
-``True``.
+Um página de índice de alto nível mostrando os "últimos" objetos, por data.
+Objetos com ma data no *futuro* não são incluídos a menos que você configure
+``allow_future`` para ``True``.
 
 **Argumentos obrigatórios:**
 
-    * ``queryset``: A ``QuerySet`` of objects for which the archive serves.
+    * ``queryset``: Um ``QuerySet`` de objetos para que o arquivo sirva.
 
-    * ``date_field``: The name of the ``DateField`` or ``DateTimeField`` in
-      the ``QuerySet``'s model that the date-based archive should use to
-      determine the objects on the page.
+    * ``date_field``: O nome do ``DateField`` ou ``DateTimeField`` no 
+      ``QuerySet`` do model que o arquivo baseado em data deve usar para 
+      determinar os objetos da página.
 
-**Optional arguments:**
+**Argumentos opcionais:**
 
-    * ``num_latest``: The number of latest objects to send to the template
-      context. By default, it's 15.
+    * ``num_latest``: O número dos últimos objetos que serão enviados para o 
+      contexto do template. Por padrão é 15.
 
-    * ``template_name``: The full name of a template to use in rendering the
-      page. This lets you override the default template name (see below).
+    * ``template_name``: O nome completo de um template para rederizar a página.
+      Isso permite você sobrescrever o nome do template padrão. (veja abaixo).
 
-    * ``template_loader``: The template loader to use when loading the
-      template. By default, it's ``django.template.loader``.
+    * ``template_loader``: O carregador de template a ser usado quando carregar
+      o template. Por padrão, ele é ``django.template.loader``.
 
-    * ``extra_context``: A dictionary of values to add to the template
-      context. By default, this is an empty dictionary. If a value in the
-      dictionary is callable, the generic view will call it
-      just before rendering the template.
+    * ``extra_context``: Um dicionário com os valores para adicionar no contexto
+      do template. Por padrão, este é um dicionário vazio. Se um valor no 
+      dicionário é chamável, a generic view o chamará antes de renderizar o 
+      template.
+      
+    * ``allow_empty``: Um boleano especificando se pra exibir a página não há
+      objetos disponíveis. Se este for ``False`` e nenhum objeto estiver 
+      disponível, a view lançará um 404 ao invés de mostrar uma página vazia.
+      Por padrão, isso é ``True``.
+      
+    * ``context_processors``: Uma lista de processadores de contexto de template
+      para aplicar na view do template.
+      
+    * ``mimetype``: O tipo MIME para usar no documento resultante. Padrão é o 
+      valor da configuração ``DEFAULT_CONTENT_TYPE``
 
-    * ``allow_empty``: A boolean specifying whether to display the page if no
-      objects are available. If this is ``False`` and no objects are available,
-      the view will raise a 404 instead of displaying an empty page. By
-      default, this is ``True``.
-
-    * ``context_processors``: A list of template-context processors to apply to
-      the view's template.
-
-    * ``mimetype``: The MIME type to use for the resulting document. Defaults
-      to the value of the ``DEFAULT_CONTENT_TYPE`` setting.
-
-    * ``allow_future``: A boolean specifying whether to include "future"
-      objects on this page, where "future" means objects in which the field
-      specified in ``date_field`` is greater than the current date/time. By
-      default, this is ``False``.
+    * ``allow_future``: Um boleano especificando se é para incluir objetos no
+      "futuro" nesta página, onde "futuro" significa objetos em que o campo
+      especificado em ``date_field`` é maior que a data/hora atual. Por padrão,
+      isso é ``False``.
 
     .. versionadded:: 1.0
 
-    * ``template_object_name``: Designates the name of the template variable
-      to use in the template context. By default, this is ``'latest'``.
+    * ``template_object_name``: Designa o nome da variável de template para usar
+      no contexto do template. Por padrão, este é ``'latest'``.
 
 **Template name:**
 
