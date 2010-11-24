@@ -182,38 +182,39 @@ Objetos com ma data no *futuro* não são incluídos a menos que você configure
     * ``template_object_name``: Designa o nome da variável de template para usar
       no contexto do template. Por padrão, este é ``'latest'``.
 
-**Template name:**
+**Nome do template:**
 
-If ``template_name`` isn't specified, this view will use the template
-``<app_label>/<model_name>_archive.html`` by default, where:
+Se o ``template_name`` não for especificado, esta view usará o template
+``<app_label>/<model_name>_archive.html`` por padrão, onde:
 
-    * ``<model_name>`` is your model's name in all lowercase. For a model
-      ``StaffMember``, that'd be ``staffmember``.
+    * ``<model_name>`` é seu nome todo em minúsculo. Para um model
+      ``StaffMember``, que seria ``staffmember``.
 
-    * ``<app_label>`` is the right-most part of the full Python path to
-      your model's app. For example, if your model lives in
-      ``apps/blog/models.py``, that'd be ``blog``.
+    * ``<app_label>`` é a parte mais a direita do caminho completo do Python
+      para o model de sua aplicação. Por exemplo, se seu model fica em
+      ``apps/blog/models.py``, então ficará ``blog``.
 
-**Template context:**
+**Contexto de template:**
 
-In addition to ``extra_context``, the template's context will be:
+Além de ``extra_context``, o contexto de template será:
 
-    * ``date_list``: A list of ``datetime.date`` objects representing all
-      years that have objects available according to ``queryset``. These are
-      ordered in reverse. This is equivalent to
+    * ``date_list``: Uma lista de objetos ``datetime.date`` representando todos
+      os anos que possuem objetos disponíveis de acordo com o ``queryset``. Eles
+      são ordenados reversamente. Isso é equivalente a
       ``queryset.dates(date_field, 'year')[::-1]``.
 
     .. versionchanged:: 1.0
-       The behaviour depending on ``template_object_name`` is new in this version.
+       O comportamento dependendo se o ``template_object_name`` está numa nova 
+       versão. 
 
-    * ``latest``: The ``num_latest`` objects in the system, ordered descending
-      by ``date_field``. For example, if ``num_latest`` is ``10``, then
-      ``latest`` will be a list of the latest 10 objects in ``queryset``.
+    * ``latest``: Os objetos ``num_latest`` no sistema, em ordem decrescente por
+      ``date_field``. Por exemplo, se o ``num_latest`` é ``10``, então 
+      ``latest`` será uma lista dos últimos 10 objetos na ``queryset``.
 
-      This variable's name depends on the ``template_object_name`` parameter,
-      which is ``'latest'`` by default. If ``template_object_name`` is
-      ``'foo'``, this variable's name will be ``foo``.
-
+      Este nome de variável depende do paramétro ``template_object_name``, que é
+      ``'latest'`` por padrão. Se ``template_object_name`` é ``'foo'``, o nome
+      da variável será ``foo``.
+      
 ``django.views.generic.date_based.archive_year``
 ------------------------------------------------
 
@@ -233,7 +234,7 @@ to ``True``.
       the ``QuerySet``'s model that the date-based archive should use to
       determine the objects on the page.
 
-**Optional arguments:**
+**Argumentos opcionais:**
 
     * ``template_name``: The full name of a template to use in rendering the
       page. This lets you override the default template name (see below).
@@ -321,7 +322,7 @@ date in the *future* are not displayed unless you set ``allow_future`` to
       the ``QuerySet``'s model that the date-based archive should use to
       determine the objects on the page.
 
-**Optional arguments:**
+**Argumentos opcionais:**
 
     * ``month_format``: A format string that regulates what format the
       ``month`` parameter uses. This should be in the syntax accepted by
@@ -408,7 +409,7 @@ in the *future* are not displayed unless you set ``allow_future`` to ``True``.
       the ``QuerySet``'s model that the date-based archive should use to
       determine the objects on the page.
 
-**Optional arguments:**
+**Argumentos opcionais:**
 
     * ``template_name``: The full name of a template to use in rendering the
       page. This lets you override the default template name (see below).
@@ -484,7 +485,7 @@ you set ``allow_future`` to ``True``.
       the ``QuerySet``'s model that the date-based archive should use to
       determine the objects on the page.
 
-**Optional arguments:**
+**Argumentos opcionais:**
 
     * ``month_format``: A format string that regulates what format the
       ``month`` parameter uses. This should be in the syntax accepted by
@@ -592,7 +593,7 @@ future, the view will throw a 404 error by default, unless you set
       ``slug_field`` should be the name of the slug field in the ``QuerySet``'s
       model. By default, ``slug_field`` is ``'slug'``.
 
-**Optional arguments:**
+**Argumentos opcionais:**
 
     * ``month_format``: A format string that regulates what format the
       ``month`` parameter uses. This should be in the syntax accepted by
@@ -670,7 +671,7 @@ A page representing a list of objects.
 
     * ``queryset``: A ``QuerySet`` that represents the objects.
 
-**Optional arguments:**
+**Argumentos opcionais:**
 
     * ``paginate_by``: An integer specifying how many objects should be
       displayed per page. If this is given, the view will paginate objects with
@@ -796,7 +797,7 @@ A page representing an individual object.
       ``slug_field`` should be the name of the slug field in the ``QuerySet``'s
       model. By default, ``slug_field`` is ``'slug'``.
 
-**Optional arguments:**
+**Argumentos opcionais:**
 
     * ``template_name``: The full name of a template to use in rendering the
       page. This lets you override the default template name (see below).
@@ -873,7 +874,7 @@ validation errors (if there are any) and saving the object.
       Otherwise, ``model`` should be a Django model class and the form used
       will be a standard ``ModelForm`` for ``model``.
 
-**Optional arguments:**
+**Argumentos opcionais:**
 
     * ``post_save_redirect``: A URL to which the view will redirect after
       saving the object. By default, it's ``object.get_absolute_url()``.
@@ -958,7 +959,7 @@ model class.
       ``slug_field`` should be the name of the slug field in the ``QuerySet``'s
       model. By default, ``slug_field`` is ``'slug'``.
 
-**Optional arguments:**
+**Argumentos opcionais:**
 
     * ``post_save_redirect``: A URL to which the view will redirect after
       saving the object. By default, it's ``object.get_absolute_url()``.
@@ -1047,7 +1048,7 @@ contain a form that POSTs to the same URL.
     * ``post_delete_redirect``: A URL to which the view will redirect after
       deleting the object.
 
-**Optional arguments:**
+**Argumentos opcionais:**
 
     * ``login_required``: A boolean that designates whether a user must be
       logged in, in order to see the page and save changes. This hooks into the
