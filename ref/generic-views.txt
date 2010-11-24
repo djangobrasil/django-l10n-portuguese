@@ -220,245 +220,253 @@ Além de ``extra_context``, o contexto de template será:
 
 **Descrição:**
 
-A yearly archive page showing all available months in a given year. Objects
-with a date in the *future* are not displayed unless you set ``allow_future``
-to ``True``.
+Uma página de arquivo anual mostrando todos os meses em um dado ano. Objetos com
+uma data no *futuro* não são exibidos a menos que você configure 
+``allow_future`` para ``True``.
 
 **Argumentos obrigatórios:**
 
-    * ``year``: The four-digit year for which the archive serves.
+    * ``year``: O ano com quatro digitos para o arquivo servir.
 
-    * ``queryset``: A ``QuerySet`` of objects for which the archive serves.
+    * ``queryset``: Um ``QuerySet`` de objetos para o arquivo servir.
 
-    * ``date_field``: The name of the ``DateField`` or ``DateTimeField`` in
-      the ``QuerySet``'s model that the date-based archive should use to
-      determine the objects on the page.
+    * ``date_field``: O nome do ``DateField`` ou ``DateTimeField`` no
+      ``QuerySet`` do model que o arquivo baseado em data deve usar para 
+      determinar os objetos da página.
 
 **Argumentos opcionais:**
 
-    * ``template_name``: The full name of a template to use in rendering the
-      page. This lets you override the default template name (see below).
+    * ``template_name``: O nome completo de um template para usar na 
+      renderização da página. Isso deixa você sobrescrever o nome do template
+      padrão (veja abaixo).
 
-    * ``template_loader``: The template loader to use when loading the
-      template. By default, it's ``django.template.loader``.
+    * ``template_loader``: O carregador de template para a ser utilizado quando
+      carregar o template. Por padrão, este é ``django.template.loader``.
 
-    * ``extra_context``: A dictionary of values to add to the template
-      context. By default, this is an empty dictionary. If a value in the
-      dictionary is callable, the generic view will call it
-      just before rendering the template.
+    * ``extra_context``: Um dicionário de valores para adicionar ao contexto do
+      template. Por padrão, este é um dicionário vazio. Se o valor no dicionário
+      for chamável, a generic view o chamará antes de renderizar o template.
 
-    * ``allow_empty``: A boolean specifying whether to display the page if no
-      objects are available. If this is ``False`` and no objects are available,
-      the view will raise a 404 instead of displaying an empty page. By
-      default, this is ``False``.
+    * ``allow_empty``: Um boleano especificando se é para mostrar a página se
+      não houver objetos disponíveis. Se este for ``False`` e nenhum objeto 
+      estiver disponível, a view lançará um 404 ao invés de mostrar uma página 
+      vazia. Por padrão, este é ``False``.
 
-    * ``context_processors``: A list of template-context processors to apply to
-      the view's template.
+    * ``context_processors``: Uma lista de processadores de contexto de 
+      template a se aplicar nas views do template.
 
-    * ``template_object_name``:  Designates the name of the template variable
-      to use in the template context. By default, this is ``'object'``. The
-      view will append ``'_list'`` to the value of this parameter in
-      determining the variable's name.
+    * ``template_object_name``: Designa o nome da variável de template para usar
+      no contexto do template. Por padrão, este é ``'object'``. A view 
+      adicionará ``'_list'`` ao valor deste paramêtro ao determinar o nome da
+      variável.
 
-    * ``make_object_list``: A boolean specifying whether to retrieve the full
-      list of objects for this year and pass those to the template. If ``True``,
-      this list of objects will be made available to the template as
-      ``object_list``. (The name ``object_list`` may be different; see the docs
-      for ``object_list`` in the "Template context" section below.) By default,
-      this is ``False``.
+    * ``make_object_list``: Um booleano especificando se é para receber a lista 
+      completa de objetos para este ano e passá-los para o template. Se 
+      ``True``, esta lista de objetos será disponibilizada para o template como
+      ``object_list``. (O nome ``object_list`` pode ser diferente; veja a
+      documentação para ``object_list`` na seção "Contexto de template" abaixo.)
+      Por padrnao, este é ``False``.
 
-    * ``mimetype``: The MIME type to use for the resulting document. Defaults
-      to the value of the ``DEFAULT_CONTENT_TYPE`` setting.
+    * ``mimetype``: O tipo MIME a ser utilizado no documento resultante. 
+      O padrão é o valor da configuração ``DEFAULT_CONTENT_TYPE``.
 
-    * ``allow_future``: A boolean specifying whether to include "future"
-      objects on this page, where "future" means objects in which the field
-      specified in ``date_field`` is greater than the current date/time. By
-      default, this is ``False``.
+    * ``allow_future``: Um boleano especificando se é para incluir objetos no
+      "futuro" nesta página, onde "futuro" significa objetos cujo o campo 
+      especificado  em ``date_field`` é maior que a data/hora atual. Por padrão,
+      isso é ``False``.
 
-**Template name:**
+**Nome do emplate:**
 
-If ``template_name`` isn't specified, this view will use the template
-``<app_label>/<model_name>_archive_year.html`` by default.
+Se ``template_name`` não for especificado, esta view usará o template
+``<app_label>/<model_name>_archive_year.html`` por padrão.
 
-**Template context:**
+**Contexto de template:**
 
-In addition to ``extra_context``, the template's context will be:
+Além do ``extra_context``, o contexto do template será:
 
-    * ``date_list``: A list of ``datetime.date`` objects representing all
-      months that have objects available in the given year, according to
-      ``queryset``, in ascending order.
+    * ``date_list``: Uma lista de objetos ``datetime.date`` representando todos
+      os meses que possuam objetos disponíveis em um dado ano, de acordo com o
+      ``queryset``, em ordem ascendente.
 
-    * ``year``: The given year, as a four-character string.
+    * ``year``: O ano informado, como uma string com 4 dígitos.
 
-    * ``object_list``: If the ``make_object_list`` parameter is ``True``, this
-      will be set to a list of objects available for the given year, ordered by
-      the date field. This variable's name depends on the
-      ``template_object_name`` parameter, which is ``'object'`` by default. If
-      ``template_object_name`` is ``'foo'``, this variable's name will be
+    * ``object_list``: Se o parâmetro ``make_object_list`` for ``True``, este
+      será configurado para uma lista de objetos disponíveis para o dado ano,
+      ordenado pelo campo de data. Este nome de variável depende do parámetro
+      ``template_object_name``, que é ``'object'`` por padrão. Se o
+      ``template_object_name`` for ``'foo'``, o nome da variável será 
       ``foo_list``.
 
-      If ``make_object_list`` is ``False``, ``object_list`` will be passed to
-      the template as an empty list.
+      Se ``make_object_list`` for ``False``, ``object_list`` será passado para
+      o template como uma lista vazia.
 
 ``django.views.generic.date_based.archive_month``
 -------------------------------------------------
 
 **Descrição:**
 
-A monthly archive page showing all objects in a given month. Objects with a
-date in the *future* are not displayed unless you set ``allow_future`` to
-``True``.
+Uma página de arquivo mensal mostrando todos os objetos para um dado mês.
+Objetos com uma data no *futuro* não será exibidos a menos que ``allow_future``
+seja ``True``.
 
 **Argumentos obrigatórios:**
 
-    * ``year``: The four-digit year for which the archive serves (a string).
+    * ``year``: O ano com quatro digitos para o arquivo servir. (uma string)
 
-    * ``month``: The month for which the archive serves, formatted according to
-      the ``month_format`` argument.
+    * ``month``: O mês para qual o arquivo serve, formatado de acordo com o 
+      argumento ``month_format``.
 
-    * ``queryset``: A ``QuerySet`` of objects for which the archive serves.
+    * ``queryset``: Um ``QuerySet`` de objetos para o arquivo servir.
 
-    * ``date_field``: The name of the ``DateField`` or ``DateTimeField`` in
-      the ``QuerySet``'s model that the date-based archive should use to
-      determine the objects on the page.
+    * ``date_field``: O nome do ``DateField`` ou ``DateTimeField`` no
+      ``QuerySet`` do model que o arquivo baseado em data deve usar para 
+      determinar os objetos da página.
 
 **Argumentos opcionais:**
 
-    * ``month_format``: A format string that regulates what format the
-      ``month`` parameter uses. This should be in the syntax accepted by
-      Python's ``time.strftime``. (See the `strftime docs`_.) It's set to
-      ``"%b"`` by default, which is a three-letter month abbreviation. To
-      change it to use numbers, use ``"%m"``.
+    * ``month_format``: Uma string de formato que regula qual formato o 
+      paramêtro ``month`` usará. Este deve ser na sintaxe aceita pelo 
+      ``time.strftime`` do Python. (Veja a `documentação do strftime`_.) Ele é
+      configurado para ``"%b"`` por padrão, que é uma abreviação de três letras
+      do nome do mês. Para mudá-lo e usar números, use ``"%m"``.
 
-    * ``template_name``: The full name of a template to use in rendering the
-      page. This lets you override the default template name (see below).
+    * ``template_name``: O nome completo de um template a ser utilizado para
+      renderizar a página. Isso permite você sobrescrever o nome do template
+      padrão. (veja abaixo).
+      
+    * ``template_loader``: O carregador de template para se usar quando carrear
+      o template. Por padrão, ele é ``django.template.loader``.
 
-    * ``template_loader``: The template loader to use when loading the
-      template. By default, it's ``django.template.loader``.
+    * ``extra_context``: Um dicionário de valores para adicionar ao contexto do
+      template. Por padrão, ele é um dicionário vazio. Se um valor no dicionário
+      é chamável, a generic view o chamará antes de renderizar o template.
 
-    * ``extra_context``: A dictionary of values to add to the template
-      context. By default, this is an empty dictionary. If a value in the
-      dictionary is callable, the generic view will call it
-      just before rendering the template.
+    * ``allow_empty``: Um boleano especificando se é para mostrar a página caso
+      não tenha objetos disponíveis. Se ele for ``False`` e não houver objetos
+      disponíveis, a view lançará um 404 ao invés de mostrar uma página em 
+      branco. Por padrão, ele é ``False``.
 
-    * ``allow_empty``: A boolean specifying whether to display the page if no
-      objects are available. If this is ``False`` and no objects are available,
-      the view will raise a 404 instead of displaying an empty page. By
-      default, this is ``False``.
+    * ``context_processors``: Uma lista de processadores de contexto de 
+      template a se aplicar nas views do template.
 
-    * ``context_processors``: A list of template-context processors to apply to
-      the view's template.
+    * ``template_object_name``: Designa o nome da variável de template para usar
+      no contexto do template. Por padrão, este é ``'object'``. A view 
+      adicionará ``'_list'`` ao valor deste paramêtro ao determinar o nome da
+      variável.
 
-    * ``template_object_name``:  Designates the name of the template variable
-      to use in the template context. By default, this is ``'object'``. The
-      view will append ``'_list'`` to the value of this parameter in
-      determining the variable's name.
+    * ``make_object_list``: Um booleano especificando se é para receber a lista 
+      completa de objetos para este ano e passá-los para o template. Se 
+      ``True``, esta lista de objetos será disponibilizada para o template como
+      ``object_list``. (O nome ``object_list`` pode ser diferente; veja a
+      documentação para ``object_list`` na seção "Contexto de template" abaixo.)
+      Por padrnao, este é ``False``.
 
-    * ``mimetype``: The MIME type to use for the resulting document. Defaults
-      to the value of the ``DEFAULT_CONTENT_TYPE`` setting.
+    * ``mimetype``: O tipo MIME a ser utilizado no documento resultante. 
+      O padrão é o valor da configuração ``DEFAULT_CONTENT_TYPE``.
 
-    * ``allow_future``: A boolean specifying whether to include "future"
-      objects on this page, where "future" means objects in which the field
-      specified in ``date_field`` is greater than the current date/time. By
-      default, this is ``False``.
+    * ``allow_future``: Um boleano especificando se é para incluir objetos no
+      "futuro" nesta página, onde "futuro" significa objetos cujo o campo 
+      especificado  em ``date_field`` é maior que a data/hora atual. Por padrão,
+      isso é ``False``.
 
-**Template name:**
 
-If ``template_name`` isn't specified, this view will use the template
-``<app_label>/<model_name>_archive_month.html`` by default.
+**Nome do template:**
 
-**Template context:**
+Se o ``template_name`` não for especificado, esta view usará o template
+``<app_label>/<model_name>_archive_month.html`` por padrão.
 
-In addition to ``extra_context``, the template's context will be:
+**Contexto de template:**
 
-    * ``month``: A ``datetime.date`` object representing the given month.
+Além do ``extra_context``, o contexto do template será:
 
-    * ``next_month``: A ``datetime.date`` object representing the first day of
-      the next month. If the next month is in the future, this will be
+    * ``month``: Um objeto ``datetime.date`` representando o mês informado.
+
+    * ``next_month``: Um objeto ``datetime.date`` representando o primeiro dia
+      do mês seguinte. Se o próximo mês estiver no futuro, ele será ``None``.
+
+    * ``previous_month``: Um objeto ``datetime.date`` representando o primeiro 
+      dia do mês anterior. Diferentemente do ``next_month``, este nunca será
       ``None``.
 
-    * ``previous_month``: A ``datetime.date`` object representing the first day
-      of the previous month. Unlike ``next_month``, this will never be
-      ``None``.
+    * ``object_list``: Uma lista de objetos para o dado mês. Este nome de
+      variável depende do parâmetro ``template_object_name``, que é ``'object'``
+      por padrão. Se ``template_object_name`` é ``'foo'``, o nome desta variável
+      será ``foo_list``.
 
-    * ``object_list``: A list of objects available for the given month. This
-      variable's name depends on the ``template_object_name`` parameter, which
-      is ``'object'`` by default. If ``template_object_name`` is ``'foo'``,
-      this variable's name will be ``foo_list``.
-
-.. _strftime docs: http://docs.python.org/library/time.html#time.strftime
+.. _documentação do strftime: http://docs.python.org/library/time.html#time.strftime
 
 ``django.views.generic.date_based.archive_week``
 ------------------------------------------------
 
 **Descrição:**
 
-A weekly archive page showing all objects in a given week. Objects with a date
-in the *future* are not displayed unless you set ``allow_future`` to ``True``.
+Uma página de arquivo semanal mostrando todos os objetos em uma dada semana.
+Objetos com uma data no *futuro* não são mostrados a menos que você configure
+``allow_future`` para ``True``.
 
 **Argumentos obrigatórios:**
 
-    * ``year``: The four-digit year for which the archive serves (a string).
+    * ``year``: O ano com quatro digitos para o arquivo servir. (uma string)
 
-    * ``week``: The week of the year for which the archive serves (a string).
-      Weeks start with Sunday.
+    * ``week``: A semana do ano para qual o arquivo serve (uma string).
+      Semanas começam com Sunday (Domingo).
 
-    * ``queryset``: A ``QuerySet`` of objects for which the archive serves.
+    * ``queryset``: Um ``QuerySet`` de objetos para o arquivo servir.
 
-    * ``date_field``: The name of the ``DateField`` or ``DateTimeField`` in
-      the ``QuerySet``'s model that the date-based archive should use to
-      determine the objects on the page.
+    * ``date_field``: O nome do ``DateField`` ou ``DateTimeField`` no
+      ``QuerySet`` do model que o arquivo baseado em data deve usar para 
+      determinar os objetos da página.
 
 **Argumentos opcionais:**
 
-    * ``template_name``: The full name of a template to use in rendering the
-      page. This lets you override the default template name (see below).
+    * ``template_name``: O nome completo de um template a ser utilizado para
+      renderizar a página. Isso permite você sobrescrever o nome do template
+      padrão. (veja abaixo).
 
-    * ``template_loader``: The template loader to use when loading the
-      template. By default, it's ``django.template.loader``.
+    * ``template_loader``: O carregador de template para se usar quando carrear
+      o template. Por padrão, ele é ``django.template.loader``.
 
-    * ``extra_context``: A dictionary of values to add to the template
-      context. By default, this is an empty dictionary. If a value in the
-      dictionary is callable, the generic view will call it
-      just before rendering the template.
+    * ``extra_context``: Um dicionário de valores para adicionar ao contexto do
+      template. Por padrão, ele é um dicionário vazio. Se um valor no dicionário
+      é chamável, a generic view o chamará antes de renderizar o template.
 
-    * ``allow_empty``: A boolean specifying whether to display the page if no
-      objects are available. If this is ``False`` and no objects are available,
-      the view will raise a 404 instead of displaying an empty page. By
-      default, this is ``True``.
+    * ``allow_empty``: Um boleano especificando se é para mostrar a página caso
+      não tenha objetos disponíveis. Se ele for ``False`` e não houver objetos
+      disponíveis, a view lançará um 404 ao invés de mostrar uma página em 
+      branco. Por padrão, ele é ``True``.
 
-    * ``context_processors``: A list of template-context processors to apply to
-      the view's template.
+    * ``context_processors``: Uma lista de processadores de contexto de 
+      template a se aplicar nas views do template.
 
-    * ``template_object_name``:  Designates the name of the template variable
-      to use in the template context. By default, this is ``'object'``. The
-      view will append ``'_list'`` to the value of this parameter in
-      determining the variable's name.
+    * ``template_object_name``: Designa o nome da variável de template para usar
+      no contexto do template. Por padrão, este é ``'object'``. A view 
+      adicionará ``'_list'`` ao valor deste paramêtro ao determinar o nome da
+      variável.
 
-    * ``mimetype``: The MIME type to use for the resulting document. Defaults
-      to the value of the ``DEFAULT_CONTENT_TYPE`` setting.
+    * ``mimetype``: O tipo MIME a ser utilizado no documento resultante. 
+      O padrão é o valor da configuração ``DEFAULT_CONTENT_TYPE``.
 
-    * ``allow_future``: A boolean specifying whether to include "future"
-      objects on this page, where "future" means objects in which the field
-      specified in ``date_field`` is greater than the current date/time. By
-      default, this is ``False``.
+    * ``allow_future``: Um boleano especificando se é para incluir objetos no
+      "futuro" nesta página, onde "futuro" significa objetos cujo o campo 
+      especificado  em ``date_field`` é maior que a data/hora atual. Por padrão,
+      isso é ``False``.
 
-**Template name:**
+**Nome do template:**
 
-If ``template_name`` isn't specified, this view will use the template
-``<app_label>/<model_name>_archive_week.html`` by default.
+Se o ``template_name`` não for especificado, esta view usará o template
+``<app_label>/<model_name>_archive_week.html`` por padrão.
 
-**Template context:**
+**Contexto de template:**
 
-In addition to ``extra_context``, the template's context will be:
+Além do ``extra_context``, o contexto do template será:
 
-    * ``week``: A ``datetime.date`` object representing the first day of the
-      given week.
+    * ``week``: Um objeto ``datetime.date`` representando o primeiro dia da 
+      semana informada.
 
-    * ``object_list``: A list of objects available for the given week. This
-      variable's name depends on the ``template_object_name`` parameter, which
-      is ``'object'`` by default. If ``template_object_name`` is ``'foo'``,
-      this variable's name will be ``foo_list``.
+    * ``object_list``: Uma lista de objetos para o dado mês. Este nome de
+      variável depende do parâmetro ``template_object_name``, que é ``'object'``
+      por padrão. Se ``template_object_name`` é ``'foo'``, o nome desta variável
+      será ``foo_list``.
 
 ``django.views.generic.date_based.archive_day``
 -----------------------------------------------
@@ -528,12 +536,12 @@ you set ``allow_future`` to ``True``.
       specified in ``date_field`` is greater than the current date/time. By
       default, this is ``False``.
 
-**Template name:**
+**Nome do template:**
 
 If ``template_name`` isn't specified, this view will use the template
 ``<app_label>/<model_name>_archive_day.html`` by default.
 
-**Template context:**
+**Contexto de template:**
 
 In addition to ``extra_context``, the template's context will be:
 
@@ -638,12 +646,12 @@ future, the view will throw a 404 error by default, unless you set
       specified in ``date_field`` is greater than the current date/time. By
       default, this is ``False``.
 
-**Template name:**
+**Nome do template:**
 
 If ``template_name`` isn't specified, this view will use the template
 ``<app_label>/<model_name>_detail.html`` by default.
 
-**Template context:**
+**Contexto de template:**
 
 In addition to ``extra_context``, the template's context will be:
 
@@ -709,12 +717,12 @@ A page representing a list of objects.
     * ``mimetype``: The MIME type to use for the resulting document. Defaults
       to the value of the ``DEFAULT_CONTENT_TYPE`` setting.
 
-**Template name:**
+**Nome do template:**
 
 If ``template_name`` isn't specified, this view will use the template
 ``<app_label>/<model_name>_list.html`` by default.
 
-**Template context:**
+**Contexto de template:**
 
 .. versionadded:: 1.0
    The ``paginator`` and ``page_obj`` context variables are new.
@@ -828,12 +836,12 @@ A page representing an individual object.
     * ``mimetype``: The MIME type to use for the resulting document. Defaults
       to the value of the ``DEFAULT_CONTENT_TYPE`` setting.
 
-**Template name:**
+**Nome do template:**
 
 If ``template_name`` isn't specified, this view will use the template
 ``<app_label>/<model_name>_detail.html`` by default.
 
-**Template context:**
+**Contexto de template:**
 
 In addition to ``extra_context``, the template's context will be:
 
@@ -905,12 +913,12 @@ validation errors (if there are any) and saving the object.
     * ``context_processors``: A list of template-context processors to apply to
       the view's template.
 
-**Template name:**
+**Nome do template:**
 
 If ``template_name`` isn't specified, this view will use the template
 ``<app_label>/<model_name>_form.html`` by default.
 
-**Template context:**
+**Contexto de template:**
 
 In addition to ``extra_context``, the template's context will be:
 
@@ -993,12 +1001,12 @@ model class.
     * ``template_object_name``:  Designates the name of the template variable
       to use in the template context. By default, this is ``'object'``.
 
-**Template name:**
+**Nome do template:**
 
 If ``template_name`` isn't specified, this view will use the template
 ``<app_label>/<model_name>_form.html`` by default.
 
-**Template context:**
+**Contexto de template:**
 
 In addition to ``extra_context``, the template's context will be:
 
@@ -1075,12 +1083,12 @@ contain a form that POSTs to the same URL.
     * ``template_object_name``:  Designates the name of the template variable
       to use in the template context. By default, this is ``'object'``.
 
-**Template name:**
+**Nome do template:**
 
 If ``template_name`` isn't specified, this view will use the template
 ``<app_label>/<model_name>_confirm_delete.html`` by default.
 
-**Template context:**
+**Contexto de template:**
 
 In addition to ``extra_context``, the template's context will be:
 
