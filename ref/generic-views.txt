@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11332 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
@@ -464,636 +464,649 @@ Além do ``extra_context``, o contexto do template será:
       semana informada.
 
     * ``object_list``: Uma lista de objetos para o dado mês. Este nome de
-      variável depende do parâmetro ``template_object_name``, que é ``'object'``
-      por padrão. Se ``template_object_name`` é ``'foo'``, o nome desta variável
-      será ``foo_list``.
+    variável depende do parâmetro ``template_object_name``, que é ``'object'``
+    por padrão. Se ``template_object_name`` é ``'foo'``, o nome desta variável
+    será ``foo_list``.
 
 ``django.views.generic.date_based.archive_day``
 -----------------------------------------------
 
 **Descrição:**
 
-A day archive page showing all objects in a given day. Days in the future throw
-a 404 error, regardless of whether any objects exist for future days, unless
-you set ``allow_future`` to ``True``.
+Uma página de arquivo diário mostrando todos os objetos para um certo dia. Dias
+no futuro lançam um erro 404, independentemente de se quaiquer objetos 
+existentes nos dias futuros, a menos que você configure ``allow_future`` para
+``True``.
 
 **Argumentos obrigatórios:**
 
-    * ``year``: The four-digit year for which the archive serves (a string).
+    * ``year``: O ano com quatro digitos para o arquivo servir. (uma string)
 
-    * ``month``: The month for which the archive serves, formatted according to
-      the ``month_format`` argument.
+    * ``month``: O mês para o qual o arquivo serve, formatado de acordo com o
+      argumento ``month_format``.
 
-    * ``day``: The day for which the archive serves, formatted according to the
-      ``day_format`` argument.
+    * ``day``: O dia para o qual o arquivo serve, formatado de acordo com o 
+      argumento ``day_format``.
 
-    * ``queryset``: A ``QuerySet`` of objects for which the archive serves.
+    * ``queryset``: Um ``QuerySet`` de objetos para o arquivo servir.
 
-    * ``date_field``: The name of the ``DateField`` or ``DateTimeField`` in
-      the ``QuerySet``'s model that the date-based archive should use to
-      determine the objects on the page.
+    * ``date_field``: O nome do ``DateField`` ou ``DateTimeField`` no
+      ``QuerySet`` do model que o arquivo baseado em data deve usar para 
+      determinar os objetos da página.
 
 **Argumentos opcionais:**
 
-    * ``month_format``: A format string that regulates what format the
-      ``month`` parameter uses. This should be in the syntax accepted by
-      Python's ``time.strftime``. (See the `strftime docs`_.) It's set to
-      ``"%b"`` by default, which is a three-letter month abbreviation. To
-      change it to use numbers, use ``"%m"``.
+    * ``month_format``: Uma string que regula qual o formato que o paramêtro
+      ``month`` usa. Este deve estar na sintaxe aceita pelo ``time.strftime``
+      do Python. (Veja a `documentação do strftime`_.) Ele é configurado para 
+      ``"%b"`` por padrão, que é uma abreviação de três letras do nome do mês. 
+      Para mudá-lo e usar números, use ``"%m"``.
 
-    * ``day_format``: Like ``month_format``, but for the ``day`` parameter.
-      It defaults to ``"%d"`` (day of the month as a decimal number, 01-31).
+    * ``day_format``: Assim como ``month_format``, mas para o paramêtro ``day``.
+      O padrão é ``"%d"`` (dia do mês como um número decimal, 01-31).
 
-    * ``template_name``: The full name of a template to use in rendering the
-      page. This lets you override the default template name (see below).
+    * ``template_name``: O nome completo de um template a ser utilizado para
+      renderizar a página. Isso permite você sobrescrever o nome do template
+      padrão. (veja abaixo).
 
-    * ``template_loader``: The template loader to use when loading the
-      template. By default, it's ``django.template.loader``.
+    * ``template_loader``: O carregador de template para se usar quando carrear
+      o template. Por padrão, ele é ``django.template.loader``.
 
-    * ``extra_context``: A dictionary of values to add to the template
-      context. By default, this is an empty dictionary. If a value in the
-      dictionary is callable, the generic view will call it
-      just before rendering the template.
+    * ``extra_context``: Um dicionário de valores para adicionar ao contexto do
+      template. Por padrão, ele é um dicionário vazio. Se um valor no dicionário
+      é chamável, a generic view o chamará antes de renderizar o template.
 
-    * ``allow_empty``: A boolean specifying whether to display the page if no
-      objects are available. If this is ``False`` and no objects are available,
-      the view will raise a 404 instead of displaying an empty page. By
-      default, this is ``False``.
+    * ``allow_empty``: Um boleano especificando se é para mostrar a página caso
+      não tenha objetos disponíveis. Se ele for ``False`` e não houver objetos
+      disponíveis, a view lançará um 404 ao invés de mostrar uma página em 
+      branco. Por padrão, ele é ``True``.
 
-    * ``context_processors``: A list of template-context processors to apply to
-      the view's template.
+    * ``context_processors``: Uma lista de processadores de contexto de 
+      template a se aplicar nas views do template.
 
-    * ``template_object_name``:  Designates the name of the template variable
-      to use in the template context. By default, this is ``'object'``. The
-      view will append ``'_list'`` to the value of this parameter in
-      determining the variable's name.
+    * ``template_object_name``: Designa o nome da variável de template para usar
+      no contexto do template. Por padrão, este é ``'object'``. A view 
+      adicionará ``'_list'`` ao valor deste paramêtro ao determinar o nome da
+      variável.
 
-    * ``mimetype``: The MIME type to use for the resulting document. Defaults
-      to the value of the ``DEFAULT_CONTENT_TYPE`` setting.
+    * ``mimetype``: O tipo MIME a ser utilizado no documento resultante. 
+      O padrão é o valor da configuração ``DEFAULT_CONTENT_TYPE``.
 
-    * ``allow_future``: A boolean specifying whether to include "future"
-      objects on this page, where "future" means objects in which the field
-      specified in ``date_field`` is greater than the current date/time. By
-      default, this is ``False``.
+    * ``allow_future``: Um boleano especificando se é para incluir objetos no
+      "futuro" nesta página, onde "futuro" significa objetos cujo o campo 
+      especificado  em ``date_field`` é maior que a data/hora atual. Por padrão,
+      isso é ``False``.
 
 **Nome do template:**
 
-If ``template_name`` isn't specified, this view will use the template
-``<app_label>/<model_name>_archive_day.html`` by default.
+Se o ``template_name`` não for especificado, esta view usará o template
+``<app_label>/<model_name>_archive_day.html`` por padrão.
 
 **Contexto de template:**
 
-In addition to ``extra_context``, the template's context will be:
+Além do ``extra_context``, o contexto do template será:
 
-    * ``day``: A ``datetime.date`` object representing the given day.
+    * ``day``: Um objeto ``datetime.date`` representando o dia informado.
 
-    * ``next_day``: A ``datetime.date`` object representing the next day. If
-      the next day is in the future, this will be ``None``.
+    * ``next_day``: Um objeto ``datetime.date`` representando o próximo dia.
+      Se o próximo dia está no futuro, ele será ``None``.
 
-    * ``previous_day``: A ``datetime.date`` object representing the given day.
-      Unlike ``next_day``, this will never be ``None``.
+    * ``previous_day``: Um objeto ``datetime.date`` representando o dia 
+      informado. Diferentemente do ``next_day``, este nunca será ``None``.
 
-    * ``object_list``: A list of objects available for the given day. This
-      variable's name depends on the ``template_object_name`` parameter, which
-      is ``'object'`` by default. If ``template_object_name`` is ``'foo'``,
-      this variable's name will be ``foo_list``.
+    * ``object_list``: Uma lista de objetos para o dado mês. Este nome de
+    variável depende do parâmetro ``template_object_name``, que é ``'object'``
+    por padrão. Se ``template_object_name`` é ``'foo'``, o nome desta variável
+    será ``foo_list``.
 
 ``django.views.generic.date_based.archive_today``
 -------------------------------------------------
 
 **Descrição:**
 
-A day archive page showing all objects for *today*. This is exactly the same as
-``archive_day``, except the ``year``/``month``/``day`` arguments are not used,
-and today's date is used instead.
+Uma página de arquivo que mostra todos os objetos para *hoje*. Este é o mesmo
+que ``archive_day``, exceto pelos argumentos ``year``/``month``/``day`` que não
+são usados, e em seu lugar é usado o dia atual.
 
 ``django.views.generic.date_based.object_detail``
 -------------------------------------------------
 
 **Descrição:**
 
-A page representing an individual object. If the object has a date value in the
-future, the view will throw a 404 error by default, unless you set
-``allow_future`` to ``True``.
+Uma página representando um objeto individual. Se o objeto tem um valor de data
+no futuro, a view lançará um error 404 por padrão, a menos que você configure
+``allow_future`` para ``True``.
 
 **Argumentos obrigatórios:**
 
-    * ``year``: The object's four-digit year (a string).
+    * ``year``: O ano com quatro digitos para o arquivo servir. (uma string)
 
-    * ``month``: The object's month , formatted according to the
-      ``month_format`` argument.
+    * ``month``: O mês do objeto , formatado de acordo com o argumento
+      ``month_format``.
 
-    * ``day``: The object's day , formatted according to the ``day_format``
-      argument.
+    * ``day``: O dia do objeto, formatado de acordo com o argumento 
+      ``day_format``.
 
-    * ``queryset``: A ``QuerySet`` that contains the object.
+    * ``queryset``: Um ``QuerySet`` que contém o objeto.
 
     * ``date_field``: The name of the ``DateField`` or ``DateTimeField`` in
       the ``QuerySet``'s model that the generic view should use to look up the
       object according to ``year``, ``month`` and ``day``.
 
-    * Either ``object_id`` or (``slug`` *and* ``slug_field``) is required.
+    * ``date_field``: O nome do ``DateField`` ou ``DateTimeField`` no
+      ``QuerySet`` do model que a generic view deve usar para procurar o objeto
+      de acordo com o ``year``, ``month`` e ``day``.
 
-      If you provide ``object_id``, it should be the value of the primary-key
-      field for the object being displayed on this page.
+    * Ambos ``object_id`` ou (``slug`` *e* ``slug_field``) são obrigatórios.
 
-      Otherwise, ``slug`` should be the slug of the given object, and
-      ``slug_field`` should be the name of the slug field in the ``QuerySet``'s
-      model. By default, ``slug_field`` is ``'slug'``.
+      Se você fornece ``object_id``, ele deve ser o valor da chave primária do
+      objeto que está em exibição nesta página.
+
+      Caso contrário, ``slug`` deve ser o slug do objeto em questão, e 
+      ``slug_field`` deve ser o nome do campo slugh no model do ``QuerySet``.
+      Por padrão, ``slug_field`` é ``'slug'``.
 
 **Argumentos opcionais:**
 
-    * ``month_format``: A format string that regulates what format the
-      ``month`` parameter uses. This should be in the syntax accepted by
-      Python's ``time.strftime``. (See the `strftime docs`_.) It's set to
-      ``"%b"`` by default, which is a three-letter month abbreviation. To
-      change it to use numbers, use ``"%m"``.
+    * ``month_format``: Uma string que regula qual o formato que o paramêtro
+      ``month`` usa. Este deve estar na sintaxe aceita pelo ``time.strftime``
+      do Python. (Veja a `documentação do strftime`_.) Ele é configurado para 
+      ``"%b"`` por padrão, que é uma abreviação de três letras do nome do mês. 
+      Para mudá-lo e usar números, use ``"%m"``.
 
-    * ``day_format``: Like ``month_format``, but for the ``day`` parameter.
-      It defaults to ``"%d"`` (day of the month as a decimal number, 01-31).
+    * ``day_format``: Assim como ``month_format``, mas para o paramêtro ``day``.
+      O padrão é ``"%d"`` (dia do mês como um número decimal, 01-31).
 
-    * ``template_name``: The full name of a template to use in rendering the
-      page. This lets you override the default template name (see below).
+    * ``template_name``: O nome completo de um template a ser utilizado para
+      renderizar a página. Isso permite você sobrescrever o nome do template
+      padrão. (veja abaixo).
 
-    * ``template_name_field``: The name of a field on the object whose value is
-      the template name to use. This lets you store template names in the data.
-      In other words, if your object has a field ``'the_template'`` that
-      contains a string ``'foo.html'``, and you set ``template_name_field`` to
-      ``'the_template'``, then the generic view for this object will use the
-      template ``'foo.html'``.
+    * ``template_name_field``: O nome de um campo sobre o objeto cujo valor é o
+      nome do template a se usar. Este permite que você armazene os nomes dos
+      templates nos dados. Em outras palavras, se seu objeto tem um campo
+      ``'the_template'`` que contém uma string ``'foo.html'``, e você configura
+      ``template_name_field`` para ``'the_template'``, então o generic view para
+      este objeto usará o template ``'foo.html'``.
 
-      It's a bit of a brain-bender, but it's useful in some cases.
+      É um pouco perturbador, mas é útil em alguns casos.
 
-    * ``template_loader``: The template loader to use when loading the
-      template. By default, it's ``django.template.loader``.
+    * ``template_loader``: O carregador de template para se usar quando carrear
+      o template. Por padrão, ele é ``django.template.loader``.
 
-    * ``extra_context``: A dictionary of values to add to the template
-      context. By default, this is an empty dictionary. If a value in the
-      dictionary is callable, the generic view will call it
-      just before rendering the template.
+    * ``extra_context``: Um dicionário de valores para adicionar ao contexto do
+      template. Por padrão, ele é um dicionário vazio. Se um valor no dicionário
+      é chamável, a generic view o chamará antes de renderizar o template.
 
-    * ``context_processors``: A list of template-context processors to apply to
-      the view's template.
+    * ``context_processors``: Uma lista de processadores de contexto de 
+      template a se aplicar nas views do template.
 
-    * ``template_object_name``:  Designates the name of the template variable
-      to use in the template context. By default, this is ``'object'``.
+    * ``template_object_name``: Designa o nome da variável de template para usar
+      no contexto do template. Por padrão, este é ``'object'``.
 
-    * ``mimetype``: The MIME type to use for the resulting document. Defaults
-      to the value of the ``DEFAULT_CONTENT_TYPE`` setting.
+    * ``mimetype``: O tipo MIME a ser utilizado no documento resultante. 
+      O padrão é o valor da configuração ``DEFAULT_CONTENT_TYPE``.
 
-    * ``allow_future``: A boolean specifying whether to include "future"
-      objects on this page, where "future" means objects in which the field
-      specified in ``date_field`` is greater than the current date/time. By
-      default, this is ``False``.
+    * ``allow_future``: Um boleano especificando se é para incluir objetos no
+      "futuro" nesta página, onde "futuro" significa objetos cujo o campo 
+      especificado  em ``date_field`` é maior que a data/hora atual. Por padrão,
+      isso é ``False``.
 
 **Nome do template:**
 
-If ``template_name`` isn't specified, this view will use the template
-``<app_label>/<model_name>_detail.html`` by default.
+Se o ``template_name`` não for especificado, esta view usará o template
+``<app_label>/<model_name>_detail.html`` por padrão.
 
 **Contexto de template:**
 
-In addition to ``extra_context``, the template's context will be:
+Além do ``extra_context``, o contexto do template será:
 
-    * ``object``: The object. This variable's name depends on the
-      ``template_object_name`` parameter, which is ``'object'`` by default. If
-      ``template_object_name`` is ``'foo'``, this variable's name will be
+    * ``object``: O objeto. O nome desta variável depende do paramêtro
+      ``template_object_name``, que é ``'object'`` por padrão. Se o
+      ``template_object_name`` for ``'foo'``, o nome desta variável será 
       ``foo``.
 
-List/detail generic views
-=========================
+Generic views de lista/detalhes
+===============================
 
-The list-detail generic-view framework (in the
-``django.views.generic.list_detail`` module) is similar to the date-based one,
-except the former simply has two views: a list of objects and an individual
-object page.
+O framework de generic views de lista e detalhes (no módulo
+``django.views.generic.list_detail``) é similar ao baseado em datas, exceto pela
+forma mais simples com duas views: uma lista de ojbeto e uma página individual
+para objeto.
 
 ``django.views.generic.list_detail.object_list``
 ------------------------------------------------
 
 **Descrição:**
 
-A page representing a list of objects.
+Uma página representando uma lista de objetos.
 
 **Argumentos obrigatórios:**
 
-    * ``queryset``: A ``QuerySet`` that represents the objects.
+    * ``queryset``: Uma ``QuerySet`` que representa os objetos.
 
 **Argumentos opcionais:**
 
-    * ``paginate_by``: An integer specifying how many objects should be
-      displayed per page. If this is given, the view will paginate objects with
-      ``paginate_by`` objects per page. The view will expect either a ``page``
-      query string parameter (via ``GET``) or a ``page`` variable specified in
-      the URLconf. See `Notes on pagination`_ below.
+    * ``paginate_by``: Um inteiro especificando quantos objetos devem aparecer
+      por página. Se este for fornecido, a view paginará os objetos com 
+      ``paginate_by`` objetos por página. A view espera por um paramêtro na
+      string de consulta ``page`` (via ``GET``) ou uma variável ``page``
+      especificada no URLconf. Veja `Notas sobre paginação`_ abaixo.
 
-    * ``page``: The current page number, as an integer, or the string
-      ``'last'``. This is 1-based. See `Notes on pagination`_ below.
+    * ``page``: O número da página atual, como um inteiro, ou a string 
+      ``'last'``. Este é um número que começa no 1. Veja 
+      `Notas sobre paginação`_ abaixo.
 
-    * ``template_name``: The full name of a template to use in rendering the
-      page. This lets you override the default template name (see below).
+    * ``template_name``: O nome completo de um template a ser utilizado para
+      renderizar a página. Isso permite você sobrescrever o nome do template
+      padrão. (veja abaixo).
 
-    * ``template_loader``: The template loader to use when loading the
-      template. By default, it's ``django.template.loader``.
+    * ``template_loader``: O carregador de template para se usar quando carrear
+      o template. Por padrão, ele é ``django.template.loader``.
 
-    * ``extra_context``: A dictionary of values to add to the template
-      context. By default, this is an empty dictionary. If a value in the
-      dictionary is callable, the generic view will call it
-      just before rendering the template.
+    * ``extra_context``: Um dicionário de valores para adicionar ao contexto do
+      template. Por padrão, ele é um dicionário vazio. Se um valor no dicionário
+      é chamável, a generic view o chamará antes de renderizar o template.
 
     * ``allow_empty``: A boolean specifying whether to display the page if no
       objects are available. If this is ``False`` and no objects are available,
       the view will raise a 404 instead of displaying an empty page. By
       default, this is ``True``.
 
-    * ``context_processors``: A list of template-context processors to apply to
-      the view's template.
+    * ``context_processors``: Uma lista de processadores de contexto de 
+      template a se aplicar nas views do template.
 
-    * ``template_object_name``:  Designates the name of the template variable
-      to use in the template context. By default, this is ``'object'``. The
-      view will append ``'_list'`` to the value of this parameter in
-      determining the variable's name.
+    * ``template_object_name``: Designa o nome da variável de template para usar
+      no contexto do template. Por padrão, este é ``'object'``. A view 
+      adicionará ``'_list'`` ao valor deste paramêtro ao determinar o nome da
+      variável.
 
-    * ``mimetype``: The MIME type to use for the resulting document. Defaults
-      to the value of the ``DEFAULT_CONTENT_TYPE`` setting.
+    * ``mimetype``: O tipo MIME a ser utilizado no documento resultante. 
+      O padrão é o valor da configuração ``DEFAULT_CONTENT_TYPE``.
 
 **Nome do template:**
 
-If ``template_name`` isn't specified, this view will use the template
-``<app_label>/<model_name>_list.html`` by default.
+Se o ``template_name`` não for especificado, esta view usará o template
+``<app_label>/<model_name>_list.html`` por padrão.
 
 **Contexto de template:**
 
 .. versionadded:: 1.0
-   The ``paginator`` and ``page_obj`` context variables are new.
+   As variáveis de contexto ``paginator`` e ``page_obj`` são novos.
 
-In addition to ``extra_context``, the template's context will be:
+Além do ``extra_context``, o contexto do template será:
 
-    * ``object_list``: The list of objects. This variable's name depends on the
-      ``template_object_name`` parameter, which is ``'object'`` by default. If
-      ``template_object_name`` is ``'foo'``, this variable's name will be
+    * ``object``: A lista de objetos. O nome desta variável depende do paramêtro
+      ``template_object_name``, que é ``'object'`` por padrão. Se o
+      ``template_object_name`` for ``'foo'``, o nome desta variável será 
       ``foo_list``.
 
-    * ``is_paginated``: A boolean representing whether the results are
-      paginated. Specifically, this is set to ``False`` if the number of
-      available objects is less than or equal to ``paginate_by``.
+    * ``is_paginated``: Um boleano representando se os resultado são paginados.
+      Especificamente, este é configurado como ``False`` se o número de objetos
+      disponíveis for menor ou igual ao ``paginate_by``.
 
-If the results are paginated, the context will contain these extra variables:
+Se os resultados são paginados, o contexto conterá estas variáveis extras:
 
-    * ``paginator``: An instance of ``django.core.paginator.Paginator``.
+    * ``paginator``: Uma instância do ``django.core.paginator.Paginator``.
 
-    * ``page_obj``: An instance of ``django.core.paginator.Page``.
+    * ``page_obj``: Uma instância do ``django.core.paginator.Page``.
 
-Notes on pagination
-~~~~~~~~~~~~~~~~~~~
+Notas sobre paginação
+~~~~~~~~~~~~~~~~~~~~~
 
-If ``paginate_by`` is specified, Django will paginate the results. You can
-specify the page number in the URL in one of two ways:
+Se ``paginate_by`` for especificado, o Django paginará os resultados. Você pode
+especifiar o número da página na URL em uma de duas formas:
 
-    * Use the ``page`` parameter in the URLconf. For example, this is what
-      your URLconf might look like::
+    * Use o paramêtro ``page`` no URLconf. Por examplo, seu URLconf pode ficar
+      assim::
 
         (r'^objects/page(?P<page>[0-9]+)/$', 'object_list', dict(info_dict))
 
-    * Pass the page number via the ``page`` query-string parameter. For
-      example, a URL would look like this::
+    * Passe o número da página através do paramêtro ``page`` da string de 
+      consulta. For exemplo, uma URL pode parecer com isso::
 
         /objects/?page=3
 
-    * To loop over all the available page numbers, use the ``page_range``
-      variable. You can iterate over the list provided by ``page_range``
-      to create a link to every page of results.
+    * Para iterar sobre todos os números de páginas, use a variável 
+      ``page_range``. Você pode iterar sobre a lista fornecida por 
+      ``page_range`` para criar um link para todas as páginas de resultados.
 
-These values and lists are 1-based, not 0-based, so the first page would be
-represented as page ``1``.
+Esses valores e listas começam no 1, não 0, então a primeira página será
+representada com ``1``.
 
-For more on pagination, read the :ref:`pagination documentation
+Para mais sobre paginação, leia a :ref:`documentação da paginação 
 <topics-pagination>`.
 
 .. versionadded:: 1.0
 
-As a special case, you are also permitted to use ``last`` as a value for
-``page``::
+Como um caso especial, a você também é permitido o uso do ``last`` como valor
+para ``page``::
 
     /objects/?page=last
 
-This allows you to access the final page of results without first having to
-determine how many pages there are.
+Isso permite você acessar a página final de resultados sem determinar quantas
+páginas você tem primeiro.
 
-Note that ``page`` *must* be either a valid page number or the value ``last``;
-any other value for ``page`` will result in a 404 error.
+Perceba que ``page`` *deve* ser ou um número de página válido ou o valor 
+``last``; qualquer outro valor para ``page`` resultará num erro 404.
 
 ``django.views.generic.list_detail.object_detail``
 --------------------------------------------------
 
-A page representing an individual object.
+Uma página representando um objeto individual.
 
 **Descrição:**
 
-A page representing an individual object.
+Uma página representando um objeto individual.
 
 **Argumentos obrigatórios:**
 
-    * ``queryset``: A ``QuerySet`` that contains the object.
+    * ``queryset``: Um ``QuerySet`` que contém o objeto.
 
-    * Either ``object_id`` or (``slug`` *and* ``slug_field``) is required.
+    * Ambos ``object_id`` ou (``slug`` *e* ``slug_field``) são obrigatórios.
 
-      If you provide ``object_id``, it should be the value of the primary-key
-      field for the object being displayed on this page.
+      Se você fornece ``object_id``, ele deve ser o valor da chave primária do
+      objeto que está em exibição nesta página.
 
-      Otherwise, ``slug`` should be the slug of the given object, and
-      ``slug_field`` should be the name of the slug field in the ``QuerySet``'s
-      model. By default, ``slug_field`` is ``'slug'``.
+      Caso contrário, ``slug`` deve ser o slug do objeto em questão, e 
+      ``slug_field`` deve ser o nome do campo slugh no model do ``QuerySet``.
+      Por padrão, ``slug_field`` é ``'slug'``.
+
 
 **Argumentos opcionais:**
 
-    * ``template_name``: The full name of a template to use in rendering the
-      page. This lets you override the default template name (see below).
+    * ``template_name``: O nome completo de um template a ser utilizado para
+      renderizar a página. Isso permite você sobrescrever o nome do template
+      padrão. (veja abaixo).
 
-    * ``template_name_field``: The name of a field on the object whose value is
-      the template name to use. This lets you store template names in the data.
-      In other words, if your object has a field ``'the_template'`` that
-      contains a string ``'foo.html'``, and you set ``template_name_field`` to
-      ``'the_template'``, then the generic view for this object will use the
-      template ``'foo.html'``.
+    * ``template_name_field``: O nome de um campo sobre o objeto cujo valor é o
+      nome do template a se usar. Este permite que você armazene os nomes dos
+      templates nos dados. Em outras palavras, se seu objeto tem um campo
+      ``'the_template'`` que contém uma string ``'foo.html'``, e você configura
+      ``template_name_field`` para ``'the_template'``, então o generic view para
+      este objeto usará o template ``'foo.html'``.
 
-      It's a bit of a brain-bender, but it's useful in some cases.
+      É um pouco perturbador, mas é útil em alguns casos.
 
-    * ``template_loader``: The template loader to use when loading the
-      template. By default, it's ``django.template.loader``.
+    * ``template_loader``: O carregador de template para se usar quando carrear
+      o template. Por padrão, ele é ``django.template.loader``.
 
-    * ``extra_context``: A dictionary of values to add to the template
-      context. By default, this is an empty dictionary. If a value in the
-      dictionary is callable, the generic view will call it
-      just before rendering the template.
+    * ``extra_context``: Um dicionário de valores para adicionar ao contexto do
+      template. Por padrão, ele é um dicionário vazio. Se um valor no dicionário
+      é chamável, a generic view o chamará antes de renderizar o template.
 
-    * ``context_processors``: A list of template-context processors to apply to
-      the view's template.
+    * ``context_processors``: Uma lista de processadores de contexto de 
+      template a se aplicar nas views do template.
 
-    * ``template_object_name``:  Designates the name of the template variable
-      to use in the template context. By default, this is ``'object'``.
+    * ``template_object_name``: Designa o nome da variável de template para usar
+      no contexto do template. Por padrão, este é ``'object'``.
 
-    * ``mimetype``: The MIME type to use for the resulting document. Defaults
-      to the value of the ``DEFAULT_CONTENT_TYPE`` setting.
+    * ``mimetype``: O tipo MIME a ser utilizado no documento resultante. 
+      O padrão é o valor da configuração ``DEFAULT_CONTENT_TYPE``.
 
 **Nome do template:**
 
-If ``template_name`` isn't specified, this view will use the template
-``<app_label>/<model_name>_detail.html`` by default.
+Se o ``template_name`` não for especificado, esta view usará o template
+``<app_label>/<model_name>_detail.html`` por padrão.
 
 **Contexto de template:**
 
-In addition to ``extra_context``, the template's context will be:
+Além do ``extra_context``, o contexto do template será:
 
-    * ``object``: The object. This variable's name depends on the
-      ``template_object_name`` parameter, which is ``'object'`` by default. If
-      ``template_object_name`` is ``'foo'``, this variable's name will be
-      ``foo``.
+    * ``object``: O objeto. O nome desta variável depende do paramêtro
+      ``template_object_name``, que é ``'object'`` por padrão. Se o
+      ``template_object_name`` for ``'foo'``, o nome desta variável será 
+      ``foo_list``.
+
 
 Create/update/delete generic views
 ==================================
 
-The ``django.views.generic.create_update`` module contains a set of functions
-for creating, editing and deleting objects.
+O módulo ``django.views.generic.create_update`` contém um conjunto de funções
+para criar, editar e deletar objetos.
 
 .. versionchanged:: 1.0
 
-``django.views.generic.create_update.create_object`` and
-``django.views.generic.create_update.update_object`` now use the new :ref:`forms
-library <topics-forms-index>` to build and display the form.
+``django.views.generic.create_update.create_object`` e
+``django.views.generic.create_update.update_object`` agora usam a nova
+:ref:`biblioteca de formulários <topics-forms-index>` para construir e mostrar
+o forumulário.
 
 ``django.views.generic.create_update.create_object``
 ----------------------------------------------------
 
 **Descrição:**
 
-A page that displays a form for creating an object, redisplaying the form with
-validation errors (if there are any) and saving the object.
+Uma página que mostra um formulário para criar um objeto, o re-exibe o 
+formulário com erros de validação (se houver algum) e salva o objeto.
 
 **Argumentos obrigatórios:**
 
-    * Either ``form_class`` or ``model`` is required.
+    * Ambos ``form_class`` ou ``model`` são obrigatórios.
 
-      If you provide ``form_class``, it should be a ``django.forms.ModelForm``
-      subclass. Use this argument when you need to customize the model's form.
-      See the :ref:`ModelForm docs <topics-forms-modelforms>` for more
-      information.
+      Se você fornecer ``form_class``, ela deverá ser uma subclasse de
+      ``django.forms.ModelForm``. Use este argumento quando você precisar 
+      personalizar o formulário do model. Veja a :ref:`documentação do 
+      ModelForm <topics-forms-modelforms>` para saber mais.
 
-      Otherwise, ``model`` should be a Django model class and the form used
-      will be a standard ``ModelForm`` for ``model``.
+      Caso contrário, ``model`` deve ser uma classe model do Django e o 
+      formulário usado será um ``ModelForm`` padrão para ``model``.
 
 **Argumentos opcionais:**
 
-    * ``post_save_redirect``: A URL to which the view will redirect after
-      saving the object. By default, it's ``object.get_absolute_url()``.
+    * ``post_save_redirect``: Uma URL para a qual a view será redirecionada
+      depois de salvar o objeto. Por padrão, ela é 
+      ``object.get_absolute_url()``.
 
-      ``post_save_redirect`` may contain dictionary string formatting, which
-      will be interpolated against the object's field attributes. For example,
-      you could use ``post_save_redirect="/polls/%(slug)s/"``.
+      ``post_save_redirect`` pode conter um dicionário de formatos de strings,
+      que será interpolado contra os atributos/campos do objeto. Por exemplo,
+      você poderia usar ``post_save_redirect="/polls/%(slug)s/"``.
 
-    * ``login_required``: A boolean that designates whether a user must be
-      logged in, in order to see the page and save changes. This hooks into the
-      Django :ref:`authentication system <topics-auth>`. By default, this is
-      ``False``.
+    * ``login_required``: Um boleano que designa ser um usuário deve estar
+      logado, para poder ver a página e salvar modificações. Estes hooks ficam
+      dentro do :ref:`sistema de autenticação <topics-auth>` do Django. Por
+      padrão, ele é ``False``.
 
-      If this is ``True``, and a non-logged-in user attempts to visit this page
-      or save the form, Django will redirect the request to ``/accounts/login/``.
+      Se ele for ``True`` e um usuário não logado tentar visitar esta página
+      ou salvar um formulário, o Django redirecionará a requisição para
+      ``/accounts/login/``.
 
-    * ``template_name``: The full name of a template to use in rendering the
-      page. This lets you override the default template name (see below).
+    * ``template_name``: O nome completo de um template a ser utilizado para
+      renderizar a página. Isso permite você sobrescrever o nome do template
+      padrão. (veja abaixo).
 
-    * ``template_loader``: The template loader to use when loading the
-      template. By default, it's ``django.template.loader``.
+    * ``template_loader``: O carregador de template para se usar quando carrear
+      o template. Por padrão, ele é ``django.template.loader``.
 
-    * ``extra_context``: A dictionary of values to add to the template
-      context. By default, this is an empty dictionary. If a value in the
-      dictionary is callable, the generic view will call it
-      just before rendering the template.
+    * ``extra_context``: Um dicionário de valores para adicionar ao contexto do
+      template. Por padrão, ele é um dicionário vazio. Se um valor no dicionário
+      é chamável, a generic view o chamará antes de renderizar o template.
 
-    * ``context_processors``: A list of template-context processors to apply to
-      the view's template.
+    * ``context_processors``: Uma lista de processadores de contexto de 
+      template a se aplicar nas views do template.
 
 **Nome do template:**
 
-If ``template_name`` isn't specified, this view will use the template
-``<app_label>/<model_name>_form.html`` by default.
+Se o ``template_name`` não for especificado, esta view usará o template
+``<app_label>/<model_name>_form.html`` por padrão.
 
 **Contexto de template:**
 
-In addition to ``extra_context``, the template's context will be:
+Além do ``extra_context``, o contexto do template será:
 
-    * ``form``: A ``django.forms.ModelForm`` instance representing the form
-      for creating the object. This lets you refer to form fields easily in the
-      template system.
-
-      For example, if the model has two fields, ``name`` and ``address``::
+    * ``form``: Uma instância do ``django.forms.ModelForm`` representando o 
+      formulário criado para o objeto. Este permite você referenciar o campo
+      do formulário facilmente no sistema de template.
+      
+      Por exemplo, se o model tem dois campos ``name`` e ``address``::
 
           <form action="" method="post">
           <p>{{ form.name.label_tag }} {{ form.name }}</p>
           <p>{{ form.address.label_tag }} {{ form.address }}</p>
           </form>
 
-      See the :ref:`forms documentation <topics-forms-index>` for more
-      information about using ``Form`` objects in templates.
+      Veja o :ref:`documentação dos formulários <topics-forms-index>` para mais
+      informações sobre usar objetos ``Form`` nos templates.
 
 ``django.views.generic.create_update.update_object``
 ----------------------------------------------------
 
 **Descrição:**
 
-A page that displays a form for editing an existing object, redisplaying the
-form with validation errors (if there are any) and saving changes to the
-object. This uses a form automatically generated from the object's
-model class.
+Uma página que mostra um formulário para editar um objeto existente, re-exibindo
+o formulário com erros de validação (se houver algum) e salvando as mudanças
+no objeto. Ele usa um formulário, automaticamente gerado, para o objeto de uma
+classe model.
 
 **Argumentos obrigatórios:**
 
-    * Either ``form_class`` or ``model`` is required.
+    * Ambos ``form_class`` ou ``model`` são obrigatórios.
 
-      If you provide ``form_class``, it should be a ``django.forms.ModelForm``
-      subclass. Use this argument when you need to customize the model's form.
-      See the :ref:`ModelForm docs <topics-forms-modelforms>` for more
-      information.
+      Se você fornecer ``form_class``, ela deverá ser uma subclasse de
+      ``django.forms.ModelForm``. Use este argumento quando você precisar 
+      personalizar o formulário do model. Veja a :ref:`documentação do 
+      ModelForm <topics-forms-modelforms>` para saber mais.
 
-      Otherwise, ``model`` should be a Django model class and the form used
-      will be a standard ``ModelForm`` for ``model``.
+      Caso contrário, ``model`` deve ser uma classe model do Django e o 
+      formulário usado será um ``ModelForm`` padrão para ``model``.
 
-    * Either ``object_id`` or (``slug`` *and* ``slug_field``) is required.
+    * Ambos ``object_id`` ou (``slug`` *e* ``slug_field``) são obrigatórios.
 
-      If you provide ``object_id``, it should be the value of the primary-key
-      field for the object being displayed on this page.
+      Se você fornece ``object_id``, ele deve ser o valor da chave primária do
+      objeto que está em exibição nesta página.
 
-      Otherwise, ``slug`` should be the slug of the given object, and
-      ``slug_field`` should be the name of the slug field in the ``QuerySet``'s
-      model. By default, ``slug_field`` is ``'slug'``.
+      Caso contrário, ``slug`` deve ser o slug do objeto em questão, e 
+      ``slug_field`` deve ser o nome do campo slugh no model do ``QuerySet``.
+      Por padrão, ``slug_field`` é ``'slug'``.
+    
 
 **Argumentos opcionais:**
 
-    * ``post_save_redirect``: A URL to which the view will redirect after
-      saving the object. By default, it's ``object.get_absolute_url()``.
+    * ``post_save_redirect``: Um URL para a qual a view será redirecionada
+      depois de salvar o objeto. Por padrão, ela será 
+      ``object.get_absolute_url()``.
 
-      ``post_save_redirect`` may contain dictionary string formatting, which
-      will be interpolated against the object's field attributes. For example,
-      you could use ``post_save_redirect="/polls/%(slug)s/"``.
+      ``post_save_redirect`` pode conter um dicionário de formatos de strings,
+      que será interpolado contra os atributos/campos do objeto. Por exemplo,
+      você poderia usar ``post_save_redirect="/polls/%(slug)s/"``.
 
-    * ``login_required``: A boolean that designates whether a user must be
-      logged in, in order to see the page and save changes. This hooks into the
-      Django :ref:`authentication system <topics-auth>`. By default, this is
-      ``False``.
+    * ``login_required``: Um boleano que designa ser um usuário deve estar
+      logado, para poder ver a página e salvar modificações. Estes hooks ficam
+      dentro do :ref:`sistema de autenticação <topics-auth>` do Django. Por
+      padrão, ele é ``False``.
 
-      If this is ``True``, and a non-logged-in user attempts to visit this page
-      or save the form, Django will redirect the request to ``/accounts/login/``.
+      Se ele for ``True`` e um usuário não logado tentar visitar esta página
+      ou salvar um formulário, o Django redirecionará a requisição para
+      ``/accounts/login/``.
 
-    * ``template_name``: The full name of a template to use in rendering the
-      page. This lets you override the default template name (see below).
+    * ``template_name``: O nome completo de um template a ser utilizado para
+      renderizar a página. Isso permite você sobrescrever o nome do template
+      padrão. (veja abaixo).
 
-    * ``template_loader``: The template loader to use when loading the
-      template. By default, it's ``django.template.loader``.
+    * ``template_loader``: O carregador de template para se usar quando carrear
+      o template. Por padrão, ele é ``django.template.loader``.
 
-    * ``extra_context``: A dictionary of values to add to the template
-      context. By default, this is an empty dictionary. If a value in the
-      dictionary is callable, the generic view will call it
-      just before rendering the template.
+    * ``extra_context``: Um dicionário de valores para adicionar ao contexto do
+      template. Por padrão, ele é um dicionário vazio. Se um valor no dicionário
+      é chamável, a generic view o chamará antes de renderizar o template.
 
-    * ``context_processors``: A list of template-context processors to apply to
-      the view's template.
+    * ``context_processors``: Uma lista de processadores de contexto de 
+      template a se aplicar nas views do template.
 
-    * ``template_object_name``:  Designates the name of the template variable
-      to use in the template context. By default, this is ``'object'``.
+    * ``template_object_name``: Designa o nome da variável de template para usar
+      no contexto do template. Por padrão, este é ``'object'``.
 
 **Nome do template:**
 
-If ``template_name`` isn't specified, this view will use the template
-``<app_label>/<model_name>_form.html`` by default.
+Se o ``template_name`` não for especificado, esta view usará o template
+``<app_label>/<model_name>_form.html`` por padrão.
 
 **Contexto de template:**
 
-In addition to ``extra_context``, the template's context will be:
+Além do ``extra_context``, o contexto do template será:
 
-    * ``form``: A ``django.forms.ModelForm`` instance representing the form
-      for editing the object. This lets you refer to form fields easily in the
-      template system.
+    * ``form``: Uma instância do ``django.forms.ModelForm`` representando o
+      formulário para editar o objeto. Ele permite você referenciar os campos
+      do formulário facilmente dentro do sistema de template.
 
-      For example, if the model has two fields, ``name`` and ``address``::
+      Por exemplo, se o model tem dois campos, ``name`` e ``address``::
 
           <form action="" method="post">
           <p>{{ form.name.label_tag }} {{ form.name }}</p>
           <p>{{ form.address.label_tag }} {{ form.address }}</p>
           </form>
 
-      See the :ref:`forms documentation <topics-forms-index>` for more
-      information about using ``Form`` objects in templates.
+      Veja a :ref:`documentação de formulário <topics-forms-index>` para mais
+      informações sobre como usar objetos ``Form`` dentro dos templates.
 
-    * ``object``: The original object being edited. This variable's name
-      depends on the ``template_object_name`` parameter, which is ``'object'``
-      by default. If ``template_object_name`` is ``'foo'``, this variable's
-      name will be ``foo``.
+    * ``object``: O objeto. O nome desta variável depende do paramêtro
+      ``template_object_name``, que é ``'object'`` por padrão. Se o
+      ``template_object_name`` for ``'foo'``, o nome desta variável será 
+      ``foo_list``.
 
 ``django.views.generic.create_update.delete_object``
 ----------------------------------------------------
 
 **Descrição:**
 
-A view that displays a confirmation page and deletes an existing object. The
-given object will only be deleted if the request method is ``POST``. If this
-view is fetched via ``GET``, it will display a confirmation page that should
-contain a form that POSTs to the same URL.
+Uma view que mostra uma página de confirmação e deleta um objeto existente.
+Somente o dado objeto será removido se o método de requisição for ``POST``. Se
+este view é acessado via ``GET``, ele mostrará uma página de confirmação que
+deve conter um formulário que posta para a mesma URL.
 
 **Argumentos obrigatórios:**
 
-    * ``model``: The Django model class of the object that the form will
-      create.
+    * ``model``: A classe do objeto de model do Django que formulário criará.
 
-    * Either ``object_id`` or (``slug`` *and* ``slug_field``) is required.
+    * Ambos ``object_id`` ou (``slug`` *e* ``slug_field``) são obrigatórios.
 
-      If you provide ``object_id``, it should be the value of the primary-key
-      field for the object being displayed on this page.
+      Se você fornece ``object_id``, ele deve ser o valor da chave primária do
+      objeto que está em exibição nesta página.
 
-      Otherwise, ``slug`` should be the slug of the given object, and
-      ``slug_field`` should be the name of the slug field in the ``QuerySet``'s
-      model. By default, ``slug_field`` is ``'slug'``.
+      Caso contrário, ``slug`` deve ser o slug do objeto em questão, e 
+      ``slug_field`` deve ser o nome do campo slugh no model do ``QuerySet``.
+      Por padrão, ``slug_field`` é ``'slug'``.
 
-    * ``post_delete_redirect``: A URL to which the view will redirect after
-      deleting the object.
+    * ``post_delete_redirect``: Uma URL para qual a view será redirecionada
+      depois de deletar o objeto.
 
 **Argumentos opcionais:**
 
-    * ``login_required``: A boolean that designates whether a user must be
-      logged in, in order to see the page and save changes. This hooks into the
-      Django :ref:`authentication system <topics-auth>`. By default, this is
-      ``False``.
+    * ``login_required``: Um boleano que designa ser um usuário deve estar
+      logado, para poder ver a página e salvar modificações. Estes hooks ficam
+      dentro do :ref:`sistema de autenticação <topics-auth>` do Django. Por
+      padrão, ele é ``False``.
 
-      If this is ``True``, and a non-logged-in user attempts to visit this page
-      or save the form, Django will redirect the request to ``/accounts/login/``.
+      Se ele for ``True`` e um usuário não logado tentar visitar esta página
+      ou salvar um formulário, o Django redirecionará a requisição para
+      ``/accounts/login/``.
 
-    * ``template_name``: The full name of a template to use in rendering the
-      page. This lets you override the default template name (see below).
+    * ``template_name``: O nome completo de um template a ser utilizado para
+      renderizar a página. Isso permite você sobrescrever o nome do template
+      padrão. (veja abaixo).
 
-    * ``template_loader``: The template loader to use when loading the
-      template. By default, it's ``django.template.loader``.
+    * ``template_loader``: O carregador de template para se usar quando carrear
+      o template. Por padrão, ele é ``django.template.loader``.
 
-    * ``extra_context``: A dictionary of values to add to the template
-      context. By default, this is an empty dictionary. If a value in the
-      dictionary is callable, the generic view will call it
-      just before rendering the template.
+    * ``extra_context``: Um dicionário de valores para adicionar ao contexto do
+      template. Por padrão, ele é um dicionário vazio. Se um valor no dicionário
+      é chamável, a generic view o chamará antes de renderizar o template.
 
-    * ``context_processors``: A list of template-context processors to apply to
-      the view's template.
+    * ``context_processors``: Uma lista de processadores de contexto de 
+      template a se aplicar nas views do template.
 
-    * ``template_object_name``:  Designates the name of the template variable
-      to use in the template context. By default, this is ``'object'``.
+    * ``template_object_name``: Designa o nome da variável de template para usar
+      no contexto do template. Por padrão, este é ``'object'``.
 
 **Nome do template:**
 
-If ``template_name`` isn't specified, this view will use the template
-``<app_label>/<model_name>_confirm_delete.html`` by default.
+Se o ``template_name`` não for especificado, esta view usará o template
+``<app_label>/<model_name>_confirm_delete.html`` por padrão.
 
 **Contexto de template:**
 
-In addition to ``extra_context``, the template's context will be:
-
-    * ``object``: The original object that's about to be deleted. This
-      variable's name depends on the ``template_object_name`` parameter, which
-      is ``'object'`` by default. If ``template_object_name`` is ``'foo'``,
-      this variable's name will be ``foo``.
-
+Além do ``extra_context``, o contexto do template será:
+      
+    * ``object``: O objeto original que será deletado. O nome desta variável 
+      depende do paramêtro ``template_object_name``, que é ``'object'`` por 
+      padrão. Se o ``template_object_name`` for ``'foo'``, o nome desta 
+      variável será ``foo_list``.
