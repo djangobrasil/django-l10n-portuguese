@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 11268 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,28 +16,28 @@
 
 .. _ref-forms-fields:
 
-===========
-Form fields
-===========
+====================
+Campos de formulário
+====================
 
 .. module:: django.forms.fields
-   :synopsis: Django's built-in form fields.
+   :synopsis: Campos de formulário embutidos do Django.
 
 .. currentmodule:: django.forms
 
 .. class:: Field(**kwargs)
 
-When you create a ``Form`` class, the most important part is defining the
-fields of the form. Each field has custom validation logic, along with a few
-other hooks.
+Quando você cria uma class ``Form``, a parte mais importante é definir os campos
+do formulário. Cada campo tem uma lógica de validação personalizada, juntamente
+com alguns outros hooks.
 
 .. method:: Field.clean(value)
 
-Although the primary way you'll use ``Field`` classes is in ``Form`` classes,
-you can also instantiate them and use them directly to get a better idea of
-how they work. Each ``Field`` instance has a ``clean()`` method, which takes
-a single argument and either raises a ``django.forms.ValidationError``
-exception or returns the clean value::
+Embora a principal maneira de você usar as classes ``Field`` seja dentro de
+classes ``Form``, você pode também instanciá-las e usá-las para obter uma idéia
+melhor de como elas funcionam. Cada instância de ``Fiel`` tem um método 
+``clean()``, que recebe um único argumento e ambos lançam uma excessão
+``django.forms.ValidationError`` ou retorna o valor limpo::
 
     >>> from django import forms
     >>> f = forms.EmailField()
@@ -53,18 +53,18 @@ exception or returns the clean value::
 Core field arguments
 --------------------
 
-Each ``Field`` class constructor takes at least these arguments. Some
-``Field`` classes take additional, field-specific arguments, but the following
-should *always* be accepted:
+Cada construtor de classe ``Field`` recebe pelo menos estes argumentos. Algumas
+classes ``Field`` recebem argumentos adicionais, específicos do campo, mas os
+seguintes devem *sempre* ser aceitos:
 
 ``required``
 ~~~~~~~~~~~~
 
 .. attribute:: Field.required
 
-By default, each ``Field`` class assumes the value is required, so if you pass
-an empty value -- either ``None`` or the empty string (``""``) -- then
-``clean()`` will raise a ``ValidationError`` exception::
+Por padrão cada classe ``Field`` assume que o valor é obrigatório, então se você
+passar um valor vazio -- tanto ``None`` quando uma string vazia (``""``) -- 
+então ``clean()`` lançará uma exeção ``ValidationError``::
 
     >>> f = forms.CharField()
     >>> f.clean('foo')
@@ -86,8 +86,8 @@ an empty value -- either ``None`` or the empty string (``""``) -- then
     >>> f.clean(False)
     u'False'
 
-To specify that a field is *not* required, pass ``required=False`` to the
-``Field`` constructor::
+Para especificar que o campo *não* é obrigatório, passe ``required=False`` para
+o contrutor de ``Field``::
 
     >>> f = forms.CharField(required=False)
     >>> f.clean('foo')
@@ -103,27 +103,27 @@ To specify that a field is *not* required, pass ``required=False`` to the
     >>> f.clean(False)
     u'False'
 
-If a ``Field`` has ``required=False`` and you pass ``clean()`` an empty value,
-then ``clean()`` will return a *normalized* empty value rather than raising
-``ValidationError``. For ``CharField``, this will be a Unicode empty string.
-For other ``Field`` classes, it might be ``None``. (This varies from field to
-field.)
+Se um ``Field`` tem ``required=False`` e você passar ao ``clean()`` um valor 
+vazio, então ``clean()`` retornará um valor *normalizado* vazio ao invés de 
+lançar uma exceção ``ValidationError``. Para ``CharField``, este será uma string
+Unicode vazia. Para as outras classes ``Field``, poderá ser ``None``. (Isso 
+varia de campo para campo.)
 
 ``label``
 ~~~~~~~~~
 
 .. attribute:: Field.label
 
-The ``label`` argument lets you specify the "human-friendly" label for this
-field. This is used when the ``Field`` is displayed in a ``Form``.
+O argumento ``label`` permite você especificar o "nome amigável" para este 
+campo. Isso é usado quando o ``Field`` é mostrado num ``Form``.
 
-As explained in "Outputting forms as HTML" above, the default label for a
-``Field`` is generated from the field name by converting all underscores to
-spaces and upper-casing the first letter. Specify ``label`` if that default
-behavior doesn't result in an adequate label.
+Como foi explicado no "Mostrando formulário como HTML" acima, a legenda padrão
+para um ``Field`` é gerada a partir do nome do campo, convertendo todos os 
+sublinhados para espaços e pondo em maiúscula a primeira letra. Especifique
+o ``label`` se o resultado padrão não for adquado.
 
-Here's a full example ``Form`` that implements ``label`` for two of its fields.
-We've specified ``auto_id=False`` to simplify the output::
+Aqui temos um exemplo de ``Form`` completo que implementa ``label`` para dois
+de seus campo. Nós especificamos ``auto_id=False`` para simplificar a saída::
 
     >>> class CommentForm(forms.Form):
     ...     name = forms.CharField(label='Your name')
@@ -140,13 +140,14 @@ We've specified ``auto_id=False`` to simplify the output::
 
 .. attribute:: Field.initial
 
-The ``initial`` argument lets you specify the initial value to use when
-rendering this ``Field`` in an unbound ``Form``.
+O argumento ``initial`` permite você especificar um valor inicial a ser usado
+ao renderizar este ``Field`` num ``Form`` desacoplado.
 
-To specify dynamic initial data, see the :attr:`Form.initial` parameter.
+Para especificar dados iniciais dinâmicos, veja o parámetro 
+:attr:`Form.initial`.
 
-The use-case for this is when you want to display an "empty" form in which a
-field is initialized to a particular value. For example::
+O caso de uso para isso é quando você quer mostrar um formulário "vazio" em que
+um campo é inicializado com um valor em particular. Por exemplo::
 
     >>> class CommentForm(forms.Form):
     ...     name = forms.CharField(initial='Your name')
@@ -158,9 +159,9 @@ field is initialized to a particular value. For example::
     <tr><th>Url:</th><td><input type="text" name="url" value="http://" /></td></tr>
     <tr><th>Comment:</th><td><input type="text" name="comment" /></td></tr>
 
-You may be thinking, why not just pass a dictionary of the initial values as
-data when displaying the form? Well, if you do that, you'll trigger validation,
-and the HTML output will include any validation errors::
+Você pode estar pensando, por quê não passo um dicionário com os valores 
+iniciais quando estiver mostrando o formulário? Bem, se você fizer isso, você
+irá disparar a validação, e a saída HTML incluirá qualquer erro de validação::
 
     >>> class CommentForm(forms.Form):
     ...     name = forms.CharField()
@@ -173,12 +174,12 @@ and the HTML output will include any validation errors::
     <tr><th>Url:</th><td><ul class="errorlist"><li>Enter a valid URL.</li></ul><input type="text" name="url" value="http://" /></td></tr>
     <tr><th>Comment:</th><td><ul class="errorlist"><li>This field is required.</li></ul><input type="text" name="comment" /></td></tr>
 
-This is why ``initial`` values are only displayed for unbound forms. For bound
-forms, the HTML output will use the bound data.
+É por isso que valores ``iniciais`` são somente mostrados por formulários 
+unbound. Para formulário bound.
 
-Also note that ``initial`` values are *not* used as "fallback" data in
-validation if a particular field's value is not given. ``initial`` values are
-*only* intended for initial form display::
+Tamém note que valores ``inciais`` *não* são usados como dados "reserva" numa
+validação se um valor de um campo em particular não for fornecido. Valores
+``iniciais`` destinam-se *somente* para mostrar dados iniciais no formulário::
 
     >>> class CommentForm(forms.Form):
     ...     name = forms.CharField(initial='Your name')
@@ -192,7 +193,7 @@ validation if a particular field's value is not given. ``initial`` values are
     >>> f.errors
     {'url': [u'This field is required.'], 'name': [u'This field is required.']}
 
-Instead of a constant, you can also pass any callable::
+Ao invés de uma constante, você também pode passar qualquer função chamável::
 
     >>> import datetime
     >>> class DateForm(forms.Form):
@@ -200,28 +201,30 @@ Instead of a constant, you can also pass any callable::
     >>> print DateForm()
     <tr><th>Day:</th><td><input type="text" name="day" value="12/23/2008" /><td></tr>
 
-The callable will be evaluated only when the unbound form is displayed, not when it is defined.
+A função chamável será avaliada somente quando o formulário unbound é exibido,
+não quando é definido.
 
 ``widget``
 ~~~~~~~~~~
 
 .. attribute:: Field.widget
 
-The ``widget`` argument lets you specify a ``Widget`` class to use when
-rendering this ``Field``. See :ref:`ref-forms-widgets` for more information.
+O argumento ``widget`` permite você especificar uma classe ``Widget`` para usar
+quando for renderizar este ``Field``. Veja :ref:`ref-forms-widgets` para mais
+informações.
 
 ``help_text``
 ~~~~~~~~~~~~~
 
 .. attribute:: Field.help_text
 
-The ``help_text`` argument lets you specify descriptive text for this
-``Field``. If you provide ``help_text``, it will be displayed next to the
-``Field`` when the ``Field`` is rendered by one of the convenience ``Form``
-methods (e.g., ``as_ul()``).
+O argumento ``help_text`` permite você especificar um texto descritivo para este
+``Field``. Se você fornece o ``help_text``, ele será mostrado próximo do 
+``Field`` quando o ele for renderizado por um dos métodos do ``Form`` 
+convenientes (e.g., ``as_ul()``).
 
-Here's a full example ``Form`` that implements ``help_text`` for two of its
-fields. We've specified ``auto_id=False`` to simplify the output::
+Aqui tem um exemplo de ``Form`` completo que implementa ``help_text`` para dois
+de seus campos. Nós especificams ``auto_id=False`` para simplificar a saída::
 
     >>> class HelpTextContactForm(forms.Form):
     ...     subject = forms.CharField(max_length=100, help_text='100 characters max.')
@@ -252,9 +255,10 @@ fields. We've specified ``auto_id=False`` to simplify the output::
 
 .. attribute:: Field.error_messages
 
-The ``error_messages`` argument lets you override the default messages that the
-field will raise. Pass in a dictionary with keys matching the error messages you
-want to override. For example, here is the default error message::
+O argumento ``error_messages`` permite você sobrescrever a mensagem padrão que
+o campo mostrará. Passe um dicionário com chaves combinando com as mensagens de
+erro que você deseja sobrescrever. Por exemplo, aqui temos a mensagem de erro
+padrão::
 
     >>> generic = forms.CharField()
     >>> generic.clean('')
@@ -262,7 +266,7 @@ want to override. For example, here is the default error message::
       ...
     ValidationError: [u'This field is required.']
 
-And here is a custom error message::
+E aqui temos uma mensagem de erro personalizada::
 
     >>> name = forms.CharField(error_messages={'required': 'Please enter your name'})
     >>> name.clean('')
@@ -270,129 +274,131 @@ And here is a custom error message::
       ...
     ValidationError: [u'Please enter your name']
 
-In the `built-in Field classes`_ section below, each ``Field`` defines the
-error message keys it uses.
+Na seção `classes Field nativas`_ abaixo, cada ``Field`` define as chaves de
+mensagens de error que usa.
 
-Built-in ``Field`` classes
---------------------------
+Classes ``Field`` nativas
+-------------------------
 
-Naturally, the ``forms`` library comes with a set of ``Field`` classes that
-represent common validation needs. This section documents each built-in field.
+Naturalmente, a biblioteca ``forms`` vem com um conjunto de classes ``Field``
+que representam as necessidades de validação comuns. Esta seçnao documenta cada
+campo nativo.
 
-For each field, we describe the default widget used if you don't specify
-``widget``. We also specify the value returned when you provide an empty value
-(see the section on ``required`` above to understand what that means).
+Para cada campo, nós descrevemos o widget padrão usado se você não especificar
+um ``widget``. Nós também especificamos o valor retornado quando você fornece
+um valor vazio (veja a seção ``required`` acima para entender o que significa).
 
 ``BooleanField``
 ~~~~~~~~~~~~~~~~
 
 .. class:: BooleanField(**kwargs)
 
-    * Default widget: ``CheckboxInput``
-    * Empty value: ``False``
-    * Normalizes to: A Python ``True`` or ``False`` value.
-    * Validates that the value is ``True`` (e.g. the check box is checked) if
-      the field has ``required=True``.
-    * Error message keys: ``required``
+    * Widget padrão: ``CheckboxInput``
+    * Valor vazio: ``False``
+    * Normalizar para: Um valor Python ``True`` ou ``False``.
+    * Valida se o valor é ``True`` (e.g. a check box está selecionada) se o
+      campo tiver ``required=True``.
+    * Chaves de mensagem de erro: ``required``
 
 .. versionchanged:: 1.0
-   The empty value for a ``CheckboxInput`` (and hence the standard
-   ``BooleanField``) has changed to return ``False`` instead of ``None`` in
-   the Django 1.0.
+   O valor vazio para um ``CheckboxInput`` (e portanto o padrão 
+   ``BooleanField``) mudou para retornar ``False`` ao invés de ``None`` no
+   Django 1.0.
 
 .. note::
 
-    Since all ``Field`` subclasses have ``required=True`` by default, the
-    validation condition here is important. If you want to include a boolean
-    in your form that can be either ``True`` or ``False`` (e.g. a checked or
-    unchecked checkbox), you must remember to pass in ``required=False`` when
-    creating the ``BooleanField``.
+    Desde que todas as subclasses de ``Field`` possui ``required=True`` por
+    padrão, a condição de validação aqui é importante. Se você quiser incluir um
+    boleano no seu formulário que pode ser tanto ``True`` ou ``False`` (e.g.
+    uma checkbox marcada ou não), você deve lembrar de passar um 
+    ``required=False`` quando criar o ``BooleanField``.
 
 ``CharField``
 ~~~~~~~~~~~~~
 
 .. class:: CharField(**kwargs)
 
-    * Default widget: ``TextInput``
-    * Empty value: ``''`` (an empty string)
-    * Normalizes to: A Unicode object.
+    * Widget padrão: ``TextInput``
+    * Valor vazio: ``''`` (an empty string)
+    * Normalizar para: Um objeto Unicode.
     * Validates ``max_length`` or ``min_length``, if they are provided.
       Otherwise, all inputs are valid.
-    * Error message keys: ``required``, ``max_length``, ``min_length``
+    * Chaves de mensagem de erro: ``required``, ``max_length``, ``min_length``
 
-Has two optional arguments for validation:
+Possui dois argumentos opcionais para validação:
 
 .. attribute:: CharField.max_length
 .. attribute:: CharField.min_length
 
-    If provided, these arguments ensure that the string is at most or at least
-    the given length.
+    Se fornecido, estes argumentos asseguram que a string é no máximo ou no
+    mínimo do tamanho informado.
 
 ``ChoiceField``
 ~~~~~~~~~~~~~~~
 
 .. class:: ChoiceField(**kwargs)
 
-    * Default widget: ``Select``
-    * Empty value: ``''`` (an empty string)
-    * Normalizes to: A Unicode object.
-    * Validates that the given value exists in the list of choices.
-    * Error message keys: ``required``, ``invalid_choice``
+    * Widget padrão: ``Select``
+    * Valor vazio: ``''`` (an empty string)
+    * Normalizar para: Um objeto Unicode.
+    * Valida se o valor fornecido está numa lista de escolhas.
+    * Chaves de mensagem de erro: ``required``, ``invalid_choice``
 
-Takes one extra required argument:
+Recebe um argumento obrigatório extra:
 
 .. attribute:: ChoiceField.choices
 
-    An iterable (e.g., a list or tuple) of 2-tuples to use as choices for this
-    field.
+    Um iterável (e.g., uma lista ou tupla) de tuplas duplas para usar como
+    opções para este campo.
     
 ``TypedChoiceField``
 ~~~~~~~~~~~~~~~~~~~~
 
 .. class:: TypedChoiceField(**kwargs)
 
-Just like a :class:`ChoiceField`, except :class:`TypedChoiceField` takes an
-extra ``coerce`` argument.
+Assim como um :class:`ChoiceField`, exceto o :class:`TypedChoiceField` recebe um
+argumento extra ``coerce``.
 
-    * Default widget: ``Select``
-    * Empty value: Whatever you've given as ``empty_value``
-    * Normalizes to: the value returned by the ``coerce`` argument.
-    * Validates that the given value exists in the list of choices.
-    * Error message keys: ``required``, ``invalid_choice``
+    * Widget padrão: ``Select``
+    * Valor vazio: Qualquer coisa que você fornecer como um ``empty_value``
+    * Normalizar para: o valor retornado pelo argumento ``coerce``.
+    * Valida se o valor fornecido está numa lista de escolhas.
+    * Chaves de mensagem de erro: ``required``, ``invalid_choice``
 
-Takes extra arguments:
+Recebe argumentos extra:
 
 .. attribute:: TypedChoiceField.coerce
 
-    A function that takes one argument and returns a coerced value. Examples
-    include the built-in ``int``, ``float``, ``bool`` and other types. Defaults
-    to an identity function.
+    Uma função que recebe um argumento e retorna um valor forçado. Os exemplos 
+    incluem os tipos nativos ``int``, ``float``, ``bool`` e outros. Padrões para
+    uma função identificadora.
 
 .. attribute:: TypedChoiceField.empty_value
 
-    The value to use to represent "empty." Defaults to the empty string;
-    ``None`` is another common choice here.
+    O valor que representa "vazio." Padrão para a string vazia;
+    ``None`` é outra escolha comum aqui.
 
 ``DateField``
 ~~~~~~~~~~~~~
 
 .. class:: DateField(**kwargs)
 
-    * Default widget: ``TextInput``
-    * Empty value: ``None``
-    * Normalizes to: A Python ``datetime.date`` object.
-    * Validates that the given value is either a ``datetime.date``,
-      ``datetime.datetime`` or string formatted in a particular date format.
-    * Error message keys: ``required``, ``invalid``
+    * Widget padrão: ``TextInput``
+    * Valor vazio: ``None``
+    * Normalizar para: A Python ``datetime.date`` object.
+    * Valida se o valor passado é um ``datetime.date``, ``datetime.datetime`` 
+      ou uma string no formato particular de data.
+    * Chaves de mensagem de erro: ``required``, ``invalid``
 
-Takes one optional argument:
+Recebe um argumento opcional:
 
 .. attribute:: DateField.input_formats
 
-    A list of formats used to attempt to convert a string to a valid
-    ``datetime.date`` object.
+    Uma lista de formatos usada para tentar converter uma string para um objeto
+    ``datetime.date`` valido.
 
-If no ``input_formats`` argument is provided, the default input formats are::
+Se nenhum argumento ``input_formats`` for passado, os valores de entrada padrão
+são::
 
     '%Y-%m-%d', '%m/%d/%Y', '%m/%d/%y', # '2006-10-25', '10/25/2006', '10/25/06'
     '%b %d %Y', '%b %d, %Y',            # 'Oct 25 2006', 'Oct 25, 2006'
@@ -405,21 +411,23 @@ If no ``input_formats`` argument is provided, the default input formats are::
 
 .. class:: DateTimeField(**kwargs)
 
-    * Default widget: ``DateTimeInput``
-    * Empty value: ``None``
-    * Normalizes to: A Python ``datetime.datetime`` object.
-    * Validates that the given value is either a ``datetime.datetime``,
-      ``datetime.date`` or string formatted in a particular datetime format.
-    * Error message keys: ``required``, ``invalid``
+    * Widget padrão: ``DateTimeInput``
+    * Valor vazio: ``None``
+    * Normalizar para: Um objeto Python ``datetime.datetime``.
+    * Valida se o valor passado é tanto um ``datetime.datetime``,
+      ``datetime.date`` ou uma string num formato de data.
+    * Chaves de mensagem de erro: ``required``, ``invalid``
 
-Takes one optional argument:
+Recebe um argumento opcional:
 
 .. attribute:: DateTimeField.input_formats
 
-    A list of formats used to attempt to convert a string to a valid
-    ``datetime.datetime`` object.
+    Uma lista de formatos usado para tentar converter uma string para o objeto
+    ``datetime.datetime``.
 
-If no ``input_formats`` argument is provided, the default input formats are::
+
+Se nenhum argumento ``input_formats`` for passado, os valores de entrada padrão
+são::
 
     '%Y-%m-%d %H:%M:%S',     # '2006-10-25 14:30:59'
     '%Y-%m-%d %H:%M',        # '2006-10-25 14:30'
@@ -432,7 +440,8 @@ If no ``input_formats`` argument is provided, the default input formats are::
     '%m/%d/%y',              # '10/25/06'
 
 .. versionchanged:: 1.0
-   The ``DateTimeField`` used to use a ``TextInput`` widget by default. This has now changed.
+   O ``DateTimeField`` usado para um widget ``TextInput`` por padrão. Isso 
+   mudou.
 
 ``DecimalField``
 ~~~~~~~~~~~~~~~~
@@ -441,47 +450,46 @@ If no ``input_formats`` argument is provided, the default input formats are::
 
 .. class:: DecimalField(**kwargs)
 
-    * Default widget: ``TextInput``
-    * Empty value: ``None``
-    * Normalizes to: A Python ``decimal``.
+    * Widget padrão: ``TextInput``
+    * Valor vazio: ``None``
+    * Normalizar para: A Python ``decimal``.
     * Validates that the given value is a decimal. Leading and trailing
       whitespace is ignored.
-    * Error message keys: ``required``, ``invalid``, ``max_value``,
+    * Chaves de mensagem de erro: ``required``, ``invalid``, ``max_value``,
       ``min_value``, ``max_digits``, ``max_decimal_places``,
       ``max_whole_digits``
 
-Takes four optional arguments:
+Recebe quatro argumentos opcionais:
 
 .. attribute:: DecimalField.max_value
 .. attribute:: DecimalField.min_value
 
-    These attributes define the limits for the fields value.
+    Estes atributos definem os limites para os valores do campo.
 
 .. attribute:: DecimalField.max_digits
 
-    The maximum number of digits (those before the decimal point plus those
-    after the decimal point, with leading zeros stripped) permitted in the
-    value.
+    o número máximo de dígitos (aqueles antes do ponto decimal mais os que estão
+    depois do ponto decimal, com zeros na frente) permitidos no valor.
     
 .. attribute:: DecimalField.decimal_places
 
-    The maximum number of decimal places permitted.
+    O número máximo de casas decimais permitidas.
 
 ``EmailField``
 ~~~~~~~~~~~~~~
 
 .. class:: EmailField(**kwargs)
 
-    * Default widget: ``TextInput``
-    * Empty value: ``''`` (an empty string)
-    * Normalizes to: A Unicode object.
-    * Validates that the given value is a valid e-mail address, using a
-      moderately complex regular expression.
-    * Error message keys: ``required``, ``invalid``
+    * Widget padrão: ``TextInput``
+    * Valor vazio: ``''`` (an empty string)
+    * Normalizar para: Um objeto Unicode.
+    * Valida se o valor passado é um endereço de e-mail, usando uma expressão
+      regular moderadamente complexa.
+    * Chaves de mensagem de erro: ``required``, ``invalid``
 
-Has two optional arguments for validation, ``max_length`` and ``min_length``.
-If provided, these arguments ensure that the string is at most or at least the
-given length.
+Há dois argumentos opcionais para validação, ``max_length`` e ``min_length``.
+Se fornecidos, estes argumentos asseguram que a string é no máximo e no mínimo
+do comprimento fonecido.
 
 ``FileField``
 ~~~~~~~~~~~~~
@@ -490,18 +498,19 @@ given length.
 
 .. class:: FileField(**kwargs)
 
-    * Default widget: ``FileInput``
-    * Empty value: ``None``
-    * Normalizes to: An ``UploadedFile`` object that wraps the file content
-      and file name into a single object.
-    * Validates that non-empty file data has been bound to the form.
-    * Error message keys: ``required``, ``invalid``, ``missing``, ``empty``
+    * Widget padrão: ``FileInput``
+    * Valor vazio: ``None``
+    * Normalizar para: Um objeto ``UploadedFile`` que envolve o contúdo do 
+      arquivo e nome do arquivo dentro de um único objeto.
+    * Valida se os dados do arquivo não vazio foi delimitado para o formulário.
+    * Chaves de mensagem de erro: ``required``, ``invalid``, ``missing``, 
+      ``empty``
 
-To learn more about the ``UploadedFile`` object, see the :ref:`file uploads
-documentation <topics-file-uploads>`.
+Para aprender mais sobre o objeto ``UploadFile``, veja a :ref:`documentação
+de upload de arquivos <topics-file-uploads>`.
 
-When you use a ``FileField`` in a form, you must also remember to
-:ref:`bind the file data to the form <binding-uploaded-files>`.
+Quando vcê usa um ``FileField`` num formulário, você deve também lembrar de
+:ref:`vincular os dados do arquivo ao formulário <binding-uploaded-files>`.
 
 ``FilePathField``
 ~~~~~~~~~~~~~~~~~
@@ -510,40 +519,40 @@ When you use a ``FileField`` in a form, you must also remember to
 
 .. class:: FilePathField(**kwargs)
 
-    * Default widget: ``Select``
-    * Empty value: ``None``
-    * Normalizes to: A unicode object
-    * Validates that the selected choice exists in the list of choices.
-    * Error message keys: ``required``, ``invalid_choice``
+    * Widget padrão: ``Select``
+    * Valor vazio: ``None``
+    * Normalizar para: Um objeto unicode
+    * Valida se as escolhas selecionadas existem na lista de ecolhas.
+    * Chaves de mensagem de erro: ``required``, ``invalid_choice``
 
-The field allows choosing from files inside a certain directory. It takes three
-extra arguments; only ``path`` is required:
+O campo permite escolher arquivos dentro de um certo diretório. Ele recebe três
+argumentos extras; somente ``path`` é obrigatório:
 
 .. attribute:: FilePathField.path
 
-    The absolute path to the directory whose contents you want listed. This
-    directory must exist.
+    O caminho absoluto para o diretório cujo conteúdo você deseja lista. Este
+    diretório deve existir.
 
 .. attribute:: FilePathField.recursive
 
-    If ``False`` (the default) only the direct contents of ``path`` will be
-    offered as choices. If ``True``, the directory will be descended into
-    recursively and all descendants will be listed as choices.
+    Se ``False`` (o padrão) somente os contúdos diretos do ``path`` serão 
+    oferecidos como escolhas. Se ``True``, o diretório será apresentado 
+    recursivamente e todos os descendentes serão listados como opções.
 
 .. attribute:: FilePathField.match
 
-    A regular expression pattern; only files with names matching this expression
-    will be allowed as choices.
+    Um padrão de expressão regular; somente arquivos com nomes combinando com
+    a expressão estarão nas escolhas.
 
 ``FloatField``
 ~~~~~~~~~~~~~~
 
-    * Default widget: ``TextInput``
-    * Empty value: ``None``
-    * Normalizes to: A Python float.
+    * Widget padrão: ``TextInput``
+    * Valor vazio: ``None``
+    * Normalizar para: A Python float.
     * Validates that the given value is an float. Leading and trailing
       whitespace is allowed, as in Python's ``float()`` function.
-    * Error message keys: ``required``, ``invalid``, ``max_value``,
+    * Chaves de mensagem de erro: ``required``, ``invalid``, ``max_value``,
       ``min_value``
 
 Takes two optional arguments for validation, ``max_value`` and ``min_value``.
@@ -556,13 +565,13 @@ These control the range of values permitted in the field.
 
 .. class:: ImageField(**kwargs)
 
-    * Default widget: ``FileInput``
-    * Empty value: ``None``
-    * Normalizes to: An ``UploadedFile`` object that wraps the file content
+    * Widget padrão: ``FileInput``
+    * Valor vazio: ``None``
+    * Normalizar para: An ``UploadedFile`` object that wraps the file content
       and file name into a single object.
     * Validates that file data has been bound to the form, and that the
       file is of an image format understood by PIL.
-    * Error message keys: ``required``, ``invalid``, ``missing``, ``empty``,
+    * Chaves de mensagem de erro: ``required``, ``invalid``, ``missing``, ``empty``,
       ``invalid_image``
 
 Using an ImageField requires that the `Python Imaging Library`_ is installed.
@@ -577,12 +586,12 @@ When you use an ``ImageField`` on a form, you must also remember to
 
 .. class:: IntegerField(**kwargs)
 
-    * Default widget: ``TextInput``
-    * Empty value: ``None``
-    * Normalizes to: A Python integer or long integer.
+    * Widget padrão: ``TextInput``
+    * Valor vazio: ``None``
+    * Normalizar para: A Python integer or long integer.
     * Validates that the given value is an integer. Leading and trailing
       whitespace is allowed, as in Python's ``int()`` function.
-    * Error message keys: ``required``, ``invalid``, ``max_value``,
+    * Chaves de mensagem de erro: ``required``, ``invalid``, ``max_value``,
       ``min_value``
 
 Takes two optional arguments for validation:
@@ -597,24 +606,24 @@ Takes two optional arguments for validation:
 
 .. class:: IPAddressField(**kwargs)
 
-    * Default widget: ``TextInput``
-    * Empty value: ``''`` (an empty string)
-    * Normalizes to: A Unicode object.
+    * Widget padrão: ``TextInput``
+    * Valor vazio: ``''`` (an empty string)
+    * Normalizar para: Um objeto Unicode.
     * Validates that the given value is a valid IPv4 address, using a regular
       expression.
-    * Error message keys: ``required``, ``invalid``
+    * Chaves de mensagem de erro: ``required``, ``invalid``
 
 ``MultipleChoiceField``
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 .. class:: MultipleChoiceField(**kwargs)
 
-    * Default widget: ``SelectMultiple``
-    * Empty value: ``[]`` (an empty list)
-    * Normalizes to: A list of Unicode objects.
+    * Widget padrão: ``SelectMultiple``
+    * Valor vazio: ``[]`` (an empty list)
+    * Normalizar para: A list of Unicode objects.
     * Validates that every value in the given list of values exists in the list
       of choices.
-    * Error message keys: ``required``, ``invalid_choice``, ``invalid_list``
+    * Chaves de mensagem de erro: ``required``, ``invalid_choice``, ``invalid_list``
 
 Takes one extra argument, ``choices``, as for ``ChoiceField``.
 
@@ -623,9 +632,9 @@ Takes one extra argument, ``choices``, as for ``ChoiceField``.
 
 .. class:: NullBooleanField(**kwargs)
 
-    * Default widget: ``NullBooleanSelect``
-    * Empty value: ``None``
-    * Normalizes to: A Python ``True``, ``False`` or ``None`` value.
+    * Widget padrão: ``NullBooleanSelect``
+    * Valor vazio: ``None``
+    * Normalizar para: A Python ``True``, ``False`` or ``None`` value.
     * Validates nothing (i.e., it never raises a ``ValidationError``).
 
 ``RegexField``
@@ -633,12 +642,12 @@ Takes one extra argument, ``choices``, as for ``ChoiceField``.
 
 .. class:: RegexField(**kwargs)
 
-    * Default widget: ``TextInput``
-    * Empty value: ``''`` (an empty string)
-    * Normalizes to: A Unicode object.
+    * Widget padrão: ``TextInput``
+    * Valor vazio: ``''`` (an empty string)
+    * Normalizar para: Um objeto Unicode.
     * Validates that the given value matches against a certain regular
       expression.
-    * Error message keys: ``required``, ``invalid``
+    * Chaves de mensagem de erro: ``required``, ``invalid``
 
 Takes one required argument:
 
@@ -660,21 +669,22 @@ and the error message as the value.
 
 .. class:: TimeField(**kwargs)
 
-    * Default widget: ``TextInput``
-    * Empty value: ``None``
-    * Normalizes to: A Python ``datetime.time`` object.
+    * Widget padrão: ``TextInput``
+    * Valor vazio: ``None``
+    * Normalizar para: Um objeto Python ``datetime.time``.
     * Validates that the given value is either a ``datetime.time`` or string
       formatted in a particular time format.
-    * Error message keys: ``required``, ``invalid``
+    * Chaves de mensagem de erro: ``required``, ``invalid``
 
-Takes one optional argument:
+Recebe um argumento opicional:
 
 .. attribute:: TimeField.input_formats
 
-    A list of formats used to attempt to convert a string to a valid
-    ``datetime.time`` object.
+    Uma lista de formatos usado para tentar converter uma string para um objeto
+    ``datetime.time`` válido.
 
-If no ``input_formats`` argument is provided, the default input formats are::
+Se nenhum argumento ``input_formats`` for fornecido, os formatos da entrada 
+padrão são::
 
     '%H:%M:%S',     # '14:30:59'
     '%H:%M',        # '14:30'
@@ -684,13 +694,13 @@ If no ``input_formats`` argument is provided, the default input formats are::
 
 .. class:: URLField(**kwargs)
 
-    * Default widget: ``TextInput``
-    * Empty value: ``''`` (an empty string)
-    * Normalizes to: A Unicode object.
-    * Validates that the given value is a valid URL.
-    * Error message keys: ``required``, ``invalid``, ``invalid_link``
+    * Widget padrão: ``TextInput``
+    * Valor vazio: ``''`` (an empty string)
+    * Normalizar para: Um objeto Unicode.
+    * Valida se o dado valor é uma URL válida.
+    * Chaves de mensagem de erro: ``required``, ``invalid``, ``invalid_link``
 
-Takes the following optional arguments:
+Recebe os seguintes argumentos opcionais:
 
 
 .. attribute:: URLField.max_length
