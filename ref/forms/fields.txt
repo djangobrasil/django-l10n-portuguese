@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11268 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
@@ -50,8 +50,8 @@ melhor de como elas funcionam. Cada instância de ``Fiel`` tem um método
     ...
     ValidationError: [u'Enter a valid e-mail address.']
 
-Core field arguments
---------------------
+Argumentos de campo do core
+---------------------------
 
 Cada construtor de classe ``Field`` recebe pelo menos estes argumentos. Algumas
 classes ``Field`` recebem argumentos adicionais, específicos do campo, mas os
@@ -319,7 +319,7 @@ um valor vazio (veja a seção ``required`` acima para entender o que significa)
 .. class:: CharField(**kwargs)
 
     * Widget padrão: ``TextInput``
-    * Valor vazio: ``''`` (an empty string)
+    * Valor vazio: ``''`` (uma string vazia)
     * Normalizar para: Um objeto Unicode.
     * Validates ``max_length`` or ``min_length``, if they are provided.
       Otherwise, all inputs are valid.
@@ -339,7 +339,7 @@ Possui dois argumentos opcionais para validação:
 .. class:: ChoiceField(**kwargs)
 
     * Widget padrão: ``Select``
-    * Valor vazio: ``''`` (an empty string)
+    * Valor vazio: ``''`` (uma string vazia)
     * Normalizar para: Um objeto Unicode.
     * Valida se o valor fornecido está numa lista de escolhas.
     * Chaves de mensagem de erro: ``required``, ``invalid_choice``
@@ -481,7 +481,7 @@ Recebe quatro argumentos opcionais:
 .. class:: EmailField(**kwargs)
 
     * Widget padrão: ``TextInput``
-    * Valor vazio: ``''`` (an empty string)
+    * Valor vazio: ``''`` (uma string vazia)
     * Normalizar para: Um objeto Unicode.
     * Valida se o valor passado é um endereço de e-mail, usando uma expressão
       regular moderadamente complexa.
@@ -510,7 +510,7 @@ Para aprender mais sobre o objeto ``UploadFile``, veja a :ref:`documentação
 de upload de arquivos <topics-file-uploads>`.
 
 Quando vcê usa um ``FileField`` num formulário, você deve também lembrar de
-:ref:`vincular os dados do arquivo ao formulário <binding-uploaded-files>`.
+:ref:`vincular os arquivos de dados ao formulário <binding-uploaded-files>`.
 
 ``FilePathField``
 ~~~~~~~~~~~~~~~~~
@@ -550,13 +550,13 @@ argumentos extras; somente ``path`` é obrigatório:
     * Widget padrão: ``TextInput``
     * Valor vazio: ``None``
     * Normalizar para: A Python float.
-    * Validates that the given value is an float. Leading and trailing
-      whitespace is allowed, as in Python's ``float()`` function.
+    * Valida se o valor passado é um float. É permitido espaços vazios na frente
+      e no fim, como numa função ``float()`` do Python.
     * Chaves de mensagem de erro: ``required``, ``invalid``, ``max_value``,
       ``min_value``
 
-Takes two optional arguments for validation, ``max_value`` and ``min_value``.
-These control the range of values permitted in the field.
+Recebe dois argumentos opcionais para validação, ``max_value`` e ``min_value``.
+Este controle de intervalo de valores é permitido no campo.
 
 ``ImageField``
 ~~~~~~~~~~~~~~
@@ -567,17 +567,18 @@ These control the range of values permitted in the field.
 
     * Widget padrão: ``FileInput``
     * Valor vazio: ``None``
-    * Normalizar para: An ``UploadedFile`` object that wraps the file content
-      and file name into a single object.
-    * Validates that file data has been bound to the form, and that the
-      file is of an image format understood by PIL.
+    * Normalizar para: Um objeto ``UploadedFile`` que envolve o conteúdo do 
+      arquivo e nome do arquivo entro de um único objeto.
+    * Valida se os dados do arquivo foram capiturados pelo formulário, e que o 
+      arquivo é um formato de imagem inteligível pelo PIL.
     * Chaves de mensagem de erro: ``required``, ``invalid``, ``missing``, ``empty``,
       ``invalid_image``
 
-Using an ImageField requires that the `Python Imaging Library`_ is installed.
+Usar um ImageField requer que a `Python Imaging Library`_ esteja instalada.
 
-When you use an ``ImageField`` on a form, you must also remember to
-:ref:`bind the file data to the form <binding-uploaded-files>`.
+Quando você usa um ``ImageField`` num formulário, você deve também lembrar de
+:ref:`vincular os arquivos de dados ao formulario <binding-uploaded-files>`.
+
 
 .. _Python Imaging Library: http://www.pythonware.com/products/pil/
 
@@ -588,18 +589,18 @@ When you use an ``ImageField`` on a form, you must also remember to
 
     * Widget padrão: ``TextInput``
     * Valor vazio: ``None``
-    * Normalizar para: A Python integer or long integer.
-    * Validates that the given value is an integer. Leading and trailing
-      whitespace is allowed, as in Python's ``int()`` function.
+    * Normalizar para: Um inteiro ou inteiro longo do Python.
+    * Valida se o valor passado é um inteiro. É permitido usar espaços vazios
+      na frente e no final, como na função ``int()`` do Python.
     * Chaves de mensagem de erro: ``required``, ``invalid``, ``max_value``,
       ``min_value``
 
-Takes two optional arguments for validation:
+Recebe dois argumentos opcionais:
 
 .. attribute:: IntegerField.max_value
 .. attribute:: IntegerField.min_value
 
-    These control the range of values permitted in the field.
+    Isso controla o intervalo de valores permitidos no campo.
 
 ``IPAddressField``
 ~~~~~~~~~~~~~~~~~~
@@ -607,10 +608,10 @@ Takes two optional arguments for validation:
 .. class:: IPAddressField(**kwargs)
 
     * Widget padrão: ``TextInput``
-    * Valor vazio: ``''`` (an empty string)
+    * Valor vazio: ``''`` (uma string vazia)
     * Normalizar para: Um objeto Unicode.
-    * Validates that the given value is a valid IPv4 address, using a regular
-      expression.
+    * Valida se o valor passado é um endereço IPv4 válido, usando uma expressão
+      regular.
     * Chaves de mensagem de erro: ``required``, ``invalid``
 
 ``MultipleChoiceField``
@@ -619,13 +620,14 @@ Takes two optional arguments for validation:
 .. class:: MultipleChoiceField(**kwargs)
 
     * Widget padrão: ``SelectMultiple``
-    * Valor vazio: ``[]`` (an empty list)
-    * Normalizar para: A list of Unicode objects.
-    * Validates that every value in the given list of values exists in the list
-      of choices.
-    * Chaves de mensagem de erro: ``required``, ``invalid_choice``, ``invalid_list``
+    * Valor vazio: ``[]`` (uma lista vazia)
+    * Normalizar para: Uma lista de objetos Unicode.
+    * valida se todo valor passado na lista de valores existe na lista de 
+      escolhas.
+    * Chaves de mensagem de erro: ``required``, ``invalid_choice``, 
+      ``invalid_list``
 
-Takes one extra argument, ``choices``, as for ``ChoiceField``.
+Recebe um argumento extra, ``choices``, como para ``ChoiceField``. 
 
 ``NullBooleanField``
 ~~~~~~~~~~~~~~~~~~~~
@@ -634,8 +636,8 @@ Takes one extra argument, ``choices``, as for ``ChoiceField``.
 
     * Widget padrão: ``NullBooleanSelect``
     * Valor vazio: ``None``
-    * Normalizar para: A Python ``True``, ``False`` or ``None`` value.
-    * Validates nothing (i.e., it never raises a ``ValidationError``).
+    * Normalizar para: Um valor Python ``True``, ``False`` ou ``None``.
+    * Não valida nada (i.e., ele nunca lança um ``ValidationError``).
 
 ``RegexField``
 ~~~~~~~~~~~~~~
@@ -643,26 +645,25 @@ Takes one extra argument, ``choices``, as for ``ChoiceField``.
 .. class:: RegexField(**kwargs)
 
     * Widget padrão: ``TextInput``
-    * Valor vazio: ``''`` (an empty string)
+    * Valor vazio: ``''`` (uma string vazia)
     * Normalizar para: Um objeto Unicode.
-    * Validates that the given value matches against a certain regular
-      expression.
+    * Valida se o valor passado combina com uma certa expressão regular.
     * Chaves de mensagem de erro: ``required``, ``invalid``
 
-Takes one required argument:
+Recebe um argumentos obrigatório:
 
 .. attribute:: RegexField.regex
 
-    A regular expression specified either as a string or a compiled regular
-    expression object.
+    Uma expressão regular especificada como um string ou como um objeto de
+    expressão regular compliado.
 
-Also takes ``max_length`` and ``min_length``, which work just as they do for
-``CharField``.
+Também recebe ``max_length`` e ``min_length``, que funcionam da mesma forma como
+no ``CharField``.
 
-The optional argument ``error_message`` is also accepted for backwards
-compatibility. The preferred way to provide an error message is to use the
-``error_messages`` argument, passing a dictionary with ``'invalid'`` as a key
-and the error message as the value.
+O argumento opcional ``error_message`` é também aceito por 
+retro-compatibilidade. A forma recomendada para fornecer uma mensagem de erro é 
+usar o argumento ``error_message``, passando um dicionário com ``'invalid'`` 
+como uma chave a mensagem de erro como valor.
 
 ``TimeField``
 ~~~~~~~~~~~~~
@@ -672,8 +673,8 @@ and the error message as the value.
     * Widget padrão: ``TextInput``
     * Valor vazio: ``None``
     * Normalizar para: Um objeto Python ``datetime.time``.
-    * Validates that the given value is either a ``datetime.time`` or string
-      formatted in a particular time format.
+    * Valida se o valor passado é um ``datetime.time`` ou uma string num formato
+      de hora em particular.
     * Chaves de mensagem de erro: ``required``, ``invalid``
 
 Recebe um argumento opicional:
@@ -695,7 +696,7 @@ padrão são::
 .. class:: URLField(**kwargs)
 
     * Widget padrão: ``TextInput``
-    * Valor vazio: ``''`` (an empty string)
+    * Valor vazio: ``''`` (uma string vazia)
     * Normalizar para: Um objeto Unicode.
     * Valida se o dado valor é uma URL válida.
     * Chaves de mensagem de erro: ``required``, ``invalid``, ``invalid_link``
@@ -706,22 +707,22 @@ Recebe os seguintes argumentos opcionais:
 .. attribute:: URLField.max_length
 .. attribute:: URLField.min_length
 
-    Same as ``CharField.max_length`` and ``CharField.min_length``.
+    O mesmo como no ``CharField.max_length`` e ``CharField.min_length``.
 
 .. attribute:: URLField.verify_exists
 
-    If ``True``, the validator will attempt to load the given URL, raising
-    ``ValidationError`` if the page gives a 404. Defaults to ``False``.
+    Se ``True``, o validador tentará carregar a URL passada, lançando um
+    ``ValidationError`` se a página retornar um 404. O padrão é ``False``.
 
 .. attribute:: URLField.validator_user_agent
 
-    String used as the user-agent used when checking for a URL's existence.
-    Defaults to the value of the ``URL_VALIDATOR_USER_AGENT`` setting.
+    String usada como o user-agent ao checar pela existência da URL.
+    O padrão é o valor da configuração ``URL_VALIDATOR_USER_AGENT``.
 
-Slightly complex built-in ``Field`` classes
--------------------------------------------
+Classes ``Field`` nativas ligeiramente complexas
+------------------------------------------------
 
-The following are not yet documented.
+O seguinte ainda não foi documentado.
 
 .. class:: ComboField(**kwargs)
 
@@ -729,18 +730,18 @@ The following are not yet documented.
 
 .. class:: SplitDateTimeField(**kwargs)
 
-Fields which handle relationships
----------------------------------
+Campos que manipulam relacionamentos
+------------------------------------
 
-For representing relationships between models, two fields are
-provided which can derive their choices from a ``QuerySet``:
+Para representar o relacionamento entre dois models, dois campos são fornecidos 
+que podem derivar suas escolhas a partir de um ``QuerySet``:
 
 .. class:: ModelChoiceField(**kwargs)
 .. class:: ModelMultipleChoiceField(**kwargs)
 
-These fields place one or more model objects into the ``cleaned_data``
-dictionary of forms in which they're used. Both of these fields have an
-additional required argument:
+Este campos agregam um ou mais campos de objetos model dentro do dicionário
+``cleaned_data`` dos formulários em que eles são usados. Ambos os campos possuem
+um argumento adicional obrigatório:
 
 .. attribute:: ModelChoiceField.queryset
 
@@ -751,15 +752,14 @@ additional required argument:
 ``ModelChoiceField``
 ~~~~~~~~~~~~~~~~~~~~
 
-Allows the selection of a single model object, suitable for
-representing a foreign key.
+Permite a seleçnao de um único objeto de model, apropriado para representar uma
+chave estrangeira.
 
-The ``__unicode__`` method of the model will be called to generate
-string representations of the objects for use in the field's choices;
-to provide customized representations, subclass ``ModelChoiceField``
-and override ``label_from_instance``. This method will receive a model
-object, and should return a string suitable for representing it. For
-example::
+O método ``__unicode__`` de um model será chamado para gerar a representação em
+string dos objetos ao usá-los no campo de escolhas; para fornecer representações
+personalizadas, extenda o ``ModelChoiceField`` e sobrescreva o 
+``label_form_instance``. Este método receberá um objeto de model, e deverá 
+retornar uma string adequada para representá-lo. Por exemplo::
 
     class MyModelChoiceField(ModelChoiceField):
         def label_from_instance(self, obj):
@@ -767,36 +767,34 @@ example::
 
 .. attribute:: ModelChoiceField.empty_label
 
-   By default the ``<select>`` widget used by ``ModelChoiceField`` will have a
-   an empty choice at the top of the list. You can change the text of this label
-   (which is ``"---------"`` by default) with the ``empty_label`` attribute, or
-   you can disable the empty label entirely by setting ``empty_label`` to
+   Por padrão o widget ``<select>`` usado pelo ``ModelChoiceField`` terá uma 
+   opção vazia no topo da lista. Você poe mudar o texto desta opção (que é
+   ``"---------"`` por padrão) com o atributo ``empty_label``, ou você pode 
+   desabilitar a opção vazia inteiramente configurando ``empty_label`` para
    ``None``::
 
-        # A custom empty label
+        # Uma legenda personalizada
         field1 = forms.ModelChoiceField(queryset=..., empty_label="(Nothing)")
 
-        # No empty label
+        # Sem legenda
         field2 = forms.ModelChoiceField(queryset=..., empty_label=None)
 
-   Note that if a ``ModelChoiceField`` is required and has a default
-   initial value, no empty choice is created (regardless of the value
-   of ``empty_label``).
+   Se um ``ModelChoiceField`` é obrigatório e tem um valor inicial, nenhuma 
+   opção vazia é criada (independentemente do valor de ``empty_label``).
 
 ``ModelMultipleChoiceField``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Allows the selection of one or more model objects, suitable for
-representing a many-to-many relation. As with ``ModelChoiceField``,
-you can use ``label_from_instance`` to customize the object
-representations.
+Permite a seleção de um ou mais objetos de model, adequado para representar
+relaçõe muito-para-muitos. Como com ``ModelChoiceField``, você pode usar
+``label_from_instance`` para personalizar a representação do objeto.
 
-Creating custom fields
-----------------------
+Criando campos personalizados
+-----------------------------
 
-If the built-in ``Field`` classes don't meet your needs, you can easily create
-custom ``Field`` classes. To do this, just create a subclass of
-``django.forms.Field``. Its only requirements are that it implement a
-``clean()`` method and that its ``__init__()`` method accept the core arguments
-mentioned above (``required``, ``label``, ``initial``, ``widget``,
+Se a classe nativa ``Field`` não supre suas necessidades, você pode facilmente
+criar uma classe ``Field`` personalizada. Para fazer isso, somente crie uma
+subclasse de ``django.forms.Field``. Suas únicas exigências são a de implementar
+o método ``clean()`` e que seu método ``__init__()`` aceite os argumentos
+do core mencionados acima (``required``, ``label``, ``initial``, ``widget``,
 ``help_text``).
