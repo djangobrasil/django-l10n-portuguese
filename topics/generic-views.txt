@@ -21,7 +21,7 @@ Views genéricas
 
 Escrever aplicações web pode ser monótono, porque nós repetimos certos padrões
 várias e várias vezes. O Django tenta tirar um pouco dessa monotonia nas
-camadas de model e template, mas os desenvolvedores web também experimentam 
+camadas de model e template, porém os desenvolvedores web também enfrentam 
 esse tédio na camada da view.
 
 As *views genéricas* do Django foram criadas para diminuir esse sofrimento. 
@@ -35,10 +35,10 @@ questão pode ser passado como um argumento extra ao URLconf.
 
 O Django vem com views genéricas que fazem o seguinte:
 
-    * Efetuam "simples" tarefas comuns: redirecionar para uma página 
+    * Efetuam tarefas comuns "simples": redirecionar para uma página 
       diferente e renderizar determinado template.
 
-    * Mostrar uma lista e página com detalhes de um único objeto. Se estamos
+    * Mostrar uma lista e páginas com detalhes de um único objeto. Se estamos
       criando uma aplicação para gerenciar conferências, então uma view
       ``talk_list`` e uma view ``registered_user_list`` seriam exemplo
       de views de listas. Uma única página de conversa seria o que chamamos
@@ -121,14 +121,14 @@ exceções ``TemplateDoesNotExist`` e retornamos um erro 404.
 
 .. admonition:: Existe uma falha de segurança aqui?
 
-    Os leitores mais atendos podem ter percebido uma possível falha de 
+    Os leitores mais atentos podem ter percebido uma possível falha de 
     segurança: estamos contruindo o nome do template usando conteúdo 
     do navegador (``template="about/%s.html" % page``). A primeira vista,
     isso parece uma clássica vulnerabilidade *directory traversal*. Mas
     realmente é?
 
     Não exatamente. Sim, um valor malicioso para ``page`` poderia causar
-    *directory traversal*, porém, a variável ``page`` *é* advinda da 
+    *directory traversal*, porém, a variável ``page`` *é* obtida pela 
     URL, e não é qualquer valor que será aceito. A chave para isso está
     na URLconf: estamos usando a expressão regular ``\w+`` para obter 
     parte da URL, e ``\w`` aceita somente letras e números. Portanto,
