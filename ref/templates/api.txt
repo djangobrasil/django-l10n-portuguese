@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 11332 $
 ..   $TranslationAuthors: None $
 ..
@@ -16,46 +16,48 @@
 
 .. _ref-templates-api:
 
-====================================================
-The Django template language: For Python programmers
-====================================================
+============================================================
+A linguagem de template do Django: Para programadores Python
+============================================================
 
-This document explains the Django template system from a technical
-perspective -- how it works and how to extend it. If you're just looking for
-reference on the language syntax, see :ref:`topics-templates`.
+Este documento explica o sistema de template do Django a partir de uma 
+perspectiva técnica -- como ela funciona e como estendê-la. Se você só está 
+procurando por referência sobre a sintaxe da linguagem, veja 
+:ref:`topics-templates`.
 
-If you're looking to use the Django template system as part of another
-application -- i.e., without the rest of the framework -- make sure to read
-the `configuration`_ section later in this document.
+Se você estiver procurando usar o sistema de template do Django como parte de
+outra aplicação -- i.e., sem o resto do framework -- esteja certo de ler a
+seção `configuração`_ mais adiante neste documento.
 
-.. _configuration: `configuring the template system in standalone mode`_
+.. _configuração: `configurando o sistema de template do django no modo standalone`_
 
-Basics
-======
+Fundamentos
+===========
 
-A **template** is a text document, or a normal Python string, that is marked-up
-using the Django template language. A template can contain **block tags** or
-**variables**.
+Um **template** é um documento de texto, ou uma string do Python normal, que é
+marcado usando a linguagem de template do Django. Um template pode conter
+**tags de bloco** ou **variáveis**.
 
-A **block tag** is a symbol within a template that does something.
+Uma **tag de bloco** é um símbolo dentro de um template que faz algo.
 
-This definition is deliberately vague. For example, a block tag can output
-content, serve as a control structure (an "if" statement or "for" loop), grab
-content from a database or enable access to other template tags.
+Esta definição deliberadamente vaga. Por exemplo, uma tag de bloco pode gerar
+conteúdo, serve como um controle de strutura (uma declaração "if" ou laço 
+"for"), apanha conteúdo do banco de dados ou habilita acesso para outras tags
+de template.
 
-Block tags are surrounded by ``"{%"`` and ``"%}"``.
+Tags de bloco são envolvidas por ``"{%}"`` e ``"%}"``.
 
-Example template with block tags:
+Exemplo de template exemplo com tags de bloco:
 
 .. code-block:: html+django
 
     {% if is_logged_in %}Thanks for logging in!{% else %}Please log in.{% endif %}
 
-A **variable** is a symbol within a template that outputs a value.
+Uma **variável** é um símbolo dentro de um template que gera um valor.
 
-Variable tags are surrounded by ``"{{"`` and ``"}}"``.
+Tags de variáveis são envolvidas por ``"{{"`` e ``"}}"``.
 
-Example template with variables:
+Exemplo de template com variáveis:
 
 .. code-block:: html+django
 
@@ -64,47 +66,48 @@ Example template with variables:
 A **context** is a "variable name" -> "variable value" mapping that is passed
 to a template.
 
-A template **renders** a context by replacing the variable "holes" with values
-from the context and executing all block tags.
+Um template **renderiza** um contexto substituindo a variável "holes" com os 
+valores do contexto e executando todas tags de bloco.
 
-Using the template system
-=========================
+Usando o sistema de template
+============================
 
-Using the template system in Python is a two-step process:
+Usar o sistema de templates no Python é um processo de dois passos:
 
-    * First, you compile the raw template code into a ``Template`` object.
-    * Then, you call the ``render()`` method of the ``Template`` object with a
-      given context.
+    * Primeiro, você compila o código do template puro dentro de um objeto 
+      ``Template``.
+    * Depois, você  chama o método ``render()`` do objeto ``Template`` com um
+      dado contexto.
 
-Compiling a string
-------------------
+Compilando uma string
+---------------------
 
-The easiest way to create a ``Template`` object is by instantiating it
-directly. The class lives at ``django.template.Template``. The constructor
-takes one argument -- the raw template code::
+A forma mais fácil de criar um objeto de ``Template`` é instanciando-o 
+diretamente. A classe fica em ``django.template.Template``. O construtor recebe 
+um argumento -- o código do template puro::
 
     >>> from django.template import Template
     >>> t = Template("My name is {{ my_name }}.")
     >>> print t
     <django.template.Template instance>
 
-.. admonition:: Behind the scenes
+.. admonition:: Por trás das cenas
 
-    The system only parses your raw template code once -- when you create the
-    ``Template`` object. From then on, it's stored internally as a "node"
-    structure for performance.
+    O sistema parseia somente o código do template puro -- quando você cria o
+    objeto ``Template``. A partir de entnao, é armazenado internamente como um
+    "nodo" da estrutura por questões de performance.
 
-    Even the parsing itself is quite fast. Most of the parsing happens via a
-    single call to a single, short, regular expression.
+    Mesmo o parseamento em si é bem rápido. A maioria do parseamento acontece
+    através de uma única chamada para uma única, e curta, expressão regular.
 
-Rendering a context
--------------------
+Renderizando um contexto
+------------------------
 
-Once you have a compiled ``Template`` object, you can render a context -- or
-multiple contexts -- with it. The ``Context`` class lives at
-``django.template.Context``, and the constructor takes one (optional)
-argument: a dictionary mapping variable names to variable values. Call the
-``Template`` object's ``render()`` method with the context to "fill" the
+Uma vez que você tenha compilado o objeto ``Template``, você pode renderizar um
+contexto -- ou vários contextos -- como ele. A classe ``Context`` fica em
+``django.template.Context``, e o seu construtor recebe um argumento (opcional):
+um dicionário que mapeia nomes de variáveis para valores de variáveis. E chama o
+método ``render()`` dos objetos ``Template`` com o contexto para "preencher" o
 template::
 
     >>> from django.template import Context, Template
@@ -118,22 +121,27 @@ template::
     >>> t.render(c)
     "My name is Dolores."
 
-Variable names must consist of any letter (A-Z), any digit (0-9), an underscore
-or a dot.
+Nomes de variáveis devem consistir de uma letra (A-Z), qualquer dígito (0-9), e
+um sublinhado ou ponto.
 
 Dots have a special meaning in template rendering. A dot in a variable name
 signifies **lookup**. Specifically, when the template system encounters a dot
 in a variable name, it tries the following lookups, in this order:
+Pontos possuem um significado especial na renderização do template. Um ponto no
+nome da variável significa **acesso**. Especificamente, quando o sistema de
+template enconra um ponto no nome de uma variável, ele tenta seguir a seguinte
+pesquisa, nesta ordem:
 
-    * Dictionary lookup. Example: ``foo["bar"]``
-    * Attribute lookup. Example: ``foo.bar``
-    * Method call. Example: ``foo.bar()``
-    * List-index lookup. Example: ``foo[bar]``
+    * Acesso a dicionário. Exemplo: ``foo["bar"]``
+    * Acesso a atributo. Exemplo: ``foo.bar``
+    * Chamada de método. Exemplo: ``foo.bar()``
+    * Acesso a indíce de lista. Exemplo: ``foo[bar]``
+    
 
-The template system uses the first lookup type that works. It's short-circuit
-logic.
+O sistema de template usa o primeiro tipo de acesso que funcionar. É um lógica
+de curto-circuito.
 
-Here are a few examples::
+Aqui tem alguns exemplos::
 
     >>> from django.template import Context, Template
     >>> t = Template("My name is {{ person.first_name }}.")
@@ -160,14 +168,14 @@ Here are a few examples::
     >>> t.render(c)
     "The first stooge in the list is Larry."
 
-Method lookups are slightly more complex than the other lookup types. Here are
-some things to keep in mind:
+Acesso a métodos são ligeiramente mais complexos em relação aos outros tipos de
+acessos. Há coisas que a se manter em mente:
 
-    * If, during the method lookup, a method raises an exception, the exception
-      will be propagated, unless the exception has an attribute
-      ``silent_variable_failure`` whose value is ``True``. If the exception
-      *does* have a ``silent_variable_failure`` attribute, the variable will
-      render as an empty string. Example::
+    * Se durante o acesso ao método, um método lançar uma exceção, a exceção 
+      será propagada, a menos que a exceção tenha um atributo 
+      ``silent_variable_failure`` cujo valor seja ``True``. Se a exceção *tem*
+      um atributo ``silent_variable_failure``, a variável será renderizada como
+      uma string vazia. Exemplo::
 
         >>> t = Template("My name is {{ person.first_name }}.")
         >>> class PersonClass3:
@@ -188,29 +196,30 @@ some things to keep in mind:
         >>> t.render(Context({"person": p}))
         "My name is ."
 
-      Note that ``django.core.exceptions.ObjectDoesNotExist``, which is the
-      base class for all Django database API ``DoesNotExist`` exceptions, has
-      ``silent_variable_failure = True``. So if you're using Django templates
-      with Django model objects, any ``DoesNotExist`` exception will fail
-      silently.
+      Perceba que ``django.core.exceptions.ObjectDoesNotExist``, que é a classe
+      base para exceção ``DoesNotExist`` de toda API de banco de dados do 
+      Django, possui ``silent_variable_failure = True``. Então se você estiver
+      usando templates do Django com objetos de model, qualquer exceção
+      ``DoesNotExist`` falhará silenciosamente.
 
-    * A method call will only work if the method has no required arguments.
-      Otherwise, the system will move to the next lookup type (list-index
-      lookup).
+    * Uma chamada de método somente funcionará se o método não tiver argumentos
+      obrigatórios. Caso contrário, o sistema se moverá para o próximo tipo de
+      acesso (acesso a indíce de lista).
 
-    * Obviously, some methods have side effects, and it'd be either foolish or
-      a security hole to allow the template system to access them.
+    * Obviamente, alguns métodos tem um efeito colateral, e seria tolo ou 
+      representaria uma falha de segurança permitir que o sistema de template
+      acesse-os.
 
-      A good example is the ``delete()`` method on each Django model object.
-      The template system shouldn't be allowed to do something like this::
+      Um bom exemplo é o método ``delete()`` em cada objeto de model do Django
+      possui. Ao sistema de template não e permitido fazer algo deste tipo::
 
-        I will now delete this valuable data. {{ data.delete }}
+        Eu irei agora deletar esse dado valioso. {{ data.delete }}
 
-      To prevent this, set a function attribute ``alters_data`` on the method.
-      The template system won't execute a method if the method has
-      ``alters_data=True`` set. The dynamically-generated ``delete()`` and
-      ``save()`` methods on Django model objects get ``alters_data=True``
-      automatically. Example::
+      Para previnir isso, configure um atributo de função ``alters_data`` no 
+      método. O sistema de template não executará um método se o mesmo tem o 
+      ``alters_data=True`` configurado. Os métodos dinamicamente gerados
+      ``delete()`` e ``save()`` nos objetos de model do Django obtêm 
+      ``alters_data=True`` automaticamente. Exemplo::
 
         def sensitive_function(self):
             self.database_record.delete()
@@ -218,48 +227,48 @@ some things to keep in mind:
 
 .. _invalid-template-variables:
 
-How invalid variables are handled
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Como variáveis inválidas são manipuladas
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Generally, if a variable doesn't exist, the template system inserts the
-value of the :setting:`TEMPLATE_STRING_IF_INVALID` setting, which is set to
-``''`` (the empty string) by default.
+Geralmente, se uma variável não existe, o sistema de template insere o valor da
+configuração :setting:`TEMPLATE_STRING_IF_INVALID`, que é configurado como 
+``''`` (uma string vazia) por padrão.
 
-Filters that are applied to an invalid variable will only be applied if
-:setting:`TEMPLATE_STRING_IF_INVALID` is set to ``''`` (the empty string). If
-:setting:`TEMPLATE_STRING_IF_INVALID` is set to any other value, variable
-filters will be ignored.
+Filtros que são aplicado numa variável inválida somente serão aplicados se
+:setting:`TEMPLATE_STRING_IF_INVALID` for configurado como ``''`` (uma string
+vazia). Se :setting:`TEMPLATE_STRING_IF_INVALID` for configurado com qualquer
+outro valor, a variável filtro serão ignorados.
 
-This behavior is slightly different for the ``if``, ``for`` and ``regroup``
-template tags. If an invalid variable is provided to one of these template
-tags, the variable will be interpreted as ``None``. Filters are always
-applied to invalid variables within these template tags.
+Este comportamento é ligeiramente diferente das tags de template ``if``, ``for``
+e ``regroup``. Se uma variável inválida é fornecida para uma dessas tags de
+template, a variável será interpretada como ``None``. Os filtros são sempre
+aplicados em variáveis inválidas dentro destas tags de template.
 
-If :setting:`TEMPLATE_STRING_IF_INVALID` contains a ``'%s'``, the format marker will
-be replaced with the name of the invalid variable.
+Se :setting:`TEMPLATE_STRING_IF_INVALID` contém um ``'%s'``, o formato do 
+marcador será substituido com o nome da variável inválida.
 
-.. admonition:: For debug purposes only!
+.. admonition:: Somente para fins de depuração!
 
-    While :setting:`TEMPLATE_STRING_IF_INVALID` can be a useful debugging tool,
-    it is a bad idea to turn it on as a 'development default'.
+    Enquanto :setting:`TEMPLATE_STRING_IF_INVALID` pode ser uma ferramenta de
+    depuração útil, também pode ser uma péssima idéia ligá-la como um 'padrão de
+    desenvolvimento'.
+    
+    Muitos templates, incluíndo os do site Admin, confiam no silêncio do sistema
+    de template quando uma variável não existene é encontrada. Se você atribui
+    um valor diferente de ``''`` para :setting:`TEMPLATE_STRING_IF_INVALID`, 
+    você experimentará problemas de renderização com estes templates e sites.
 
-    Many templates, including those in the Admin site, rely upon the
-    silence of the template system when a non-existent variable is
-    encountered. If you assign a value other than ``''`` to
-    :setting:`TEMPLATE_STRING_IF_INVALID`, you will experience rendering
-    problems with these templates and sites.
+    Geralmente, :setting:`TEMPLATE_STRING_IF_INVALID` somente pode ser 
+    habilitado para fins de depuraçnao num problema específico de um template, 
+    uma vez que esteja concluída a depuração ele deve ser limpo.
 
-    Generally, :setting:`TEMPLATE_STRING_IF_INVALID` should only be enabled
-    in order to debug a specific template problem, then cleared
-    once debugging is complete.
+Brincando com objetos de contexto
+---------------------------------
 
-Playing with Context objects
-----------------------------
-
-Most of the time, you'll instantiate ``Context`` objects by passing in a
-fully-populated dictionary to ``Context()``. But you can add and delete items
-from a ``Context`` object once it's been instantiated, too, using standard
-dictionary syntax::
+Na maior parte do tempo, você instanciará objetos ``Context`` passando num 
+dicionário completamente populado ao ``Context()``. Mas você pode adicionar e 
+deletar ítens de um objeto ``Context`` uma vez que o tenha instanciado, também,
+usando a sintaxe padrão do dicionário::
 
     >>> c = Context({"foo": "bar"})
     >>> c['foo']
@@ -271,8 +280,8 @@ dictionary syntax::
     >>> c['newvariable']
     'hello'
 
-A ``Context`` object is a stack. That is, you can ``push()`` and ``pop()`` it.
-If you ``pop()`` too much, it'll raise
+Um objeto ``Context`` é uma pilha. Isto é, você pode executar ``push()`` e 
+``pop()``. Se você executar o ``pop()`` insistentemente, ele lançará um
 ``django.template.ContextPopException``::
 
     >>> c = Context()
@@ -292,40 +301,42 @@ If you ``pop()`` too much, it'll raise
     ...
     django.template.ContextPopException
 
-Using a ``Context`` as a stack comes in handy in some custom template tags, as
-you'll see below.
+Usando um ``Context`` como uma pilha vem a calhar em algumas tags de template,
+como você verá abaixo.
 
 .. _subclassing-context-requestcontext:
 
-Subclassing Context: RequestContext
------------------------------------
+Estendendo Context: RequestContext
+----------------------------------
 
-Django comes with a special ``Context`` class,
-``django.template.RequestContext``, that acts slightly differently than the
-normal ``django.template.Context``. The first difference is that it takes an
-:class:`~django.http.HttpRequest` as its first argument. For example::
+O Django vem com uma classe ``Context`` especial
+``django.template.RequestContext``, que age ligeiramente diferente da classe
+normal ``django.template.Context``. A primeira difereça é que ele recebe um
+:class:`~django.http.HttpRequest` como o seu primeiro argumento. Por exemplo::
 
     c = RequestContext(request, {
         'foo': 'bar',
     })
 
-The second difference is that it automatically populates the context with a few
-variables, according to your :setting:`TEMPLATE_CONTEXT_PROCESSORS` setting.
+A segunda diferença é que ele automaticamente popula o contexto com umas poucas
+variáveis, de acordo com a sua configuração 
+:setting:`TEMPLATE_CONTEXT_PROCESSORS`.
 
-The :setting:`TEMPLATE_CONTEXT_PROCESSORS` setting is a tuple of callables --
-called **context processors** -- that take a request object as their argument
-and return a dictionary of items to be merged into the context. By default,
-:setting:`TEMPLATE_CONTEXT_PROCESSORS` is set to::
+A configuração :setting:`TEMPLATE_CONTEXT_PROCESSORS` é uma tupla de 
+chamáveis -- chamado **processador de contexto** -- que recebe um objeto de
+requisição como seu argumento e retorna um dicionário para ser mesclado dentro
+do contexto. Por padrão, :setting:`TEMPLATE_CONTEXT_PROCESSORS` é configurado
+como::
 
     ("django.core.context_processors.auth",
     "django.core.context_processors.debug",
     "django.core.context_processors.i18n",
     "django.core.context_processors.media")
 
-Each processor is applied in order. That means, if one processor adds a
-variable to the context and a second processor adds a variable with the same
-name, the second will override the first. The default processors are explained
-below.
+Cada processador é aplicado na ordem. Isso significa que um processador que
+adiciona uma variável ao contexto e um segundo processador adiciona uma variável
+com o mesmo nome, a segunda sobrescreverá o primeiro. O processador padrão será
+explicado abaixo.
 
 Also, you can give ``RequestContext`` a list of additional processors, using the
 optional, third positional argument, ``processors``. In this example, the
