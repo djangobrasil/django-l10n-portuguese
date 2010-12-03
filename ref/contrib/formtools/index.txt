@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, waiting for revision $
+..   $TranslationStatus: Done $
 ..   $OriginalRevision: 11348 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -19,7 +19,6 @@
 django.contrib.formtools
 ========================
 
-A set of high-level abstractions for Django forms (:mod:`django.forms`).
 Um conjunto de abstrações de auto-nível para os formulários do Django 
 (:mod:`django.forms`).
 
