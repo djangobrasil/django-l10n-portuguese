@@ -258,7 +258,7 @@ para ``patterns()``. Isso é conveniente se você quer especificar um nome sem
 utilizar o dicionário de argumentos opcionais adicionais. Por exemplo::
 
     urlpatterns = patterns('',
-        url(r'index/$', index_view, name="main-view"),
+        url(r'^index/$', index_view, name="main-view"),
         ...
     )
 
@@ -283,6 +283,9 @@ que deve ser chamada se nenhum dos padrões de URL corresponder.
 Por padrão, este valor é ``'django.views.defaults.page_not_found'``, que na
 maioria das vezes deve ser suficiente.
 
+.. versionchanged:: 1.2
+    Previous versions of Django only accepted strings representing import paths.
+
 handler500
 ----------
 
@@ -295,6 +298,9 @@ quando você tem erros em tempo de execução no código da sua view.
 Por padrão, este valor é ``'django.views.defaults.server_error'``, que na
 maioria das vezes deve ser suficiente.
 
+.. versionchanged:: 1.2
+    Previous versions of Django only accepted strings representing import paths.
+
 include
 -------
 
@@ -303,6 +309,13 @@ include
 Uma função que recebe o caminho completo para a importação Python de outro
 URLconf que deve ser "incluído" neste local. Veja `Incluindo outros URLconfs`_
 abaixo.
+
+.. versionadded:: 1.1
+
+:func:`include` also accepts as an argument an iterable that returns URL
+patterns.
+
+See `Including other URLconfs`_ below.
 
 Notas na captura de texto em URLs
 =================================
@@ -348,7 +361,7 @@ O prefixo da view
 Você pode especificar um prefixo comum em sua chamada ``patterns()`` para
 diminuir a duplicação de código.
 
-Segue um exemplo de URLconf de :ref:`Visão geral do Django <intro-overview>`::
+Segue um exemplo de URLconf da :doc:`Visão geral do Django </intro/overview>`::
 
     from django.conf.urls.defaults import *
 
@@ -368,7 +381,7 @@ assim::
 
     from django.conf.urls.defaults import *
 
-    urlpatterns = patterns('mysite.news.views',
+    urlpatterns = patterns('news.views',
         (r'^articles/(\d{4})/$', 'year_archive'),
         (r'^articles/(\d{4})/(\d{2})/$', 'month_archive'),
         (r'^articles/(\d{4})/(\d{2})/(\d+)/$', 'article_detail'),
@@ -431,6 +444,33 @@ Django encontra ``include()``, ele recorta qualquer parte da URL correspondida
 até aquele ponto e envia a string restante ao URLconf incluído para
 processamento adicional.
 
+.. versionadded:: 1.1
+
+Another possibility is to include additional URL patterns not by specifying the
+URLconf Python module defining them as the `include`_ argument but by using
+directly the pattern list as returned by `patterns`_ instead. For example::
+
+    from django.conf.urls.defaults import *
+
+    extra_patterns = patterns('',
+        url(r'reports/(?P<id>\d+)/$', 'credit.views.report', name='credit-reports'),
+        url(r'charge/$', 'credit.views.charge', name='credit-charge'),
+    )
+
+    urlpatterns = patterns('',
+        url(r'^$',    'apps.main.views.homepage', name='site-homepage'),
+        (r'^help/',   include('apps.help.urls')),
+        (r'^credit/', include(extra_patterns)),
+    )
+
+This approach can be seen in use when you deploy an instance of the Django
+Admin application. The Django Admin is deployed as instances of a
+:class:`~django.contrib.admin.AdminSite`; each
+:class:`~django.contrib.admin.AdminSite` instance has an attribute ``urls``
+that returns the url patterns available to that instance. It is this attribute
+that you ``include()`` into your projects ``urlpatterns`` when you deploy the
+admin instance.
+
 .. _`Web site do Django`: http://www.djangoproject.com/
 
 Parâmetros capturados
@@ -453,6 +493,58 @@ então o seguinte exemplo é válido::
 No exemplo acima, a variável ``"username"`` capturada é passada para o URLconf,
 como esperado.
 
+.. _topics-http-defining-url-namespaces:
+
+Defining URL Namespaces
+-----------------------
+
+When you need to deploy multiple instances of a single application, it can be
+helpful to be able to differentiate between instances. This is especially
+important when using :ref:`named URL patterns <naming-url-patterns>`, since
+multiple instances of a single application will share named URLs. Namespaces
+provide a way to tell these named URLs apart.
+
+A URL namespace comes in two parts, both of which are strings:
+
+    * An **application namespace**. This describes the name of the application
+      that is being deployed. Every instance of a single application will have
+      the same application namespace. For example, Django's admin application
+      has the somewhat predictable application namespace of ``admin``.
+
+    * An **instance namespace**. This identifies a specific instance of an
+      application. Instance namespaces should be unique across your entire
+      project. However, an instance namespace can be the same as the
+      application namespace. This is used to specify a default instance of an
+      application. For example, the default Django Admin instance has an
+      instance namespace of ``admin``.
+
+URL Namespaces can be specified in two ways.
+
+Firstly, you can provide the application and instance namespace as arguments
+to ``include()`` when you construct your URL patterns. For example,::
+
+    (r'^help/', include('apps.help.urls', namespace='foo', app_name='bar')),
+
+This will include the URLs defined in ``apps.help.urls`` into the application
+namespace ``bar``, with the instance namespace ``foo``.
+
+Secondly, you can include an object that contains embedded namespace data. If
+you ``include()`` a ``patterns`` object, that object will be added to the
+global namespace. However, you can also ``include()`` an object that contains
+a 3-tuple containing::
+
+    (<patterns object>, <application namespace>, <instance namespace>)
+
+This will include the nominated URL patterns into the given application and
+instance namespace. For example, the ``urls`` attribute of Django's
+:class:`~django.contrib.admin.AdminSite` object returns a 3-tuple that contains
+all the patterns in an admin site, plus the name of the admin instance, and the
+application namespace ``admin``.
+
+Once you have defined namespaced URLs, you can reverse them. For details on
+reversing namespaced urls, see the documentation on :ref:`reversing namespaced
+URLs <topics-http-reversing-url-namespaces>`.
+
 Passando opções adicionais para funções de view
 ===============================================
 
@@ -474,8 +566,8 @@ Neste exemplo, numa requisição para ``/blog/2005/``, o Django chamará a view
 
     year='2005', foo='bar'
 
-Essa técnica é utilizada em :ref:`views genéricas <ref-generic-views>` e em
-:ref:`syndication framework <ref-contrib-syndication>` para passar meta-dados e
+Essa técnica é utilizada em :doc:`views genéricas </ref/generic-views>` e em
+:doc:`syndication framework </ref/contrib/syndication>` para passar metadados e
 opções para as views.
 
 .. admonition:: Lidando com conflitos
@@ -629,7 +721,86 @@ queira. Você não está restrito a nomes válidos em Python.
     aplicação, diminuirá as chances de colisão. Recomendamos algo como
     ``myapp-comment`` em vez de ``comment``.
 
-.. _template tag: ../templates/#url
+.. _topics-http-reversing-url-namespaces:
+
+URL namespaces
+--------------
+
+.. versionadded:: 1.1
+
+Namespaced URLs are specified using the ``:`` operator. For example, the main
+index page of the admin application is referenced using ``admin:index``. This
+indicates a namespace of ``admin``, and a named URL of ``index``.
+
+Namespaces can also be nested. The named URL ``foo:bar:whiz`` would look for
+a pattern named ``whiz`` in the namespace ``bar`` that is itself defined within
+the top-level namespace ``foo``.
+
+When given a namespaced URL (e.g. ``myapp:index``) to resolve, Django splits
+the fully qualified name into parts, and then tries the following lookup:
+
+    1. First, Django looks for a matching application namespace (in this
+       example, ``myapp``). This will yield a list of instances of that
+       application.
+
+    2. If there is a *current* application defined, Django finds and returns
+       the URL resolver for that instance. The *current* application can be
+       specified as an attribute on the template context - applications that
+       expect to have multiple deployments should set the ``current_app``
+       attribute on any ``Context`` or ``RequestContext`` that is used to
+       render a template.
+
+       The current application can also be specified manually as an argument
+       to the :func:`reverse()` function.
+
+    3. If there is no current application. Django looks for a default
+       application instance. The default application instance is the instance
+       that has an instance namespace matching the application namespace (in
+       this example, an instance of the ``myapp`` called ``myapp``).
+
+    4. If there is no default application instance, Django will pick the last
+       deployed instance of the application, whatever its instance name may be.
+
+    5. If the provided namespace doesn't match an application namespace in
+       step 1, Django will attempt a direct lookup of the namespace as an
+       instance namespace.
+
+If there are nested namespaces, these steps are repeated for each part of the
+namespace until only the view name is unresolved. The view name will then be
+resolved into a URL in the namespace that has been found.
+
+To show this resolution strategy in action, consider an example of two instances
+of ``myapp``: one called ``foo``, and one called ``bar``. ``myapp`` has a main
+index page with a URL named `index`. Using this setup, the following lookups are
+possible:
+
+    * If one of the instances is current - say, if we were rendering a utility page
+      in the instance ``bar`` - ``myapp:index`` will resolve to the index page of
+      the instance ``bar``.
+
+    * If there is no current instance - say, if we were rendering a page
+      somewhere else on the site - ``myapp:index`` will resolve to the last
+      registered instance of ``myapp``. Since there is no default instance,
+      the last instance of ``myapp`` that is registered will be used. This could
+      be ``foo`` or ``bar``, depending on the order they are introduced into the
+      urlpatterns of the project.
+
+    * ``foo:index`` will always resolve to the index page of the instance ``foo``.
+
+If there was also a default instance - i.e., an instance named `myapp` - the
+following would happen:
+
+    * If one of the instances is current - say, if we were rendering a utility page
+      in the instance ``bar`` - ``myapp:index`` will resolve to the index page of
+      the instance ``bar``.
+
+    * If there is no current instance - say, if we were rendering a page somewhere
+      else on the site - ``myapp:index`` will resolve to the index page of the
+      default instance.
+
+    * ``foo:index`` will again resolve to the index page of the instance ``foo``.
+
+
 
 Métodos utilitários
 ===================
@@ -662,6 +833,14 @@ vertical (``"|"``). Você pode utilizar esses padrões tranquilamente para
 corresponderem às requisições recebidas e envia-las para os views, mas você não
 pode reverter tais padrões.
 
+.. versionadded:: 1.1
+
+The ``current_app`` argument allows you to provide a hint to the resolver
+indicating the application to which the currently executing view belongs.
+This ``current_app`` argument is used as a hint to resolve application
+namespaces into URLs on specific application instances, according to the
+:ref:`namespaced URL resolution strategy <topics-http-reversing-url-namespaces>`.
+
 .. admonition:: Esteja certo de que suas views estão todas corretas
 
     Como parte do trabalho no qual os nomes de URL mapeiam os padrões, a função
@@ -688,6 +867,9 @@ assinatura:
 ``path`` é o caminho da URL que você deseja resolver. Como com ``reverse()``
 acima, você não precisa se preocupar com o parâmetro ``urlconf``. A função
 retorna uma tuple tripla (função view, argumentos, argumentos nomeados).
+
+If the URL does not resolve, the function raises an
+:class:`~django.http.Http404` exception.s
 
 Por exemplo, ela pode ser usada para testar se um view geraria um erro
 ``Http404`` antes de redirecioná-lo::
@@ -719,3 +901,21 @@ curtos que retornam o caminho inteiro da URL. Por exemplo, o método
 ``get_absolute_url()`` do modelo. Consulte :func:`django.db.models.permalink`
 para mais informações.
 
+get_script_prefix() 
+------------------- 
+ 
+.. function:: get_script_prefix() 
+ 
+.. versionadded:: 1.0 
+ 
+Normally, you should always use :func:`~django.core.urlresolvers.reverse` or 
+:func:`~django.db.models.permalink` to define URLs within your application. 
+However, if your application constructs part of the URL hierarchy itself, you 
+may occasionally need to generate URLs. In that case, you need to be able to 
+find the base URL of the Django project within its web server 
+(normally, :func:`~django.core.urlresolvers.reverse` takes care of this for  
+you). In that case, you can call ``get_script_prefix()``, which will return the 
+script prefix portion of the URL for your Django project. If your Django 
+project is at the root of its webserver, this is always ``"/"``, but it can be 
+changed, for instance  by using ``django.root`` (see :ref:`How to use 
+Django with Apache and mod_python <howto-deployment-modpython>`). 
