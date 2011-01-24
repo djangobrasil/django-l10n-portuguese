@@ -180,7 +180,7 @@ usa o :ttag:`get_comment_form` para pegar um :ref:`objeto form
 Um formulário completo pode ficar tipo::
 
     {% get_comment_form for event as form %}
-    <form action="{% comment_form_target %}" method="POST">
+    <form action="{% comment_form_target %}" method="post">
       {{ form }}
       <tr>
         <td></td>
@@ -256,4 +256,7 @@ Mais informações
    settings
    signals
    upgrade
-
+   custom
+   forms
+   moderation
+   example

@@ -54,10 +54,10 @@ informações.
 Como eu defino automaticamente o valor de um campo para o usuário que editou o objeto por último na administração?
 -------------------------------------------------------------------------------------------------------------------
 
-A classe :class:`ModelAdmin` fornece ganchos (hooks) de personalização que
+A classe :class:`~django.contrib.admin.ModelAdmin` fornece ganchos (hooks) de personalização que
 permitem que você transforme um objeto quando ele é salvo, usando detalhes
 obtidos da requisição. Ao extrair o usuário atual da requisição, e personalizar
-o gancho :meth:`ModelAdmin.save_model`, você pode atualizar um objeto para
+o gancho :meth:`~django.contrib.admin.ModelAdmin.save_model`, você pode atualizar um objeto para
 refletir o usuário que o editou. Veja :ref:`a documentação sobre os métodos do
 ModelAdmin <model-admin-methods>` para um exemplo.
 

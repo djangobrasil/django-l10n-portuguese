@@ -115,6 +115,8 @@ Subcomandos disponíveis
 cleanup
 -------
 
+.. django-admin:: cleanup
+
 .. versionadded:: 1.0
 
 Pode ser executado como um cronjob ou diretamente para limpar dados antigos do
@@ -122,6 +124,8 @@ banco de dados (somente sessões expiradas até o momento).
 
 compilemessages
 ---------------
+
+.. django-admin:: compilemessages
 
 .. versionchanged:: 1.0
    Antes do 1.0 este era o comando "bin/compile-messages.py".
@@ -400,6 +404,8 @@ Exemplo de uso::
 
 makemessages
 ------------
+
+.. django-admin:: makemessages
 
 .. versionchanged:: 1.0
    Antes da versão 1.0 este era o comando ``bin/make-messages.py``.
@@ -760,6 +766,8 @@ Exemplo de uso::
 testserver <fixture fixture ...>
 --------------------------------
 
+.. django-admin:: testserver
+
 .. versionadded:: 1.0
 
 Executa um servidor de desenvolvimento Django (como no ``runserver``) usando
@@ -817,20 +825,6 @@ importa se as opções vem antes ou depois dos argumentos de fixture.)
 Para rodar sobre 1.2.3.4:7000 um fixture ``test``::
 
     django-admin.py testserver --addrport 1.2.3.4:7000 test
-
---verbosity
-~~~~~~~~~~~
-
-Use ``--verbosity`` para especificar o quanto de notificações e informações de
-debug o ``django-admin.py`` deverá imprimir no console.
-
-	* ``0`` significa nenhuma saída.
-	* ``1`` significa saída normal (padrão).
-	* ``2`` significa saída prolixa.
-
-Exemplo de uso::
-
-    django-admin.py testserver --verbosity=2
 
 validate
 --------
@@ -914,3 +908,27 @@ e ``manage.py``, então você pode, por instância...
 
 Veja :ref:`howto-custom-management-commands` para saber como adicionar ações
 personalizadas.
+
+==========================================
+Running management commands from your code
+==========================================
+
+.. function:: django.core.management.call_command(name, *args, **options)
+
+To call a management command from code use ``call_command``.
+
+``name``
+  the name of the command to call.
+
+``*args``
+  a list of arguments accepted by the command.
+
+``**options``
+  named options accepted on the command-line.
+
+Examples::
+
+      from django.core import management
+      management.call_command('flush', verbosity=0, interactive=False)
+      management.call_command('loaddata', 'test_data', verbosity=0)
+
