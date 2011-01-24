@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _faq-contributing:
-
 FAQ: Contribuindo com código
 ============================
 
@@ -23,7 +20,7 @@ Como eu posso começar a contribuir com o código do Django?
 ----------------------------------------------------------
 
 Obrigado por perguntar! Escrevemos um documento inteiro dedicado a essa questão
-chamado :ref:`Contribuindo com o Django <internals-contributing>`.
+chamado :doc:`Contribuindo com o Django </internals/contributing>`.
 
 Eu enviei uma correção de bug no sistema de tickets semanas atrás. Por que vocês estão ignorando meu patch?
 -----------------------------------------------------------------------------------------------------------

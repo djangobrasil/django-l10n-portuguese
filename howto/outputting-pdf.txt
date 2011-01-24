@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, wainting for revision. $
-..   $OriginalRevision: 11348 $
+..   $OriginalRevision: 14077 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -13,8 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _howto-outputting-pdf:
 
 ============================
 Exportando PDFs com o Django
@@ -32,14 +30,14 @@ Por exemplo, o Django foi usado no kusports.com_ para gerar versões de
 impressão curtomizadas dos torneios do NCAA, como arquivos PDF, para
 pessoas participantes no concurso March Madness.
 
-.. _ReportLab: http://www.reportlab.org/rl_toolkit.html
+.. _ReportLab: http://www.reportlab.org/oss/rl-toolkit/
 .. _kusports.com: http://www.kusports.com/
 
 Instalando o ReportLab
 ======================
 
 Baixe e instale a biblioteca ReportLab do site 
-http://www.reportlab.org/downloads.html. O `guia de usuário`_ (não 
+http://www.reportlab.org/oss/rl-toolkit/download/. O `guia de usuário`_ (não 
 coincidentemente, um arquivo PDF) explica como instalá-lo.
 
 Teste sua instalação importando-o no interpretador interativo do Python::
@@ -50,7 +48,7 @@ Se o comando não mostrar nenhum erro, a instalação está funcionando.
 
 .. _guia de usuário: http://www.reportlab.com/docs/reportlab-userguide.pdf
 
-Escreva o seu view
+Escreva a sua view
 ==================
 
 A chave para gerar PDFs dinamicamente com o Django é que a API do ReportLab
@@ -123,7 +121,11 @@ arquivo PDF. A biblioteca cStringIO fornece uma interface para objeto como
 arquivo que é particularmente eficiente. Aqui o exemplo acima "Hello World" é
 re-escrito para usar o ``cStringIO``::
 
-    from cStringIO import StringIO
+    # Fall back to StringIO in environments where cStringIO is not available
+    try:
+        from cStringIO import StringIO
+    except ImportError:
+        from StringIO import StringIO
     from reportlab.pdfgen import canvas
     from django.http import HttpResponse
 
@@ -152,7 +154,7 @@ re-escrito para usar o ``cStringIO``::
         response.write(pdf)
         return response
 
-.. _cStringIO: http://www.python.org/doc/current/lib/module-cStringIO.html
+.. _cStringIO: http://docs.python.org/library/stringio.html#module-cStringIO
 
 Mais recursos
 =============
@@ -160,17 +162,15 @@ Mais recursos
     * PDFlib_ é outra biblioteca de geração de PDF que tem binding para o 
       Python. Para usá-lo com o Django, somente use o mesmo conceito explicado
       neste artigo.
-    * `Pisa HTML2PDF`_ é mais uma biblioteca de geração de PDF. Pisa é entregue
+    * `Pisa XHTML2PDF`_ é mais uma biblioteca de geração de PDF. Pisa é entregue
       com um exemplo de como integrá-la com o Django.
     * HTMLdoc_ é um script de linha de comando que consegue converter HTML para
       PDF. Ele não possui uma interface Python, mas você consegue escapar do
       terminal usando ``system`` ou ``popen`` e recebendo a saída no Python.
-    * `forge_fdf no Python`_ é uma biblioteca que preenche formulários em PDF.
 
 .. _PDFlib: http://www.pdflib.org/
-.. _`Pisa HTML2PDF`: http://www.htmltopdf.org/
+.. _`Pisa XHTML2PDF`: http://www.xhtml2pdf.com/
 .. _HTMLdoc: http://www.htmldoc.org/
-.. _forge_fdf no Python: http://www.accesspdf.com/article.php/20050421092951834
 
 Outros formatos
 ===============
@@ -178,5 +178,5 @@ Outros formatos
 Repare que não há muitos destes exemplos específicos de PDF -- somente o que é 
 usado o ``reportlab``. Você pode usar uma técnica similar para gerar qualquer 
 formato que possa ser gerado por uma biblioteca Python. Também veja 
-:ref:`howto-outputting-csv` para outro exemplo e algumas técnicas que você pode
+:doc:`/howto/outputting-csv` para outro exemplo e algumas técnicas que você pode
 usar quando gera formatos baseados em texto.

@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision. $
-..   $OriginalRevision: 11298 $
+..   $OriginalRevision: 14834 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -12,9 +12,6 @@
 ..   $LastChangedBy$
 ..   $LastChangedDate$
 ..
-
-
-.. _topics-files:
 
 ====================
 Gerenciando arquivos
@@ -87,8 +84,8 @@ um usando o objeto nativo ``file`` do Python::
     >>> f = open('/tmp/hello.world', 'w')
     >>> myfile = File(f)
 
-Agora você pode usar qualquer atributo ou método do ``File`` documentado em
-:ref:`ref-files-file`.
+Agora você pode usar qualquer atributo ou método do ``File`` documentado na
+classe :class:`~django.core.files.File`.
 
 Armazenamento de arquivo
 ========================
@@ -102,7 +99,7 @@ O sistema de armazenamento padrão do Django é dado pela configuração
 armazenamento, é este que será utilizado.
 
 Veja abaixo detalhes do sistema de armazenamento nativo, e veja
-:ref:`howto-custom-file-storage` para mais informações sobre criar seu próprio
+:doc:`/howto/custom-file-storage` para mais informações sobre criar seu próprio
 sistema de armazenamento.
 
 Objetos de armazenamento
@@ -131,7 +128,7 @@ armazenamento global::
     >>> default_storage.exists(path)
     False
 
-Consulte :ref:`ref-files-storage` para saber mais sobre a API de armazenamento
+Consulte :doc:`/ref/files/storage` para saber mais sobre a API de armazenamento
 de arquivos.
 
 A classe nativa de armazenamento filesystem
@@ -164,7 +161,7 @@ Por exemplo, o seguinte código irá armazenar os arquivos enviados em
         ...
         photo = models.ImageField(storage=fs)
 
-Os :ref:`sistemas de armazenamento customizados <howto-custom-file-storage>`
+Os :doc:`sistemas de armazenamento customizados </howto/custom-file-storage>`
 funcionam da mesma forma: você pode passá-los como o argumento ``storage`` para
 um ``FileField``.
 

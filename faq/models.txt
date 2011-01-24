@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done $
-..   $OriginalRevision: 11268 $
+..   $OriginalRevision: 13609 $
 ..   $TranslationAuthors: Italo Maia, Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -13,11 +13,10 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _faq-models:
-
 FAQ: Bancos de dados e modelos
 ==============================
+
+.. _faq-see-raw-sql-queries:
 
 Como eu posso ver as consultas SQL que o Django está executando?
 ----------------------------------------------------------------
@@ -44,10 +43,18 @@ incluir os parâmetros entre aspas. A colocação de aspas nos parâmatros é
 executada pelo backend específico de banco de dados, e nem todos os backends
 fornecem uma forma de obter o SQL depois de colocadas as aspas.
 
+.. versionadded:: 1.2
+
+Se você está usando :doc:`múltiplos bancos de dado</topics/db/multi-db>`, você pode usar a mesma
+interface em cada membro do dicionário ``connections``::
+
+    >>> from django.db import connections
+    >>> connections['my_db_alias'].queries
+
 Eu posso usar o Django com um banco de dados pré-existente?
 ------------------------------------------------------------
 
-Sim. Veja :ref:`Integrando com um banco de dados legado <howto-legacy-databases>`.
+Sim. Veja :doc:`Integrando com um banco de dados legado </howto/legacy-databases>`.
 
 Se eu faço mudanças no model, como eu atualizo o banco de dados?
 ----------------------------------------------------------------

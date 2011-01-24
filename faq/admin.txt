@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _faq-admin:
-
 FAQ: A administração
 ====================
 
@@ -48,7 +45,7 @@ Como eu previno o middleware de cache de fazer cache do site administrativo?
 ----------------------------------------------------------------------------
 
 Defina o valor de :setting:`CACHE_MIDDLEWARE_ANONYMOUS_ONLY` para
-``True``. Veja a :ref:`documentação do cache <topics-cache>` para mais
+``True``. Veja a :doc:`documentação do cache </topics/cache>` para mais
 informações.
 
 Como eu defino automaticamente o valor de um campo para o usuário que editou o objeto por último na administração?
@@ -111,5 +108,5 @@ Gostamos dele, mas se você não gosta, você pode mudar a apresentação do sit
 editando a folha de estilos e/ou as imagens assossiadas. O site é construído
 usando HTML semântico e está cheio de hooks de CSS, assim, qualquer mudança que
 você quiser fazer é possível pela edição da folha de estilos. Nós escrevemos um
-:ref:`guia para o CSS usado na administração <obsolete-admin-css>` para
+:doc:`guia para o CSS usado na administração </obsolete/admin-css>` para
 auxiliá-lo.

@@ -55,6 +55,9 @@ que compreendem um aplicação de weblog:
         body_text = models.TextField()
         pub_date = models.DateTimeField()
         authors = models.ManyToManyField(Author)
+        n_comments = models.IntegerField()
+        n_pingbacks = models.IntegerField()
+        rating = models.IntegerField()
 
         def __unicode__(self):
             return self.headline

@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision. $
-..   $OriginalRevision: 11268 $
+..   $OriginalRevision: 14718 $
 ..   $TranslationAuthors: Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -12,8 +12,6 @@
 ..   $LastChangedBy$
 ..   $LastChangedDate$
 ..
-
-.. _topics-cache:
 
 ==============================
 O framework de cache do Django
@@ -76,28 +74,21 @@ lidar com as altas cargas no LiveJournal.com e subsequentemente tornada open-sou
 Interactive. É usado por sites como o Facebook ou Wikipedia para reduzir o acesso a banco de dados
 e aumentar a performance do site drasticamente.
 
-O Memcached está disponível de graça em http://danga.com/memcached/ . Ele executa como um
+O Memcached está disponível de graça em http://memcached.org/ . Ele executa como um
 daemon, para o qual é alocada uma quantidade específica de RAM. Tudo o que ele faz é fornecer
 uma interface rápida para adição, busca e remoção de dados arbitrários do cache.
 Todos os dados são gravados diretamente na memória, então não existe sobrecarga 
 de banco de dados ou uso do filesystem.
 
-Após a instalação do Memcached, você precisa instalar as bibliotecas do Memcached para
-Python, que não estão empacotadas com o Django. Duas versões estão
-disponíveis. Selecione e instale *um* dos seguintes módulos:
+Após a instalação do Memcached, você precisa instalar o
+``python-memcached``, which provides Python bindings to Memcached.
+This is available at ftp://ftp.tummy.com/pub/python-memcached/
 
-    * A opção mais rápida é um módulo chamado ``cmemcache``, disponível
-      em http://gijsbert.org/cmemcache/ .
-
-    * Se você não pode instalar o ``cmemcache``, você pode instalar o ``python-memcached``,
-      disponível em ftp://ftp.tummy.com/pub/python-memcached/ . Se essa URL não
-      é mais válida, apenas vá ao site do Memcached
-      (http://www.danga.com/memcached/) e obtenha as bibliotecas Python da seção
-      "Client APIs".
-
-.. versionadded:: 1.0
-    A opção ``cmemcache`` é nova no 1.0. Anteriormente, somente o
-    ``python-memcached`` era suportado.
+.. versionchanged:: 1.2
+    In Django 1.0 and 1.1, you could also use ``cmemcache`` as a binding.
+    However, support for this library was deprecated in 1.2 due to
+    a lack of maintenance on the ``cmemcache`` library itself. Support for
+    ``cmemcache`` will be removed completely in Django 1.4.
 
 Para usar o Memcached com Django, configure o  ``CACHE_BACKEND`` para
 ``memcached://ip:port/``, onde ``ip`` é o endereço IP dp daemon do Memcached
@@ -112,6 +103,11 @@ em diversos servidores. Isso significa que você pode executar daemons do Memcac
 o programa irá tratar o grupo de máquinas como um *único* cache, sem a necessidade de duplicar
 os valores do cache em cada máquina.Para aproveitar essa funcionalidade, inclua todos os endereços 
 de servidores em ``CACHE_BACKEND``, separados por ponto e vírgula.
+
+In this example, the cache is shared over Memcached instances running on IP
+address 172.19.26.240 and 172.19.26.242, both on port 11211::
+
+    CACHE_BACKEND = 'memcached://172.19.26.240:11211;172.19.26.242:11211/'
 
 Nesse exemplo, o cache é compartilhado por instâncias do  Memcached rodando nos endereços IP
 172.19.26.240 (porta 11211) e 172.19.26.242 (port 11212), e
@@ -152,6 +148,49 @@ arquivo de configuração. Você não pode usar um banco de dados diferente para
 
 O cache em banco de dados funciona melhor se você tem um servidor de banco de dados rápido
 e bem indexado.
+
+Database caching and multiple databases
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you use database caching with multiple databases, you'll also need
+to set up routing instructions for your database cache table. For the
+purposes of routing, the database cache table appears as a model named
+``CacheEntry``, in an application named ``django_cache``. This model
+won't appear in the models cache, but the model details can be used
+for routing purposes.
+
+For example, the following router would direct all cache read
+operations to ``cache_slave``, and all write operations to
+``cache_master``. The cache table will only be synchronized onto
+``cache_master``::
+
+    class CacheRouter(object):
+        """A router to control all database cache operations"""
+
+        def db_for_read(self, model, **hints):
+            "All cache read operations go to the slave"
+            if model._meta.app_label in ('django_cache',):
+                return 'cache_slave'
+            return None
+
+        def db_for_write(self, model, **hints):
+            "All cache write operations go to master"
+            if model._meta.app_label in ('django_cache',):
+                return 'cache_master'
+            return None
+
+        def allow_syncdb(self, db, model):
+            "Only synchronize the cache model on master"
+            if model._meta.app_label in ('django_cache',):
+                return db == 'cache_master'
+            return None
+
+If you don't specify routing directions for the database cache model,
+the cache backend will use the ``default`` database.
+
+Of course, if you don't use the database cache backend, you don't need
+to worry about providing routing instructions for the database cache
+model.
 
 Cache em sistema de arquivos
 ----------------------------
@@ -313,12 +352,14 @@ Adicionalmente, o middleware de cache adiciona alguma cabeçalhos em cada
 
     * Configura o cabeçalho ``Last-Modified`` para a data/hora atuais quando uma nova
       versão da página (não cacheada) é resiquitada.
+
     * Configura o cabeçalho ``Expires`` para a hora atual mais o valor definido em
       ``CACHE_MIDDLEWARE_SECONDS``.
+
     * Configura o cabeçalho ``Cache-Control`` para dar um max age para a página -- novamente,
       da configuração ``CACHE_MIDDLEWARE_SECONDS``.
 
-Veja :ref:`topics-http-middleware` para mais sobre middlewares.
+Veja :doc:`/topics/http/middleware` para mais sobre middlewares.
 
 .. versionadded:: 1.0
 
@@ -342,16 +383,10 @@ de visões individuais. ``django.views.decorators.cache`` define um decorador
 
     from django.views.decorators.cache import cache_page
 
+    @cache_page(60 * 15)
     def my_view(request):
         ...
 
-    my_view = cache_page(slashdot_this, 60 * 15)
-
-Ou, usando a sintaxe de decorador do Python 2.4::
-
-    @cache_page(60 * 15)
-    def slashdot_this(request):
-        ...
 
 ``cache_page`` recebe um único argumento: o timeout do cache, em segundos. No exemplo 
 acima, o resultado da visão ``slashdot_this()`` será mantido em cache por 15
@@ -370,6 +405,14 @@ Continuando o exemplo ``my_view``, se o seu URLconf for semelhante a isso::
 então requisições para ``/foo/1/`` e ``/foo/23/`` serão cacheadas separadamente, conforme
 você pode esperar. Mas uma vez que uma URL em particular (ex: ``/foo/23/``) tenha sido
 requisitada, acessos subsequentes a essa URL usarão o cache.
+
+``cache_page`` can also take an optional keyword argument, ``key_prefix``, which
+works in the same way as the ``CACHE_MIDDLEWARE_KEY_PREFIX`` setting for the
+middleware.  It can be used like this::
+
+    @cache_page(60 * 15, key_prefix="site1")
+    def my_view(request):
+        ...
 
 Especificando o cache por visão no URLconf
 ------------------------------------------
@@ -414,6 +457,8 @@ A tag de template ``{% cache %}`` faz o cache do conteúdo do bloco por um certo
 de tempo. Recebe ao menos dois argumentos: o timeout do cache, em segundos,
 e o nome que será dado ao cache de fragmento. Por exemplo::
 
+.. code-block:: html+django
+
     {% load cache %}
     {% cache 500 sidebar %}
         .. sidebar ..
@@ -425,6 +470,8 @@ cópia separada da barra lateral usada no exemplo anterior para cada usuário
 do seu site. Faça isso passando argumentos adicionais a template tag ``{% cache %}``
 que unicamente identifiquem esse cache de fragmento::
 
+.. code-block:: html+django
+
     {% load cache %}
     {% cache 500 sidebar request.user.username %}
         .. sidebar for logged in user ..
@@ -433,10 +480,29 @@ que unicamente identifiquem esse cache de fragmento::
 É perfeitamente válido especificar mais de um argumento para identificar o fragmento.
 Simplesmente passe tantos argumentos quanto você precisar para ``{% cache %}``.
 
+If :setting:`USE_I18N` is set to ``True`` the per-site middleware cache will
+:ref:`respect the active language<i18n-cache-key>`. For the ``cache`` template
+tag you could use one of the
+:ref:`translation-specific variables<template-translation-vars>` available in
+templates to archieve the same result:
+
+.. code-block:: html+django
+
+    {% load i18n %}
+    {% load cache %}
+
+    {% get_current_language as LANGUAGE_CODE %}
+
+    {% cache 600 welcome LANGUAGE_CODE %}
+        {% trans "Welcome to example.com" %}
+    {% endcache %}
+
 O timeout de cache pode ser uma variável de template, desde que a variável de template seja um 
 valor inteiro. Por exemplo, se a variável de template
 ``my_timeout`` está configurada para o valor ``600``, então os dois exemplos a seguir são
 equivalentes::
+
+.. code-block:: html+django
 
     {% cache 600 sidebar %} ... {% endcache %}
     {% cache my_timeout sidebar %} ... {% endcache %}
@@ -447,8 +513,10 @@ timeout em uma variável, em um lugar, e apenas reutilizar esse valor.
 A API de baixo nível do cache
 =============================
 
-Algumas vezes, o cache de uma página completa renderizada não é de grande valor, é pode
-ser até inconveniente.
+.. highlight:: python
+
+Sometimes, caching an entire rendered page doesn't gain you very much and is,
+in fact, inconvenient overkill.
 
 Talvez, por exemplo, o seu site inclua uma visão cujos resultados dependam de algumas
 consultas intensivas ao banco de dados, cujos resultados mudem em diferentes intervalos.
@@ -463,10 +531,6 @@ Você pode cacher quaisquer objetos Python que podem ser serializados com segura
 dicionários, listas ou objetos do modelo, e por aí vai. (A maioria dos objetos comum
 do Python podem ser serializados através de pickle; veja a documentação do Python para mais informações
 sobre o pickling.)
-
-Por exemplo, você pode descobrir que basta fazer o cache do resultado de uma consulta
-intensiva ao banco de dados. Em casos assim, você pode usar a API de baixo nível
-de cache para guardar os objetos em qualquer nível de granularidade que você quiser.
 
 O módulo de cache, ``django.core.cache`` tem um objeto ``cache``que é
 criado automaticamente a partir da configuração ``CACHE_BACKEND``::
@@ -524,10 +588,36 @@ que estavam no cache e não estavem expiradas)::
     >>> cache.get_many(['a', 'b', 'c'])
     {'a': 1, 'b': 2, 'c': 3}
 
-Finalmente, você pode remover chaves diferentes com  ``delete()``. Essa é uma forma
+.. versionadded:: 1.2
+
+To set multiple values more efficiently, use ``set_many()`` to pass a dictionary
+of key-value pairs::
+
+    >>> cache.set_many({'a': 1, 'b': 2, 'c': 3})
+    >>> cache.get_many(['a', 'b', 'c'])
+    {'a': 1, 'b': 2, 'c': 3}
+
+Like ``cache.set()``, ``set_many()`` takes an optional ``timeout`` parameter.
+
+Você pode remover chaves diferentes com  ``delete()``. Essa é uma forma
 fácil de limpar o cache para um objeto em particular::
 
     >>> cache.delete('a')
+
+.. versionadded:: 1.2
+
+If you want to clear a bunch of keys at once, ``delete_many()`` can take a list
+of keys to be cleared::
+
+    >>> cache.delete_many(['a', 'b', 'c'])
+
+.. versionadded:: 1.2
+
+Finally, if you want to delete all the keys in the cache, use
+``cache.clear()``.  Be careful with this; ``clear()`` will remove *everything*
+from the cache, not just the keys set by your application. ::
+
+    >>> cache.clear()
 
 .. versionadded:: 1.1
 
@@ -555,6 +645,45 @@ chave de cache não existente.::
     backend memcached), operações de incremento e decremento serão atômicas.
     Porém, se o backend não provê nativamente uma operação de incremento/decremento,
     ela será implementada usando uma operação obter/atualizar de dois passos.
+
+Cache key warnings
+------------------
+
+.. versionadded:: 1.3
+
+Memcached, the most commonly-used production cache backend, does not allow
+cache keys longer than 250 characters or containing whitespace or control
+characters, and using such keys will cause an exception. To encourage
+cache-portable code and minimize unpleasant surprises, the other built-in cache
+backends issue a warning (``django.core.cache.backends.base.CacheKeyWarning``)
+if a key is used that would cause an error on memcached.
+
+If you are using a production backend that can accept a wider range of keys (a
+custom backend, or one of the non-memcached built-in backends), and want to use
+this wider range without warnings, you can silence ``CacheKeyWarning`` with
+this code in the ``management`` module of one of your
+:setting:`INSTALLED_APPS`::
+
+     import warnings
+
+     from django.core.cache import CacheKeyWarning
+
+     warnings.simplefilter("ignore", CacheKeyWarning)
+
+If you want to instead provide custom key validation logic for one of the
+built-in backends, you can subclass it, override just the ``validate_key``
+method, and follow the instructions for `using a custom cache backend`_. For
+instance, to do this for the ``locmem`` backend, put this code in a module::
+
+    from django.core.cache.backends.locmem import CacheClass as LocMemCacheClass
+
+    class CacheClass(LocMemCacheClass):
+        def validate_key(self, key):
+            """Custom validation, raising exceptions or warnings as needed."""
+            # ...
+
+...and use the dotted Python path to this module as the scheme portion of your
+:setting:`CACHE_BACKEND`.
 
 Caches Upstream
 ===============
@@ -620,12 +749,6 @@ assim::
 
     from django.views.decorators.vary import vary_on_headers
 
-    # Sintaxe do Python 2.3.
-    def my_view(request):
-        # ...
-    my_view = vary_on_headers(my_view, 'User-Agent')
-
-    # Sintaxe de decorador do Python 2.4 ou superior.
     @vary_on_headers('User-Agent')
     def my_view(request):
         # ...
@@ -669,6 +792,7 @@ Você pode também usar uma função auxiliar, ``django.utils.cache.patch_vary_h
 diretamente. Essa função configura ou adiciona ao ``cabeçalho Vary``. Por exemplo::
 
     from django.utils.cache import patch_vary_headers
+
     def my_view(request):
         # ...
         response = render_to_response('template_name', context)

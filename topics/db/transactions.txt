@@ -52,10 +52,11 @@ Para ativar esta funcionalidade, apenas adicione o ``TransactionMiddleware``
 middleware nos eu setting ``MIDDLEWARE_CLASSES``::
 
     MIDDLEWARE_CLASSES = (
+        'django.middleware.cache.UpdateCacheMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.common.CommonMiddleware',
-        'django.middleware.cache.CacheMiddleware',
         'django.middleware.transaction.TransactionMiddleware',
+        'django.middleware.cache.FetchFromCacheMiddleware',
     )
 
 A ordem é bastante importante. O middleware de transação se aplica não somente

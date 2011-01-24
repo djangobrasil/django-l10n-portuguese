@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision $
-..   $OriginalRevision: 11332 $
+..   $OriginalRevision: 14338 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -29,7 +29,7 @@ framework. Em resumo, sinais permitem certos *remetentes* notificar um conjunto
 de *receptores* sobre alguma ação que tenha ocorrido. Eles são especialmente
 úteis quando muitas peças de código podem estar interessados nos mesmos eventos.
 
-O Django fornece um :ref:`conjunto de sinais embutidos <ref-signals>` que deixam
+O Django fornece um :ref:`conjunto de sinais embutidos </ref/signals>` que deixam
 o código do usuário ser notificado pelo próprio Django sobre certas ações. Estas
 incluem algumas notificações úteis:
 
@@ -45,12 +45,16 @@ incluem algumas notificações úteis:
       Enviado antes ou depois que um método de model
       :meth:`~django.db.models.Model.delete` é chamado.
 
+    * :data:`django.db.models.signals.m2m_changed`
+
+      Sent when a :class:`ManyToManyField` on a model is changed.
+
     * :data:`django.core.signals.request_started` &
       :data:`django.core.signals.request_finished`
 
       Enviado quando o Django inicia ou finaliza uma requisição HTTP.
 
-Veja a :ref:`documentação de sinais embutidos <ref-signals>` para uma lista
+Veja a :doc:`documentação de sinais embutidos </ref/signals>` para uma lista
 completa, e uma explicação completa de cada sinal.
 
 Você também pode `definir e enviar seus próprios sinais`_; veja abaixo.
@@ -64,6 +68,29 @@ Para receber um sinal, você precisa registrar uma função *receptora* que ser�
 chamada quando o sinal é enviado. Vamos ver como isto funciona registrando um
 sinal que é chamado depois de cada requisição HTTP é finalizada. Nós
 conectaremo-nos ao sinal :data:`~django.core.signals.request_finished`.
+
+.. method:: Signal.connect(receiver, [sender=None, weak=True, dispatch_uid=None])
+    
+    :param receiver: The callback function which will be connected to this
+        signal. See :ref:`receiver-functions` for more information.
+    
+    :param sender: Specifies a particular sender to receive signals from. See
+        :ref:`connecting-to-specific-signals` for more information.
+
+    :param weak: Django stores signal handlers as weak references by
+        default. Thus, if your receiver is a local function, it may be
+        garbage collected. To prevent this, pass ``weak=False`` when you call
+        the signal's ``connect()`` method.
+
+    :param dispatch_uid: A unique identifier for a signal receiver in cases
+        where duplicate signals may be sent. See
+        :ref:`preventing-duplicate-signals` for more information.
+
+Let's see how this works by registering a signal that
+gets called after each HTTP request is finished. We'll be connecting to the
+:data:`~django.core.signals.request_finished` signal.
+
+.. _receiver-functions:
 
 Funções receptoras
 ------------------
@@ -92,6 +119,8 @@ Isso poderia estar errado -- de fato, o Django irá lançar um erro se você fiz
 isso. Isto porque, em qualquer ponto, argumentos poderiam ser adicionados ao
 sinal, e o receptor deve ser capaz de manipular estes argumentos.
 
+.. _connecting-receiver-functions:
+
 Conectando funções receptoras
 -----------------------------
 
@@ -115,8 +144,7 @@ for finalizada.
     de sua aplicação, um bom lugar para colocar o regsitro de manipuladores de
     sinais.
 
-Conectando-se a sinais enviados por remetentes específicos
-----------------------------------------------------------
+.. _connecting-to-specific-signals:
 
 Alguns sinais são enviados muitas vezes, mas você somente é interessado em
 receber um certo sub-conjunto destes sinais. Por exemplo, considere o sinal
@@ -146,12 +174,36 @@ Sinais diferentes usam objetos diferentes como seus remetentes; você precisará
 consultar a :ref:`documentação de sinais embutidos <ref-signals>` para detalhes
 de cada sinal em particular.
 
-Definindo e enviando sinais
-===========================
+.. _preventing-duplicate-signals:
 
-Sua aplicação pode tirar proveito da infraestrutura de sinais e prover seus próprios sinais.
+Preventing duplicate signals
+----------------------------
 
-Definindo sinais
+In some circumstances, the module in which you are connecting signals may be
+imported multiple times. This can cause your receiver function to be
+registered more than once, and thus called multiples times for a single signal
+event. 
+
+If this behavior is problematic (such as when using signals to
+send an e-mail whenever a model is saved), pass a unique identifier as
+the ``dispatch_uid`` argument to identify your receiver function. This
+identifier will usually be a string, although any hashable object will
+suffice. The end result is that your receiver function will only be
+bound to the signal once for each unique ``dispatch_uid`` value.
+
+.. code-block:: python
+
+    from django.core.signals import request_finished
+
+    request_finished.connect(my_callback, dispatch_uid="my_unique_identifier")
+
+Defining and sending signals
+============================
+
+Your applications can take advantage of the signal infrastructure and provide
+its own signals.
+
+Defining signals
 ----------------
 
 .. class:: Signal([providing_args=list])
@@ -178,7 +230,10 @@ necessário.
 Enviando sinais
 ---------------
 
+There are two ways to send send signals in Django.
+
 .. method:: Signal.send(sender, **kwargs)
+.. method:: Signal.send_robust(sender, **kwargs)
 
 Para enviar um sinal, chame :meth:`Signal.send`. Você deve prover o argumento
 ``sender``, e pode fornecer muitos outros argumentos nomeados conforme sua
@@ -196,3 +251,26 @@ ficar:
             pizza_done.send(sender=self, toppings=toppings, size=size)
             ...
 
+Both ``send()`` and ``send_robust()`` return a list of tuple pairs
+``[(receiver, response), ... ]``, representing the list of called receiver
+functions and their response values.
+
+``send()`` differs from ``send_robust()`` in how exceptions raised by receiver
+functions are handled. ``send()`` does *not* catch any exceptions raised by
+receivers; it simply allows errors to propagate. Thus not all receivers may
+be notified of a signal in the face of an error.
+
+``send_robust()`` catches all errors derived from Python's ``Exception`` class,
+and ensures all receivers are notified of the signal. If an error occurs, the
+error instance is returned in the tuple pair for the receiver that raised the error.
+
+Disconnecting signals
+=====================
+
+.. method:: Signal.disconnect([receiver=None, sender=None, weak=True, dispatch_uid=None])
+
+To disconnect a receiver from a signal, call :meth:`Signal.disconnect`. The
+arguments are as described in :meth:`.Signal.connect`.
+
+The *receiver* argument indicates the registered receiver to disconnect. It may
+be ``None`` if ``dispatch_uid`` is used to identify the receiver.
