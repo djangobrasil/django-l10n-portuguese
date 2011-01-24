@@ -19,10 +19,6 @@
 Models e bancos de dados
 ========================
 
-A model is the single, definitive source of data about your data. It contains
-the essential fields and behaviors of the data you're storing. Generally, each
-model maps to a single database table.
-
 Um modelo é uma fonte singular e definitiva de dado sobre seu seus dados. Ele 
 contém os campos e comportamentos essenciais dos dados que você está 
 armazenando. Geralmente, cada modelo mapeia uma única tabela do banco de dados.
@@ -32,6 +28,9 @@ armazenando. Geralmente, cada modelo mapeia uma única tabela do banco de dados.
 
    models
    queries
+   aggregation
    managers
    sql
    transactions
+   multi-db
+   optimization

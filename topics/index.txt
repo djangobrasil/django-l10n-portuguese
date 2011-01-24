@@ -35,8 +35,9 @@ Introduções para todos os partes-chaves do Django, você precisa saber:
    testing
    auth
    cache
+   conditional-view-processing
    email
-   i18n
+   i18n/index
    pagination
    serialization
    settings

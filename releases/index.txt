@@ -23,25 +23,65 @@ Notas de lançamento para os releases oficiais do Django. Cada nota irá falar s
 que há de novo em cada versão, e também descreverá qualquer incompatibilidade
 com versões anteriores por conta das mudanças que ocorrem.
 
+For those upgrading to a new version of Django, you will need to check
+all the backwards-incompatible changes and deprecated features for
+each 'final' release from the one after your current Django version,
+up to and including the new version.
+
+Final releases
+==============
+
+1.2 release
+-----------
 .. toctree::
    :maxdepth: 1
 
-   0.95
-   0.96
-   1.0-alpha-1
-   1.0-alpha-2
-   1.0-beta
-   1.0-beta-2
-   1.0
-   1.0.1
+   1.2.4
+   1.2.2
+   1.2
+
+1.1 release
+-----------
+.. toctree::
+   :maxdepth: 1
+
+   1.1.2
+   1.1
+
+1.0 release
+-----------
+.. toctree::
+   :maxdepth: 1
+
    1.0.2
+   1.0.1
+   1.0
 
-.. seealso::
+Pre-1.0 releases
+----------------
+.. toctree::
+   :maxdepth: 1
 
-    A lista de `mudanças com quebra de compatilidade`_ feitas no desenvolvimento
-    corrent, "trunk". Se você estiver executando versões do Django mais recentes
-    que a de um lançamento oficial, você deve manter um registo das novas peças 
-    que apontam por lá. Também é divertido ler se você estiver ansioso para 
-    novas versões do Django.
+   0.96
+   0.95
 
-.. _mudanças com quebra de compatilidade: http://code.djangoproject.com/wiki/BackwardsIncompatibleChanges
+Development releases
+====================
+
+These notes are retained for historical purposes. If you are upgrading
+between formal Django releases, you don't need to worry about these
+notes.
+
+.. toctree::
+   :maxdepth: 1
+
+   1.2-rc-1
+   1.2-beta-1
+   1.2-alpha-1
+   1.1-rc-1
+   1.1-beta-1
+   1.1-alpha-1
+   1.0-beta-2
+   1.0-beta
+   1.0-alpha-2
+   1.0-alpha-1

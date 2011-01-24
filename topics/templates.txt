@@ -24,7 +24,7 @@ The Django template language
 
     This document explains the language syntax of the Django template system. If
     you're looking for a more technical perspective on how it works and how to
-    extend it, see :ref:`ref-templates-api`.
+    extend it, see :doc:`/ref/templates/api`.
 
 Django's template language is designed to strike a balance between power and
 ease. It's designed to feel comfortable to those used to working with HTML. If
@@ -44,8 +44,8 @@ or CheetahTemplate_, you should feel right at home with Django's templates.
     tag for looping, etc. -- but these are not simply executed as the
     corresponding Python code, and the template system will not execute
     arbitrary Python expressions. Only the tags, filters and syntax listed below
-    are supported by default (although you can add :ref:`your own extensions
-    <howto-custom-template-tags>` to the template language as needed).
+    are supported by default (although you can add :doc:`your own extensions
+    </howto/custom-template-tags>` to the template language as needed).
 
 .. _`The Django template language: For Python programmers`: ../templates_python/
 .. _Smarty: http://smarty.php.net/
@@ -118,9 +118,6 @@ If you use a variable that doesn't exist, the template system will insert
 the value of the ``TEMPLATE_STRING_IF_INVALID`` setting, which is set to ``''``
 (the empty string) by default.
 
-See `Using the built-in reference`_, below, for help on finding what variables
-are available in a given template.
-
 Filters
 =======
 
@@ -156,7 +153,7 @@ template filters:
 
         If ``value`` isn't provided or is empty, the above will display
         "``nothing``".
-        
+
     :tfilter:`length`
         Returns the length of the value. This works for both strings and lists;
         for example::
@@ -164,7 +161,7 @@ template filters:
             {{ value|length }}
 
         If ``value`` is ``['a', 'b', 'c', 'd']``, the output will be ``4``.
-    
+
     :tfilter:`striptags`
         Strips all [X]HTML tags. For example::
 
@@ -177,7 +174,13 @@ Again, these are just a few examples; see the :ref:`built-in filter reference
 <ref-templates-builtins-filters>` for the complete list.
 
 You can also create your own custom template filters; see
-:ref:`howto-custom-template-tags`.
+:doc:`/howto/custom-template-tags`.
+
+.. seealso::
+
+    Django's admin interface can include a complete reference of all template
+    tags and filters available for a given site. See
+    :doc:`/ref/contrib/admin/admindocs`.
 
 Tags
 ====
@@ -203,8 +206,8 @@ tags:
                 <li>{{ athlete.name }}</li>
             {% endfor %}
             </ul>
-        
-    :ttag:`if` and :ttag:`else`
+
+    :ttag:`if` and ``else``
         Evaluates a variable, and if that variable is "true" the contents of the
         block are displayed::
 
@@ -216,20 +219,15 @@ tags:
 
         In the above, if ``athlete_list`` is not empty, the number of athletes
         will be displayed by the ``{{ athlete_list|length }}`` variable.
-        
-    :ttag:`ifequal` and :ttag:`ifnotequal`
-        Display some contents if two arguments are or are not equal. For example::
 
-            {% ifequal athlete.name coach.name %}
-                ...
-            {% endifequal %}
+        You can also use filters and various operators in the ``if`` tag::
 
-        Or::
+            {% if athlete_list|length > 1 %}
+               Team: {% for athlete in athlete_list %} ... {% endfor %}
+            {% else %}
+               Athlete: {{ athlete_list.0.name }}
+            {% endif %}
 
-            {% ifnotequal athlete.name "Joe" %}
-                ...
-            {% endifnotequal %}
-    
     :ttag:`block` and :ttag:`extends`
         Set up `template inheritance`_ (see below), a powerful way
         of cutting down on "boilerplate" in templates.
@@ -238,7 +236,13 @@ Again, the above is only a selection of the whole list; see the :ref:`built-in
 tag reference <ref-templates-builtins-tags>` for the complete list.
 
 You can also create your own custom template tags; see
-:ref:`howto-custom-template-tags`.
+:doc:`/howto/custom-template-tags`.
+
+.. seealso::
+
+    Django's admin interface can include a complete reference of all template
+    tags and filters available for a given site. See
+    :doc:`/ref/contrib/admin/admindocs`.
 
 Comments
 ========
@@ -592,39 +596,6 @@ This doesn't affect what happens to data coming from the variable itself.
 The variable's contents are still automatically escaped, if necessary, because
 they're beyond the control of the template author.
 
-.. _template-built-in-reference:
-
-Using the built-in reference
-============================
-
-Django's admin interface includes a complete reference of all template tags and
-filters available for a given site. To see it, go to your admin interface and
-click the "Documentation" link in the upper right of the page.
-
-The reference is divided into 4 sections: tags, filters, models, and views.
-
-The **tags** and **filters** sections describe all the built-in tags (in fact,
-the tag and filter references below come directly from those pages) as well as
-any custom tag or filter libraries available.
-
-The **views** page is the most valuable. Each URL in your site has a separate
-entry here, and clicking on a URL will show you:
-
-    * The name of the view function that generates that view.
-    * A short description of what the view does.
-    * The **context**, or a list of variables available in the view's template.
-    * The name of the template or templates that are used for that view.
-
-Each view documentation page also has a bookmarklet that you can use to jump
-from any page to the documentation page for that view.
-
-Because Django-powered sites usually use database objects, the **models**
-section of the documentation page describes each type of object in the system
-along with all the fields available on that object.
-
-Taken together, the documentation pages should tell you every tag, filter,
-variable and object available to you in a given template.
-
 .. _loading-custom-template-libraries:
 
 Custom tag and filter libraries
@@ -645,8 +616,8 @@ The ``{% load %}`` tag can take multiple library names, separated by spaces.
 Example::
 
     {% load comments i18n %}
-    
-See :ref:`howto-custom-template-tags` for information on writing your own custom
+
+See :doc:`/howto/custom-template-tags` for information on writing your own custom
 template libraries.
 
 Custom libraries and template inheritance
