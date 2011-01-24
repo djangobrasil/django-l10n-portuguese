@@ -26,7 +26,7 @@ A documentação do Django usa o sistema de documentação Sphinx__, que por sua
 de texto-plano, que seja transformada em HTML, PDF, ou qualquer outro formato.
 
 __ http://sphinx.pocoo.org/
-__ http://docutils.sf.net/
+__ http://docutils.sourceforge.net/
 
 Na verdade para compilar a documentação localmente, você precisará instalar o
 Sphinx -- ``easy_install Sphinx`` deve fazer a mágica.
@@ -54,7 +54,7 @@ Isto porque o Sphinx irá gerar links durante a compilação, que ajudarão muit
 os leitores. Basicamente não há limites para a quantidade de markup que você
 pode adicionar.
 
-Markup específica do Django
+Markup específico do Django
 ---------------------------
 
 Além das `markups built-in do Sphinx`__, a documentação do Django define algumas
@@ -103,7 +103,7 @@ Um Exemplo
 
 Para um exemplo rápido de como tudo se agrupa, dá uma olhada nisso:
 
-    * Primeiro, o documetno ``ref/settings.txt`` começa, dessa forma::
+    * Primeiro, o documento ``ref/settings.txt`` começa, dessa forma::
 
         .. _ref-settings:
 
@@ -115,13 +115,41 @@ Para um exemplo rápido de como tudo se agrupa, dá uma olhada nisso:
     * Em seguida se olharmos para o documento ``topics/settings, você pode ver
       como um link para ``ref/settings`` funciona::
 
-        Configurações disponíveis
-        =========================
+        .. _available-settings:
 
-        Para uma lista completa das configurações disponíveis, veja
-        :ref:`referencia do settings <ref-settings>`.
+        Available settings
+        ==================
 
-    * Depois, note como o settings (bem agora, no início) está anotado::
+        ...
+
+        .. _deprecated-settings:
+
+        Deprecated settings
+        ===================
+
+        ...
+
+    * Next, the ``topics/settings.txt`` document could contain something like
+      this:
+
+      .. code-block:: rst
+
+        You can access a :ref:`listing of all available settings
+        <available-settings>`. For a list of deprecated settings see
+        :ref:`deprecated-settings`.
+
+        You can find both in the :doc:`settings reference document </ref/settings>`.
+
+      We use the Sphinx doc_ cross reference element when we want to link to
+      another document as a whole and the ref_ element when we want to link to
+      an arbitrary location in a document.
+
+.. _doc: http://sphinx.pocoo.org/markup/inline.html#role-doc
+.. _ref: http://sphinx.pocoo.org/markup/inline.html#role-ref
+
+    * Next, notice how the settings are annotated:
+
+      .. code-block:: rst
 
         .. setting:: ADMIN_FOR
 
@@ -149,20 +177,6 @@ TODO
 
 O trabalho está na maioria feito, mas aqui tem o que falta, em ordem de
 prioridade.
-
-    * Corrigir a documentação das generic views: adaptar o capítulo 9 do Django Book (considerar
-      esse item de TODO minha permissão e licença) em
-      ``topics/generic-views.txt``; remover o material de introdução de
-      ``ref/generic-views.txt`` e apenas deixar a referência de funções.
-
-    * Mudar o "Added/changed na versão de desenvolvimento" chamar a diretiva
-      adequada do Sphinx ``.. versionadded::`` ou ``.. versionchanged::``.
-
-    * Checar links mal formados. Fazer isso rodando o ``make linkcheck`` e
-      concertar todos os mais 300 errors/warnings.
-
-      Particularmente, olhar todos os links relativos; estes precisam ser
-      modificados para as referências apropriadas.
 
     * A maior parte dos documentos ``index.txt`` têm textos de introdução
       *muito* curtos, ou quase inexistem. Cada um destes documentos precisar de

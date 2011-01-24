@@ -43,9 +43,8 @@ colocá-lo em um template customizado.
 
 Alguns exemplos de flatpages em sites desenvolvidos com Django:
 
-    * http://www.chicagocrime.org/about/
-    * http://www.everyblock.com/about/
     * http://www.lawrence.com/about/contact/
+    * http://www2.ljworld.com/site/rules/
 
 Instalação
 ==========
@@ -135,7 +134,7 @@ Usando a API do Python
 
 .. class:: models.FlatPage
 
-    Flatpages são representadas por um :ref:`modelo Django <topics-db-models>`,
+    Flatpages são representadas por um :doc:`modelo Django </topics/db/models>`,
     que fica armazenado em `django/contrib/flatpages/models.py`_. Você pode
     acessar objetos do tipo flatpage pela :ref:`API de banco de dados do Django
     <topics-db-queries>`.
