@@ -34,7 +34,7 @@ Obtendo ajuda
 
 Está com problemas? Nós gostaríamos de ajudar!
 
-* Tente a :ref:`FAQ <faq/index>` -- Para obter respostas para muitas
+* Tente a :doc:`FAQ <faq/index>` -- Para obter respostas para muitas
   perguntas comuns.
 
 * Procurando por uma informação especifica? Tente o :ref:`genindex`, o
