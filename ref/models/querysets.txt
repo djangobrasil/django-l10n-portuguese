@@ -86,6 +86,18 @@ Você pode avaliar um ``QuerySet`` das seguintes formas:
       de seu banco de dados para carregar os dados e instânciar os objetos sobre
       quando precisar deles.
 
+    * **bool().** Testing a ``QuerySet`` in a boolean context, such as using
+      ``bool()``, ``or``, ``and`` or an ``if`` statement, will cause the query
+      to be executed. If there is at least one result, the ``QuerySet`` is
+      ``True``, otherwise ``False``. For example::
+
+          if Entry.objects.filter(headline="Test"):
+             print "There is at least one Entry with the headline Test"
+
+      Note: *Don't* use this if all you want to do is determine if at least one
+      result exists, and don't need the actual objects. It's more efficient to
+      use ``exists()`` (see below).
+
 .. _pickling QuerySets:
 
 Preservando QuerySets
@@ -176,7 +188,7 @@ Em termos SQL, isso seria::
 
     SELECT ...
     WHERE NOT pub_date > '2005-1-3'
-    OR NOT headline = 'Hello'
+    AND NOT headline = 'Hello'
 
 Note que o segundo exemplo e mais restritivo.
 
@@ -798,8 +810,10 @@ exceções ``DoesNotExist``. Exemplo::
     except ObjectDoesNotExist:
         print "Ou entry ou blog não existe."
 
-``create(**kwargs)``
-~~~~~~~~~~~~~~~~~~~~
+create
+~~~~~~
+
+.. method:: create(**kwargs)
 
 Um método conveniente para criar um objeto e salvá-lo em um passo. Deste modo::
 
@@ -888,8 +902,10 @@ mais, veja `Métodos seguros`_ na especificação do HTTP.
 
 .. _Métodos seguros: http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.1.1
 
-``count()``
-~~~~~~~~~~~
+count
+~~~~~
+
+.. method:: count()
 
 Retorna um inteiro representando o número de objetos no banco de dados
 combinando com o ``QuerySet``. O ``count()`` nunca lança exceções.
@@ -928,8 +944,10 @@ Exemplo::
 
 Se você passar ao ``in_bulk()`` uma lista vazia, você terá um dicionário vazio.
 
-``iterator()``
-~~~~~~~~~~~~~~
+iterator
+~~~~~~~~
+
+.. method:: iterator()
 
 Avalia o ``QuerySet`` (para realizar uma consulta) e retorna um `iterador`_
 sobre os resultados. Um ``QuerySet`` tipicamente lê todos os seus resultados e
