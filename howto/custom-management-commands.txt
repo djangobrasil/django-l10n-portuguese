@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _howto-custom-management-commands:
-
 Escrevendo commando customizados para o django-admin
 ====================================================
 

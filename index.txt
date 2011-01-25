@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision:  11298 $
 ..   $TranslationAuthors: Wiliam Alves de Souza, semente $
 ..
