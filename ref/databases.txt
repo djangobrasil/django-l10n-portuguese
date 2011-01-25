@@ -1,9 +1,9 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Not started $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 11298 $
-..   $TranslationAuthors: None $
+..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
 ..
@@ -16,81 +16,84 @@
 
 .. _ref-databases:
 
-===============================
-Notes about supported databases
-===============================
+=====================================
+Notas sobre banco de dados suportados
+=====================================
 
-Django attempts to support as many features as possible on all database
-backends. However, not all database backends are alike, and we've had to make
-design decisions on which features to support and which assumptions we can make
-safely.
+O Django tenta suportar tantas funcionalidades quanto possível sobre todos os
+banco de dados. Entretanto, nem todos os banco de dados são parecidos, e nós
+temos que tomar decisões de projeto sobre quais funcionalidades suportar e quais
+suposições que podemos fazer com segurança.
 
-This file describes some of the features that might be relevant to Django
-usage. Of course, it is not intended as a replacement for server-specific
-documentation or reference manuals.
+Este arquivo descreve algumas das funcionalidades que podem ser relevantes no
+uso do Django. Obviamente, não tem o objetivo de ser um substituto para a 
+documentação ou referência específica do servidor.
 
 .. _postgresql-notes:
 
-PostgreSQL notes
-================
+Notas do PostgreSQL
+===================
 
-Transaction handling
----------------------
+Manipulando transações
+----------------------
 
-:ref:`By default <topics-db-transactions>`, Django starts a transaction when a
-database connection is first used and commits the result at the end of the
-request/response handling. The PostgreSQL backends normally operate the same
-as any other Django backend in this respect.
-
+:ref:`Por padrão <topics-db-transactions>`, o Django inicia uma transação quando
+uma conexão de banco de dados é usada primeiro e comete o resultado no fim da
+manipulação da requisição/resposta. O backend do PostgreSQL normalmente opera da
+mesma forma que outros backends do Django a esse respeito.
 
 .. _mysql-notes:
 
-MySQL notes
-===========
+Notas do MySQL
+==============
 
-Django expects the database to support transactions, referential integrity, and
-Unicode (UTF-8 encoding). Fortunately, MySQL_ has all these features as
-available as far back as 3.23. While it may be possible to use 3.23 or 4.0,
-you'll probably have less trouble if you use 4.1 or 5.0.
+O Django espera que o banco de dados tenha suporta a transações, integridade
+referencial, e Unicode (codificação UTF-8). Felizmente, o MySQL_ possui todas
+essas funcionalidades disponíveis desde a versão 3.23. Embora seja possível
+utilizar as versões 3.23 ou 4.0, você provavelmente terá menos trabalho se usar
+as versões 4.1 ou 5.0.
 
 MySQL 4.1
 ---------
 
-`MySQL 4.1`_ has greatly improved support for character sets. It is possible to
-set different default character sets on the database, table, and column.
-Previous versions have only a server-wide character set setting. It's also the
-first version where the character set can be changed on the fly. 4.1 also has
-support for views, but Django currently doesn't use views.
+O `MySQL 4.1`_ possui grandes melhorias no suporte a conjuntos de caracters. É
+possível configurar diferentes tipos de charsets para banco de dados, tabela e
+coluna. Nas versões anteriores temos somente uma configuração de charset para
+todo servidor. Essa também é a primeira versão onde o charset pode ser 
+modificado durante a execução. O 4.1 também tem suporte a views, mas o Django
+atualmente não usa views.
 
 MySQL 5.0
 ---------
 
-`MySQL 5.0`_ adds the ``information_schema`` database, which contains detailed
-data on all database schema. Django's ``inspectdb`` feature uses this
-``information_schema`` if it's available. 5.0 also has support for stored
-procedures, but Django currently doesn't use stored procedures.
+O `MySQL 5.0`_ adicionou o banco de dados ``information_schema``, que contém
+dados detalhados sobre todo o esquema do banco de dados. A funcionalidade
+``inspectdb`` do Django usa este ``information_schema`` se estiver disponível.
+A versão 5.0 também suporta armazenamento de procedures, mas o Django atualmente
+não usa stored procedures.
 
 .. _MySQL: http://www.mysql.com/
 .. _MySQL 4.1: http://dev.mysql.com/doc/refman/4.1/en/index.html
 .. _MySQL 5.0: http://dev.mysql.com/doc/refman/5.0/en/index.html
 
-Storage engines
----------------
+Motores de armazenameto
+-----------------------
 
-MySQL has several `storage engines`_ (previously called table types). You can
-change the default storage engine in the server configuration.
+O MySQL tem vários `motores de armazenamento`_ (anteriormente chamado de tipos
+de tabela). Você pode mudar a configuração de motor de armazenamento padrão.
 
-The default engine is MyISAM_ [#]_. The main drawback of MyISAM is that it
-doesn't currently support transactions or foreign keys. On the plus side, it's
-currently the only engine that supports full-text indexing and searching.
+O motor padrão é o MyISAM_ [#]_. O principal inconveniente do MyISAM é que ele
+atualmente não suporta transações ou chaves estrangeiras. O lado bom, é que 
+atualmente ele é o único motor que suporta indexação full-text e busca.
 
-The InnoDB_ engine is fully transactional and supports foreign key references.
+O motor InnoDB_ é completamente transacional e suporta referências de chave
+estrangeira.
 
-The BDB_ engine, like InnoDB, is also fully transactional and supports foreign
-key references. However, its use seems to be deprecated.
+O motor BDB_, assim como o InnoDB, é também completamente transacional e suporta
+referências de chave estrangeiras. Entretanto, seu uso parece ser depreciado.
 
-`Other storage engines`_, including SolidDB_ and Falcon_, are on the horizon.
-For now, InnoDB is probably your best choice.
+`Outros motores de armazenamentos`_, incluíndo SolidDB_ e Falcon_, estão no
+horizonte. Por enquanto, InnoDB é provavelmente sua melhor escolha.
 
 .. _storage engines: http://dev.mysql.com/doc/refman/5.0/en/storage-engines.html
 .. _MyISAM: http://dev.mysql.com/doc/refman/5.0/en/myisam-storage-engine.html
@@ -100,50 +103,51 @@ For now, InnoDB is probably your best choice.
 .. _SolidDB: http://forge.mysql.com/projects/project.php?id=139
 .. _Falcon: http://dev.mysql.com/doc/falcon/en/index.html
 
-.. [#] Unless this was changed by the packager of your MySQL package. We've
-   had reports that the Windows Community Server installer sets up InnoDB as
-   the default storage engine, for example.
+.. [#] A menos que isso seja mudado pelo empacotador do seu pacote do MySQL. 
+   Tivemos relatos de que o instalador do Windows Community Server configura o
+   InnoDB como motor de armazenamento padrão, por exemplo.
 
 MySQLdb
 -------
 
-`MySQLdb`_ is the Python interface to MySQL. Version 1.2.1p2 or later is
-required for full MySQL support in Django.
+`MySQLdb`_ é uma interface Python para o MySQL. A versão 1.2.1p2 ou superior é
+necessária para um suporte completo no Django.
 
 .. note::
-    If you see ``ImportError: cannot import name ImmutableSet`` when trying to
-    use Django, your MySQLdb installation may contain an outdated ``sets.py``
-    file that conflicts with the built-in module of the same name from Python
-    2.4 and later. To fix this, verify that you have installed MySQLdb version
-    1.2.1p2 or newer, then delete the ``sets.py`` file in the MySQLdb
-    directory that was left by an earlier version.
+    Se você ver um erro ``ImportError: cannot import name ImmutableSet`` quando
+    tentar usar o Django, sua instalação do MySQLdb pode estar ultrapassada, 
+    pois arquivo ``sets.py`` conlita com o módulo nativo, de mesmo nome, oriundo
+    do Python 2.4 e superior. Para arrumar isso, verifique se versão do MySQLdb 
+    que você tem instalado é a 1.2.1p2 ou mais nova, e então delete o arquivo
+    ``sets.py`` no diretório do MySQLdb que foi deixado pela versão anterior.
 
 .. _MySQLdb: http://sourceforge.net/projects/mysql-python
 
-Creating your database
-----------------------
+Criando seu banco de dados
+--------------------------
 
-You can `create your database`_ using the command-line tools and this SQL::
+Você pode `criar seu banco de dados`_ usando as ferramentas de linha de comando
+e este SQL::
 
   CREATE DATABASE <dbname> CHARACTER SET utf8;
 
-This ensures all tables and columns will use UTF-8 by default.
+Isto assegura que todas as tabelas e colunas usarão UTF-8 por padrão.
 
-.. _create your database: http://dev.mysql.com/doc/refman/5.0/en/create-database.html
+.. _criar seu banco de dados: http://dev.mysql.com/doc/refman/5.0/en/create-database.html
 
 .. _mysql-collation:
 
-Collation settings
-~~~~~~~~~~~~~~~~~~
+Configurações de collation
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The collation setting for a column controls the order in which data is sorted
-as well as what strings compare as equal. It can be set on a database-wide
-level and also per-table and per-column. This is `documented thoroughly`_ in
-the MySQL documentation. In all cases, you set the collation by directly
-manipulating the database tables; Django doesn't provide a way to set this on
-the model definition.
+A configuração de collation para uma coluna controla a ordem na qual os dados 
+são ordenados, bem como quais strings são consideradas iguais. Ela pode ser
+configurada para todo banco de dados, por tabela e por coluna. Isso está
+`completamente documentado`_ na documentação do MySQL. Em todos os casos, você
+configura o collation diretamente ao manipular as tabelas do banco de dados; O
+Django não fornece uma forma de configurar isso na definição do model.
 
-.. _documented thoroughly: http://dev.mysql.com/doc/refman/5.0/en/charset.html
+.. _completamente documentado: http://dev.mysql.com/doc/refman/5.0/en/charset.html
 
 By default, with a UTF-8 database, MySQL will use the
 ``utf8_general_ci_swedish`` collation. This results in all string equality
@@ -190,24 +194,24 @@ table (usually called ``django_session``) and the
 
 .. _fixed in MySQLdb 1.2.2: http://sourceforge.net/tracker/index.php?func=detail&aid=1495765&group_id=22307&atid=374932
 
-Connecting to the database
---------------------------
+Conectando ao banco de dados
+----------------------------
 
-Refer to the :ref:`settings documentation <ref-settings>`.
+Consulte a :ref:`documentação de configurações <ref-settings>`.
 
-Connection settings are used in this order:
+Configurações de conexões são usadas nesta ordem:
 
     1. :setting:`DATABASE_OPTIONS`.
     2. :setting:`DATABASE_NAME`, :setting:`DATABASE_USER`,
        :setting:`DATABASE_PASSWORD`, :setting:`DATABASE_HOST`,
        :setting:`DATABASE_PORT`
-    3. MySQL option files.
+    3. Arquivos de opções do MySQL.
 
-In other words, if you set the name of the database in ``DATABASE_OPTIONS``,
-this will take precedence over ``DATABASE_NAME``, which would override
-anything in a `MySQL option file`_.
+Em outras palavras, se você configurar o nome do banco de dados em 
+``DATABASE_OPTIONS``, este terá precedência sobre ``DATABASE_NAME``, que poderia
+ser sobrescrito por qualquer um num `arquivo de opções do MySQL`_.
 
-Here's a sample configuration which uses a MySQL option file::
+Aqui temos uma amostra de configurações que usam um arquivo de opções do MySQL::
 
     # settings.py
     DATABASE_ENGINE = "mysql"
@@ -222,146 +226,157 @@ Here's a sample configuration which uses a MySQL option file::
     password = DATABASE_PASSWORD
     default-character-set = utf8
 
-Several other MySQLdb connection options may be useful, such as ``ssl``,
-``use_unicode``, ``init_command``, and ``sql_mode``. Consult the
-`MySQLdb documentation`_ for more details.
+Várias outras configurações de conexões do MySQLdb poem ser úteis, como ``ssl``,
+``use_unicode``, ``init_command``, e ``sql_mode``. Consulte a 
+`documentação do MySQLdb`_ para mais detalhes.
 
-.. _MySQL option file: http://dev.mysql.com/doc/refman/5.0/en/option-files.html
-.. _MySQLdb documentation: http://mysql-python.sourceforge.net/
+.. _arquivo de opções do MySQL: http://dev.mysql.com/doc/refman/5.0/en/option-files.html
+.. _documentação do MySQLdb: http://mysql-python.sourceforge.net/
 
-Creating your tables
+Criando suas tabelas
 --------------------
 
-When Django generates the schema, it doesn't specify a storage engine, so
-tables will be created with whatever default storage engine your database
-server is configured for. The easiest solution is to set your database server's
-default storage engine to the desired engine.
+Quando o Django gera um esquema, ele não especifica um motor de armazenamento,
+então as tabelas podem ser criadas com qualquer motor de armazenamento padrão
+para o qual o seu servidor de banco de dados esteja configurado. A solução mais
+fácil é configurar o motor de armazenamento padrão de seu banco de dados para o
+motor desejado.
 
-If you're using a hosting service and can't change your server's default
-storage engine, you have a couple of options.
+Se você estiver usando um serviço de hospedagem e não pode modificar o motor de
+armazenamento padrão de seu servidor, você tem algumas opções.
 
-    * After the tables are created, execute an ``ALTER TABLE`` statement to
-      convert a table to a new storage engine (such as InnoDB)::
+    * Depois de criar as tabelas, execute uma consulta ``ALTER TABLE`` para
+      converter uma tabela para o novo motor de armazenamento (tal como 
+      InnoDB)::
 
           ALTER TABLE <tablename> ENGINE=INNODB;
 
-      This can be tedious if you have a lot of tables.
+      Isso pode ser um tédio se você possui muitas tabelas.
 
-    * Another option is to use the ``init_command`` option for MySQLdb prior to
-      creating your tables::
+    * Outra opção seria usar a opção ``init_command`` para o MySQLdb antes de
+      criar suas tabelas::
 
           DATABASE_OPTIONS = {
              "init_command": "SET storage_engine=INNODB",
           }
 
-      This sets the default storage engine upon connecting to the database.
-      After your tables have been created, you should remove this option.
+      Isso configurar o motor de armazenamento padrão ao conectar ao banco de
+      dados. Depois que suas tabelas foram criadas, você deve remover esta 
+      opção.
 
-    * Another method for changing the storage engine is described in
+    * Outro método para mudar o motor de armazenameto é descrito no
       AlterModelOnSyncDB_.
 
 .. _AlterModelOnSyncDB: http://code.djangoproject.com/wiki/AlterModelOnSyncDB
 
-Notes on specific fields
-------------------------
+Notas sobre campos específicos
+------------------------------
 
-Boolean fields
+Campos boolean
 ~~~~~~~~~~~~~~
 
-Since MySQL doesn't have a direct ``BOOLEAN`` column type, Django uses a
-``TINYINT`` column with values of ``1`` and ``0`` to store values for the
-:class:`~django.db.models.BooleanField` model field. Refer to the documentation
-of that field for more details, but usually this won't be something that will
-matter unless you're printing out the field values and are expecting to see
-``True`` and ``False.``.
+Uma vez que o MySQL não possui uma coluna do tipo ``BOOLEAN``, o Django usa uma
+coluna ``TINYINT`` com valores ``1`` e ``0`` para armazenar valores para o campo
+de model :class:`~django.db.models.BooleanField`. Confira a documentação de
+campos para mais detalhes, mas normalmente isso não é algo a que se dê 
+importância a menos que você esteja imprimindo o valor do campo e está esperando
+por ``True`` e ``False``.
 
-Character fields
-~~~~~~~~~~~~~~~~
+Campos de caracter
+~~~~~~~~~~~~~~~~~~
 
-Any fields that are stored with ``VARCHAR`` column types have their
-``max_length`` restricted to 255 characters if you are using ``unique=True``
-for the field. This affects :class:`~django.db.models.CharField`,
-:class:`~django.db.models.SlugField` and
+Quaisquer campos que são armazenados com colunas do tipo ``VARCHAR`` e que tenha
+o seu ``max_lenght`` limitado em 255 caracteres se você estiver usando 
+``unique=True`` para o campo. Isto afeta :class:`~django.db.models.CharField`,
+:class:`~django.db.models.SlugField` e 
 :class:`~django.db.models.CommaSeparatedIntegerField`.
 
-Furthermore, if you are using a version of MySQL prior to 5.0.3, all of those
-column types have a maximum length restriction of 255 characters, regardless
-of whether ``unique=True`` is specified or not.
+Além disso, se você estiver usando uma versnao do MySQL anterior ao 5.0.3, todos
+esses tipos de colunas possuem um comprimento máximo limitado em 255 caracteres,
+independentemente de ``unique=True`` está especificado ou não. 
 
 .. _sqlite-notes:
 
-SQLite notes
-============
+Notas do SQLite
+===============
 
-SQLite_ provides an excellent development alternative for applications that
-are predominantly read-only or require a smaller installation footprint. As
-with all database servers, though, there are some differences that are
-specific to SQLite that you should be aware of.
+O SQLite_ fornece uma alternativa excelente para desenvolvimento para aplicações
+que são predominantemente somente leitura ou requer uma instalação pequena. Como
+todos os servidores de banco de dados, ainda que, há algumas diferenças que são
+específicas do SQLite que você deve tomar cuidado.
 
 .. _SQLite: http://www.sqlite.org/
 
 .. _sqlite-string-matching:
 
 String matching for non-ASCII strings
---------------------------------------
+-------------------------------------
 
-SQLite doesn't support case-insensitive matching for non-ASCII strings. Some
-possible workarounds for this are `documented at sqlite.org`_, but they are
-not utilised by the default SQLite backend in Django. Therefore, if you are
-using the ``iexact`` lookup type in your queryset filters, be aware that it
-will not work as expected for non-ASCII strings.
+O SQLite não suporta case-insensitive (diferenciação de maiúsculas e minúsculas)
+para strings non-ASCII. Algumas soluções para esse problema estão `documentadas
+em sqlite.org`_, mas elas não são utilizadas pelo backend padrão do SQLite no
+Django. Portanto, se você estiver usando a pesquisa do tipo ``iexact`` nos seus
+filtros de queryset, esteja ciente de que não funcionará como esperado para
+strings non-ASCII.
 
-.. _documented at sqlite.org: http://www.sqlite.org/faq.html#q18
+.. _documentadas em sqlite.org: http://www.sqlite.org/faq.html#q18
 
-SQLite 3.3.6 or newer strongly recommended
-------------------------------------------
+SQLite 3.3.6 ou mais recente é fortemente recomendado
+-----------------------------------------------------
 
-Versions of SQLite 3.3.5 and older contains a bug when `handling`_ ``ORDER BY``
-parameters. This can cause problems when you use the ``select`` parameter for
-the ``extra()`` QuerySet method. The bug can be identified by the error message
-``OperationalError: ORDER BY terms must not be non-integer constants``.
+Versões do SQLite 3.3.5 e anteriores contêm um bug ao `manipular`_ parametros
+``ORDER BY``. Isso pode causar problemas quando você usa o parâmetro ``select``
+para o método ``extra()`` do QuerySet. O bug pode ser identificado pela mensagem
+de erro ``OperationalError: ORDER BY terms must not be non-integer constants``
+(termos do ORDER BY não devem ser constantes não inteiras).
 
-.. _handling: http://www.sqlite.org/cvstrac/tktview?tn=1768
+.. _manipular: http://www.sqlite.org/cvstrac/tktview?tn=1768
 .. _aggregation: http://code.djangoproject.com/ticket/10031
 
-SQLite 3.3.6 was released in April 2006, so most current binary distributions
-for different platforms include newer version of SQLite usable from Python
-through either the ``pysqlite2`` or the ``sqlite3`` modules.
+O SQLite 3.3.6 foi lançado em Abril de 2006, assim a maior parte das 
+distribuições binárias para diferentes plataformas incluem a versão mais nova do
+SQLite usável pelo Python tanto através do módulo ``pysqlite2`` quanto do 
+``sqlite3``.
 
-However, some platform/Python version combinations include older versions of
-SQLite (e.g. the official binary distribution of Python 2.5 for Windows, 2.5.4
-as of this writing, includes SQLite 3.3.4).
+Entretanto, algumas versões de plaformas/Python incluem versões mais antigas do 
+SQLite (e.g. a distribuição binária oficial do Python 2.5 para o Windows, 2.5.4
+como é descrita, inclue SQLite 3.3.4).
 
-Version 3.5.9
--------------
+Versão 3.5.9
+------------
 
-The Ubuntu "Intrepid Ibex" (8.10) SQLite 3.5.9-3 package contains a bug that
-causes problems with the evaluation of query expressions. If you are using
-Ubuntu "Intrepid Ibex", you will need to update the package to version
-3.5.9-3ubuntu1 or newer (recommended) or find an alternate source for SQLite
-packages, or install SQLite from source.
+O pacote SQLite 3.5.9-3 do Ubuntu "Intrepid Ibex" (8.10) contém um bug que causa
+problemas com a avaliação de expressões de consulta. Se você estiver usando o
+Ubuntu "Intrepid Ibex", você precisará atualizar o pacote para versão
+3.5.9-3ubuntu1 ou mais recente (recomendado) ou encontrar uma fonte alternativa
+para os pacotes do SQLite, ou instalar o SQLite a partir do código fonte.
 
 At one time, Debian Lenny shipped with the same malfunctioning SQLite 3.5.9-3
 package. However the Debian project has subsequently issued updated versions
 of the SQLite package that correct these bugs. If you find you are getting
 unexpected results under Debian, ensure you have updated your SQLite package
 to 3.5.9-5 or later.
+O Debian Lenny vem acompanhado do mesmo mal funcionamento no pacote do SQLite
+3.5.9-3. Entretanto, o projeto Debian tem subsequentemente entregue versões do
+pacote SQLite que corrigem esses bugs. Se você encontrar algum, você está 
+obtendo resultados inesperados pelo Debian, assegure-se que de ter atualizado 
+seu pacote do SQLite para 3.5.9-5 ou maior.
 
-The problem does not appear to exist with other versions of SQLite packaged
-with other operating systems.
+O problema aparentemente não existe com outras versões do pacote SQLite de 
+outros sistemas operacionais.
 
-Version 3.6.2
---------------
+Versão 3.6.2
+------------
 
-SQLite version 3.6.2 (released August 30, 2008) introduced a bug into ``SELECT
-DISTINCT`` handling that is triggered by, amongst other things, Django's
-``DateQuerySet`` (returned by the ``dates()`` method on a queryset).
+SQLite versão 3.6.2 (liberado em 30 de Agosto de 2008) introduz um bug na 
+manipulação do ``SELECT DISTINCT`` que é disparado pelo, entre outras coisas, 
+``DateQuerySet`` do Django (retornado por um método ``dates()`` num queryset).
 
-You should avoid using this version of SQLite with Django. Either upgrade to
-3.6.3 (released September 22, 2008) or later, or downgrade to an earlier
-version of SQLite.
+Você deve evitar usar esta versão do SQLite com o Django. Também atualize para
+3.6.3 (liberado em 22 de Setembro de 2008) ou maior, ou use uma versão mais 
+antiga do SQLite.
 
-"Database is locked" errors
+Erros "Database is locked"
 -----------------------------------------------
 
 SQLite is meant to be a lightweight database, and thus can't support a high
