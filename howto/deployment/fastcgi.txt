@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, waiting for revision $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 14363 $
 ..   $TranslationAuthors: Walter Cruz, Robson Mendonça $
 ..
