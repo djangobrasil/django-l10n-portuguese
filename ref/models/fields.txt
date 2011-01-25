@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision $
-..   $OriginalRevision: 11268 $
+..   $OriginalRevision: 14924 $
 ..   $TranslationAuthors: Walter Cruz, Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -332,20 +332,11 @@ Um campo Verdadeiro/Falso.
 
 O site administrativo representa-o como uma checkbox.
 
-.. admonition:: MySQL users..
+.. versionchanged:: 1.2
 
-    Um campo booleano é armazenado no MySQL como uma coluna ``TINYINT`` com o
-    valor sendo 0 ou 1 (a maioria dos bancos de dados possuem a propriedade do
-    tipo ``BOOLEAN`` ao invés). Então, para o MySQL, somente, quando um
-    ``BooleanField`` é recebido de um banco de dados e armazenado em um atributo
-    de model, ele terá os valores 1 ou 0, ao invés de ``True`` ou ``False``.
-    Normalmente, isto não deveria ser um problema, desde que o Python garanta
-    que o ``1 == True`` e ``0 == False`` sejam ambos veradeiros.
-    Somente tenha cuidado se você estiver escrevendo algo como ``obj is True``
-    quando ``obj`` é um valor vindo de um atributo booleano de um model. Se esse
-    model foi construído usando o backend ``mysql``, o teste "``is``" falhará.
-    Dê preferencia para um teste de igualdade (usando "``==``") em casos como
-    este.
+    In previous versions of Django when running under MySQL ``BooleanFields``
+    would return their data as ``ints``, instead of true ``bools``.  See the
+    release notes for a complete description of the change.
 
 ``CharField``
 -------------

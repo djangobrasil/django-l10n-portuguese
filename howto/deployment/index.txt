@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision. $
-..   $OriginalRevision: 10838 $
+..   $OriginalRevision: 14072 $
 ..   $TranslationAuthors: Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -27,13 +27,13 @@ soluções para se colocar um projeto Django em produção:
 
 .. toctree::
    :maxdepth: 1
-   
+
    modwsgi
    modpython
    fastcgi
    
 Se você é novato na implantação do Django e/ou Python, nós recomentadmos que você tente o
-:ref:`mod_wsgi <howto-deployment-modwsgi>` primeiro. Na maioria dos casos ele é a opção de
+:ref:`mod_wsgi </howto/deployment/modwsgi>` primeiro. Na maioria dos casos ele é a opção de
 implantação mais fácil, rápida e estável.
 
 .. seealso::

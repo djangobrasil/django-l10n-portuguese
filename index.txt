@@ -34,7 +34,7 @@ Obtendo ajuda
 
 Está com problemas? Nós gostaríamos de ajudar!
 
-* Tente a :ref:`FAQ <faq-index>` -- Para obter respostas para muitas
+* Tente a :ref:`FAQ <faq/index>` -- Para obter respostas para muitas
   perguntas comuns.
 
 * Procurando por uma informação especifica? Tente o :ref:`genindex`, o
@@ -57,156 +57,180 @@ Está com problemas? Nós gostaríamos de ajudar!
 Primeiros passos
 ================
 
-:ref:`Visão geral <intro-overview>`
-    Veja como escrever uma aplicação Web dirigida a banco de dados à
-    maneira Django.
+    * **From scratch:**
+      :doc:`Overview <intro/overview>` |
+      :doc:`Installation <intro/install>`
 
-:ref:`Instalação <intro-install>`
-    Tenha o Django instalado em seu computador.
+    * **Tutorial:**
+      :doc:`Part 1 <intro/tutorial01>` |
+      :doc:`Part 2 <intro/tutorial02>` |
+      :doc:`Part 3 <intro/tutorial03>` |
+      :doc:`Part 4 <intro/tutorial04>`
 
-Tutorial: Escrevendo sua primeira aplicação Django
-==================================================
+A camada do modelo
+==================
 
-:ref:`Parte 1 <intro-tutorial01>`
-    Inicie um projeto, crie models e brinque com a API do banco de dados.
+    * **Models:**
+      :doc:`Sintaxe do Model <topics/db/models>` |
+      :doc:`Tipos de campo <ref/models/fields>` |
+      :doc:`Meta opções <ref/models/options>`
 
-:ref:`Parte 2 <intro-tutorial02>`
-    Explore o site de administração gerado automaticamente.
+    * **QuerySets:**
+      :doc:`Executing queries <topics/db/queries>` |
+      :doc:`QuerySet method reference <ref/models/querysets>`
 
-:ref:`Parte 3 <intro-tutorial03>`
-    Escreva as interfaces públicas *views*.
+    * **Model instances:**
+      :doc:`Instance methods <ref/models/instances>` |
+      :doc:`Accessing related objects <ref/models/relations>`
 
-:ref:`Parte 4 <intro-tutorial04>`
-    Aprenda como processar formulários.
+    * **Advanced:**
+      :doc:`Managers <topics/db/managers>` |
+      :doc:`Raw SQL <topics/db/sql>` |
+      :doc:`Transactions <topics/db/transactions>` |
+      :doc:`Aggregation <topics/db/aggregation>` |
+      :doc:`Custom fields <howto/custom-model-fields>` |
+      :doc:`Multiple databases <topics/db/multi-db>`
 
-Utilizando Django
-=================
+    * **Other:**
+      :doc:`Supported databases <ref/databases>` |
+      :doc:`Legacy databases <howto/legacy-databases>` |
+      :doc:`Providing initial data <howto/initial-data>` |
+      :doc:`Optimize database access <topics/db/optimization>`
 
-:ref:`Models <topics-db-index>`
-    Desenhe uma única e definitiva fonte de dados sobre os seus dados.
+The template layer
+==================
 
-:ref:`Processando requisições web <topics-http-index>`
-    Processe requisições web, mapeie elas para *views* e retorne páginas.
+    * **For designers:**
+      :doc:`Syntax overview <topics/templates>` |
+      :doc:`Built-in tags and filters <ref/templates/builtins>`
 
-:ref:`Formulários <topics-forms-index>`
-    Construa e processe formulários HTML.
+    * **For programmers:**
+      :doc:`Template API <ref/templates/api>` |
+      :doc:`Custom tags and filters <howto/custom-template-tags>`
 
-:ref:`Templates <topics-templates>`
-    Desenvolva o desenho visual do seu site.
+The view layer
+==============
 
-E mais:
--------
+    * **The basics:**
+      :doc:`URLconfs <topics/http/urls>` |
+      :doc:`View functions <topics/http/views>` |
+      :doc:`Shortcuts <topics/http/shortcuts>`
 
-    * :ref:`Autenticação <topics-auth>`
-    * :ref:`Cache <topics-cache>`
-    * :ref:`E-mail <topics-email>`
-    * :ref:`APIs de acesso a arquivo <topics-files>`
-    * :ref:`Internacionalização <topics-i18n>`
-    * :ref:`Paginação <topics-pagination>`
-    * :ref:`Serialização <topics-serialization>`
-    * :ref:`Sessões <topics-http-sessions>`
-    * :ref:`Settings/configuração <topics-settings>`
-    * :ref:`Signals <topics-signals>`
-    * :ref:`Testando <topics-testing>`
+    * **Reference:**  :doc:`Request/response objects <ref/request-response>`
 
-Aplicações adicionais ("contrib")
-=================================
+    * **File uploads:**
+      :doc:`Overview <topics/http/file-uploads>` |
+      :doc:`File objects <ref/files/file>` |
+      :doc:`Storage API <ref/files/storage>` |
+      :doc:`Managing files <topics/files>` |
+      :doc:`Custom storage <howto/custom-file-storage>`
 
-:ref:`Interface administrativa automática do Django <ref-contrib-admin>`
-    Obtenha uma interface Web limpa para os seus dados com pouco esforço.
+    * **Generic views:**
+      :doc:`Overview<topics/generic-views>` |
+      :doc:`Built-in generic views<ref/generic-views>`
 
-:ref:`Ferramentas de formulários <ref-contrib-formtools-index>`
-    Manipule facilmente complexos workflows de formulários.
+    * **Advanced:**
+      :doc:`Generating CSV <howto/outputting-csv>` |
+      :doc:`Generating PDF <howto/outputting-pdf>`
 
-:ref:`Syndication feeds <ref-contrib-syndication>`
-    Gere feeds RSS e Atom de seus dados.
+    * **Middleware:**
+      :doc:`Overview <topics/http/middleware>` |
+      :doc:`Built-in middleware classes <ref/middleware>`
 
-:ref:`"Local flavor" <ref-contrib-localflavor>`   
-    Dê a seu site aquele toque local especial.
+Forms
+=====
 
-E mais:
--------
+    * **The basics:**
+      :doc:`Overview <topics/forms/index>` |
+      :doc:`Form API <ref/forms/api>` |
+      :doc:`Built-in fields <ref/forms/fields>` |
+      :doc:`Built-in widgets <ref/forms/widgets>`
 
-    * :ref:`Comentários <ref-contrib-comments-index>`
-    * :ref:`Content types <ref-contrib-contenttypes>`
-    * :ref:`Proteção contra Cross Site Request Forgery <ref-contrib-csrf>`
-    * :ref:`Databrowse <ref-contrib-databrowse>`
-    * :ref:`Flatpages <ref-contrib-flatpages>`
-    * :ref:`Humanize <ref-contrib-humanize>`
-    * :ref:`Redirecionamentos <ref-contrib-redirects>`
-    * :ref:`Sitemaps <ref-contrib-sitemaps>`
-    * :ref:`Sites <ref-contrib-sites>`
-    * :ref:`Assistentes para Web design <ref-contrib-webdesign>`
-    * :ref:`Marcação de texto <ref-contrib-markup>`
+    * **Advanced:**
+      :doc:`Forms for models <topics/forms/modelforms>` |
+      :doc:`Integrating media <topics/forms/media>` |
+      :doc:`Formsets <topics/forms/formsets>` |
+      :doc:`Customizing validation <ref/forms/validation>`
 
-Resolvendo problemas específicos
-================================
+    * **Extras:**
+      :doc:`Form preview <ref/contrib/formtools/form-preview>` |
+      :doc:`Form wizard <ref/contrib/formtools/form-wizard>`
 
-:ref:`Implantação <howto-deployment-index>`
-    Libere seu projeto para o mundo.
+The development process
+=======================
 
-:ref:`Importando dados de um banco de dados legado <howto-legacy-databases>`
-    Use Django com uma base de dados existente ou ao lado de outro kit de
-    ferramentas de desenvolvimento web.
+    * **Settings:**
+      :doc:`Overview <topics/settings>` |
+      :doc:`Full list of settings <ref/settings>`
 
-:ref:`Tags de template personalizadas <howto-custom-template-tags>`
-    Adicione suas próprias extensões para a linguagem de templates do Django.
+    * **Exceptions:**
+      :doc:`Overview <ref/exceptions>`
 
-:ref:`Gerando CSV <howto-outputting-csv>` & :ref:`PDF <howto-outputting-pdf>`
-    Produza conteúdo não HTML com Django.
+    * **django-admin.py and manage.py:**
+      :doc:`Overview <ref/django-admin>` |
+      :doc:`Adding custom commands <howto/custom-management-commands>`
 
-E mais:
--------
+    * **Testing:**  :doc:`Overview <topics/testing>`
 
-    * :ref:`Autenticação no Apache <howto-apache-auth>`
-    * :ref:`Escrevendo o seu sistema de armazenamento <howto-custom-file-storage>`
-    * :ref:`Escrevendo seus comandos do django-admin <howto-custom-management-commands>`
-    * :ref:`Escrevendo novos campos de model <howto-custom-model-fields>`
-    * :ref:`Acompanhe erros no código por e-mail <howto-error-reporting>`
-    * :ref:`Fornecendo dados iniciais aos models <howto-initial-data>`
-    * :ref:`Rodando Django no Jython <howto-jython>`
-    * :ref:`Servindo arquivos estáticos <howto-static-files>`
+    * **Deployment:**
+      :doc:`Overview <howto/deployment/index>` |
+      :doc:`Apache/mod_wsgi <howto/deployment/modwsgi>` |
+      :doc:`Apache/mod_python <howto/deployment/modpython>` |
+      :doc:`FastCGI/SCGI/AJP <howto/deployment/fastcgi>` |
+      :doc:`Apache authentication <howto/apache-auth>` |
+      :doc:`Serving static files <howto/static-files>` |
+      :doc:`Tracking code errors by e-mail <howto/error-reporting>`
 
-Referência
-==========
+Other batteries included
+========================
 
-:ref:`Settings <ref-settings>`
-    Veja todas as opções de configurações do Django e o que elas fazem.
+    * :doc:`Admin site <ref/contrib/admin/index>` | :doc:`Admin actions <ref/contrib/admin/actions>` | :doc:`Admin documentation generator<ref/contrib/admin/admindocs>`
+    * :doc:`Authentication <topics/auth>`
+    * :doc:`Cache system <topics/cache>`
+    * :doc:`Conditional content processing <topics/conditional-view-processing>`
+    * :doc:`Comments <ref/contrib/comments/index>` | :doc:`Moderation <ref/contrib/comments/moderation>` | :doc:`Custom comments <ref/contrib/comments/custom>`
+    * :doc:`Content types <ref/contrib/contenttypes>`
+    * :doc:`Cross Site Request Forgery protection <ref/contrib/csrf>`
+    * :doc:`Databrowse <ref/contrib/databrowse>`
+    * :doc:`E-mail (sending) <topics/email>`
+    * :doc:`Flatpages <ref/contrib/flatpages>`
+    * :doc:`GeoDjango <ref/contrib/gis/index>`
+    * :doc:`Humanize <ref/contrib/humanize>`
+    * :doc:`Internationalization <topics/i18n/index>`
+    * :doc:`Jython support <howto/jython>`
+    * :doc:`"Local flavor" <ref/contrib/localflavor>`
+    * :doc:`Messages <ref/contrib/messages>`
+    * :doc:`Pagination <topics/pagination>`
+    * :doc:`Redirects <ref/contrib/redirects>`
+    * :doc:`Serialization <topics/serialization>`
+    * :doc:`Sessions <topics/http/sessions>`
+    * :doc:`Signals <topics/signals>`
+    * :doc:`Sitemaps <ref/contrib/sitemaps>`
+    * :doc:`Sites <ref/contrib/sites>`
+    * :doc:`Syndication feeds (RSS/Atom) <ref/contrib/syndication>`
+    * :doc:`Unicode in Django <ref/unicode>`
+    * :doc:`Web design helpers <ref/contrib/webdesign>`
+    * :doc:`Validators <ref/validators>`
 
-:ref:`Objetos request & response <ref-request-response>`
-    Entenda as classes que o Django usa para representar *requests* e *responses* HTTP.
+The Django open-source project
+==============================
 
-:ref:`Referência da API do Model <ref-models-index>`
-    Divirta-se na glória do sistema de modelos do Django.
+    * **Community:**
+      :doc:`How to get involved <internals/contributing>` |
+      :doc:`The release process <internals/release-process>` |
+      :doc:`Team of committers <internals/committers>` |
+      :doc:`The Django source code repository <internals/svn>`
 
-:ref:`Referência da API de Formulários <ref-forms-index>`
-    Aprenda os detalhes dos formulários, campos e *widgets*.
+    * **Design philosophies:**
+      :doc:`Overview <misc/design-philosophies>`
 
-E mais:
--------
+    * **Documentation:**
+      :doc:`About this documentation <internals/documentation>`
 
-    * :ref:`ref-databases`
-    * :ref:`ref-django-admin`
-    * :ref:`ref-files-index`
-    * :ref:`ref-generic-views`
-    * :ref:`ref-middleware`
-    * :ref:`ref-templates-index`
-    * :ref:`ref-unicode`
+    * **Third-party distributions:**
+      :doc:`Overview <misc/distributions>`
 
-E o restante
-============
-
-:ref:`Django internamente <internals-index>`
-    Aprenda como o Django funciona por baixo dos panos e como você pode contribuir
-    com o projeto.
-
-:ref:`Notas de lançamento <releases-index>`
-    Veja o que há de novo em cada versão do Django.
-
-:ref:`Deprecation Timeline <internals-deprecation>`
-    Veja as APIs que foram marcados como obsoletas em lançamentos futuros do
-    Django.
-
-:ref:`Miscelânea <misc-index>`
-    Coisas que não podemos encontrar um lugar mais organizado para elas. Como
-    aquela gaveta em sua cozinha com tesouras, baterias e fitas adesivas.
+    * **Django over time:**
+      :doc:`API stability <misc/api-stability>` |
+      :doc:`Release notes and upgrading instructions <releases/index>` |
+      :doc:`Deprecation Timeline <internals/deprecation>`
