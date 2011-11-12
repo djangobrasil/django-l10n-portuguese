@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _ref-contrib-index:
-
 ===========================
 Os add-ons "django.contrib"
 ===========================
@@ -56,6 +53,7 @@ dependências.
    redirects
    sitemaps
    sites
+   staticfiles
    syndication
    webdesign
 
@@ -77,10 +75,6 @@ Veja :doc:`/topics/auth`.
 
 comments
 ========
-
-.. versionchanged:: 1.0
-   O aplicativo de comentários foi reescrito. Veja :doc:`/ref/contrib/comments/upgrade`
-   para informações sobre como atualizar seu código.
 
 Um simples e flexível sistema de comentários. Veja :doc:`/ref/contrib/comments/index`.
 

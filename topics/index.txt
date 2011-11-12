@@ -19,7 +19,7 @@
 Usando o Django
 ===============
 
-Introduções para todos os partes-chaves do Django, você precisa saber:
+Introduções para todos os partes-chaves do Django que você precisa conhecer:
 
 .. toctree::
    :maxdepth: 1
@@ -28,9 +28,9 @@ Introduções para todos os partes-chaves do Django, você precisa saber:
    db/index
    http/index
    forms/index
-   forms/modelforms
    templates
-   generic-views
+   class-based-views
+   generic-views-migration
    files
    testing
    auth
@@ -38,7 +38,16 @@ Introduções para todos os partes-chaves do Django, você precisa saber:
    conditional-view-processing
    email
    i18n/index
+   logging
    pagination
    serialization
    settings
    signals
+
+Deprecated features
+-------------------
+
+.. toctree::
+    :maxdepth: 1
+
+    generic-views
