@@ -463,7 +463,7 @@ Além do ``extra_context``, o contexto do template será:
     * ``week``: Um objeto ``datetime.date`` representando o primeiro dia da 
       semana informada.
 
-    * ``object_list``: Uma lista de objetos para o dado mês. Este nome de
+    * ``object_list``: Uma lista de objetos para a semana informada. Este nome de
     variável depende do parâmetro ``template_object_name``, que é ``'object'``
     por padrão. Se ``template_object_name`` é ``'foo'``, o nome desta variável
     será ``foo_list``.
@@ -554,7 +554,7 @@ Além do ``extra_context``, o contexto do template será:
     * ``previous_day``: Um objeto ``datetime.date`` representando o dia 
       informado. Diferentemente do ``next_day``, este nunca será ``None``.
 
-    * ``object_list``: Uma lista de objetos para o dado mês. Este nome de
+    * ``object_list``: Uma lista de objetos para o dia informado. Este nome de
     variável depende do parâmetro ``template_object_name``, que é ``'object'``
     por padrão. Se ``template_object_name`` é ``'foo'``, o nome desta variável
     será ``foo_list``.
@@ -773,10 +773,8 @@ especifiar o número da página na URL em uma de duas formas:
 Esses valores e listas começam no 1, não 0, então a primeira página será
 representada com ``1``.
 
-Para mais sobre paginação, leia a :ref:`documentação da paginação 
-<topics-pagination>`.
-
-.. versionadded:: 1.0
+Para mais sobre paginação, leia a :doc:`documentação da paginação 
+</topics/pagination>`.
 
 Como um caso especial, a você também é permitido o uso do ``last`` como valor
 para ``page``::

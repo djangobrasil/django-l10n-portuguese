@@ -54,6 +54,7 @@ que compreendem um aplicação de weblog:
         headline = models.CharField(max_length=255)
         body_text = models.TextField()
         pub_date = models.DateTimeField()
+        mod_date = models.DateTimeField()
         authors = models.ManyToManyField(Author)
         n_comments = models.IntegerField()
         n_pingbacks = models.IntegerField()
@@ -125,6 +126,7 @@ questão::
 Atualizar um ``ManyToManyField`` funciona um pouco diferente; usa o método
 ``add()`` sobre o campo para adicionar um dado a relação::
 
+    >>> from blog.models import Author
     >> joe = Author.objects.create(name="Joe")
     >> entry.authors.add(joe)
 

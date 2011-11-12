@@ -361,8 +361,6 @@ Adicionalmente, o middleware de cache adiciona alguma cabeçalhos em cada
 
 Veja :doc:`/topics/http/middleware` para mais sobre middlewares.
 
-.. versionadded:: 1.0
-
 Se uma visão configura o seu próprio tempo de expiração de cache (i.e. tem uma seção ``max-age``
 no seu cabeçalho ``Cache-Control``) então a página será mantida em cache até o tempo de
 edxpiração, ao invés de ``CACHE_MIDDLEWARE_SECONDS``. Usando os decoradores em
@@ -370,6 +368,18 @@ edxpiração, ao invés de ``CACHE_MIDDLEWARE_SECONDS``. Usando os decoradores e
 uma visão(usando o decorador ``cache_control``) ou desabilitar o cache para uma visão (usando
 o decorador ``never_cache``). Veja a seção `usando outros cabeçalhos`__ para mais
 informações sobre esses decoradores.
+
+.. _i18n-cache-key:
+
+.. versionadded:: 1.2
+
+If :setting:`USE_I18N` is set to ``True`` then the generated cache key will
+include the name of the active :term:`language<language code>`.
+This allows you to easily cache multilingual sites without having to create
+the cache key yourself.
+
+See :doc:`/topics/i18n/deployment` for more on how Django discovers the active
+language.
 
 __ `Controlando o cache: Usando outros cabeçalhos`_
 
@@ -455,7 +465,7 @@ template usando a tag de template ``cache``. Para permitir que seu template use 
 
 A tag de template ``{% cache %}`` faz o cache do conteúdo do bloco por um certo período
 de tempo. Recebe ao menos dois argumentos: o timeout do cache, em segundos,
-e o nome que será dado ao cache de fragmento. Por exemplo::
+e o nome que será dado ao cache de fragmento. Por exemplo:
 
 .. code-block:: html+django
 
@@ -468,7 +478,7 @@ Algumas vezes você pode querer adicionar ao cache diversas cópias de um fragme
 algum dado dinâmico que apareça dentro do fragmento. Por exemplo, você pode querer uma
 cópia separada da barra lateral usada no exemplo anterior para cada usuário
 do seu site. Faça isso passando argumentos adicionais a template tag ``{% cache %}``
-que unicamente identifiquem esse cache de fragmento::
+que unicamente identifiquem esse cache de fragmento:
 
 .. code-block:: html+django
 
@@ -672,7 +682,7 @@ this code in the ``management`` module of one of your
 
 If you want to instead provide custom key validation logic for one of the
 built-in backends, you can subclass it, override just the ``validate_key``
-method, and follow the instructions for `using a custom cache backend`_. For
+method, and follow the instructions for `usando um backend de cache personalizado`_. For
 instance, to do this for the ``locmem`` backend, put this code in a module::
 
     from django.core.cache.backends.locmem import CacheClass as LocMemCacheClass

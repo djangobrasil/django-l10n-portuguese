@@ -157,21 +157,11 @@ atualmente não suporta transações ou chaves estrangeiras. O lado bom, é que
 atualmente ele é o único motor que suporta indexação full-text e busca.
 
 O motor InnoDB_ é completamente transacional e suporta referências de chave
-estrangeira.
+estrangeira e é provavelmente sua melhor escolha agora.
 
-O motor BDB_, assim como o InnoDB, é também completamente transacional e suporta
-referências de chave estrangeiras. Entretanto, seu uso parece ser depreciado.
-
-`Outros motores de armazenamentos`_, incluíndo SolidDB_ e Falcon_, estão no
-horizonte. Por enquanto, InnoDB é provavelmente sua melhor escolha.
-
-.. _storage engines: http://dev.mysql.com/doc/refman/5.0/en/storage-engines.html
-.. _MyISAM: http://dev.mysql.com/doc/refman/5.0/en/myisam-storage-engine.html
-.. _BDB: http://dev.mysql.com/doc/refman/5.0/en/bdb-storage-engine.html
-.. _InnoDB: http://dev.mysql.com/doc/refman/5.0/en/innodb.html
-.. _Other storage engines: http://dev.mysql.com/doc/refman/5.1/en/storage-engines-other.html
-.. _SolidDB: http://forge.mysql.com/projects/project.php?id=139
-.. _Falcon: http://dev.mysql.com/doc/falcon/en/index.html
+.. _motores de armazenamento: http://dev.mysql.com/doc/refman/5.5/en/storage-engines.html
+.. _MyISAM: http://dev.mysql.com/doc/refman/5.5/en/myisam-storage-engine.html
+.. _InnoDB: http://dev.mysql.com/doc/refman/5.5/en/innodb.html
 
 .. [#] A menos que isso seja mudado pelo empacotador do seu pacote do MySQL. 
    Tivemos relatos de que o instalador do Windows Community Server configura o

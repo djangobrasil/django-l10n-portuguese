@@ -49,7 +49,7 @@ O Django requer o Apache 2.x e o mod_python 3.x, e você deve usar o
       mais avançado sobre o Apache, não há fonte de informação melhor que
       `a própria documentação oficial do Apache`_
 
-    * Você pode também estar interessado em :ref:`Como usar o Django com FastCGI, SCGI
+    * Você pode também estar interessado em :doc:`Como usar o Django com FastCGI, SCGI
       ou AJP </howto/deployment/fastcgi>`.
 
 .. _Apache: http://httpd.apache.org/
@@ -229,10 +229,10 @@ tudo de novo em cada requisição. Mas não faça isso no servidor de produção
 seus privilégios Django.
 
 Se você é o tipo de programador que debuga disperando declarações ``print``
-no meio do seu código, note que declarações ``print`` não aparecem no log do Apache
- and can even `cause response errors`_.
+no meio do seu código, note que declarações ``print`` não aparecem no log do Apache 
+e podem até mesmo `causar erros de resposta`_.
 
-.. _cause response errors: http://blog.dscpl.com.au/2009/04/wsgi-and-printing-to-standard-output.html
+.. _causar erros de resposta: http://blog.dscpl.com.au/2009/04/wsgi-and-printing-to-standard-output.html
 
 Se você precisa imprimir informação de depuração em uma configuração com o mod_python, você
 tem algumas opções. You can print to ``stderr`` explicitly, like so::

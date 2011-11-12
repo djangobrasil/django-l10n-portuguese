@@ -44,7 +44,7 @@ próprio servidor leve de desenvolvimento. Para um ambiente de produção, o
 Django segue a especificação WSGI_, o que significa que ele pode rodar sobre
 uma ampla variedade de plataformas de servidores. Veja :doc:`Implantando o
 Django </howto/deployment/index>` para algumas anternativas populares. Além
-disso, a `página wiki de opções de arranjo do servidor`_ contém detalhes para
+disso, a `página wiki de opções de configuração do servidor`_ contém detalhes para
 algumas estratégias de implantação.
 
 Se você quer usar o Django com um banco de dados, que é o caso provável, você
@@ -63,7 +63,7 @@ são suportados também.
 .. _Oracle: http://www.oracle.com/
 
 Eu perco algo se eu rodar o Django com uma a versão 2.4 do Python em vez de usar versẽs mais novas do Python como a 2.5 ou 2.6? 2.5?
--------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------
 
 Não no framework. Atualmente, o Django suporta oficialmente quaisquer versões
 do Python da 2.4 até a 2.7, inclusive. Porém, novas versões do Python sã

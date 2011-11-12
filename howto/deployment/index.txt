@@ -29,11 +29,12 @@ soluções para se colocar um projeto Django em produção:
    :maxdepth: 1
 
    modwsgi
-   modpython
    fastcgi
+   mod_python (obsoleto) <modpython>
+
    
 Se você é novato na implantação do Django e/ou Python, nós recomentadmos que você tente o
-:ref:`mod_wsgi </howto/deployment/modwsgi>` primeiro. Na maioria dos casos ele é a opção de
+:doc:`mod_wsgi </howto/deployment/modwsgi>` primeiro. Na maioria dos casos ele é a opção de
 implantação mais fácil, rápida e estável.
 
 .. seealso::

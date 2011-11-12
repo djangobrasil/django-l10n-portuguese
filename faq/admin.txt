@@ -71,7 +71,7 @@ administração.
 Minhas imagens e CSS do site administrativo funcionam no servidor de desenvolvimento, mas não aparecem ao executar no mod_python.
 ---------------------------------------------------------------------------------------------------------------------------------
 
-Veja :ref:`servindo os arquivos da administração <howto-deployment-modpython-serving-the-admin-files`
+Veja :ref:`servindo os arquivos da administração <serving-the-admin-files>`
 na documentação "Como usar o Django com o mod_python".
 
 Meu "list_filter" contém um ManyToManyField, mas o filtro não é exibido.
