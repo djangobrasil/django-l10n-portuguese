@@ -708,6 +708,8 @@ declarações são equivalentes::
     >>> some_obj == other_obj
     >>> some_obj.name == other_obj.name
 
+.. _topics-db-queries-delete:
+
 Deletando objetos
 =================
 
@@ -903,8 +905,8 @@ contrário; ele deve ser acessado de uma instância::
 Além dos métodos do ``QuerySet`` definidos em "Recebendo objetos" acima, o
 ``Manager`` ``ForeignKey`` possui métodos adicionais utilizados para lidar com
 conjuntos de objetos relacionados. Uma sinopse de cada um está abaixo, e
-detalhes completos podem ser encontrados na :ref:`referência de objetos
-relacionados <ref-models-relations>`.
+detalhes completos podem ser encontrados na :doc:`referência de objetos
+relacionados </ref/models/relations>`.
 
 ``add(obj1, obj2, ...)``
     Adiciona os objetos do model especificados ao conjunto do objeto

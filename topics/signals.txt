@@ -29,7 +29,7 @@ framework. Em resumo, sinais permitem certos *remetentes* notificar um conjunto
 de *receptores* sobre alguma ação que tenha ocorrido. Eles são especialmente
 úteis quando muitas peças de código podem estar interessados nos mesmos eventos.
 
-O Django fornece um :ref:`conjunto de sinais embutidos </ref/signals>` que deixam
+O Django fornece um :doc:`conjunto de sinais embutidos </ref/signals>` que deixam
 o código do usuário ser notificado pelo próprio Django sobre certas ações. Estas
 incluem algumas notificações úteis:
 
@@ -146,6 +146,9 @@ for finalizada.
 
 .. _connecting-to-specific-signals:
 
+Conectando-se a sinais enviados por remetentes específicos
+----------------------------------------------------------
+
 Alguns sinais são enviados muitas vezes, mas você somente é interessado em
 receber um certo sub-conjunto destes sinais. Por exemplo, considere o sinal
 :data:`django.db.models.signals.pre_save` enviado antes de um model ser salvo.
@@ -197,8 +200,8 @@ bound to the signal once for each unique ``dispatch_uid`` value.
 
     request_finished.connect(my_callback, dispatch_uid="my_unique_identifier")
 
-Defining and sending signals
-============================
+Definindo e enviando sinais
+===========================
 
 Your applications can take advantage of the signal infrastructure and provide
 its own signals.
