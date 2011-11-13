@@ -19,7 +19,7 @@ Guia de instalação rápida
 =========================
 
 Antes que você possa utilizar o Django, você precisará instalá-lo. Nós temos um
-:ref:`guia completo de instalação </topics/install>` que abrange todas as
+:doc:`guia completo de instalação </topics/install>` que abrange todas as
 possibilidades; este guia irá guiar você em uma instalação simples e mínima que
 será suficiente durante a leitura da introdução.
 

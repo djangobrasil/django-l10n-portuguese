@@ -133,10 +133,6 @@ Existem três caminhos de código aqui:
     3. Se o formulário foi submitetido mas é inválido, uma instância **bound**
        do form é passada ao template.
 
-.. versionchanged:: 1.0
-    O atributo ``cleanded_data`` foi chamado de ``clean_data`` em versões
-    anteriores.
-
 A distinção entre formulários **bound** e **unbound** é importante. Um
 formulário unbound não tem qualquer dado associado a ele; quando o formlário for
 renderizado para o usuário, ele estará vazio ou conterá valores padrão. Um
@@ -144,7 +140,7 @@ fomrulário bound possui dados submetidos, e por isso pode ser usado para dizer
 se os dados são válidos. Se um formulário bound e inválido for renderizado ele
 pode incluír mensagens de erros, dizendo ao usuário onde ele errou.
 
-Veja :doc:`/ref/forms/api/bound-unbound` para mais informações sobre diferenças
+Veja :ref:`ref-forms-api-bound-unbound` para mais informações sobre diferenças
 entre formulários bound e unbound.
 
 Manipulando upload de arquivos com um form
@@ -222,8 +218,8 @@ exemplo::
 Note que cada campo de formulário tem um atributo ID setado para
 ``id_<field-name>``, que é referenciado por uma tag label. Isto é importante
 para assegurar que os formulários sejam acessíveis para tecnologias assistivas
-como leitores de tela. Você também pode :doc:`customizar a forma em que as
-labels e ids são gerados </ref/forms/api/configuring-label>`.
+como leitores de tela. Você também pode :ref:`customizar a forma em que as
+labels e ids são gerados <ref-forms-api-configuring-label>`.
 
 Você pode também usar ``forms.as_table`` para gerar saídas como linhas de
 tabela. (você precisará fornecer suas próprias tags ``<table>``) e

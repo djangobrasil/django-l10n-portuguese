@@ -67,7 +67,7 @@ mysite``. Isto irá criar o diretório ``mysite`` no seu diretório atual.
    porque, em sistemas baseados em Unix como o OS X, um arquivo precisa ser
    marcado como "executável" antes que possa ser executado como um
    programa. Para fazer isso, abra o Terminal.app e navegue (usando o comando
-   `cd`) até o diretório onde o :ref:`django-admin.py <ref-django-admin>` está
+   `cd`) até o diretório onde o :doc:`django-admin.py </ref/django-admin>` está
    instalado, então rode o comando ``chmod +x django-admin.py``.
 
 .. note::
@@ -77,11 +77,11 @@ mysite``. Isto irá criar o diretório ``mysite`` no seu diretório atual.
     usar nomes como ``django`` (que irá conflitar com o próprio Django) ou
     ``test`` (que irá conflitar com um pacote interno do Python).
 
-O :ref:`django-admin.py <ref-django-admin>` deverá estar no "path" do sistema
+O :doc:`django-admin.py </ref/django-admin>` deverá estar no "path" do sistema
 se você instalou o Django via ``python setup.py``. Se ele não estiver no path,
 você poderá encontrá-lo em ``site-packages/django/bin``, onde ``site-packages``
 é um diretório dentro da sua instalação do Python. Considere a possibilidade de
-criar um link simbólico para o :ref:`django-admin.py <ref-django-admin>` em
+criar um link simbólico para o :doc:`django-admin.py </ref/django-admin>` em
 algum lugar em seu path, como em ``/usr/local/bin``.
 
 .. admonition:: Onde esse código deve ficar?
@@ -112,15 +112,15 @@ Estes arquivos são:
 
     * :file:`manage.py`: Um utilitário de linha de comando que permite a você
       interagir com esse projeto Django de várias maneiras. Você pode ler todos
-      os detalhes sobre o :file:`manage.py` em :ref:`ref-django-admin`.
+      os detalhes sobre o :file:`manage.py` em :doc:`/ref/django-admin`.
 
     * :file:`settings.py`: Configurações para este projeto Django.
-      :ref:`topics-settings` Irá revelar para você tudo sobre como o settings
+      :doc:`/topics/settings` Irá revelar para você tudo sobre como o settings
       funciona.
 
     * :file:`urls.py`: As declarações de URLs para este projeto Django; um
       "índice" de seu site movido a Django. Você pode ler mais sobre URLs em
-      :ref:`topics-http-urls`.
+      :doc:`/topics/http/urls`.
 
 .. _mais sobre pacotes: http://docs.python.org/tut/node8.html#packages
 
@@ -354,7 +354,7 @@ Esses conceitos são representados por simples classes Python. Edite o arquivo
    você provavelmente está usando uma versão antiga do Django. (Esta versão do
    tutorial foi escrita para a última versão de desenvolvimento do Django.) Se
    você estiver usando um checkout de Subversion da versão de desenvolvimento do
-   Django (veja :ref:`a documentação de instalação <topics-install>` para mais
+   Django (veja :doc:`a documentação de instalação </topics/install>` para mais
    informações), você não deveria estar tendo nenhum problema.
 
    Se você quiser continuar com uma versão antiga do Django, você deverá mudar
@@ -528,7 +528,7 @@ para quaisquer aplicações que você tenha adicionado ao seu projeto desde a
 última vez que você rodou o syncdb. O :djadmin:`syncdb` pode ser chamado sempre
 que você quiser, e ele irá apenas criar as tabelas que não existirem.
 
-Leia a :ref:`documentação do django-admin.py <ref-django-admin>` para informações
+Leia a :doc:`documentação do django-admin.py </ref/django-admin>` para informações
 completas sobre o que o utilitário ``manage.py`` pode fazer.
 
 Brincando com a API
@@ -564,11 +564,11 @@ ambiente" envolve duas coisas:
     (i.e., ``import mysite`` funciona) e configure a variável de ambiente
     ``DJANGO_SETTINGS_MODULE`` para ``mysite.settings``.
 
-    Para mais informações sobre isso tudo, veja a :ref:`documentação do
-    django-admin.py <ref-django-admin>`.
+    Para mais informações sobre isso tudo, veja a :doc:`documentação do
+    django-admin.py </ref/django-admin>`.
 
-Assim que você estiver no shell, explore a :ref:`API de banco de dados 
-<topics-db-queries>`::
+Assim que você estiver no shell, explore a :doc:`API de banco de dados 
+</topics/db/queries>`::
 
     # Importe as classes de model que acabamos de criar.
     >>> from mysite.polls.models import Poll, Choice
@@ -627,7 +627,7 @@ desse objeto. Vamos corrigir isso editando o model da enquete (no arquivo
     representados, você deve estar usando uma versão antiga do Django (esta
     versão do tutorial foi escrita para a última versão de desenvolvimento do
     Django). Se você estiver usando um checkout do Subversion do Django (veja
-    :ref:`a documentação de instalação <topics-install>` para mais
+    :doc:`a documentação de instalação </topics/install>` para mais
     informações), você não deveria estar tendo nenhum problema.
 
     Se você quiser seguir com uma versão antiga do Django, você deverá mudar para
@@ -745,7 +745,7 @@ Python rodando ``python manage.py shell`` novamente::
     >>> c.delete()
 
 Para um detalhamento completo da API de banco de dados, veja nossa
-:ref:`referência à API de Banco de Dados <topics-db-queries>`.
+:doc:`referência à API de Banco de Dados </topics/db/queries>`.
 
 Quando você se sentir confortável com a API, leia a :ref:`parte 2 deste
 tutorial <intro-tutorial02>` para colocar a administração automática do Django

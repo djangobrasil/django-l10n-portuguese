@@ -83,8 +83,8 @@ ser mencionadas:
 Usando o sistema de template
 ============================
 
-Alternativamente, você pode usar o :ref:`sistema de template do Django 
-<topics-templates>` para gerar CSV. Isso é mais baixo nível do que usar a 
+Alternativamente, você pode usar o :doc:`sistema de template do Django 
+</topics/templates>` para gerar CSV. Isso é mais baixo nível do que usar a 
 biblioteca CSV, mas a solução é apresentada para fins de complementação.
 
 A idéia aqui é passar uma lista de itens para o seu template e ter a saída

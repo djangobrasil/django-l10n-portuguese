@@ -43,7 +43,7 @@ O ``File`` do Django tem os seguintes atributos e métodos:
 .. attribute:: File.url
 
     A URL onde o arquivo pode ser obtido. Isso é frequentemente útil em
-    :ref:`templates <topics-templates>`; por exemplo, um snippet de um template
+    :doc:`templates </topics/templates>`; por exemplo, um snippet de um template
     para exibir um ``Car`` (veja abaixo) poderia ser assim:
 
     .. code-block:: html+django

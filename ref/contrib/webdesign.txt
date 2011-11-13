@@ -25,7 +25,7 @@ django.contrib.webdesign
               em vez de *desenvolvedores* web.
 
 O pacote ``django.contrib.webdesign``, parte dos
-:ref:`add-ons "django.contrib" <ref-contrib-index>`, provê ajudantes
+:doc:`add-ons "django.contrib" </ref/contrib/index>`, provê ajudantes
 que são particularmente úteis à web *designers* (o oposto de desenvolvedores).
 
 Atualmente, o pacote contém uma única template tag. Se você tem idéias sobre

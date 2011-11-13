@@ -33,7 +33,7 @@ Dentro desse pacote, ó código de um país ou uma cultura específica fica dent
 de sub-pacotes, chamados usando `códigos de país ISO 3166`_.
 
 A maioria dos add-ons ``localflavor`` estão localizados na forma de componentes
-derivando do framework :ref:`forms <topic-forms-index>` -- por exemplo, um
+derivando do framework :doc:`forms </topics/forms/index>` -- por exemplo, um
 :class:`~django.contrib.localflavor.us.forms.USStateField` que sabe como validar
 abreviações de estados do E.U.A., e um 
 :class:`~django.contrib.localflavor.fi.forms.FISocialSecurityNumber` que sabe
@@ -83,7 +83,7 @@ Os paises atualmente suportados pelo :mod:`~django.contrib.localflavor` são
 O pacote ``django.contrib.localflavor`` também inclui um sub-pacote genérico,
 contendo código útil que não são específicos para um único país ou cultura.
 Atualmente, é definido campos de entrada date e datetime baseados naqueles 
-vindos de :ref:`forms <topics-forms-index>`, mas com formatos que não seguem o
+vindos de :doc:`forms </topics/forms/index>`, mas com formatos que não seguem o
 padrão dos E.U.A. Aqui temos um exemplo de como usá-los::
 
     from django import forms

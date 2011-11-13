@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _ref-contrib-comments-index:
-
 ==================================
 Framework de comentários do Django
 ==================================
@@ -172,8 +169,8 @@ Renderizando um formulário customizado de comentário
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Se você quiser mais controle sobre a aparência do formulário de comentário, você
-usa o :ttag:`get_comment_form` para pegar um :ref:`objeto form
-<topics-forms-index>` que você pode usar num template::
+usa o :ttag:`get_comment_form` para pegar um :doc:`objeto form
+</topics/forms/index>` que você pode usar num template::
 
     {% get_comment_form for [object] as [varname] %}
 

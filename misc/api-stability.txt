@@ -17,7 +17,7 @@
 Estabilidade de API
 ===================
 
-:ref:`O release do Django 1.0 <releases-1.0>` vem com a promessa de
+:doc:`O release do Django 1.0 </releases/1.0>` vem com a promessa de
 estabilidade de API e compatibilidade futura. Em resumo, isto significa que o
 código que você construir utilizando o Django 1.0 irá funcionar com 1.1 sem
 mudanças, e você precisará fazer somente pequenas mudanças para qualquer
@@ -55,36 +55,36 @@ Geralmente, tudo que foi documentado -- com excessão de qualquer item da
 :ref:`area interna <internals-index>` é considerado "stable" na versão 1.0. Isto
 inclui estas APIs:
 
-    - :ref:`Autorização <topics-auth>`
+    - :doc:`Autorização </topics/auth>`
     
-    - :ref:`Caching <topics-cache>`.
+    - :doc:`Caching </topics/cache>`.
     
-    - :ref:`Definição de Model, gerenciadores, consultas e transações
-      <topics-db-index>`
+    - :doc:`Definição de Model, gerenciadores, consultas e transações
+      </topics/db/index>`
     
-    - :ref:`Envio de e-email <topics-email>`.
+    - :doc:`Envio de e-email </topics/email>`.
     
-    - :ref:`Manipulação de arquivos e armazenamento <topics-files>`
+    - :doc:`Manipulação de arquivos e armazenamento </topics/files>`
     
-    - :ref:`Formulários <topics-forms-index>`
+    - :doc:`Formulários </topics/forms/index>`
     
-    - :ref:`Manipulação de requisições/respostas HTTP <topics-http-index>`, 
+    - :doc:`Manipulação de requisições/respostas HTTP </topics/http/index>`, 
       incluíndo  envio de arquivos, middleware, sessões, resolução de URL, 
       view, e "shortcut" APIs.
     
-    - :ref:`Generic views <topics-http-generic-views>`.
+    - :doc:`Generic views </topics/http/generic-views>`.
 
-    - :ref:`Internacionalização <topics-i18n>`.
+    - :doc:`Internacionalização </topics/i18n/index>`.
     
-    - :ref:`Paginação <topics-pagination>`
+    - :doc:`Paginação </topics/pagination>`
     
-    - :ref:`Serialização <topics-serialization>`
+    - :doc:`Serialização </topics/serialization>`
     
-    - :ref:`Signals <topics-signals>`
+    - :doc:`Signals </topics/signals>`
 
-    - :ref:`Templates <topics-templates>`, incluíndo a linguagem, :ref:`APIs de
-      template <ref-templates-index>` a nível do Python, e :ref:`bibliotecas e
-      tags customizadas de template <howto-custom-template-tags>`.  Nós podemos
+    - :doc:`Templates </topics/templates>`, incluíndo a linguagem, :doc:`APIs de
+      template </ref/templates/index>` a nível do Python, e :doc:`bibliotecas e
+      tags customizadas de template </howto/custom-template-tags>`.  Nós podemos
       adicionar novas tags de template no futuro, e os nomes podem
       inadvertidamente chocar-se com tags de template externas. Antes de
       adicionar algo como tags, esteja seguro de que o Django mostrará um erro
@@ -92,23 +92,23 @@ inclui estas APIs:
 
     - :doc:`Testes </topics/testing>`
 
-    - :ref:`Utilitário django-admin <ref-django-admin>`.
+    - :doc:`Utilitário django-admin </ref/django-admin>`.
     
-    - :ref:`Middleware embutido <ref-middleware>`
+    - :doc:`Middleware embutido </ref/middleware>`
     
-    - :ref:`Objetos request/response <ref-request-response>`.
+    - :doc:`Objetos request/response </ref/request-response>`.
     
-    - :ref:`Settings <ref-settings>`. Note, embora a :ref:`lista de
-      configurações <ref-settings>` possa ser conciderada completa, nós podemos
+    - :doc:`Settings </ref/settings>`. Note, embora a :doc:`lista de
+      configurações </ref/settings>` possa ser conciderada completa, nós podemos
       -- e provavelmente iremos -- adicionar novas configurações nas versões
       futuras. Este é um dos muitos lugares onde "'stable' não significa
       'completo'".
 
-    - :ref:`Signals embutidos <ref-signals>`. Como nas settings, nós iremos 
+    - :doc:`Signals embutidos </ref/signals>`. Como nas settings, nós iremos 
       provavelmente adicionar novos sinais no futuro, mas os existentes não 
       devem quebrar.
       
-    - :ref:`Manipulação de unicode <ref-unicode>`.
+    - :doc:`Manipulação de unicode </ref/unicode>`.
         
     - Tudo coberto pelos :ref:`guias HOWTO <howto-index>`.
     

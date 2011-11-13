@@ -22,7 +22,7 @@ Como usar o Django com FastCGI, SCGI ou AJP
 
 .. highlight:: bash
 
-Apesar da instalação atualmente preferida para rodar o Django ser :ref:`Apache
+Apesar da instalação atualmente preferida para rodar o Django ser :doc:`Apache
 com mod_wsgi </howto/deployment/modwsgi>`, muitas pessoas usam hospedagem
 compartilhada, onde protocolos como FastCGI, SCGI ou AJP são a única opção
 viável. Em algumas instalações, estes protocolos pode fornecer uma performance
@@ -97,7 +97,7 @@ escolher é de sua preferência; um socket TCP é normalmente mais fácil devido
 problemas de permissões.
 
 Para iniciar seu servidor, primeiro mude dentro do diretório de seu projeto
-(aonde quer que seu :ref:`manage.py </ref/django-admin>` esteja), e então rode o
+(aonde quer que seu :doc:`manage.py </ref/django-admin>` esteja), e então rode o
 comando :djadmin:`runfcgi`::
 
     ./manage.py runfcgi [options]

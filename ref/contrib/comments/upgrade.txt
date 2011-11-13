@@ -28,8 +28,8 @@ As principais mudanças são:
 
     * Este novo sistema é documentado.
 
-    * Ele usa funcionalidades modernas do Django como o :ref:`forms
-      <topics-forms-index>` e :ref:`modelforms <topics-forms-modelforms>`.
+    * Ele usa funcionalidades modernas do Django como o :doc:`forms
+      </topics/forms/index>` e :doc:`modelforms </topics/forms/modelforms>`.
 
     * Ele tem um único model ``Comment`` ao invés de ter separados os modelos
       ``FreeComment`` e ``Comment``.
@@ -59,7 +59,7 @@ Atualizando dados
 Os models do sistema de comentários do Django mudou, bem como os nomes das
 tabelas. Antes de você tranfer seus dados para o novo sistema de comentários,
 esteja certo de que instalou o novo sistema de comentários como explicado em
-:ref:`guia rápido de início <ref-contrib-comments-index>`.
+:doc:`guia rápido de início </ref/contrib/comments/index>`.
 
 Para transferir seus dados para o novo sistema de comentários, você precisará
 rodar diretamente o seguinte SQL:

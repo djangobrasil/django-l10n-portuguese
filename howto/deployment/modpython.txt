@@ -13,26 +13,23 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _howto-deployment-modpython:
-
 ============================================
 Como usar o Django com o Apache e mod_python
 ============================================
 
 .. warning::
 
-    Support for mod_python will be deprecated in a future release of Django. If
-    you are configuring a new deployment, you are strongly encouraged to
-    consider using :doc:`mod_wsgi </howto/deployment/modwsgi>` or any of the
-    other :doc:`supported backends </howto/deployment/index>`.
+    Support for mod_python has been deprecated, and will be removed in
+    Django 1.5. If you are configuring a new deployment, you are
+    strongly encouraged to consider using :doc:`mod_wsgi
+    </howto/deployment/modwsgi>` or any of the other :doc:`supported
+    backends </howto/deployment/index>`.
 
 .. highlight:: apache
 
 O módulo `mod_python`_ para o Apache_ pode ser usado para fazer a implantação
 do Django em um servidor de produção, embora ele tenha sido praticamente superado pela opção
-mais simples :ref:`implantação com mod_wsgi <howto-deployment-modwsgi>`.
-
+mais simples :doc:`implantação com mod_wsgi </howto/deployment/modwsgi>`.
 
 O mod_python é semelhante (e inspirado) ao `mod_perl`_ : Ele embute o Python dentro
 do Apache e carrega o código Python na memória quando o servidor inicia. o Código fica na memória
@@ -81,9 +78,6 @@ arquivo de configuração do projeto Django.
 Isso diz ao Apache: "Use o mod_python para qualquer URL em ou sobre '/mysite/', usando o 
 handler do mod_python do Django." Ele passa o valor do :ref:`DJANGO_SETTINGS_MODULE
 <django-settings-module>` para que o mod_python saiba quais configurações usar.
-
-.. versionadded:: 1.0
-    A ``PythonOption django.root ...`` é nova nessa versão.
 
 Como o mod_python não sabe que estamos servido
 esse site a partir do prefixo ``/mysite/``, esse valor precisa ser passado
@@ -251,8 +245,6 @@ Outra alternativa é adicionar a informação de debug no template da sua págin
 
 .. _documentação do mod_python: http://modpython.org/live/current/doc-html/directives.html
 
-.. _serving-media-files:
-
 Servindo arquivos de mídia
 ==========================
 
@@ -303,8 +295,6 @@ o subdiretório ``media`` e qualquer URL quer termine em ``.jpg``, ``.gif`` ou
 .. _TUX: http://en.wikipedia.org/wiki/TUX_web_server
 .. _Apache: http://httpd.apache.org/
 .. _Cherokee: http://www.cherokee-project.com/
-
-.. _serving-the-admin-files:
 
 Servindo os arquivos da administração
 =====================================

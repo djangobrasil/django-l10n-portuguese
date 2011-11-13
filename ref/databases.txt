@@ -76,15 +76,15 @@ the :setting:`OPTIONS` part of your database configuration in
         'autocommit': True,
     }
 
-In this configuration, Django still ensures that :ref:`delete()
-<topics-db-queries-delete>` and :ref:`update() <topics-db-queries-update>`
+In this configuration, Django still ensures that :doc:`delete()
+</topics/db/queries/delete>` and :doc:`update() </topics/db/queries/update>`
 queries run inside a single transaction, so that either all the affected
 objects are changed or none of them are.
 
 .. admonition:: This is database-level autocommit
 
     This functionality is not the same as the
-    :ref:`topics-db-transactions-autocommit` decorator. That decorator
+    :doc:`/topics/db/transactions/autocommit` decorator. That decorator
     is a Django-level implementation that commits automatically after
     data changing operations. The feature enabled using the
     :setting:`OPTIONS` option provides autocommit behavior at the

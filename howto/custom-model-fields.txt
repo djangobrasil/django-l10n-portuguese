@@ -25,7 +25,7 @@ Escrevendo campos de model customizados
 Introdução
 ==========
 
-A documentação de :ref:`referência do model <topics-db-models>` explica como
+A documentação de :doc:`referência do model </topics/db/models>` explica como
 usar as classes de campos padrão do Django -- 
 :class:`~django.db.models.CharField`, :class:`~django.db.models.DateField`, etc.
 Para muitos propósitos, estas classes são todas necessárias. Algumas vezes,
@@ -145,7 +145,7 @@ As classes campo que você define num model são na verdade armazenadas na class
 são importantes aqui). Isso é porque as classes campo não são necessárias quando
 você estiver criando e modificando atributos. Em vez disso, elas fornecem o
 mecanismo pra conversão entre o valor do atributo e o que é armazenado no banco
-de dados ou enviado para o :ref:`serializer <topics-serialization>`.
+de dados ou enviado para o :doc:`serializer </topics/serialization>`.
 
 Mantenha isso em mente quando estiver criando seus próprios campos. A subclasse
 ``Field`` do Djando que você escrever, fornece mecanismos para conversão entre 
@@ -229,8 +229,8 @@ parâmetros:
     * :attr:`~django.db.models.Field.default`
     * :attr:`~django.db.models.Field.editable`
     * :attr:`~django.db.models.Field.serialize`: Se ``False``, o campo não será
-      serializado quando o model é passado para o :ref:`serializers 
-      <topics-serialization>` do Django. O padrão é ``True``.
+      serializado quando o model é passado para o :doc:`serializers 
+      </topics/serialization>` do Django. O padrão é ``True``.
     * :attr:`~django.db.models.Field.unique_for_date`
     * :attr:`~django.db.models.Field.unique_for_month`
     * :attr:`~django.db.models.Field.unique_for_year`
@@ -544,7 +544,7 @@ Tudo no dicionário ``kwargs`` é passado diretamente para o método
 fazer é configurar um bom padrão para o argumento ``form_class`` e então delegar
 mais manipulação para a classe pai. Isso pode exigir que você escreva um campo
 de formulário personalizado (ou mesmo um widget de formulário). Veja a 
-:ref:`documentação de formulários <topics-forms-index>` para mais informação
+:doc:`documentação de formulários </topics/forms/index>` para mais informação
 sobre isso, e dê uma olhada no código :mod:`~django.contrib.localflavor` para 
 ter mais exemplos de widgets personalizados.
 
