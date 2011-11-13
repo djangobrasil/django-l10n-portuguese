@@ -66,8 +66,8 @@ Note que a ordem do ``MIDDLEWARE_CLASSES`` importa. Geralmente, você pode
 colocar o ``RedirectFallbackMiddleware`` no final da lista, porque ele é um
 último recurso.
 
-Para saber mais sobre o middleware, leia a :ref:`documentação do middleware 
-<topics-http-middleware>`.
+Para saber mais sobre o middleware, leia a :doc:`documentação do middleware 
+</topics/http/middleware>`.
 
 Como adicionar, mudar e deletar redirecionadores
 ================================================
@@ -83,9 +83,9 @@ Via API do Python
 -----------------
 .. class:: models.Redirect
 
-    Os redirecionadores são representados por um :ref:`modelo Django 
-    <topics-db-models>` padrão, que se encontram em 
+    Os redirecionadores são representados por um :doc:`modelo Django 
+    </topics/db/models>` padrão, que se encontram em 
     `django/contrib/redirects/models.py`_. Você pode acessar os objetos de 
-    redirecionamento utilizando a :ref:`API de banco de dados do Django <topics-db-queries>`.
+    redirecionamento utilizando a :doc:`API de banco de dados do Django </topics/db/queries>`.
 
 .. _django/contrib/redirects/models.py: http://code.djangoproject.com/browser/django/trunk/django/contrib/redirects/models.py

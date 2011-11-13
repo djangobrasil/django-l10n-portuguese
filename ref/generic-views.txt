@@ -25,8 +25,8 @@ repetidamente. No Django, os mais comuns dentre esses padrões são abstraidos
 dentro de "generic views" que permitem você rapidamente fornecer views comuns
 de um objeto sem precisar escrever qualquer código Python.
 
-Uma introdução geral d generic views pode ser encontrado em :ref:`topic guide
-<topics-generic-views>`.
+Uma introdução geral de generic views pode ser encontrado em :doc:`topic guide
+</topics/generic-views>`.
 
 Esta referência contém detalhes das generic views embutidas do Django, junto com
 uma lista de todos os argumentos que uma generic view espera. Lembre-se que
@@ -34,7 +34,7 @@ argumentos podem vir tanto de uma URL quanto de infomações adicionais num
 dicionário ``extra-context``.
 
 A maioria dos generic views requer a chave ``queryset``, que é uma instância do
-``QuerySet``; veja :ref:`topics-db-queries` para mais informações sobre objetos
+``QuerySet``; veja :doc:`/topics/db/queries` para mais informações sobre objetos
 ``QuerySet``.
 
 "Simple" generic views
@@ -866,7 +866,7 @@ para criar, editar e deletar objetos.
 
 ``django.views.generic.create_update.create_object`` e
 ``django.views.generic.create_update.update_object`` agora usam a nova
-:ref:`biblioteca de formulários <topics-forms-index>` para construir e mostrar
+:doc:`biblioteca de formulários </topics/forms/index>` para construir e mostrar
 o forumulário.
 
 ``django.views.generic.create_update.create_object``
@@ -883,8 +883,8 @@ formulário com erros de validação (se houver algum) e salva o objeto.
 
       Se você fornecer ``form_class``, ela deverá ser uma subclasse de
       ``django.forms.ModelForm``. Use este argumento quando você precisar 
-      personalizar o formulário do model. Veja a :ref:`documentação do 
-      ModelForm <topics-forms-modelforms>` para saber mais.
+      personalizar o formulário do model. Veja a :doc:`documentação do 
+      ModelForm </topics/forms/modelforms>` para saber mais.
 
       Caso contrário, ``model`` deve ser uma classe model do Django e o 
       formulário usado será um ``ModelForm`` padrão para ``model``.
@@ -901,7 +901,7 @@ formulário com erros de validação (se houver algum) e salva o objeto.
 
     * ``login_required``: Um boleano que designa ser um usuário deve estar
       logado, para poder ver a página e salvar modificações. Estes hooks ficam
-      dentro do :ref:`sistema de autenticação <topics-auth>` do Django. Por
+      dentro do :doc:`sistema de autenticação </topics/auth>` do Django. Por
       padrão, ele é ``False``.
 
       Se ele for ``True`` e um usuário não logado tentar visitar esta página
@@ -942,7 +942,7 @@ Além do ``extra_context``, o contexto do template será:
           <p>{{ form.address.label_tag }} {{ form.address }}</p>
           </form>
 
-      Veja o :ref:`documentação dos formulários <topics-forms-index>` para mais
+      Veja o :doc:`documentação dos formulários </topics/forms/index>` para mais
       informações sobre usar objetos ``Form`` nos templates.
 
 ``django.views.generic.create_update.update_object``
@@ -961,8 +961,8 @@ classe model.
 
       Se você fornecer ``form_class``, ela deverá ser uma subclasse de
       ``django.forms.ModelForm``. Use este argumento quando você precisar 
-      personalizar o formulário do model. Veja a :ref:`documentação do 
-      ModelForm <topics-forms-modelforms>` para saber mais.
+      personalizar o formulário do model. Veja a :doc:`documentação do 
+      ModelForm </topics/forms/modelforms>` para saber mais.
 
       Caso contrário, ``model`` deve ser uma classe model do Django e o 
       formulário usado será um ``ModelForm`` padrão para ``model``.
@@ -989,7 +989,7 @@ classe model.
 
     * ``login_required``: Um boleano que designa ser um usuário deve estar
       logado, para poder ver a página e salvar modificações. Estes hooks ficam
-      dentro do :ref:`sistema de autenticação <topics-auth>` do Django. Por
+      dentro do :doc:`sistema de autenticação </topics/auth>` do Django. Por
       padrão, ele é ``False``.
 
       Se ele for ``True`` e um usuário não logado tentar visitar esta página
@@ -1033,7 +1033,7 @@ Além do ``extra_context``, o contexto do template será:
           <p>{{ form.address.label_tag }} {{ form.address }}</p>
           </form>
 
-      Veja a :ref:`documentação de formulário <topics-forms-index>` para mais
+      Veja a :doc:`documentação de formulário </topics/forms/index>` para mais
       informações sobre como usar objetos ``Form`` dentro dos templates.
 
     * ``object``: O objeto. O nome desta variável depende do paramêtro
@@ -1071,7 +1071,7 @@ deve conter um formulário que posta para a mesma URL.
 
     * ``login_required``: Um boleano que designa ser um usuário deve estar
       logado, para poder ver a página e salvar modificações. Estes hooks ficam
-      dentro do :ref:`sistema de autenticação <topics-auth>` do Django. Por
+      dentro do :doc:`sistema de autenticação </topics/auth>` do Django. Por
       padrão, ele é ``False``.
 
       Se ele for ``True`` e um usuário não logado tentar visitar esta página

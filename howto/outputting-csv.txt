@@ -143,4 +143,4 @@ Outro formato baseado em texto
 Repare que não existe muita especificidade para CSV aqui -- somente o formato de
 saída. Você pode usar qualquer destas técnicas para gerar saída de qualquer
 formato baseado em texto que você sonhar. Você pode também usar uma técnica 
-similar para gerar dados binários; veja :ref:`howto-outputting-pdf` por exemplo.
+similar para gerar dados binários; veja :doc:`/howto/outputting-pdf` por exemplo.

@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _topics-templates:
-
 =================================
 A linguagem de template do Django
 =================================
@@ -634,7 +631,7 @@ espaços. Exemplo::
 See :doc:`/howto/custom-template-tags` for information on writing your own custom
 template libraries.
 
-Veja :ref:`howto-custom-template-tags` para informações sobre como escrever suas
+Veja :doc:`/howto/custom-template-tags` para informações sobre como escrever suas
 próprias bibliotecas de template.
 
 Bibliotecas personalizadas e herança de template

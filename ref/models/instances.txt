@@ -23,12 +23,12 @@ Referência das instâncias de Model
 .. currentmodule:: django.db.models
 
 Esse documento descreve os detalhes da API ``Model``. Isso foi feito baseado
-no material apresentado nos guias :ref:`model <topics/db/models>` e
-:ref:`consultas ao banco de dados <topics/db/queries>`, então provavelmente
+no material apresentado nos guias :doc:`model </topics/db/models>` e
+:doc:`consultas ao banco de dados </topics/db/queries>`, então provavelmente
 você vai querer ler e entender esses documentos antes de ler este aqui.
 
 Durante essa referência, usaremos os :ref:`models de exemplo do weblog
-<queryset-model-example>` apresentado no :ref:`guia de consultas ao banco de
+<queryset-model-example>` apresentado no :doc:`guia de consultas ao banco de
 dados </topics/db/queries>`.
 
 Criando objetos
@@ -233,7 +233,7 @@ O que acontece quando você salva?
 
 Quando você salva um objeto, o Django executa os seguintes passos:
 
-    1. **Emite um sinal pre-save.** O :ref:`sinal </ref/signals>`
+    1. **Emite um sinal pre-save.** O :doc:`sinal </ref/signals>`
        :attr:`django.db.models.signals.pre_save` é enviado, permitindo qualquer
        função ouvir o sinal para executar alguma ação personalizada.
 
@@ -441,8 +441,8 @@ O Django usa isto em sua interface de administração. Se um objeto define
 que aponta diretamente para a visão pública do objeto, de acordo com o
 ``get_absolute_url()``.
 
-Também, em outros lugares a mais, como no :ref:`framework de feeds
-<ref-contrib-syndication>`, o uso do ``get_absolute_url()`` como uma
+Também, em outros lugares a mais, como no :doc:`framework de feeds
+</ref/contrib/syndication>`, o uso do ``get_absolute_url()`` como uma
 conveniencia para recompensar quem tenha definido o método.
 
 É uma boa prática usar o ``get_absolute_url()`` em templates, ao invés de
@@ -538,8 +538,8 @@ substituição da tupla padrão por uma chamada da função ``url``)::
         return ('people_view', [str(self.id)])
     get_absolute_url = permalink(get_absolute_url)
 
-Mais detalhes sobre padrões de URL nomeadas estão em :ref:`documentação do URL
-dispatch <topics-http-urls>`.
+Mais detalhes sobre padrões de URL nomeadas estão em :doc:`documentação do URL
+dispatch </topics/http/urls>`.
 
 Métodos extra de instância
 ==========================

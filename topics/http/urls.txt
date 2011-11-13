@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _topics-http-urls:
-
 ==============
 URL dispatcher
 ==============
@@ -315,7 +312,7 @@ abaixo.
 :func:`include` also accepts as an argument an iterable that returns URL
 patterns.
 
-See `Including other URLconfs`_ below.
+Veja `Incluindo outros URLconfs`_ abaixo.
 
 Notas na captura de texto em URLs
 =================================

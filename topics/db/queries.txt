@@ -13,19 +13,16 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _topics-db-queries:
-
 =================
 Fazendo consultas
 =================
 
 .. currentmodule:: django.db.models
 
-Uma vez que você tenha criado seus :ref:`data models <topics-db-models>`, o
+Uma vez que você tenha criado seus :doc:`data models </topics/db/models>`, o
 Django automaticamente lhe dá uma API de abstração de banco de dados que permite
 você criar, receber, atualizar e deletar objetos. Este documento explica como
-usar esta API. Visite a :ref:`referência do model <ref-models-index>` para
+usar esta API. Visite a :doc:`referência do model </ref/models/index>` para
 detalhes completos de todas opções de model.
 
 Por todo esse guia (e na referência), nós iremos refereir aos seguintes models,
@@ -133,10 +130,10 @@ Atualizar um ``ManyToManyField`` funciona um pouco diferente; usa o método
 O Django se queixará se você tentar atribuir ou adicionar um objeto do tipo
 errado.
 
-Recebendo objetos
-=================
+Recuperando objetos
+===================
 
-Para receber objetos de seu banco de dados, você constrói uma ``QuerySet``
+Para recuperar objetos de seu banco de dados, você constrói uma ``QuerySet``
 através do ``Manager`` de sua classe model.
 
 Um ``QuerySet`` representa uma coleção de objetos do banco de dados. Ela poder
@@ -278,6 +275,35 @@ de um ``QuerySet`` não são buscados do banco de dados até que você "peça" p
 eles. Quando você o faz, o ``QuerySet`` é *avaliado* para acessar o banco de
 dados. Para mais detalhes sobre exatamente quando as avaliações tomam seu lugar,
 veja :ref:`when-querysets-are-evaluated`.
+
+.. _retrieving-single-object-with-get:
+
+Retrieving a single object with get
+-----------------------------------
+
+``.filter()`` will always give you a ``QuerySet``, even if only a single
+object matches the query - in this case, it will be a ``QuerySet`` containing
+a single element.
+
+If you know there is only one object that matches your query, you can use
+the ``get()`` method on a `Manager` which returns the object directly::
+
+    >>> one_entry = Entry.objects.get(pk=1)
+
+You can use any query expression with ``get()``, just like with ``filter()`` -
+again, see `Campos de pesquisa`_ abaixo.
+
+Note that there is a difference between using ``.get()``, and using
+``.filter()`` with a slice of ``[0]``. If there are no results that match the
+query, ``.get()`` will raise a ``DoesNotExist`` exception. This exception is an
+attribute of the model class that the query is being performed on - so in the
+code above, if there is no ``Entry`` object with a primary key of 1, Django will
+raise ``Entry.DoesNotExist``.
+
+Similarly, Django will complain if more than one item matches the ``get()``
+query. In this case, it will raise ``MultipleObjectsReturned``, which again is
+an attribute of the model class itself.
+
 
 Outros métodos do QuerySet
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -468,8 +494,6 @@ aqueles que têm um ``author`` vazio sobre os ``entry``. Se você não quer esse
 Abrangendo relacionamentos de múltiplos valores
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. versionadded:: 1.0
-
 Quando você está filtrando um objeto baseado no ``ManyToManyField`` ou numa
 ``ForeignKeyField`` reverso, há dois diferentes tipos de filtro que podem ser
 interessantes. Considere o relacionamento ``Blog``/``Entry`` (``Blog`` para
@@ -519,6 +543,57 @@ numa única declaração ``exclude()`` é aplicada a uma única instância (se e
 condições estiverem falando dessa mesma relação de múltiplos valores). Condições
 em chamadas ``filer()`` ou ``exclude()`` subsequentes que referem-se ao mesmo
 relacionamento podem terminar filtrando diferentes objetos linkados.
+
+.. _query-expressions:
+
+Filters can reference fields on the model
+-----------------------------------------
+
+In the examples given so far, we have constructed filters that compare
+the value of a model field with a constant. But what if you want to compare
+the value of a model field with another field on the same model?
+
+Django provides the ``F()`` object to allow such comparisons. Instances
+of ``F()`` act as a reference to a model field within a query. These
+references can then be used in query filters to compare the values of two
+different fields on the same model instance.
+
+For example, to find a list of all blog entries that have had more comments
+than pingbacks, we construct an ``F()`` object to reference the pingback count,
+and use that ``F()`` object in the query::
+
+    >>> from django.db.models import F
+    >>> Entry.objects.filter(n_comments__gt=F('n_pingbacks'))
+
+Django supports the use of addition, subtraction, multiplication,
+division and modulo arithmetic with ``F()`` objects, both with constants
+and with other ``F()`` objects. To find all the blog entries with more than
+*twice* as many comments as pingbacks, we modify the query::
+
+    >>> Entry.objects.filter(n_comments__gt=F('n_pingbacks') * 2)
+
+To find all the entries where the rating of the entry is less than the
+sum of the pingback count and comment count, we would issue the
+query::
+
+    >>> Entry.objects.filter(rating__lt=F('n_comments') + F('n_pingbacks'))
+
+You can also use the double underscore notation to span relationships in
+an ``F()`` object. An ``F()`` object with a double underscore will introduce
+any joins needed to access the related object. For example, to retrieve all
+the entries where the author's name is the same as the blog name, we could
+issue the query::
+
+    >>> Entry.objects.filter(authors__name=F('blog__name'))
+
+.. versionadded:: 1.3
+
+For date and date/time fields, you can add or subtract a ``datetime.timedelta``
+object.  The following would return all entries that were modified more than 3 days
+after they were published::
+   
+    >>> from datetime import timedelta
+    >>> Entry.objects.filter(mod_date__gt=F('pub_date') + timedelta(days=3))
 
 Atalho para pk
 --------------
@@ -743,6 +818,11 @@ deletado, também será deletado com ele. Por exemplo::
     # Isso irá deletar o Blog e todos os seus objetos Entry.
     b.delete()
 
+.. versionadded:: 1.3
+    This cascade behavior is customizable via the
+    :attr:`~django.db.models.ForeignKey.on_delete` argument to the
+    :class:`~django.db.models.ForeignKey`.
+
 Note que ``delete()`` é o único método de ``QuerySet`` que não é exposto num
 ``Manager`` em si. Este é um mecanismo de segurança para previnir que você
 acidentalmente requisite ``Entry.objects.delete()``, e apague *todas* as
@@ -751,10 +831,10 @@ explicitamente requisitas uma consulta completa::
 
     Entry.objects.all().delete()
 
+.. _topics-db-queries-update:
+
 Atualizando vários objetos de uma vez
 =====================================
-
-.. versionadded:: 1.0
 
 As vezes você quer atribuir um valor em particular a um campo de todos os
 objetos de um  ``QuerySet``. Você pode fazer isso com o método ``update()``.
@@ -1046,7 +1126,7 @@ métodos personalizados ao manager, que executam consultas. Embora não há nada
 no Django que *obrigue* consultas de banco de dados estarem na camada de model,
 esta abordagem mantem toda a lógica de acesso a dados num único lugar, o que é
 mais inteligente para organização de código. Para instruções, veja
-:ref:`topics-db-sql`.
+:doc:`/topics/db/sql`.
 
 Finalmente, é importante notar que a camada de banco de dados do Django é
 meramente uma interface para o seu banco de dados. Você pode acessar seu banco

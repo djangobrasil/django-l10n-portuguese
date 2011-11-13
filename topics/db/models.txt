@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _topics-db-models:
-
 ======
 Models
 ======
@@ -34,7 +31,7 @@ O básico:
     * Cada atributo do modelo representa uma coluna do banco de dados.
 
     * Com tudo isso, o Django lhe dá uma API de acesso a banco de dados gerada
-      automaticamente, o que é explicado em :ref:`topics-db-queries`.
+      automaticamente, o que é explicado em :doc:`/topics/db/queries`.
 
 .. seealso::
 
@@ -82,7 +79,7 @@ Algumas notas técnicas:
 
     * O comando SQL ``CREATE TABLE`` nesse exemplo é formatado usando a sintaxe do
       PostgreSQL, mas é digno de nota que o Django usa o SQL adaptado ao banco de dados
-      especificado no seu :ref:`arquivo de configurações <topics-settings>`.
+      especificado no seu :doc:`arquivo de configurações </topics/settings>`.
 
 Usando models
 ==============
@@ -748,6 +745,8 @@ definir:
 
         Qualquer objeto que tem uma URL que o identifica exclusivamente, deve
         definir este método.
+        
+.. _overriding-model-methods:
 
 Sobrescrevendo métodos de model predefinidos
 --------------------------------------------
@@ -795,14 +794,12 @@ Executando SQL customizado
 
 Outra prática comum é escrever consultas SQL personalizadas em métodos do model
 a nível módulo. Para mais detalhe sobre como usar SQL puro, veja a documentação
-em :ref:`usando SQL puro<topics-db-sql>`.
+em :doc:`usando SQL puro</topics/db/sql>`.
 
 .. _model-inheritance:
 
 Herança de modelos
 ==================
-
-.. versionadded:: 1.0
 
 Herança de models no Django funciona quase igual à forma normal de herança
 entre classes do Python. A única decisão que você tem de tomar é se você quer
@@ -810,13 +807,18 @@ que os modelos pai sejam modelos no seu próprio contexto (com suas próprias
 tabelas de banco de dados), ou se os pais são somente mantenedores de
 informações comuns que somente serão visíveis através da herança entre modelos.
 
-Freqüentemente, você só quer usar a classe pai para manter informações que
-você não deseja escrever para cada modelo filho. Esta classe nunca será usada
-de forma isolada, então :ref:`classes abstratas de base <abstract-base-classes>`
-são o que estiver depois. Entretanto, se você está extendendo uma subclasse de
-modelo existente (talvez algo de outra aplicação), ou quer que cada modelo tenha
-sua própria tabela no banco de dados, :ref:`herança com multi-tabelas
-<multi-table-inheritance>` é o caminho a seguir.
+Existem três modelos de herança que são possíveis no Django.
+
+ 1. Freqüentemente, você só quer usar a classe pai para manter informações que
+	você não deseja escrever para cada modelo filho. Esta classe nunca será usada
+	de forma isolada, então :ref:`classes abstratas de base <abstract-base-classes>`
+	são o que você procura.
+ 2. Se você está extendendo uma subclasse de modelo existente (talvez algo de outra
+ 	aplicação), ou quer que cada modelo tenha sua própria tabela no banco de dados,
+ 	:ref:`herança com multi-tabelas <multi-table-inheritance>` é o caminho a seguir.
+ 3. Finally, if you only want to modify the Python-level behavior of a model,
+    without changing the models fields in any way, you can use
+    :ref:`proxy-models`.
 
 .. _abstract-base-classes:
 
@@ -854,8 +856,8 @@ quer. Ele fornece uma maneira de fatorar informações comuns ao nível do Pytho
 enquanto ao nível do banco de dados só serão criadas tabelas para os modelos
 filhos.
 
-Herança de :ref:`Meta <meta-options>`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Herança de `Meta`
+~~~~~~~~~~~~~~~~~
 
 Quando uma classe abstrata de base é criada, o Django torna qualquer
 :ref:`Meta <meta-options>` interno da classe que você criou, disponível como um
@@ -901,6 +903,8 @@ problema nas classes abstratas de base, já que os campos desta classe são
 incluídos em cada classe filha, com exatamente os mesmos valores para os
 atributos (incluindo :attr:`~django.db.models.ForeignKey.related_name`) toda
 vez.
+
+.. versionchanged:: 1.2
 
 Para contornar este problema, quando você está usando o
 :attr:`~django.db.models.ForeignKey.related_name` em uma classe abstrata de base
@@ -976,8 +980,8 @@ Entretanto, se ``p`` no exemplo acima *não* for um ``Restaurant`` (que havia
 sido criado diretamente como um objeto ``Place`` ou foi pai de alguma outra
 classe), referir-se a ``p.restaurant`` poderia gerar um erro.
 
-:ref:`Meta <meta-options>` e herança com multi-tabelas
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``Meta`` e herança com multi-tabelas
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Nesta situação de herança com multi-tabelas, não faz sentido a classe filha
 herdar a classe :ref:`Meta <meta-options>` de seus pais. Todas as opções em
@@ -1035,6 +1039,171 @@ o nome dos atributos de ligação, você pode criar sei próprio
 :class:`~django.db.models.fields.OneToOneField` e setar
 :attr:`parent_link=True <django.db.models.fields.OneToOneField.parent_link>`.
 para indicar que seu campo é o link para a classe pai.
+
+.. _proxy-models:
+
+Proxy models
+------------
+
+When using :ref:`multi-table inheritance <multi-table-inheritance>`, a new
+database table is created for each subclass of a model. This is usually the
+desired behavior, since the subclass needs a place to store any additional
+data fields that are not present on the base class. Sometimes, however, you
+only want to change the Python behavior of a model -- perhaps to change the
+default manager, or add a new method.
+
+This is what proxy model inheritance is for: creating a *proxy* for the
+original model. You can create, delete and update instances of the proxy model
+and all the data will be saved as if you were using the original (non-proxied)
+model. The difference is that you can change things like the default model
+ordering or the default manager in the proxy, without having to alter the
+original.
+
+Proxy models are declared like normal models. You tell Django that it's a
+proxy model by setting the :attr:`~django.db.models.Options.proxy` attribute of
+the ``Meta`` class to ``True``.
+
+For example, suppose you want to add a method to the standard
+:class:`~django.contrib.auth.models.User` model that will be used in your
+templates. You can do it like this::
+
+    from django.contrib.auth.models import User
+
+    class MyUser(User):
+        class Meta:
+            proxy = True
+
+        def do_something(self):
+            ...
+
+The ``MyUser`` class operates on the same database table as its parent
+:class:`~django.contrib.auth.models.User` class. In particular, any new
+instances of :class:`~django.contrib.auth.models.User` will also be accessible
+through ``MyUser``, and vice-versa::
+
+    >>> u = User.objects.create(username="foobar")
+    >>> MyUser.objects.get(username="foobar")
+    <MyUser: foobar>
+
+You could also use a proxy model to define a different default ordering on a
+model. The standard :class:`~django.contrib.auth.models.User` model has no
+ordering defined on it (intentionally; sorting is expensive and we don't want
+to do it all the time when we fetch users). You might want to regularly order
+by the ``username`` attribute when you use the proxy. This is easy::
+
+    class OrderedUser(User):
+        class Meta:
+            ordering = ["username"]
+            proxy = True
+
+Now normal :class:`~django.contrib.auth.models.User` queries will be unordered
+and ``OrderedUser`` queries will be ordered by ``username``.
+
+QuerySets still return the model that was requested
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There is no way to have Django return, say, a ``MyUser`` object whenever you
+query for :class:`~django.contrib.auth.models.User` objects. A queryset for
+``User`` objects will return those types of objects. The whole point of proxy
+objects is that code relying on the original ``User`` will use those and your
+own code can use the extensions you included (that no other code is relying on
+anyway). It is not a way to replace the ``User`` (or any other) model
+everywhere with something of your own creation.
+
+Base class restrictions
+~~~~~~~~~~~~~~~~~~~~~~~
+
+A proxy model must inherit from exactly one non-abstract model class. You
+can't inherit from multiple non-abstract models as the proxy model doesn't
+provide any connection between the rows in the different database tables. A
+proxy model can inherit from any number of abstract model classes, providing
+they do *not* define any model fields.
+
+Proxy models inherit any ``Meta`` options that they don't define from their
+non-abstract model parent (the model they are proxying for).
+
+Proxy model managers
+~~~~~~~~~~~~~~~~~~~~
+
+If you don't specify any model managers on a proxy model, it inherits the
+managers from its model parents. If you define a manager on the proxy model,
+it will become the default, although any managers defined on the parent
+classes will still be available.
+
+Continuing our example from above, you could change the default manager used
+when you query the ``User`` model like this::
+
+    class NewManager(models.Manager):
+        ...
+
+    class MyUser(User):
+        objects = NewManager()
+
+        class Meta:
+            proxy = True
+
+If you wanted to add a new manager to the Proxy, without replacing the
+existing default, you can use the techniques described in the :ref:`custom
+manager <custom-managers-and-inheritance>` documentation: create a base class
+containing the new managers and inherit that after the primary base class::
+
+    # Create an abstract class for the new manager.
+    class ExtraManagers(models.Model):
+        secondary = NewManager()
+
+        class Meta:
+            abstract = True
+
+    class MyUser(User, ExtraManagers):
+        class Meta:
+            proxy = True
+
+You probably won't need to do this very often, but, when you do, it's
+possible.
+
+.. _proxy-vs-unmanaged-models:
+
+Differences between proxy inheritance and  unmanaged models
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Proxy model inheritance might look fairly similar to creating an unmanaged
+model, using the :attr:`~django.db.models.Options.managed` attribute on a
+model's ``Meta`` class. The two alternatives are not quite the same and it's
+worth considering which one you should use.
+
+One difference is that you can (and, in fact, must unless you want an empty
+model) specify model fields on models with ``Meta.managed=False``. You could,
+with careful setting of :attr:`Meta.db_table
+<django.db.models.Options.db_table>` create an unmanaged model that shadowed
+an existing model and add Python methods to it. However, that would be very
+repetitive and fragile as you need to keep both copies synchronized if you
+make any changes.
+
+The other difference that is more important for proxy models, is how model
+managers are handled. Proxy models are intended to behave exactly like the
+model they are proxying for. So they inherit the parent model's managers,
+including the default manager. In the normal multi-table model inheritance
+case, children do not inherit managers from their parents as the custom
+managers aren't always appropriate when extra fields are involved. The
+:ref:`manager documentation <custom-managers-and-inheritance>` has more
+details about this latter case.
+
+When these two features were implemented, attempts were made to squash them
+into a single option. It turned out that interactions with inheritance, in
+general, and managers, in particular, made the API very complicated and
+potentially difficult to understand and use. It turned out that two options
+were needed in any case, so the current separation arose.
+
+So, the general rules are:
+
+    1. If you are mirroring an existing model or database table and don't want
+       all the original database table columns, use ``Meta.managed=False``.
+       That option is normally useful for modeling database views and tables
+       not under the control of Django.
+    2. If you are wanting to change the Python-only behavior of a model, but
+       keep all the same fields as in the original, use ``Meta.proxy=True``.
+       This sets things up so that the proxy model is an exact copy of the
+       storage structure of the original model when data is saved.
 
 Herança múltipla
 ----------------

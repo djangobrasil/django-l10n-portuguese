@@ -54,7 +54,7 @@ Improved flexibility in the admin
     interface (``django.contrib.admin``), introduced in Django 1.0
     alpha 1, two new hooks have been added to allow customized pre-
     and post-save handling of model instances in the admin. Full
-    details are in :ref:`the admin documentation <ref-contrib-admin>`.
+    details are in :doc:`the admin documentation </ref/contrib/admin/index>`.
 
 ``INSERT``/``UPDATE`` distinction
     Although Django's default behavior of having a model's ``save()``
@@ -75,7 +75,7 @@ Split ``CacheMiddleware``
    flexibility for situations where combining these functions into a
    single middleware posed problems. Full details, including updated
    notes on appropriate use, are in 
-   :ref:`the caching documentation <topics-cache>`.
+   :doc:`the caching documentation </topics/cache>`.
 
 Removal of deprecated features
     A number of features and methods which had previously been marked

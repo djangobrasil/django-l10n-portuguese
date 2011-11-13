@@ -14,8 +14,6 @@
 ..
 
 
-.. _topics-http-sessions:
-
 =====================
 Como utilizar sessões
 =====================
@@ -85,7 +83,7 @@ Usando sessões baseadas em cache
 Para armazenar dados de sessão utilizando o sistema de cache do Django, 
 configure ``SESSION_ENGINE`` para ``"django.contrib.sessions.backends.cache"``.
 É importante confirmar que o seu cache esteja configurado; veja a 
-:ref:`documentação de cache <topics-cache>` para mais detalhes.
+:doc:`documentação de cache </topics/cache>` para mais detalhes.
 
 .. _documentação de cache: ../cache/
 
@@ -416,7 +414,7 @@ uma data no passado --, mas sua aplicação pode ter requisitos diferentes.
 Configurações
 =============
 
-Algumas :ref:`configurações do Django <ref-settings>` te dão controle sobre o 
+Algumas :doc:`configurações do Django </ref/settings>` te dão controle sobre o 
 comportamento de sessões:
 
 SESSION_ENGINE

@@ -13,8 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-.. _topics-forms-index:
-
 ===========================
 Trabalhando com formulários
 ===========================
@@ -23,8 +21,8 @@ Trabalhando com formulários
 
     Este documento fornece uma introdução as funcionalidades de manipulação de
     formulários do Django. Para uma visão mais detalhada da API de forumulários,
-    veja :ref:`ref-forms-api`. Para documentação de tipos de campos disponíveis,
-    veja :ref:`ref-forms-fields`.
+    veja :doc:`/ref/forms/api`. Para documentação de tipos de campos disponíveis,
+    veja :doc:`/ref/forms/fields`.
 
 .. highlightlang:: html+django
 
@@ -96,7 +94,7 @@ Um formulário é composto de objetos ``Field``. Neste caso, nosso formulário t
 quatro campos: ``subject``, ``message``, ``sender`` e ``cc_myself``.
 ``CharField``, ``EmailField`` e ``BooleandField`` são somente três dos tipos
 tipos de campos disponíveis; uma lista completa pode ser encontrada em
-:ref:`ref-forms-fields`.
+:doc:`/ref/forms/fields`.
 
 Se seu formulário será usado para adicionar ou editar um model do Django
 diretamente, você pode usar um :ref:`ModelForm <topics-forms-modelforms>` para
@@ -146,7 +144,7 @@ fomrulário bound possui dados submetidos, e por isso pode ser usado para dizer
 se os dados são válidos. Se um formulário bound e inválido for renderizado ele
 pode incluír mensagens de erros, dizendo ao usuário onde ele errou.
 
-Veja :ref:`ref-forms-api-bound-unbound` para mais informações sobre diferenças
+Veja :doc:`/ref/forms/api/bound-unbound` para mais informações sobre diferenças
 entre formulários bound e unbound.
 
 Manipulando upload de arquivos com um form
@@ -187,7 +185,7 @@ processados:
         send_mail(subject, message, sender, recipients)
         return HttpResponseRedirect('/thanks/') # Redirect after POST
 
-Para saber mais sobre como enviar e-mail do Django, veja :ref:`topics-email`.
+Para saber mais sobre como enviar e-mail do Django, veja :doc:`/topics/email`.
 
 Mostrando um formulário usando um template
 ------------------------------------------
@@ -224,8 +222,8 @@ exemplo::
 Note que cada campo de formulário tem um atributo ID setado para
 ``id_<field-name>``, que é referenciado por uma tag label. Isto é importante
 para assegurar que os formulários sejam acessíveis para tecnologias assistivas
-como leitores de tela. Você também pode :ref:`customizar a forma em que as
-labels e ids são gerados <ref-forms-api-configuring-label>`.
+como leitores de tela. Você também pode :doc:`customizar a forma em que as
+labels e ids são gerados </ref/forms/api/configuring-label>`.
 
 Você pode também usar ``forms.as_table`` para gerar saídas como linhas de
 tabela. (você precisará fornecer suas próprias tags ``<table>``) e
@@ -377,5 +375,5 @@ Isto cobre o básido, mas os forms podem fazer muito mais:
 
 .. seealso::
 
-    A :ref:`referência de API do form <ref-forms-index>`.
+    A :doc:`referência de API do form </ref/forms/index>`.
 

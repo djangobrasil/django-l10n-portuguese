@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _topics-auth:
-
 =================================
 Autenticação de Usuário no Django
 =================================
@@ -143,7 +140,7 @@ Métodos
     muitos-para-muitos: models.User. ``groups`` e ``user_permissions``.
     O objetos :class:`~django.contrib.auth.models.User` podem acessar seus
     objetos relacionados da mesma forma como qualquer outro
-    :ref:`models do Django <topics-db-models>`:
+    :doc:`models do Django </topics/db/models>`:
 
     .. code-block:: python
 
@@ -507,8 +504,8 @@ requisição <django.http.HttpRequest>`.
 Primeiro, instale os middlewares
 :class:`~django.contrib.sessions.middleware.SessionMiddleware` e
 :class:`~django.contrib.auth.middleware.AuthenticationMiddleware` adicionando-os
-ao seu :setting:`MIDDLEWARE_CLASSES`. Veja a :ref:`documentação de sessões
-<topics-http-sessions>` para mais informações.
+ao seu :setting:`MIDDLEWARE_CLASSES`. Veja a :doc:`documentação de sessões
+</topics/http/sessions>` para mais informações.
 
 Uma vez que tenha estes middlewares instalados, você estará apto a acessar
 :attr:`request.user <django.http.HttpRequest.user>` nos views.
@@ -740,8 +737,8 @@ adicione a seguinte linha no seu URLconf::
     quatro variáveis de contexto:
 
         * ``form``: Um objeto :class:`~django.forms.Form` representando o
-          formulário de login. Veja a :ref:`documentação do forms
-          <topics-forms-index>` para saber mais sobre objetos ``Form``.
+          formulário de login. Veja a :doc:`documentação do forms
+          </topics/forms/index>` para saber mais sobre objetos ``Form``.
 
         * ``next``: A URL para redirecionar depois que o login for realizado com
           sucesso. Ele pode conter uma query string, também.
@@ -1210,7 +1207,7 @@ Dados de autenticação em templates
 ==================================
 
 O usuário atualmente logado e suas permissões estão disponíveis no
-:ref:`contexto do template <ref-templates-api>` quando você usa o
+:doc:`contexto do template </ref/templates/api>` quando você usa o
 :class:`~django.template.context.RequestContext`.
 
 .. admonition:: Technicality
@@ -1333,8 +1330,8 @@ criar uma playlist::
             context_instance=RequestContext(request))
 
 Quando você usa o :class:`~django.template.context.RequestContext`, o usuário
-atualmente logado e suas mensagens são disponibilizadas no :ref:`contexto do
-template <ref-templates-api>` como uma variável de template ``{{ messages }}``.
+atualmente logado e suas mensagens são disponibilizadas no :doc:`contexto do
+template </ref/templates/api>` como uma variável de template ``{{ messages }}``.
 Aqui tem um exemplo de código de template que mostra mensagens:
 
 .. code-block:: html
@@ -1354,7 +1351,7 @@ mostrado.
 
 Finalmente, repare que este framework de mensagen somente funciona com usuário
 no banco de dados. Para enviar mensagens para usuários anônimos, use o
-:ref:`framework de sessão <topics-http-sessions>`.
+:doc:`framework de sessão </topics/http/sessions>`.
 
 .. _authentication-backends:
 

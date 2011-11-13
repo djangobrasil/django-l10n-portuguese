@@ -45,7 +45,7 @@ stability and forwards-compatibility. In a nutshell, this means that code you
 develop against Django 1.0 will continue to work against 1.1 unchanged, and you
 should need to make only minor changes for any 1.X release.
 
-See the :ref:`API stability guide <misc-api-stability>` for full details.
+See the :doc:`API stability guide </misc/api-stability>` for full details.
 
 Backwards-incompatible changes
 ==============================
@@ -101,7 +101,7 @@ Django's new form-handling library (introduced in the 0.96 release as
 redesigned with extensibility and customization in mind. Full documentation for
 the admin application is available online in the official Django documentation:
 
-See the :ref:`admin reference <ref-contrib-admin>` for details
+See the :doc:`admin reference </ref/contrib/admin/index>` for details
 
 Improved Unicode handling
 -------------------------
@@ -113,7 +113,7 @@ interoperability with third-party libraries and systems which may or may not
 handle Unicode gracefully. Details are available in Django's Unicode-handling
 documentation.
 
-See :ref:`ref-unicode`.
+See :doc:`/ref/unicode`.
 
 An improved ORM
 ---------------
@@ -158,8 +158,8 @@ Pluggable file storage
 
 Django's built-in ``FileField`` and ``ImageField`` now can take advantage of
 pluggable file-storage backends, allowing extensive customization of where and
-how uploaded files get stored by Django. For details, see :ref:`the files
-documentation <topics-files>`; big thanks go to Marty Alchin for putting in the
+how uploaded files get stored by Django. For details, see :doc:`the files
+documentation </topics/files>`; big thanks go to Marty Alchin for putting in the
 hard work to get this completed.
 
 Jython compatibility
@@ -203,8 +203,8 @@ handle the two parts of caching (inserting into and reading from the cache)
 separately, offering additional flexibility for situations where combining these
 functions into a single middleware posed problems.
 
-Full details, including updated notes on appropriate use, are in :ref:`the
-caching documentation <topics-cache>`.
+Full details, including updated notes on appropriate use, are in :doc:`the
+caching documentation </topics/cache>`.
 
 Refactored ``django.contrib.comments``
 --------------------------------------
@@ -256,7 +256,7 @@ Caveats with support of certain databases
 -----------------------------------------
 
 Django attempts to support as many features as possible on all database
-backends. However, not all database backends are alike, and in particular many of the supported database differ greatly from version to version. It's a good idea to checkout our :ref:`notes on supported database <ref-databases>`:
+backends. However, not all database backends are alike, and in particular many of the supported database differ greatly from version to version. It's a good idea to checkout our :doc:`notes on supported database </ref/databases>`:
 
     - :ref:`mysql-notes`
     - :ref:`sqlite-notes`

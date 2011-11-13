@@ -53,8 +53,8 @@ features have landed, including:
 Pluggable file storage
     Django's built-in ``FileField`` and ``ImageField`` now can take advantage of
     pluggable file-storage backends, allowing extensive customization of where
-    and how uploaded files get stored by Django. For details, see :ref:`the
-    files documentation <topics-files>`; big thanks go to Marty Alchin for
+    and how uploaded files get stored by Django. For details, see :doc:`the
+    files documentation </topics/files>`; big thanks go to Marty Alchin for
     putting in the hard work to get this completed.
 
 Jython compatibility
@@ -67,7 +67,7 @@ Jython compatibility
 
 There are many other new features and improvements in this release, including
 two major performance boosts: strings marked for translation using
-:ref:`Django's internationalization system <topics-i18n>` now consume far less
+:doc:`Django's internationalization system </topics/i18n/index>` now consume far less
 memory, and Django's internal dispatcher -- which is invoked frequently during
 request/response processing and when working with Django's object-relational
 mapper -- is now significantly faster.

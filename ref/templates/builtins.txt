@@ -454,8 +454,8 @@ load
 
 Carrega um conjunto de tags de template customizadas.
 
-Veja :ref:`Bibliotecas de tags e filtros customizados
-<howto-custom-template-tags>` para mais informações.
+Veja :doc:`Bibliotecas de tags e filtros customizados
+</howto/custom-template-tags>` para mais informações.
 
 .. templatetag:: now
 
@@ -1663,7 +1663,7 @@ django.contrib.humanize
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Um conjunto de filtros de templates Django usuais para adicionar um "toque
-humano" aos dados. Veja :ref:`ref-contrib-humanize`.
+humano" aos dados. Veja :doc:`/ref/contrib/humanize`.
 
 django.contrib.markup
 ~~~~~~~~~~~~~~~~~~~~~
@@ -1675,7 +1675,7 @@ comuns:
     * Markdown
     * ReST (ReStructured Text)
 
-Veja :ref:`ref-contrib-markup`.
+Veja :doc:`/ref/contrib/markup`.
 
 django.contrib.webdesign
 ~~~~~~~~~~~~~~~~~~~~~~~~

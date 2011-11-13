@@ -11,11 +11,8 @@
 ..   $LastChangedRevision$
 ..   $LastChangedBy$
 ..   $LastChangedDate$
-..
 
-
-.. _ref-index:
-
+=================
 Referência da API
 =================
 
@@ -29,13 +26,22 @@ Referência da API
    exceptions
    files/index
    forms/index
-   generic-views
+   class-based-views
    middleware
    models/index
    request-response
+   template-response
    settings
    signals
    templates/index
    unicode
    utils
    validators
+
+Deprecated features
+-------------------
+
+.. toctree::
+    :maxdepth: 1
+
+    generic-views

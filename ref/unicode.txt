@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _ref-unicode:
-
 =======================
 Dados Unicode no Django
 =======================
@@ -114,7 +111,7 @@ alerta que se você examinar um objeto e ele afirma ser um objeto
 localização atual.
 
 Para mais detalhes sobre traduções tardias de objetos, leia a documentação de
-:ref:`internacionalização <topics-i18n>`.
+:doc:`internacionalização </topics/i18n/index>`.
 
 Utilitário de funções úteis
 ---------------------------

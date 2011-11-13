@@ -74,8 +74,8 @@ Também, como parte do seu processo de obsolescência, o sistema antigo de proce
 de formulários do Django foi removido; isso significa que ``django.oldforms``
 não existe mais, e seus vários ganchos de API (como manipuladores
 automáticos) não existem mais no Django. Esse sistema foi completamente
-substituído pelo :ref:`novo sistema de manipulação de formulários
-<topics-forms-index>` em ``django.forms``.
+substituído pelo :doc:`novo sistema de manipulação de formulários
+</topics/forms/index>` em ``django.forms``.
 
 
 O caminho para o Django 1.0

@@ -455,7 +455,7 @@ fazer algo complexo utilizando subclasses.
 Model Formsets
 ==============
 
-Como nos :ref:`formsets comuns <topics-forms-formsets>`, o Django fornece um par de
+Como nos :doc:`formsets comuns </topics/forms/formsets>`, o Django fornece um par de
 classes avançadas de formset que tornam facil trabalhar com modelos do Django. Vamos
 reutilizar o modelo ``Author`` do exemplo acima::
 

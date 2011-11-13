@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _ref-forms-api:
-
 ====================
 A API de formulários
 ====================
@@ -25,8 +22,8 @@ A API de formulários
 .. admonition:: Sobre este documento
 
     Este documento cobre os detalhes arenosos da API de formulário do Django.
-    Você deve ler a :ref:`introdução ao trabalho com formulários
-    <topics-forms-index>` primeiro.
+    Você deve ler a :doc:`introdução ao trabalho com formulários
+    </topics/forms/index>` primeiro.
 
 .. _ref-forms-api-bound-unbound:
 

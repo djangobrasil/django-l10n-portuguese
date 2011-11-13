@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _ref-models-querysets:
-
 ==========================
 Referência da API QuerySet
 ==========================
@@ -23,13 +20,13 @@ Referência da API QuerySet
 .. currentmodule:: django.db.models
 
 Este documento descreve os detalhes da API do ``QuerySet``. Ela se baseia no
-material apresentado nos guias :ref:`model <topics-db-models>` e :ref:`query de
-banco de dados <topics-db-queries>`, então você provavelmente vai querer ler e
+material apresentado nos guias :doc:`model </topics/db/models>` e :doc:`query de
+banco de dados </topics/db/queries>`, então você provavelmente vai querer ler e
 entender esses documentos antes de ler este aqui.
 
 Por toda essa referência nós iremos usar os :ref:`models do exemplo weblog
-<queryset-model-example>` apresentado em :ref:`guia de consulta de banco de
-dados <topics-db-queries>`.
+<queryset-model-example>` apresentado em :doc:`guia de consulta de banco de
+dados </topics/db/queries>`.
 
 .. _when-querysets-are-evaluated:
 
@@ -1023,7 +1020,7 @@ SQL equivalente::
     configurar suas tabelas MySQL para usar a comparação sensível a maiúsculas,
     mas algumas pecinhas estão envolvidas. Para mais informação sobre isto, veja
     a :ref:`seção collation <mysql-collation>` na documentação de
-    :ref:`banco de dados <ref-databases>`.
+    :doc:`banco de dados </ref/databases>`.
 
 
 iexact
@@ -1318,11 +1315,10 @@ BOOLEAN MODE nas buscas em full-text. `Por favor verifique a documentação do
 MySQL para detalhes adicionais.
 <http://dev.mysql.com/doc/refman/5.1/en/fulltext-boolean.html>`_
 
+.. fieldlookup:: regex
 
 regex
 ~~~~~
-
-.. versionadded:: 1.0
 
 Combinação por expressão regular sensível a maiúsculas.
 
@@ -1347,10 +1343,10 @@ SQL equivalentes::
 Using raw strings (e.g., ``r'foo'`` instead of ``'foo'``) for passing in the
 regular expression syntax is recommended.
 
+.. fieldlookup:: iregex
+
 iregex
 ~~~~~~
-
-.. versionadded:: 1.0
 
 Combinação por expressão regular insensível a maiúsculas.
 
@@ -1367,4 +1363,119 @@ SQL equivalentes::
     SELECT ... WHERE title ~* '^(an?|the) +'; -- PostgreSQL
 
     SELECT ... WHERE title REGEXP '(?i)^(an?|the) +'; -- SQLite
+
+.. _aggregation-functions:
+
+Aggregation functions
+---------------------
+
+.. currentmodule:: django.db.models
+
+Django provides the following aggregation functions in the
+``django.db.models`` module. For details on how to use these
+aggregate functions, see
+:doc:`the topic guide on aggregation </topics/db/aggregation>`.
+
+Avg
+~~~
+
+.. class:: Avg(field)
+
+    Returns the mean value of the given field.
+
+        * Default alias: ``<field>__avg``
+        * Return type: float
+
+Count
+~~~~~
+
+.. class:: Count(field, distinct=False)
+
+    Returns the number of objects that are related through the provided field.
+
+        * Default alias: ``<field>__count``
+        * Return type: integer
+
+    Has one optional argument:
+
+    .. attribute:: distinct
+
+        If distinct=True, the count will only include unique instances. This has
+        the SQL equivalent of ``COUNT(DISTINCT field)``. Default value is ``False``.
+
+Max
+~~~
+
+.. class:: Max(field)
+
+    Returns the maximum value of the given field.
+
+        * Default alias: ``<field>__max``
+        * Return type: same as input field
+
+Min
+~~~
+
+.. class:: Min(field)
+
+    Returns the minimum value of the given field.
+
+        * Default alias: ``<field>__min``
+        * Return type: same as input field
+
+StdDev
+~~~~~~
+
+.. class:: StdDev(field, sample=False)
+
+    Returns the standard deviation of the data in the provided field.
+
+        * Default alias: ``<field>__stddev``
+        * Return type: float
+
+    Has one optional argument:
+
+    .. attribute:: sample
+
+        By default, ``StdDev`` returns the population standard deviation. However,
+        if ``sample=True``, the return value will be the sample standard deviation.
+
+    .. admonition:: SQLite
+
+        SQLite doesn't provide ``StdDev`` out of the box. An implementation is
+        available as an extension module for SQLite. Consult the SQlite
+        documentation for instructions on obtaining and installing this extension.
+
+Sum
+~~~
+
+.. class:: Sum(field)
+
+    Computes the sum of all values of the given field.
+
+        * Default alias: ``<field>__sum``
+        * Return type: same as input field
+
+Variance
+~~~~~~~~
+
+.. class:: Variance(field, sample=False)
+
+    Returns the variance of the data in the provided field.
+
+        * Default alias: ``<field>__variance``
+        * Return type: float
+
+    Has one optional argument:
+
+    .. attribute:: sample
+
+        By default, ``Variance`` returns the population variance. However,
+        if ``sample=True``, the return value will be the sample variance.
+
+    .. admonition:: SQLite
+
+        SQLite doesn't provide ``Variance`` out of the box. An implementation is
+        available as an extension module for SQLite. Consult the SQlite
+        documentation for instructions on obtaining and installing this extension.
 

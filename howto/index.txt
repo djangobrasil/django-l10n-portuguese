@@ -29,6 +29,7 @@ entanto, estes guias irão ajudá-lo a realizar rapidamente tarefas comuns.
    
    apache-auth
    auth-remote-user
+   contribute
    custom-management-commands
    custom-model-fields
    custom-template-tags

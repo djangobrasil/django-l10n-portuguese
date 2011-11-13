@@ -13,14 +13,11 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _ref-forms-index:
-
 Formulários
 ===========
 
 Referência detalhada da API de formulário. Para um material introdutório, veja
-:ref:`topics-forms-index`.
+:doc:`/topics/forms/index`.
 
 .. toctree::
    :maxdepth: 1

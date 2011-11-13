@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _topics-db-transactions:
-
 ========================================
 Gerenciando transações de banco de dados
 ========================================
@@ -68,88 +65,163 @@ Uma exceção a isso seria o ``CacheMiddleware``, que nunca é afetado. O cache
 middleware usa seu próprio cursor de banco de dados (que é mapeado para a sua
 própria conexão de banco de dados internamente).
 
+.. _transaction-management-functions:
+
 Controlando o gerenciamento de transações direto nas views
 ==========================================================
 
+.. versionchanged:: 1.3
+   Transaction management context managers are new in Django 1.3.
+
 Para a maioria das pessoas, transações baseadas em requisições funciona
-maravilhosamente bem. Contudo, se você precisa de um controle mais fino
-sobre como suas transações são gerenciadas, você pode usar os decoradores
-do Python para mudar a forma como as transações são lidadas por uma função
-view em particular.
+maravilhosamente bem. Porém, se você precisa de um controle mais fino
+sobre como suas transações são gerenciadas, você pode usar um conjunto de funções
+do Python em ``django.db.transaction`` para controlar transações em nível de
+funçãoou por bloco de código.
+
+These functions, described in detail below, can be used in two different ways:
+
+    * As a decorator_ on a particular function. For example::
+
+            from django.db import transaction
+
+            @transaction.commit_on_success
+            def viewfunc(request):
+                # ...
+                # this code executes inside a transaction
+                # ...
+
+    This technique works with all supported version of Python (that is, with
+    Python 2.4 and greater).
+
+    * As a `context manager`_ around a particular block of code::
+
+            from django.db import transaction
+
+            def viewfunc(request):
+                # ...
+                # this code executes using default transaction management
+                # ...
+
+                with transaction.commit_on_success():
+                    # ...
+                    # this code executes inside a transaction
+                    # ...
+
+    The ``with`` statement is new in Python 2.5, and so this syntax can only
+    be used with Python 2.5 and above.
+    
+.. _decorator: http://docs.python.org/glossary.html#term-decorator
+.. _context manager: http://docs.python.org/glossary.html#term-context-manager
+
+For maximum compatibility, all of the examples below show transactions using the
+decorator syntax, but all of the follow functions may be used as context
+managers, too.
 
 .. note::
 
-    Mesmo os exemplos abaixo usando funções de view como exemplo, esses
-    decoradores também podem ser aplicados para funções que não view.
+    Although the examples below use view functions as examples, these
+    decorators and context managers can be used anywhere in your code
+    that you need to deal with transactions.
 
-``django.db.transaction.autocommit``
-------------------------------------
+.. _topics-db-transactions-autocommit:
 
-Use o decorador ``autocommit`` para mudar o comportamento padrão de commit de
-uma view, independente da configuração global das transações.
+.. function:: autocommit
 
-Exemplo::
+    Use o decorador ``autocommit`` para mudar o comportamento padrão de commit de
+    uma view, independente da configuração global das transações.
 
-    from django.db import transaction
+    Exemplo::
 
-    @transaction.autocommit
-    def viewfunc(request):
-        ....
+        from django.db import transaction
 
-Dentro de ``viewfunc()``, transações serão commitadas quão logo você chame
-``model.save()``, ``model.delete()``, ou qualquer outra função que escreva
-na base de dados.
+        @transaction.autocommit
+        def viewfunc(request):
+            ....
 
-``django.db.transaction.commit_on_success``
--------------------------------------------
+        @transaction.autocommit(using="my_other_database")
+        def viewfunc2(request):
+            ....
 
-Utilize o decorador ``commit_on_success`` para usar transações únicas para
-todo o trabalho feito em uma função::
+    Within ``viewfunc()``, transactions will be committed as soon as you call
+    ``model.save()``, ``model.delete()``, or any other function that writes to
+    the database.  ``viewfunc2()`` will have this same behavior, but for the
+    ``"my_other_database"`` connection.
+    
+    Dentro de ``viewfunc()``, transações serão commitadas o tão logo você chame
+    ``model.save()``, ``model.delete()``, ou qualquer outra função que escreva
+    na base de dados. ``viewfunc2()`` will have this same behavior, but for the
+    ``"my_other_database"`` connection.
 
-    from django.db import transaction
+.. function:: commit_on_success
+    
+    Utilize o decorador ``commit_on_success`` para usar transações únicas para
+    todo o trabalho feito em uma função::
 
-    @transaction.commit_on_success
-    def viewfunc(request):
-        ....
+        from django.db import transaction
 
-Se a função retorna com sucesso, então o Django irá commitar todo o trabalho
-feito na função até aquele ponto. Se a função levanta uma exceção, todavia,
-o Django irá fazer um rollback na transação.
+        @transaction.commit_on_success
+        def viewfunc(request):
+            ....
 
-``django.db.transaction.commit_manually``
------------------------------------------
+        @transaction.commit_on_success(using="my_other_database")
+        def viewfunc2(request):
+            ....
+    
+    Se a função retorna com sucesso, então o Django irá commitar todo o trabalho
+    feito na função até aquele ponto. Se a função levanta uma exceção, todavia,
+    o Django irá fazer um rollback na transação.
 
-Use o decorador ``commit_manually`` se você precisa de um controle completo
-sobre as transações. Ele diz ao Django que você mesmo irá gerenciar a trasação.
+.. function:: commit_manually
+    
+    Use o decorador ``commit_manually`` se você precisa de um controle
+    completo sobre as transações. Ele diz ao Django que você mesmo
+    irá gerenciar a trasação.
+    
+    Se seu view muda o dado e não executa um ``commit()`` ou ``rollback()``, o
+    Django irá lançar uma exceção ``TransactionManagementError``.
 
-Se seu view muda o dado e não executa um ``commit()`` ou ``rollback()``, o
-Django irá lançar uma exceção ``TransactionManagementError``.
+    Gerenciamento manual de transações parece com isso::
 
-Gerenciamento manual de transações parece com isso::
+        from django.db import transaction
 
-    from django.db import transaction
-
-    @transaction.commit_manually
-    def viewfunc(request):
-        ...
-        # Você pode comitar/retroceder quando e onde quiser.
-        transaction.commit()
-        ...
-
-        # Mas terá de lembrar de fazê-lo você mesmo!
-        try:
+        @transaction.commit_manually
+        def viewfunc(request):
             ...
-        except:
-            transaction.rollback()
-        else:
+            # You can commit/rollback however and whenever you want
             transaction.commit()
+            ...
 
-.. admonition:: Uma nota importante para usuários de versões anteriores do Django:
+            # But you've got to remember to do it yourself!
+            try:
+                ...
+            except:
+                transaction.rollback()
+            else:
+                transaction.commit()
 
-    Os métodos de banco de dados ``connection.commit()`` e
-    ``connection.rollback()`` (chamados ``db.commit()`` e ``db.rollback`` na
-    versão 0.91 e anteriores) não existem mais. Eles foram substituídos por
-    ``transation.commit()`` e ``transation.rollback()``.
+        @transaction.commit_manually(using="my_other_database")
+        def viewfunc2(request):
+            ....
+
+.. _topics-db-transactions-requirements:
+
+Requirements for transaction handling
+=====================================
+
+.. versionadded:: 1.3
+
+Django requires that every transaction that is opened is closed before
+the completion of a request. If you are using :func:`autocommit` (the
+default commit mode) or :func:`commit_on_success`, this will be done
+for you automatically. However, if you are manually managing
+transactions (using the :func:`commit_manually` decorator), you must
+ensure that the transaction is either committed or rolled back before
+a request is completed.
+
+This applies to all database operations, not just write operations. Even
+if your transaction only reads from the database, the transaction must
+be committed or rolled back before you complete a request.
 
 Como desativar globalmente o gerenciamentod e transações
 ========================================================

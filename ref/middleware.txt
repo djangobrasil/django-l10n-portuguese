@@ -25,7 +25,7 @@ Referência dos middlewares embutidos
 
 Este documento detalha todos os componentes middleware que acompanham o Django.
 Para informações de como usá-los e de como escrever o seu próprio middleware,
-veja o :ref:`guia de uso de middleware <topics-http-middleware>`.
+veja o :doc:`guia de uso de middleware </topics/http/middleware>`.
 
 Middlewares disponíveis
 =======================
@@ -42,8 +42,8 @@ Middleware de cache
 
 Habilita o cache em todo o site. Se este estiver habilitado, cada página
 construída pelo Django será cacheada durante o tempo definido em
-:setting:`CACHE_MIDDLEWARE_SECONDS`. Veja a :ref:`documentação do cache
-<topics-cache>`.
+:setting:`CACHE_MIDDLEWARE_SECONDS`. Veja a :doc:`documentação do cache
+</topics/cache>`.
 
 Middleware "Common"
 -------------------
@@ -162,8 +162,8 @@ Middleware Locale
 .. class:: django.middleware.locale.LocaleMiddleware
 
 Habilita a seleção de idioma baseado em dados vindos da requisição. Ele
-personaliza o conteúdo para cada usuário. Veja a :ref:`documentação de
-internacionalização <topics-i18n>`.
+personaliza o conteúdo para cada usuário. Veja a :doc:`documentação de
+internacionalização </topics/i18n/index>`.
 
 Middleware Session
 ------------------
@@ -173,8 +173,8 @@ Middleware Session
 
 .. class:: django.contrib.sessions.middleware.SessionMiddleware
 
-Habilita o suporte a sessões. Veja a :ref:`documentação de sessões
-<topics-http-sessions>`.
+Habilita o suporte a sessões. Veja a :doc:`documentação de sessões
+</topics/http/sessions>`.
 
 Middleware Authentication
 -------------------------
@@ -185,8 +185,8 @@ Middleware Authentication
 .. class:: django.contrib.auth.middleware.AuthenticationMiddleware
 
 Adiciona o atributo ``user``, representando o usuário atualmente logado, para
-todo objeto ``HttpRequest`` que chega. Veja :ref:`Autenticação em requisições
-Web <topics-auth>`.
+todo objeto ``HttpRequest`` que chega. Veja :doc:`Autenticação em requisições
+Web </topics/auth>`.
 
 Middleware de proteção CSRF
 ---------------------------
@@ -201,8 +201,8 @@ Middleware de proteção CSRF
 
 Adiciona proteção contra Cross Site Request Forgeries adicionando campos
 invisíveis de formulários aos formulários POST e checando suas requisições
-pelos valores corretos. Veja a :ref:`documentação da proteção de Cross Site
-Request Forgeries <ref-contrib-csrf>`.
+pelos valores corretos. Veja a :doc:`documentação da proteção de Cross Site
+Request Forgeries </ref/contrib/csrf>`.
 
 Middleware Transaction
 ----------------------
@@ -222,6 +222,6 @@ dele rodam com commit-on-save - o comportamento padrão do Django. Módulos
 middleware rodando dentro dele (vêm depois na pilha) estarão abaixo do mesmo
 controle de transações como nas funções view.
 
-Veja a :ref:`documentação de gerenciamento de transações
-<topics-db-transactions>`.
+Veja a :doc:`documentação de gerenciamento de transações
+</topics/db/transactions>`.
 

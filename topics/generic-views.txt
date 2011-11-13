@@ -13,8 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-.. _topics-generic-views:
-
 ===============
 Views genéricas
 ===============
@@ -337,7 +335,7 @@ Viewing subsets of objects
 
 Now let's take a closer look at this ``queryset`` key we've been using all
 along. Most generic views take one of these ``queryset`` arguments -- it's how
-the view knows which set of objects to display (see :ref:`topics-db-queries` for
+the view knows which set of objects to display (see :doc:`/topics/db/queries` for
 more information about ``QuerySet`` objects, and see the
 :ref:`generic views reference<ref-generic-views>` for the complete details).
 

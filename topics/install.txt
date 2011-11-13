@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _topics-install:
-
 ======================
 Como instalar o Django
 ======================
@@ -115,7 +112,7 @@ acesso ao banco de dados estão instaladas.
 * Se você estiver usando MySQL, você vai precisar da biblioteca MySQLdb_ (versão
   1.2.1p2 ou superior).
   Você também vai quiser ler as observações específicas de bancos de dados
-  para o :ref:`backend MySQL <ref-databases>`.
+  para o :ref:`backend MySQL <mysql-notes>`.
 
 * Se você estiver usando SQLite e Python 2.3 ou Python 2.4, vai precisar da
   biblioteca pysqlite_. Use a versão 2.0.3 ou superior. A versão 2.5 do Python
@@ -138,7 +135,7 @@ Se você pretende criar as tabelas manualmente, precisa apenas dar permissão de
 (configurado em settings.py, atributo DATABASE_USER). O Django não usa comandos
 ``ALTER TABLE``, então não precisa de permissão para isso.
 
-Se você pretende usar o :ref:`framework de teste <topics-testing>` do Django com
+Se você pretende usar o :doc:`framework de teste </topics/testing>` do Django com
 'data fixtures', o Django também vai precisar de permissão para criar um bando
 de dados de teste temporário.
 

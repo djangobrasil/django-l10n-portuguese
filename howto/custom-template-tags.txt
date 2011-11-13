@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _howto-custom-template-tags:
-
 =========================================
 Tags e filtros de template personalizados
 =========================================
@@ -23,8 +20,8 @@ Tags e filtros de template personalizados
 Introdução
 ==========
 
-O sistema de template do Django vem com uma larga variedade de :ref:`tags e
-filtros embutidos <ref-templates-builtins>` projetados para direcionar a lógida
+O sistema de template do Django vem com uma larga variedade de :doc:`tags e
+filtros embutidos </ref/templates/builtins>` projetados para direcionar a lógida
 da apresentação que sua aplicação. Todavia, você pode se encontrar precisando de
 funcionalidades que não são cobertas pelo conjunto de primitivas de template.
 Você pode extender o motor de template definindo tags e filtros personalizados
@@ -160,8 +157,7 @@ O método ``Library.filter()`` recebe dois argumentos:
     2. A função de compilação -- uma função Python (não o nome da função como
        uma string).
 
-Se você estiver usando Python 2.4 ou superior, você pode usar
-``register.filter()`` como um decorador, no entanto::
+Você pode usar ``register.filter()`` como um decorador, no entanto::
 
     @register.filter(name='cut')
     @stringfilter
@@ -178,8 +174,6 @@ Django usará o nome da função como o nome do filtro.
 
 Filtros e auto-escaping
 ~~~~~~~~~~~~~~~~~~~~~~~
-
-.. versionadded:: 1.0
 
 Quando esiver escrevendo um filtro personalizado, pense um pouco em como o
 filtro irá interagir com o comportamento de auto-escaping do Django. Note que há
@@ -453,8 +447,6 @@ precisar ser parsiado múltiplas vezes.
 Considerações do Auto-escaping
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. versionadded:: 1.0
-
 A saída de uma template tag *não* é automaticamente executada através de filtros
 de auto-escaping. Entretanto, ainda há algumas coisas que você deve ter em mente
 quando estiver escrevendo uma template tag.
@@ -488,6 +480,85 @@ nosso novo ``Context`` neste exemplo, os resultados teriam *sempre* de ser
 automaticamente escapados, o que pode não ser um comportamento desejável se a
 template tag é usada dentro de um bloco ``{% autoescape off %}``.
 
+.. _template_tag_thread_safety:
+
+Thread-safety considerations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 1.2
+
+Once a node is parsed, its ``render`` method may be called any number of times.
+Since Django is sometimes run in multi-threaded environments, a single node may
+be simultaneously rendering with different contexts in response to two separate
+requests. Therefore, it's important to make sure your template tags are thread
+safe.
+
+To make sure your template tags are thread safe, you should never store state
+information on the node itself. For example, Django provides a builtin ``cycle``
+template tag that cycles among a list of given strings each time it's rendered::
+
+    {% for o in some_list %}
+        <tr class="{% cycle 'row1' 'row2' %}>
+            ...
+        </tr>
+    {% endfor %}
+
+A naive implementation of ``CycleNode`` might look something like this::
+
+    class CycleNode(Node):
+        def __init__(self, cyclevars):
+            self.cycle_iter = itertools.cycle(cyclevars)
+        def render(self, context):
+            return self.cycle_iter.next()
+
+But, suppose we have two templates rendering the template snippet from above at
+the same time:
+
+    1. Thread 1 performs its first loop iteration, ``CycleNode.render()``
+       returns 'row1'
+    2. Thread 2 performs its first loop iteration, ``CycleNode.render()``
+       returns 'row2'
+    3. Thread 1 performs its second loop iteration, ``CycleNode.render()``
+       returns 'row1'
+    4. Thread 2 performs its second loop iteration, ``CycleNode.render()``
+       returns 'row2'
+
+The CycleNode is iterating, but it's iterating globally. As far as Thread 1
+and Thread 2 are concerned, it's always returning the same value. This is
+obviously not what we want!
+
+To address this problem, Django provides a ``render_context`` that's associated
+with the ``context`` of the template that is currently being rendered. The
+``render_context`` behaves like a Python dictionary, and should be used to store
+``Node`` state between invocations of the ``render`` method.
+
+Let's refactor our ``CycleNode`` implementation to use the ``render_context``::
+
+    class CycleNode(Node):
+        def __init__(self, cyclevars):
+            self.cyclevars = cyclevars
+        def render(self, context):
+            if self not in context.render_context:
+                context.render_context[self] = itertools.cycle(self.cyclevars)
+            cycle_iter = context.render_context[self]
+            return cycle_iter.next()
+
+Note that it's perfectly safe to store global information that will not change
+throughout the life of the ``Node`` as an attribute. In the case of
+``CycleNode``, the ``cyclevars`` argument doesn't change after the ``Node`` is
+instantiated, so we don't need to put it in the ``render_context``. But state
+information that is specific to the template that is currently being rendered,
+like the current iteration of the ``CycleNode``, should be stored in the
+``render_context``.
+
+.. note::
+    Notice how we used ``self`` to scope the ``CycleNode`` specific information
+    within the ``render_context``. There may be multiple ``CycleNodes`` in a
+    given template, so we need to be careful not to clobber another node's state
+    information. The easiest way to do this is to always use ``self`` as the key
+    into ``render_context``. If you're keeping track of several state variables,
+    make ``render_context[self]`` a dictionary.
+
 Registrando a tag
 ~~~~~~~~~~~~~~~~~
 
@@ -503,8 +574,7 @@ O método ``tag()`` recebe dois argumentos:
     2. A função de compilação -- uma função Python (não o nome da função como
        uma string).
 
-Como no registro de filtros, também é possível usar isso como um decorador, no
-Python 2.4 ou superior::
+Como no registro de filtros, também é possível usar isso como um decorador::
 
     @register.tag(name="current_time")
     def do_current_time(parser, token):
@@ -553,10 +623,6 @@ Agora sua tag deve começar a parecer como isso::
         if not (format_string[0] == format_string[-1] and format_string[0] in ('"', "'")):
             raise template.TemplateSyntaxError, "%r tag's argument should be in quotes" % tag_name
         return FormatTimeNode(date_to_be_formatted, format_string[1:-1])
-
-.. versionchanged:: 1.0
-    Variable resolution has changed in the 1.0 release of Django. ``template.resolve_variable()``
-    has been deprecated in favor of a new ``template.Variable`` class.
 
 Você também tem de mudar o renderizador para receber os conteúdos atuais da
 propriedade ``date_updated`` de um objeto ``blog_entry``. Isso pode ser
@@ -621,6 +687,28 @@ Uma das coisas que você deve tomar nota sobre o helper ``simple_tag``:
 Quando sua template tag não precisa acessar o contexto atual, escrever uma
 função para trabalhar com os valores de entrada e usar o helper ``simple_tag``
 é a forma mais fácil de criar uma nova tag.
+
+.. versionadded:: 1.3
+
+If your template tag needs to access the current context, you can use the
+``takes_context`` argument when registering your tag::
+
+    # The first argument *must* be called "context" here.
+    def current_time(context, format_string):
+        timezone = context['timezone']
+        return your_get_current_time_method(timezone, format_string)
+
+    register.simple_tag(takes_context=True)(current_time)
+
+Or, using decorator syntax::
+
+    @register.simple_tag(takes_context=True)
+    def current_time(context, format_string):
+        timezone = context['timezone']
+        return your_get_current_time_method(timezone, format_string)
+
+For more information on how the ``takes_context`` option works, see the section
+on `inclusion tags`_.
 
 .. _howto-custom-template-tags-inclusion-tags:
 

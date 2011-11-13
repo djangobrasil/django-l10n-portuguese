@@ -361,8 +361,8 @@ A administração representa-o como um ``<input type="text">`` (um input de uma
 
     Se você estiver escrevendo uma aplicação que deve ser portável para vários
     backends de banco de dados, você deve estar alerta, pois há restrições para
-    o ``max_length`` em alguns backends. Leia as :ref:`notas sobre backend de
-    bancos de dados <ref-databases>`.
+    o ``max_length`` em alguns backends. Leia as :doc:`notas sobre backend de
+    bancos de dados </ref/databases>`.
 
 .. admonition:: MySQL users
 
@@ -509,7 +509,7 @@ Também há um argumento opcional:
     .. versionadded:: 1.0
 
     Opcional. Um objeto storage, que manipula o armazenamento e recebimento de
-    seus arquivos. Veja :ref:`topics-files` para mais detalhes de como prover
+    seus arquivos. Veja :doc:`/topics/files` para mais detalhes de como prover
     este objeto.
 
 A administração representa esse campo como um ``<input type="file">`` (um widget de
@@ -547,7 +547,7 @@ enviar um arquivo em 15 de janeiro de 2007, ele será salvo no diretório
 
 Se você quer obter o nome do arquivo no disco, ou a URL que se refere àquele
 arquivo, ou o tamanho do arquivo, você pode usar os métodos
-:attr:`~django.core.files.File.name`, :attr:`~django.core.files.File.url` e :attr:`~django.core.files.File.size`. Veja :ref:`topics-files`.
+:attr:`~django.core.files.File.name`, :attr:`~django.core.files.File.url` e :attr:`~django.core.files.File.size`. Veja :doc:`/topics/files`.
 
 Observe que independente da forma que você lida com arquivos enviados, você deve
 prestar muita atennção para onde você os está enviado e para quais tipos eles
@@ -647,7 +647,7 @@ válida. Tem dois argumentos extras opcionais:
 
 Além dos métodos especiais que estão disponíveis para :class:`FileField`, um
 class:`ImageField` também tem os atributos ``File.height`` e ``File.width``.
-Veja :ref:`topics-files`.
+Veja :doc:`/topics/files`.
 
 Requer a `Python Imaging Library`_.
 
@@ -864,7 +864,7 @@ A :class:`ForeignKey` aceita um conjunto extra de argumentos -- todos opcionais
 .. attribute:: ForeignKey.limit_choices_to
 
     Um dicionário de argumentos e valores aparente (veja
-    :ref:`topics-db-queries`) que limita as escolhas disponíveis para o admin
+    :doc:`/topics/db/queries`) que limita as escolhas disponíveis para o admin
     sobre este objeto. Use isto com funções do módulo do Python ``datetime``
     para limitar as escolhas dos objetos por data. Por exemplo::
 

@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _misc-api-stability:
-
 ===================
 Estabilidade de API
 ===================
@@ -93,7 +90,7 @@ inclui estas APIs:
       adicionar algo como tags, esteja seguro de que o Django mostrará um erro
       caso tente carregar tags com nomes duplicados.
 
-    - :ref:`Testes <topics-testing>`
+    - :doc:`Testes </topics/testing>`
 
     - :ref:`Utilitário django-admin <ref-django-admin>`.
     

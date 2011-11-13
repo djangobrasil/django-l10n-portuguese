@@ -13,8 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-.. _ref-django-admin:
-
 ===========================
 django-admin.py e manage.py
 ===========================
@@ -99,15 +97,9 @@ Exemplos de saídas::
 Mostrando saída de debug
 ------------------------
 
-.. django-admin-option:: --verbosity <amount>
-
-Use ``--verbosity`` para especificar o montante de notificações e informações de
-debug que ``django-admin.py`` deve imprimir no console.
-
-    * ``0`` significa nenhuma saída.
-    * ``1`` significa saída normal (padrão).
-    * ``2`` significa saída prolixa.
-
+Use :djadminopt:`--verbosity` to specify the amount of notification and debug information
+that ``django-admin.py`` should print to the console. For more details, see the
+documentation for the :djadminopt:`--verbosity` option.
 
 Subcomandos disponíveis
 =======================
@@ -117,8 +109,6 @@ cleanup
 
 .. django-admin:: cleanup
 
-.. versionadded:: 1.0
-
 Pode ser executado como um cronjob ou diretamente para limpar dados antigos do
 banco de dados (somente sessões expiradas até o momento).
 
@@ -127,21 +117,15 @@ compilemessages
 
 .. django-admin:: compilemessages
 
-.. versionchanged:: 1.0
-   Antes do 1.0 este era o comando "bin/compile-messages.py".
-
 Compila arquivos .po criados com ``makemessages`` para arquivos .mo para uso
-com o suporte embutido ao gettext. Veja :ref:`topics-i18n`.
+com o suporte embutido ao gettext. Veja :doc:`/topics/i18n/index`.
 
---locale
-~~~~~~~~
+Use the :djadminopt:`--locale` option to specify the locale to process.
+If not provided, all locales are processed.
 
-Use as opções ``--locale`` ou ``-l`` para especificar o locale a ser
-processado. Se você não especificá-lo, todos os locales são processados.
+Example usage::
 
-Exemplo de uso::
-
-    django-admin.py compilemessages --locale=pt_BR
+    django-admin.py compilemessages --locale=br_PT
 
 createcachetable
 ----------------
@@ -151,33 +135,10 @@ createcachetable
 Cria uma tabela de cache com o nome ``tablename`` para uso com o *backend* de
 cache em banco de dados.
 
-createsuperuser
----------------
+.. versionadded:: 1.2
 
-.. django-admin:: createsuperuser
-
-.. versionadded:: 1.0
-
-Cria uma conta de superusuário (um usuário que tem todas as permissões). Isso é
-útil se você precisa criar uma conta inicial de superusuário, mas não o fez
-durante o ``syncdb``, ou se você precisa programaticamente gerar contas de
-superusuário para seu(s) site(s).
-
-Quando executar interativamente, este comando pedirá uma senha para a nova
-conta de super usuário. Quando executá-lo de forma não interativa, nenhuma
-senha será definida, e a conta de superusuário não será hábil a logar-se até
-que uma senha seja manualmente definida para ele.
-
-.. django-admin-option:: --username
-.. django-admin-option:: --email
-
-O nome de usuário e endereço de e-mail para a nova conta podem ser fornecidos
-usando os argumentos ``--username`` e ``--email`` na linha de comando. Se algum
-deles não forem fornecidos, ``createsuperuser`` pedirá por eles quando estiver
-rodando interativamente.
-
-Este comando estará disponível somente se o :ref:`sistema de autenticação
-<topics-auth>` do Django (``django.contrib.auth``) estiver instalado.
+The :djadminopt:`--database` option can be used to specify the database
+onto which the cachetable will be installed.
 
 dbshell
 -------
@@ -197,6 +158,11 @@ simples chamada pelo nome do programa (``psql``, ``mysql``, ``sqlite3``)
 encontrará o programa no lugar certo. Não há formas de especificar a localização
 do programa manualmente.
 
+.. versionadded:: 1.2
+
+The :djadminopt:`--database` option can be used to specify the database
+onto which to open a shell.
+
 diffsettings
 ------------
 
@@ -212,10 +178,10 @@ Note que as configurações padrões do Django estão em
 ``django/conf/global_settings.py``, se você estiver curioso para ver a lista
 completa delas.
 
-dumpdata
---------
+dumpdata <appname appname appname.Model ...>
+--------------------------------------------
 
-.. django-admin:: dumpdata <appname appname ...>
+.. django-admin:: dumpdata
 
 Mostra na saída padrão todos os dados no banco de dados associado às aplicações
 listadas.
@@ -230,32 +196,51 @@ registros a serem exportados. Se você estiver usando um :ref:`manager
 personalizado <custom-managers>` como manager padrão e ele filtra algumas
 entradas disponíveis, nem todos os objetos serão exportados.
 
-.. django-admin-option:: --exclude
+.. versionadded:: 1.3
 
-.. versionadded:: 1.0
-
-Excluí uma aplicação específica das aplicações cujo conteúdo é mostrado. Por
-exemplo, para especificadamente excluir a aplicação `auth` da saída, você deve
-chamar::
-
-    django-admin.py dumpdata --exclude=auth
-
-Se você deseja excluir várias aplicações, use várias diretivas ``--exclude``::
-
-    django-admin.py dumpdata --exclude=auth --exclude=contenttypes
-
-
+The :djadminopt:`--all` option may be provided to specify that
+``dumpdata`` should use Django's base manager, dumping records which
+might otherwise be filtered or modified by a custom manager.
 .. django-admin-option:: --format <fmt>
 
-    Por padrão, ``dumpdata`` formatará sua saída como JSON, mas você pode usar
-    a opção ``--format`` para especificar outro formato. Os formatos atualmente
-    suportados estão listados em :ref:`serialization-formats`.
+By default, ``dumpdata`` will format its output in JSON, but you can use the
+``--format`` option to specify another format. Currently supported formats
+are listed in :ref:`serialization-formats`.
 
 .. django-admin-option:: --indent <num>
 
-    Por padrão, ``dumpdata`` exportará todos os dados em uma única linha. Isso
-    não é fácil para humanos lerem, então você pode usar a opção ``--indent``
-    para imprimir uma bela saída com alguns espaços de indentação.
+By default, ``dumpdata`` will output all data on a single line. This isn't
+easy for humans to read, so you can use the ``--indent`` option to
+pretty-print the output with a number of indentation spaces.
+
+The :djadminopt:`--exclude` option may be provided to prevent specific
+applications from being dumped.
+
+.. versionadded:: 1.3
+
+The :djadminopt:`--exclude` option may also be provided to prevent specific
+models (specified as in the form of ``appname.ModelName``) from being dumped.
+
+In addition to specifying application names, you can provide a list of
+individual models, in the form of ``appname.Model``. If you specify a model
+name to ``dumpdata``, the dumped output will be restricted to that model,
+rather than the entire application. You can also mix application names and
+model names.
+
+.. versionadded:: 1.2
+
+The :djadminopt:`--database` option can be used to specify the database
+onto which the data will be loaded.
+
+.. django-admin-option:: --natural
+
+.. versionadded:: 1.2
+
+Use :ref:`natural keys <topics-serialization-natural-keys>` to represent
+any foreign key and many-to-many relationship with a model that provides
+a natural key definition. If you are dumping ``contrib.auth`` ``Permission``
+objects or ``contrib.contenttypes`` ``ContentType`` objects, you should
+probably be using this flag.
 
 flush
 -----
@@ -267,14 +252,18 @@ execução do syncdb. Isto significa que todos os dados serão removidos do banc
 de dados, quaisquer manipuladores de sincronização posterior, serão
 re-executados, e o fixture ``initial_data`` será reinstalado.
 
-.. django-admin-option:: --noinput
+The :djadminopt:`--noinput` option may be provided to suppress all user
+prompts.
 
-    Use a opção ``--noinput`` para suprimir todo prompt para o usuário, como as
-    mensagens de confirmação "Você tem certeza?". Isso é útil se o
-    ``django-admin.py`` é executado como um script autônomo.
+.. versionadded:: 1.2
+
+The :djadminopt:`--database` option may be used to specify the database
+to flush.
 
 inspectdb
 ---------
+
+.. django-admin:: inspectdb
 
 Faz introspecção nas tabelas do banco de dados apontado pela configuração
 ``DATABASE_NAME`` e mostra um módulo de model do Django (um arquivo
@@ -315,10 +304,25 @@ O ``inspectedb`` trabalha com PostgreSQL, MySQL e SQLite. Detecção de chaves
 estrangeiras somente funcionam no PostgreSQL e com certos tipos de tabelas do
 MySQL.
 
+.. versionadded:: 1.2
+
+The :djadminopt:`--database` option may be used to specify the
+database to introspect.
+
 loaddata <fixture fixture ...>
 ------------------------------
 
+.. django-admin:: loaddata
+
 Procura e carrega os conteúdos de fixtures para dentro do banco de dados.
+
+.. versionadded:: 1.2
+
+The :djadminopt:`--database` option can be used to specify the database
+onto which the data will be loaded.
+
+What's a "fixture"?
+~~~~~~~~~~~~~~~~~~~
 
 Um *fixture* é uma coleção de arquivos que contém os conteúdos serializados do
 banco de dados. Cada fixture tem um nome único, e os arquivos que compreendem
@@ -377,6 +381,23 @@ no final da transação.
 
 O comando ``dumbdata`` pode ser usado para gerar entrada para ``loaddata``.
 
+Compressed fixtures
+~~~~~~~~~~~~~~~~~~~
+
+Fixtures may be compressed in ``zip``, ``gz``, or ``bz2`` format. For example::
+
+    django-admin.py loaddata mydata.json
+
+would look for any of ``mydata.json``, ``mydata.json.zip``,
+``mydata.json.gz``, or ``mydata.json.bz2``.  The first file contained within a
+zip-compressed archive is used.
+
+Note that if two fixtures with the same name but different
+fixture type are discovered (for example, if ``mydata.json`` and
+``mydata.xml.gz`` were found in the same fixture directory), fixture
+installation will be aborted, and any data installed in the call to
+``loaddata`` will be removed from the database.
+
 .. admonition:: MySQL e Fixtures
 
     Infelizmente, o MySQL não é capaz de suportar completamente todas as
@@ -388,27 +409,22 @@ O comando ``dumbdata`` pode ser usado para gerar entrada para ``loaddata``.
     diferir checagens de constraints de linhas até que uma transação seja
     comitada.
 
---verbosity
-~~~~~~~~~~~
+Database-specific fixtures
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use ``--verbosity`` para especificar o quanto de notificações e informações de
-debug o ``django-admin.py`` deverá imprimir no console.
-
-	* ``0`` significa nenhuma saída.
-	* ``1`` significa saída normal (padrão).
-	* ``2`` significa saída prolixa.
-
-Exemplo de uso::
-
-    django-admin.py loaddata --verbosity=2
+If you are in a multi-database setup, you may have fixture data that
+you want to load onto one database, but not onto another. In this
+situation, you can add database identifier into . If your
+:setting:`DATABASES` setting has a 'master' database defined, you can
+define the fixture ``mydata.master.json`` or
+``mydata.master.json.gz``. This fixture will only be loaded if you
+have specified that you want to load data onto the ``master``
+database.
 
 makemessages
 ------------
 
 .. django-admin:: makemessages
-
-.. versionchanged:: 1.0
-   Antes da versão 1.0 este era o comando ``bin/make-messages.py``.
 
 Executa sobre toda árvore de código do diretório atual e extrai todas as
 *strings* marcadas para tradução. Ele cria (ou atualiza) um arquivo de mensagem
@@ -418,8 +434,7 @@ precisará compilá-los com ``compilemessages`` para usar com o suporte ao
 gettext embutido. Veja :ref:`a documentação i18n
 <how-to-create-language-files>` para detalhes.
 
---all
-~~~~~
+.. django-admin-option:: --all
 
 Use as opções ``--all`` ou ``-a`` para atualizar os arquivos de mensagens para
 todas os idiomas disponíveis.
@@ -428,8 +443,7 @@ Exemplo de uso::
 
     django-admin.py makemessages --all
 
---extension
-~~~~~~~~~~~
+.. django-admin-option:: --extension
 
 Use as opções ``--extension`` ou ``-e`` para especificar uma lista de extensões
 de arquivos para examinar (padrão: ".html").
@@ -443,18 +457,14 @@ vezes::
 
     django-admin.py makemessages --locale=de --extension=html,txt --extension xml
 
---locale
-~~~~~~~~
-
-Use as opções ``--locale`` ou ``-l`` para especificar o locale a ser
+Use the :djadminopt:`--locale` option para especificar o locale a ser
 processado.
 
 Exemplo de uso::
 
     django-admin.py makemessages --locale=pt_BR
 
---domain
-~~~~~~~~
+.. django-admin-option:: --domain
 
 Use as opções ``--domain`` ou ``-d`` para mudar o domínio dos arquivos de
 mensagens. Atualmente são suportados:
@@ -462,34 +472,65 @@ mensagens. Atualmente são suportados:
 	* ``django`` para todo arquivo ``*.py`` e ``*.html`` (padrão)
 	* ``djangojs`` para arquivos ``*.js``
 
---verbosity
-~~~~~~~~~~~
+.. django-admin-option:: --symlinks
 
-Use ``--verbosity`` para especificar o quanto de notificações e informações de
-debug o ``django-admin.py`` deverá imprimir no console.
+.. versionadded:: 1.2
 
-	* ``0`` significa nenhuma saída.
-	* ``1`` significa saída normal (padrão).
-	* ``2`` significa saída prolixa.
+Use the ``--symlinks`` or ``-s`` option to follow symlinks to directories when
+looking for new translation strings.
 
-Exemplo de uso::
+Example usage::
 
-    django-admin.py makemessages --verbosity=2
+    django-admin.py makemessages --locale=de --symlinks
+
+.. django-admin-option:: --ignore
+
+Use the ``--ignore`` or ``-i`` option to ignore files or directories matching
+the given `glob-style pattern`_. Use multiple times to ignore more.
+
+These patterns are used by default: ``'CVS'``, ``'.*'``, ``'*~'``
+
+Example usage::
+
+    django-admin.py makemessages --locale=en_US --ignore=apps/* --ignore=secret/*.html
+
+.. _`glob-style pattern`: http://docs.python.org/library/glob.html
+
+.. django-admin-option:: --no-default-ignore
+
+Use the ``--no-default-ignore`` option to disable the default values of
+:djadminopt:`--ignore`.
+
+.. django-admin-option:: --no-wrap
+
+.. versionadded:: 1.3
+
+Use the ``--no-wrap`` option to disable breaking long message lines into
+several lines in language files.
 
 reset <appname appname ...>
 ---------------------------
 
+.. deprecated:: 1.3
+    This command has been deprecated. The ``flush`` can be used to delete
+    everything. You can also use ALTER TABLE or DROP TABLE statements manually.
+
+.. django-admin:: reset
+
 Executa o equivalente a ``sqlreset`` para uma app específica.
 
---noinput
-~~~~~~~~~
+The :djadminopt:`--noinput` option may be provided to suppress all user
+prompts.
 
-Use a opção ``--noinput`` para suprimir todo prompt ao usuário, como mensagens
-de confirmação "Você tem certeza?". Isso é útil se o ``django-admin.py`` for
-executado de forma autônoma, por um script.
+.. versionadded:: 1.2
+
+The :djadminopt:`--database` option can be used to specify the alias
+of the database to reset.
 
 runfcgi [options]
 -----------------
+
+.. django-admin:: runfcgi
 
 Inicia um conjunto de processos FastCGI adequados para uso com qualquer servidor
 Web que suporta o protocolo FastCGI. Veja a :ref:`documentação de implantação no
@@ -498,8 +539,117 @@ Python `flup`_.
 
 .. _flup: http://www.saddi.com/software/flup/
 
-runserver
----------
+The options accepted by this command are passed to the FastCGI library and
+don't use the ``'--'`` prefix as is usual for other Django management commands.
+
+.. django-admin-option:: protocol
+
+``protocol=PROTOCOL``
+
+Protocol to use. *PROTOCOL* can be ``fcgi``, ``scgi``, ``ajp``, etc.
+(default is ``fcgi``)
+
+.. django-admin-option:: host
+
+``host=HOSTNAME``
+
+Hostname to listen on.
+
+.. django-admin-option:: port
+
+``port=PORTNUM``
+
+Port to listen on.
+
+.. django-admin-option:: socket
+
+``socket=FILE``
+
+UNIX socket to listen on.
+
+.. django-admin-option:: method
+
+``method=IMPL``
+
+Possible values: ``prefork`` or ``threaded`` (default ``prefork``)
+
+.. django-admin-option:: maxrequests
+
+``maxrequests=NUMBER``
+
+Number of requests a child handles before it is killed and a new child is
+forked (0 means no limit).
+
+.. django-admin-option:: maxspare
+
+``maxspare=NUMBER``
+
+Max number of spare processes / threads.
+
+.. django-admin-option:: minspare
+
+``minspare=NUMBER``
+
+Min number of spare processes / threads.
+
+.. django-admin-option:: maxchildren
+
+``maxchildren=NUMBER``
+
+Hard limit number of processes / threads.
+
+.. django-admin-option:: daemonize
+
+``daemonize=BOOL``
+
+Whether to detach from terminal.
+
+.. django-admin-option:: pidfile
+
+``pidfile=FILE``
+
+Write the spawned process-id to file *FILE*.
+
+.. django-admin-option:: workdir
+
+``workdir=DIRECTORY``
+
+Change to directory *DIRECTORY* when daemonizing.
+
+.. django-admin-option:: debug
+
+``debug=BOOL``
+
+Set to true to enable flup tracebacks.
+
+.. django-admin-option:: outlog
+
+``outlog=FILE``
+
+Write stdout to the *FILE* file.
+
+.. django-admin-option:: errlog
+
+``errlog=FILE``
+
+Write stderr to the *FILE* file.
+
+.. django-admin-option:: umask
+
+``umask=UMASK``
+
+Umask to use when daemonizing. The value is interpeted as an octal number
+(default value is ``022``).
+
+Example usage::
+
+    django-admin.py runfcgi socket=/tmp/fcgi.sock method=prefork daemonize=true \
+        pidfile=/var/run/django-fcgi.pid
+
+Run a FastCGI server as a daemon and write the spawned PID in a file.
+
+runserver [port or address:port]
+--------------------------------
 
 .. django-admin:: runserver [port or ipaddr:port]
 
@@ -533,7 +683,14 @@ separadas. É só executar ``django-admin.py runserver`` mais de uma vez.
 Note que o endereço IP padrão, 127.0.0.1, não é acessível para outros
 computadores de sua rede. Para ter seu servidor de desenvolvimento visível por
 outros na rede, use seu próprio endereço IP (e.g. ``192.168.2.1``) ou
-``0.0.0.0``.
+``0.0.0.0`` or ``::`` (with IPv6 enabled).
+
+.. versionchanged:: 1.3
+
+You can provide an IPv6 address surrounded by brackets
+(e.g. ``[200a::1]:8000``). This will automatically enable IPv6 support.
+
+A hostname containing ASCII-only characters can also be used.
 
 .. django-admin-option:: --adminmedia
 
@@ -546,6 +703,13 @@ nos arquivos para seu próprio site.
 Exemplo de uso::
 
     django-admin.py runserver --adminmedia=/tmp/new-admin-style/
+    
+.. versionchanged:: 1.3
+
+If the :doc:`staticfiles</ref/contrib/staticfiles>` contrib app is enabled
+(default in new projects) the :djadmin:`runserver` command will be overriden
+with an own :djadmin:`runserver<staticfiles-runserver>` command which doesn't
+have the :djadminopt:`--adminmedia` option due to deprecation.
 
 .. django-admin-option:: --noreload
 
@@ -557,6 +721,18 @@ memória.
 Exemplo de uso::
 
     django-admin.py runserver --noreload
+    
+.. django-admin-option:: --ipv6, -6
+
+.. versionadded:: 1.3
+
+Use the ``--ipv6`` (or shorter ``-6``) option to tell Django to use IPv6 for
+the development server. This changes the default IP address from
+``127.0.0.1`` to ``::1``.
+
+Example usage::
+
+    django-admin.py runserver --ipv6
 
 Exemplos de uso com diferentes portas e endereços
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -576,6 +752,26 @@ Porta 7000 no endereço IP 127.0.0.1::
 Porta 7000 no endereço IP 1.2.3.4::
 
     django-admin.py runserver 1.2.3.4:7000
+    
+Port 8000 on IPv6 address ``::1``::
+
+    django-admin.py runserver -6
+    
+Port 7000 on IPv6 address ``::1``::
+
+    django-admin.py runserver -6 7000
+    
+Port 7000 on IPv6 address ``2001:0db8:1234:5678::9``::
+
+    django-admin.py runserver [2001:0db8:1234:5678::9]:7000
+
+Port 8000 on IPv4 address of host ``localhost``::
+
+    django-admin.py runserver localhost:8000
+
+Port 8000 on IPv6 address of host ``localhost``::
+
+    django-admin.py runserver -6 localhost:8000
 
 Servindo arquivos estáticos com o servidor de desenvolvimento
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -583,28 +779,40 @@ Servindo arquivos estáticos com o servidor de desenvolvimento
 Por padrão, o servidor de desenvolvimento não serve quaisquer arquivos estáticos
 para o site (como arquivos CSS, imagens, coisas sob o ``MEDIA_URL``, etc). Se
 você deseja configurar o Django para servir arquivos de mídia estáticos, leia
-:ref:`howto-static-files`.
+:doc:`/howto/static-files`.
 
 shell
 -----
 
+.. django-admin:: shell
+
 Começa o interpretador Python interativo.
 
-O Django usará o IPython_, se ele estiver instalado. Se você tem o IPython
+O Django usará o IPython_ ou bpython_, se um deles estiver instalado. Se você tem o IPython
 instalado e quer forçar o uso do interpretador Python "plano", use a opção
 ``--plain``, desta forma::
 
     django-admin.py shell --plain
 
 .. _IPython: http://ipython.scipy.org/
+.. _bpython: http://bpython-interpreter.org/
 
 sql <appname appname ...>
 -------------------------
 
+.. django-admin:: sql
+
 Imprime a consulta SQL CREATE TABLE para as *app name* fornecidas.
+
+.. versionadded:: 1.2
+
+The :djadminopt:`--database` option can be used to specify the database for
+which to print the SQL.
 
 sqlall <appname appname ...>
 ----------------------------
+
+.. django-admin:: sqlall
 
 Imprime as consultas SQL CREATE TABLE e initial-data, para as *app name*
 fornecidas.
@@ -612,13 +820,27 @@ fornecidas.
 Leia a descrição de ``sqlcustom`` para uma explicação de como especificar dados
 iniciais.
 
+.. versionadded:: 1.2
+
+The :djadminopt:`--database` option can be used to specify the database for
+which to print the SQL.
+
 sqlclear <appname appname ...>
 ------------------------------
 
+.. django-admin:: sqlclear
+
 Imprime a consulta SQL DROP TABLE para as app name fornecidas.
+
+.. versionadded:: 1.2
+
+The :djadminopt:`--database` option can be used to specify the database for
+which to print the SQL.
 
 sqlcustom <appname appname ...>
 -------------------------------
+
+.. django-admin:: sqlcustom
 
 Imprime a consulta SQL para as app name fornecidas.
 
@@ -636,24 +858,53 @@ banco de dados.
 
 Note que a ordem em que os arquivos SQL são processados é indefinida.
 
+.. versionadded:: 1.2
+
+The :djadminopt:`--database` option can be used to specify the database for
+which to print the SQL.
+
 sqlflush
 --------
 
+.. django-admin:: sqlflush
+
 Imprime a instrução SQL que será executada pelo comando `flush`_.
+
+.. versionadded:: 1.2
+
+The :djadminopt:`--database` option can be used to specify the database for
+which to print the SQL.
 
 sqlindexes <appname appname ...>
 --------------------------------
 
+.. django-admin:: sqlindexes
+
 Imprime a instrução SQL CREATE INDEX SQL para as *app name* fornecidas.
+
+.. versionadded:: 1.2
+
+The :djadminopt:`--database` option can be used to specify the database for
+which to print the SQL.
 
 sqlreset <appname appname ...>
 ------------------------------
 
-Imprime o SQL DROP TABLE, seguido do SQL CREATE TABLE, para as *app name*
-fornecidas.
+.. deprecated:: 1.3
+    This command has been deprecated. The ``sqlflush`` can be used to delete
+    everything. You can also use ALTER TABLE or DROP TABLE statements manually.
+    
+.. django-admin:: sqlreset
+
+.. versionadded:: 1.2
+
+The :djadminopt:`--database` option can be used to specify the database for
+which to print the SQL.
 
 sqlsequencereset <appname appname ...>
 --------------------------------------
+
+.. django-admin:: sqlsequencereset
 
 Imprime as instruções SQL para *resetar* as seqüencias das *app name*
 fornecidas.
@@ -664,14 +915,23 @@ número disponível automaticamente, em campos incrementais.
 Use este comando para gerar SQL que consertará casos em que uma sequência está
 fora de sincronia com seus dados de campos automaticamente incrementados.
 
+.. versionadded:: 1.2
+
+The :djadminopt:`--database` option can be used to specify the database for
+which to print the SQL.
+
 startapp <appname>
 ------------------
+
+.. django-admin:: startapp
 
 Cria uma estrutura de diretório de aplicação Django com o nome fornecido, no
 diretório corrente.
 
 startproject <projectname>
 --------------------------
+
+.. django-admin:: startproject
 
 Cria uma estrutura de diretório de projeto Django com o nome fornecido, no
 diretório corrente.
@@ -684,6 +944,8 @@ situações, deve-se omitir a opção ``--settings`` ou anular o
 
 syncdb
 ------
+
+.. django-admin:: syncdb
 
 Cria as tabelas do banco de dados para todas as aplicações em ``INSTALLED_APPS``
 cujo as tabelas ainda não foram criadas.
@@ -715,60 +977,32 @@ O ``syncdb`` também procurará por, e instalará, qualquer fixture chamada
 a documentação para ``loaddata`` para detalhes sobre a especificação de arquivos
 de dados de fixture.
 
---verbosity
-~~~~~~~~~~~
+The :djadminopt:`--noinput` option may be provided to suppress all user
+prompts.
 
-Use ``--verbosity`` para especificar o quanto de notificações e informações de
-debug o ``django-admin.py`` deverá imprimir no console.
+.. versionadded:: 1.2
 
-	* ``0`` significa nenhuma saída.
-	* ``1`` significa saída normal (padrão).
-	* ``2`` significa saída prolixa.
+The :djadminopt:`--database` option can be used to specify the database to
+synchronize.
 
-Exemplo de uso::
+test <app or test identifier>
+-----------------------------
 
-    django-admin.py syncdb --verbosity=2
+.. django-admin:: test
 
---noinput
-~~~~~~~~~
-
-Use a opção ``--noinput`` para suprimir todo prompt ao usuário, como mensagens
-de confirmação "Você tem certeza?". Isso é útil se o ``django-admin.py`` for
-executado de forma autônoma, por um script.
-
-test
-----
-
-Executa os testes para todos os models instalados. Veja :ref:`topics-testing`
+Executa os testes para todos os models instalados. Veja :doc:`/topics/testing`
 para mais informações.
 
---noinput
-~~~~~~~~~
+.. versionadded:: 1.2
+.. django-admin-option:: --failfast
 
-Use a opção ``--noinput`` para suprimir todo prompt ao usuário, como mensagens
-de confirmação "Você tem certeza?". Isso é útil se o ``django-admin.py`` for
-executado de forma autônoma, por um script.
-
---verbosity
-~~~~~~~~~~~
-
-Use ``--verbosity`` para especificar o quanto de notificações e informações de
-debug o ``django-admin.py`` deverá imprimir no console.
-
-	* ``0`` significa nenhuma saída.
-	* ``1`` significa saída normal (padrão).
-	* ``2`` significa saída prolixa.
-
-Exemplo de uso::
-
-    django-admin.py test --verbosity=2
+Use the :djadminopt:`--failfast` option to stop running tests and report the failure
+immediately after a test fails.
 
 testserver <fixture fixture ...>
 --------------------------------
 
 .. django-admin:: testserver
-
-.. versionadded:: 1.0
 
 Executa um servidor de desenvolvimento Django (como no ``runserver``) usando
 dados de fixture(s) fornecida(s).
@@ -779,7 +1013,7 @@ Por exemplo, este comando::
 
 ...executaria os seguintes passos:
 
-    1. Cria um banco de dados de teste, como descrito em :ref:`topics-testing`.
+    1. Cria um banco de dados de teste, como descrito em :doc:`/topics/testing`.
     2. Popula o banco de dados de teste com os dados das fixtures. (Para saber
        mais sobre fixtures, veja a documentação para ``loaddata`` acima.)
     3. Executa o servidor de desenvolvimento do Django (como no ``runserver``),
@@ -788,7 +1022,7 @@ Por exemplo, este comando::
 
 Isso é útil de diversas formas:
 
-    * Quando você estiver escrevendo :ref:`unit tests <topics-testing>` de como
+    * Quando você estiver escrevendo :doc:`unit tests </topics/testing>` de como
       seus views agem com certos dados de fixture, você pode usar ``testserver``
       para interagir com os views no navegador Web, manualmente.
 
@@ -805,8 +1039,7 @@ Note que este servidor *não* detecta automaticamente mudanças no seu código
 Python (como ``runserver`` faz). Ele, no entanto, detecta mudanças nos seus
 templates.
 
---addrport [número da porta ou ipaddr:port]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. django-admin-option:: --addrport [port number or ipaddr:port]
 
 Use ``--addrport`` para especificar uma porta diferente, ou endereço de IP e
 porta, no padrão 127.0.0.1:8000. Este valor segue exatamente o mesmo formato e
@@ -825,12 +1058,120 @@ importa se as opções vem antes ou depois dos argumentos de fixture.)
 Para rodar sobre 1.2.3.4:7000 um fixture ``test``::
 
     django-admin.py testserver --addrport 1.2.3.4:7000 test
+    
+.. versionadded:: 1.3
+
+The :djadminopt:`--noinput` option may be provided to suppress all user
+prompts.
 
 validate
 --------
 
+.. django-admin:: validate
+
 Valida todos os models instalados (de acordo com a configuração
 ``INSTALLED_APPS``) e imprime erros de validação na saída padrão.
+
+Commands provided by applications
+=================================
+
+Some commands are only available when the ``django.contrib`` application that
+:doc:`implements </howto/custom-management-commands>` them has been
+:setting:`enabled <INSTALLED_APPS>`. This section describes them grouped by
+their application.
+
+``django.contrib.auth``
+-----------------------
+
+changepassword
+~~~~~~~~~~~~~~
+
+.. django-admin:: changepassword
+
+.. versionadded:: 1.2
+
+This command is only available if Django's :doc:`authentication system
+</topics/auth>` (``django.contrib.auth``) is installed.
+
+Allows changing a user's password. It prompts you to enter twice the password of
+the user given as parameter. If they both match, the new password will be
+changed immediately. If you do not supply a user, the command will attempt to
+change the password whose username matches the current user.
+
+Example usage::
+
+    django-admin.py changepassword ringo
+
+createsuperuser
+---------------
+
+.. django-admin:: createsuperuser
+
+Este comando estará disponível somente se o :doc:`sistema de autenticação
+</topics/auth>` do Django (``django.contrib.auth``) estiver instalado.
+
+Cria uma conta de superusuário (um usuário que tem todas as permissões). Isso é
+útil se você precisa criar uma conta inicial de superusuário, mas não o fez
+durante o ``syncdb``, ou se você precisa programaticamente gerar contas de
+superusuário para seu(s) site(s).
+
+Quando executar interativamente, este comando pedirá uma senha para a nova
+conta de super usuário. Quando executá-lo de forma não interativa, nenhuma
+senha será definida, e a conta de superusuário não será hábil a logar-se até
+que uma senha seja manualmente definida para ele.
+
+.. django-admin-option:: --username
+.. django-admin-option:: --email
+
+O nome de usuário e endereço de e-mail para a nova conta podem ser fornecidos
+usando os argumentos ``--username`` e ``--email`` na linha de comando. Se algum
+deles não forem fornecidos, ``createsuperuser`` pedirá por eles quando estiver
+rodando interativamente.
+
+``django.contrib.gis``
+----------------------
+
+ogrinspect
+~~~~~~~~~~
+
+This command is only available if :doc:`GeoDjango </ref/contrib/gis/index>`
+(``django.contrib.gis``) is installed.
+
+Please refer to its :djadmin:`description <ogrinspect>` in the GeoDjango
+documentation.
+
+``django.contrib.sitemaps``
+---------------------------
+
+ping_google
+~~~~~~~~~~~
+
+This command is only available if the :doc:`Sitemaps framework
+</ref/contrib/sitemaps>` (``django.contrib.sitemaps``) is installed.
+
+Please refer to its :djadmin:`description <ping_google>` in the Sitemaps
+documentation.
+
+``django.contrib.staticfiles``
+------------------------------
+
+collectstatic
+~~~~~~~~~~~~~
+
+This command is only available if the :doc:`static files application
+</howto/static-files>` (``django.contrib.staticfiles``) is installed.
+
+Please refer to its :djadmin:`description <collectstatic>` in the
+:doc:`staticfiles </ref/contrib/staticfiles>` documentation.
+
+findstatic
+~~~~~~~~~~
+
+This command is only available if the :doc:`static files application
+</howto/static-files>` (``django.contrib.staticfiles``) is installed.
+
+Please refer to its :djadmin:`description <findstatic>` in the :doc:`staticfiles
+</ref/contrib/staticfiles>` documentation.
 
 Opções padrão
 =============
@@ -838,8 +1179,7 @@ Opções padrão
 Embora alguns subcomandos possam permitir suas próprias opções personalizadas,
 todo subcomando permite as seguintes opções:
 
---pythonpath
-------------
+.. django-admin-option:: --pythonpath
 
 Exemplo de uso::
 
@@ -854,8 +1194,7 @@ em definir o caminho do Python por você.
 
 .. _caminho de busca: http://diveintopython.org/getting_to_know_python/everything_is_an_object.html
 
---settings
-----------
+.. django-admin-option:: --settings
 
 Exemplo de uso::
 
@@ -869,8 +1208,7 @@ fornecido, ``django-admin.py`` usará a variável de ambiente
 Note que esta opção é desnecessária no ``manage.py``, pois ele usa o
 ``settings.py`` do projeto atual por padrão.
 
---traceback
------------
+.. django-admin-option:: --traceback
 
 Exemplo de uso::
 
@@ -880,8 +1218,65 @@ Por padrão, ``django-admin.py`` mostrará uma mensagem de erro simples sempre q
 um erro ocorrer. Se você especificar ``--traceback``, o ``django-admin.py``
 mostrará uma pilha completa sempre que uma exceção for lançada.
 
+.. django-admin-option:: --verbosity
+
+Example usage::
+
+    django-admin.py syncdb --verbosity 2
+
+Use ``--verbosity`` to specify the amount of notification and debug information
+that ``django-admin.py`` should print to the console.
+
+    * ``0`` means no output.
+    * ``1`` means normal output (default).
+    * ``2`` means verbose output.
+    * ``3`` means *very* verbose output.
+    
+Common options
+==============
+
+The following options are not available on every commands, but they are
+common to a number of commands.
+
+.. django-admin-option:: --database
+
+.. versionadded:: 1.2
+
+Used to specify the database on which a command will operate. If not
+specified, this option will default to an alias of ``default``.
+
+For example, to dump data from the database with the alias ``master``::
+
+    django-admin.py dumpdata --database=master
+
+.. django-admin-option:: --exclude
+
+Exclude a specific application from the applications whose contents is
+output. For example, to specifically exclude the `auth` application from
+the output of dumpdata, you would call::
+
+    django-admin.py dumpdata --exclude=auth
+
+If you want to exclude multiple applications, use multiple ``--exclude``
+directives::
+
+    django-admin.py dumpdata --exclude=auth --exclude=contenttypes
+
+.. django-admin-option:: --locale
+
+Use the ``--locale`` or ``-l`` option to specify the locale to process.
+If not provided all locales are processed.
+
+.. django-admin-option:: --noinput
+
+Use the ``--noinput`` option to suppress all user prompting, such as "Are
+you sure?" confirmation messages. This is useful if ``django-admin.py`` is
+being executed as an unattended, automated script.
+
 Sutilezas extra
 ===============
+
+.. _syntax-coloring:
 
 Sintaxe colorida
 ----------------
@@ -890,6 +1285,90 @@ Os comandos ``django-admin.py`` / ``manage.py`` que mostram SQL na saída padrã
 usarão uma saída de código colorida se seu terminal suporta saída ANSI-colored.
 Ele não usa os códigos de cor se você estiver tunelando comandos para um outro
 programa.
+
+The colors used for syntax highlighting can be customized. Django
+ships with three color palettes:
+
+    * ``dark``, suited to terminals that show white text on a black
+      background. This is the default palette.
+
+    * ``light``, suited to terminals that show black text on a white
+      background.
+
+    * ``nocolor``, which disables syntax highlighting.
+
+You select a palette by setting a ``DJANGO_COLORS`` environment
+variable to specify the palette you want to use. For example, to
+specify the ``light`` palette under a Unix or OS/X BASH shell, you
+would run the following at a command prompt::
+
+    export DJANGO_COLORS="light"
+
+You can also customize the colors that are used. Django specifies a
+number of roles in which color is used:
+
+    * ``error`` - A major error.
+    * ``notice`` - A minor error.
+    * ``sql_field`` - The name of a model field in SQL.
+    * ``sql_coltype`` - The type of a model field in SQL.
+    * ``sql_keyword`` - A SQL keyword.
+    * ``sql_table`` - The name of a model in SQL.
+    * ``http_info`` - A 1XX HTTP Informational server response.
+    * ``http_success`` - A 2XX HTTP Success server response.
+    * ``http_not_modified`` - A 304 HTTP Not Modified server response.
+    * ``http_redirect`` - A 3XX HTTP Redirect server response other than 304.
+    * ``http_not_found`` - A 404 HTTP Not Found server response.
+    * ``http_bad_request`` - A 4XX HTTP Bad Request server response other than 404.
+    * ``http_server_error`` - A 5XX HTTP Server Error response.
+
+Each of these roles can be assigned a specific foreground and
+background color, from the following list:
+
+    * ``black``
+    * ``red``
+    * ``green``
+    * ``yellow``
+    * ``blue``
+    * ``magenta``
+    * ``cyan``
+    * ``white``
+
+Each of these colors can then be modified by using the following
+display options:
+
+    * ``bold``
+    * ``underscore``
+    * ``blink``
+    * ``reverse``
+    * ``conceal``
+
+A color specification follows one of the following patterns:
+
+    * ``role=fg``
+    * ``role=fg/bg``
+    * ``role=fg,option,option``
+    * ``role=fg/bg,option,option``
+
+where ``role`` is the name of a valid color role, ``fg`` is the
+foreground color, ``bg`` is the background color and each ``option``
+is one of the color modifying options. Multiple color specifications
+are then separated by semicolon. For example::
+
+    export DJANGO_COLORS="error=yellow/blue,blink;notice=magenta"
+
+would specify that errors be displayed using blinking yellow on blue,
+and notices displayed using magenta. All other color roles would be
+left uncolored.
+
+Colors can also be specified by extending a base palette. If you put
+a palette name in a color specification, all the colors implied by that
+palette will be loaded. So::
+
+    export DJANGO_COLORS="light;error=yellow/blue,blink;notice=magenta"
+
+would specify the use of all the colors in the light color palette,
+*except* for the colors for errors and notices which would be
+overridden as specified.
 
 Bash completion
 ---------------
@@ -904,9 +1383,7 @@ e ``manage.py``, então você pode, por instância...
     * Escrever ``sql``, então [TAB], para ver todas as opções disponíveis cujo
       nome começa com ``sql``.
 
-
-
-Veja :ref:`howto-custom-management-commands` para saber como adicionar ações
+Veja :doc:`/howto/custom-management-commands` para saber como adicionar ações
 personalizadas.
 
 ==========================================

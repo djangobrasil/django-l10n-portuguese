@@ -309,8 +309,8 @@ Sinais de Test
 .. module:: django.test.signals
    :synopsis: Sinais enviados durante testes.
 
-Sinais que somente são enviados quando estão :ref:`rodando
-testes <topics-testing>`.
+Sinais que somente são enviados quando estão :doc:`rodando
+testes </topics/testing>`.
 
 template_rendered
 -----------------

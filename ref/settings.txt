@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _ref-settings:
-
 Configurações disponíveis
 =========================
 
@@ -107,9 +104,14 @@ APPEND_SLASH
 
 Padrão: ``True``
 
-Para atachar uma barra ao final das URLS. Isto é utilizado somente se o
-``CommonMiddleware`` estiver instalado (veja :ref:`topics-http-middleware`).
-veja também ``PREPEND_WWW``.
+When set to ``True``, if the request URL does not match any of the patterns
+in the URLconf and it doesn't end in a slash, an HTTP redirect is issued to the
+same URL with a slash appended. Note that the redirect may cause any data
+submitted in a POST request to be lost.
+
+A configuração :setting:`APPEND_SLASH` é utilizada somente se
+:class:`~django.middleware.common.CommonMiddleware`  estiver instalado
+(veja :doc:`/topics/http/middleware`). Veja também ``PREPEND_WWW``.
 
 .. setting:: AUTHENTICATION_BACKENDS
 
@@ -139,7 +141,7 @@ CACHE_BACKEND
 
 Padrão: ``'locmem://'``
 
-O backed de cache a ser utilizado. Veja :ref:`topics-cache`.
+O backed de cache a ser utilizado. Veja :doc:`/topics/cache`.
 
 .. setting:: CACHE_MIDDLEWARE_KEY_PREFIX
 
@@ -149,7 +151,7 @@ CACHE_MIDDLEWARE_KEY_PREFIX
 Padrão: ``''`` (Empty string)
 
 A chave de prefixo do cache, que o middleware de cache deverá usar. Veja
-:ref:`topics-cache`.
+:doc:`/topics/cache`.
 
 .. setting:: CACHE_MIDDLEWARE_SECONDS
 
@@ -355,7 +357,7 @@ Padrão: ``'django.core.files.storage.FileSystemStorage'``
 
 Arquivo padrão de classe storage a ser usado por quaisquer operações
 relacionadas a arquivos que não especificam um sistema de armazenamento
-particular. Veja :ref:`topics-files`.
+particular. Veja :doc:`/topics/files`.
 
 DEFAULT_FROM_EMAIL
 ------------------
@@ -494,7 +496,7 @@ Padrão::
     ("django.core.files.uploadhandler.MemoryFileUploadHandler",
      "django.core.files.uploadhandler.TemporaryFileUploadHandler",)
 
-Uma tupla de manipuladores de upload. Veja :ref:`topics-files` para detalhes.
+Uma tupla de manipuladores de upload. Veja :doc:`/topics/files` para detalhes.
 
 .. setting:: FILE_UPLOAD_MAX_MEMORY_SIZE
 
@@ -506,7 +508,7 @@ FILE_UPLOAD_MAX_MEMORY_SIZE
 Padrão: ``2621440`` (i.e. 2.5 MB).
 
 O tamanho máximo (em bytes) de um upload terá, antes de ser redirecionado para o
-sistema de arquivo. Veja :ref:`topics-files` para detalhes.
+sistema de arquivo. Veja :doc:`/topics/files` para detalhes.
 
 .. setting:: FILE_UPLOAD_TEMP_DIR
 
@@ -521,7 +523,7 @@ O diretório para armazenar os arquivos durante o processo de upload. Se
 ``None``, o Django usará o diretório temporário padrão do sistema operacional.
 Por exemplo, ele será '/tmp' em sistemas operacionais \*nix.
 
-Veja :ref:`topics-files` para detalhes.
+Veja :doc:`/topics/files` para detalhes.
 
 .. setting:: FILE_UPLOAD_PERMISSIONS
 
@@ -560,7 +562,7 @@ Padrão: ``()`` (Empty tuple)
 
 Lista de localizações de arquivos de dados para fixtures, na ordem de busca.
 Note que estes caminhos devem usar o estilo Unix, com barras '/', mesmo no
-Windows. Veja :ref:`topics-testing`.
+Windows. Veja :doc:`/topics/testing`.
 
 FORCE_SCRIPT_NAME
 ------------------
@@ -637,20 +639,18 @@ Padrão: ``'en-us'``
 
 Uma string representando o código do idioma para esta instalação. Este deve ser
 no formato de linguagens padrão. Por exemplo, para U.S. English é ``"en-us"``.
-Para :ref:`topics-i18n`.
+Para :doc:`/topics/i18n/index`.
 
 .. setting:: LANGUAGE_COOKIE_NAME
 
 LANGUAGE_COOKIE_NAME
 --------------------
 
-.. versionadded:: 1.0
-
 Padrão: ``'django_language'``
 
 O nome que será usado para o cookie  de linguagem. Este pode ser qualquer nome
 que quiser (mas deve ser diferente do ``SESSINO_COOKIE_NAME``). Veja
-:ref:`topics-i18n`.
+:doc:`/topics/i18n/index`.
 
 .. setting:: LANGUAGES
 
@@ -666,7 +666,7 @@ see the current list of translated languages by looking in
 
 A lista é uma tupla de tuplas duplas no formato (código do idioma, nome do
 idioma) -- por exemplo, ``('ja', 'Japanese')``. Isto especifica quais idiomas
-estão disponíveis para seleção. Veja :ref:`topics-i18n`.
+estão disponíveis para seleção. Veja :doc:`/topics/i18n/index`.
 
 Geralmente, o valor padrão deveria bastar. Somente sete esta configuração se
 você quer restringir a selação de idiomas para um subconjunto de línguas
@@ -702,7 +702,7 @@ LOCALE_PATHS
 Padrão: ``()`` (Empty tuple)
 
 Uma tupla de diretórios onde o Django procura por arquivos de tradução.
-Veja :ref:`translations-in-your-own-projects`.
+Veja :ref:`using-translations-in-your-own-projects`.
 
 .. setting:: LOGIN_REDIRECT_URL
 
@@ -898,8 +898,6 @@ para os ``ADMINS`` e ``MANAGERS``.
 SESSION_ENGINE
 --------------
 
-.. versionadded:: 1.0
-
 Padrão: ``django.contrib.sessions.backends.db``
 
 Controla onde o Django armazena os dados da sessão. Valores válidos são:
@@ -908,7 +906,7 @@ Controla onde o Django armazena os dados da sessão. Valores válidos são:
     * ``'django.contrib.sessions.backends.file'``
     * ``'django.contrib.sessions.backends.cache'``
 
-Veja :ref:`topics-http-sessions`.
+Veja :doc:`/topics/http/sessions`.
 
 .. setting:: SESSION_COOKIE_AGE
 
@@ -918,7 +916,7 @@ SESSION_COOKIE_AGE
 Padrão: ``1209600`` (2 weeks, in seconds)
 
 A longevidade dos coockies de sessão, em segundos. Veja
-:ref:`topics-http-sessions`.
+:doc:`/topics/http/sessions`.
 
 .. setting:: SESSION_COOKIE_DOMAIN
 
@@ -929,7 +927,7 @@ Padrão: ``None``
 
 O domínio dos coockies de sessão. Defina isso como uma string, por exemplo
 ``".lawrence.com"``, para coockies cross-domain, ou use ``None`` para um nome de
-domínio padrão . Veja o :ref:`topics-http-sessions`.
+domínio padrão . Veja o :doc:`/topics/http/sessions`.
 
 .. setting:: SESSION_COOKIE_NAME
 
@@ -940,7 +938,7 @@ Padrão: ``'sessionid'``
 
 O nome do coockie das sessões. Este pode ser qualquer um que você queira (mas
 deve ser diferente do ``LANGUAGE_COOKIE_NAME``). Veja
-:ref:`topics-http-sessions`.
+:doc:`/topics/http/sessions`.
 
 .. setting:: SESSION_COOKIE_PATH
 
@@ -969,7 +967,7 @@ Para usar um cookie seguro como cookie de sessão. Se este é setado como
 ``True``, o cookie será marcado como "secure", o que significa que os
 navegadores podem assegurar que o cookie é somente enviado sob uma conecção
 HTTPS.
-Veja o :ref:`topics-http-sessions`.
+Veja o :doc:`/topics/http/sessions`.
 
 .. setting:: SESSION_EXPIRE_AT_BROWSER_CLOSE
 
@@ -979,7 +977,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE
 Padrão: ``False``
 
 Para expirar a sessão quando o usuário fecha seu navegador.
-Veja o :ref:`topics-http-sessions`.
+Veja o :doc:`/topics/http/sessions`.
 
 .. setting:: SESSION_FILE_PATH
 
@@ -992,7 +990,7 @@ Padrão: ``None``
 
 Se você estiver usando armazenamento de sessão baseado em arquivos, este seta o
 diretório em que o Django armazenará os dados de sessão.
-Veja :ref:`topics-http-sessions`. Quando o valor padrão ``None`` é usado, o
+Veja :doc:`/topics/http/sessions`. Quando o valor padrão ``None`` é usado, o
 Django usará o diretório padrão do sistema.
 
 .. setting:: SESSION_SAVE_EVERY_REQUEST
@@ -1003,7 +1001,7 @@ SESSION_SAVE_EVERY_REQUEST
 Padrão: ``False``
 
 Para salvar os dados da sessão em toda requisição. Veja
-:ref:`topics-http-sessions`.
+:doc:`/topics/http/sessions`.
 
 .. setting:: SITE_ID
 
@@ -1065,7 +1063,7 @@ Lista de localizações de arquivos fontes de templates, na ordem de busca. Note
 que estes caminhos devem usar o estilo Unix, com uma barra na frente, mesmo no
 Windows.
 
-Veja :ref:`topics-templates`..
+Veja :doc:`/topics/templates`..
 
 .. setting:: TEMPLATE_LOADERS
 
@@ -1078,7 +1076,7 @@ Padrão::
       'django.template.loaders.app_directories.load_template_source')
 
 Uma tupla de funções (como strings) que sabem como importar templates de várias
-fontes. Veja :ref:`ref-templates-api`.
+fontes. Veja :doc:`/ref/templates/api`.
 
 .. setting:: TEMPLATE_STRING_IF_INVALID
 
@@ -1140,7 +1138,7 @@ Se o valor padrão (``None``) for usado como o motor de banco de dados SQLite, o
 testes usarão um banco de dados em memória. Para todos os outros bancos de dados
 o banco de teste usará o nome ``'test_' + settings.DATABASE_NAME``.
 
-Veja :ref:`topics-testing`.
+Veja :doc:`/topics/testing`.
 
 .. setting:: TEST_RUNNER
 
@@ -1150,7 +1148,7 @@ TEST_RUNNER
 Padrão: ``'django.test.simple.run_tests'``
 
 O nome do método a ser usado para começar a suite de testes. Veja
-:ref:`topics-testing`.
+:doc:`/topics/testing`.
 
 .. _Testando Aplicações Django: ../testing/
 

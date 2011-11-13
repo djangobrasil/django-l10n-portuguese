@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _topics-db-sql:
-
 Performing raw SQL queries
 ==========================
 
@@ -85,8 +82,8 @@ Connections e cursors
 ---------------------
 
 ``connection`` e ``cursor`` maioritariamente implementa a
-`DB-API padrão do Python`_ (exceto quando se trata de :ref:`manipulação de
-transações <topics-db-transactions>`). Se você não está familiarizado com a
+`DB-API padrão do Python`_ (exceto quando se trata de :doc:`manipulação de
+transações </topics/db/transactions>`). Se você não está familiarizado com a
 DB-API do Python, note que a consulta SQL em ``cursor.execute()`` possui
 marcadores, ``"%s"``, ao invés de adicionar paramêtros diretamente dentro do SQL.
 Se você usa esta técnica, as bibliotecas de banco de dados subjacentes irão
