@@ -402,7 +402,7 @@ Lista de objetos de expressões regulares compiladas representando strings de
 User-Agent que não são permitidos para visitar qualquer página, ao longo do
 sistema. Use isto contra robots/crawlers.
 Isso somente será usado se o ``CommonMiddleware`` estiver instalado (veja
-:ref:`topics-http-middleware`).
+:doc:`/topics/http/middleware`).
 
 
 .. setting:: EMAIL_HOST
@@ -617,7 +617,7 @@ Uma tupla de endereços de IP, como strings, que:
 
     * Veja os comentários do debug, quando ``DEBUG`` for ``True``
     * Recebe um cabeçalho X se o ``XViewMiddleware`` estiver instalado (veja
-      :ref:`topics-http-middleware`)
+      :doc:`/topics/http/middleware`)
 
 .. setting:: JING_PATH
 
@@ -789,7 +789,7 @@ Padrão::
      "django.middleware.common.CommonMiddleware",
      "django.middleware.doc.XViewMiddleware")
 
-Uma tupla de classes middleware para usar. Veja :ref:`topics-http-middleware`.
+Uma tupla de classes middleware para usar. Veja :doc:``/topics/http/middleware`.
 
 .. setting:: MONTH_DAY_FORMAT
 
@@ -819,7 +819,7 @@ Padrão: ``False``
 
 Para prefixar o subdomínio "www." nas URLs que não o possuem. Este é somente
 usado se ``CommonMiddleware`` estiver instalado (veja
-:ref:`topics-http-middleware`). Veja também ``APPEND_SLASH``.
+:doc:`/topics/http/middleware`). Veja também ``APPEND_SLASH``.
 
 .. setting:: PROFANITIES_LIST
 
@@ -867,7 +867,7 @@ Padrão: ``False``
 Para enviar um e-mail para os ``MANAGERS`` toda vez que alguém visita uma página
 feita com o Django que retornou um erro 404 com um referer não vazio (i.e.
 um link quebrado). Isso só é usado se o ``CommonMiddleware`` estiver instalado
-(veja :ref:`topics-http-middleware`. Veja também ``IGNORABLE_404_STARTS``,
+(veja :doc:`/topics/http/middleware`. Veja também ``IGNORABLE_404_STARTS``,
 ``IGNORABLE_404_ENDS`` e :ref:`howto-error-reporting`.
 
 .. setting:: SERIALIZATION_MODULES
@@ -1219,7 +1219,7 @@ Padrão: ``False``
 
 Um booleano que especifica a saída do cabeçalho "Etag". Este poupa largura de
 banda mas diminui a performance. Isso somente é usado se ``CommonMiddleware``
-estiver instalado (veja :ref:`topics-http-middleware`).
+estiver instalado (veja :doc:`/topics/http/middleware`).
 
 .. setting:: USE_I18N
 

@@ -30,7 +30,7 @@ que são particularmente úteis à web *designers* (o oposto de desenvolvedores)
 
 Atualmente, o pacote contém uma única template tag. Se você tem idéias sobre
 funcionalidades para o Django se tornar mais amigável a web designers, por favor
-:ref:`sugira-as <internals-contributing>`.
+:doc:`sugira-as </internals/contributing>`.
 
 Template tags
 =============

@@ -168,7 +168,7 @@ juntar às discussões.
 A documentação online do Django também inclui pontos sobre como contribuir para
 o Django:
 
-    :ref:`contribuíndo para o Django <internals-contributing>`
+    :doc:`contribuíndo para o Django </internals/contributing>`
 
 Contribuições de qualquer nível -- desenvolvendo código, escrevendo
 documentação ou simplesmente criando tickets e ajudando a testar corresções de

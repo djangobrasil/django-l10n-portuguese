@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _topics-http-middleware:
-
 ==========
 Middleware
 ==========
@@ -31,8 +28,8 @@ adiciona um cabeçalho HTTP ``"X-View"`` a toda resposta para uma requisição
 
 Este documento explica como o middleware funciona, como você ativa o middleware,
 e como escrever seu próprio middleware. O Django vem com alguns middleware
-embutidos você pode user; eles são documentados na :ref:`referência de
-middlewares embutidos <ref-middleware>`.
+embutidos você pode user; eles são documentados na :doc:`referência de
+middlewares embutidos </ref/middleware>`.
 
 Ativando um middleware
 ======================
@@ -117,6 +114,39 @@ incomodará em chamar QUALQUER outra requisição, view ou exceção de middlewa
 ou a view apropriada; Ele retornará o :class:`~django.http.HttpResponse`. O
 middleware é sempre chamado para todas as repostas.
 
+.. _template-response-middleware:
+
+``process_template_response``
+-----------------------------
+
+.. versionadded:: 1.3
+
+.. method:: process_template_response(self, request, response)
+
+``request`` is an :class:`~django.http.HttpRequest` object. ``response`` is the
+:class:`~django.template.response.SimpleTemplateResponse` subclass (e.g.
+:class:`~django.template.response.TemplateResponse`) object returned by a
+Django view.
+
+``process_template_response()`` must return an
+:class:`~django.template.response.SimpleTemplateResponse` (or its subclass)
+object. It could alter the given ``response`` by changing
+``response.template_name`` and ``response.context_data``, or it could
+create and return a brand-new
+:class:`~django.template.response.SimpleTemplateResponse` (or its subclass)
+instance.
+
+``process_template_response()`` will only be called if the response
+instance has a ``render()`` method, indicating that it is a
+:class:`~django.template.response.TemplateResponse`.
+
+You don't need to explicitly render responses -- responses will be
+automatically rendered once all template response middleware has been
+called.
+
+Middleware are run in reverse order during the response phase, which
+includes process_template_response.
+
 .. _response-middleware:
 
 ``process_response``
@@ -195,10 +225,10 @@ Guidelines
       Django se preocupa é com o fato do :setting:`MIDDLEWARE_CLASSES` ter o
       caminho para ele.
 
-    * Sintá-se livre para olhar em :ref:`middlewares disponíveis do Django
-      <ref-middleware>` por exemplos.
+    * Sinta-se livre para olhar em :doc:`middlewares disponíveis do Django
+      </ref/middleware>` por exemplos.
 
     * Se você escreve um componente middleware que você pensa ser útil para
-      outras pessoas, contribua com a comunidade! :ref:`Deixe-nos saber
-      <internals-contributing>`, e nós consideraremos adicioná-lo ao Django.
+      outras pessoas, contribua com a comunidade! :doc:`Deixe-nos saber
+      </internals/contributing>`, e nós consideraremos adicioná-lo ao Django.
 

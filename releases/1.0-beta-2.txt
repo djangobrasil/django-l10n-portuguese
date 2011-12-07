@@ -129,7 +129,7 @@ para entrar nas discussões.
 A documentação online do DJango também inclui instruções de como
 contrbuir com o Django:
 
-    :ref:`contribuindo para o Django <internals-contributing>`
+    :doc:`contribuindo para o Django </internals/contributing>`
 
 Contribuições de qualquer nível -- desenvolvimento de código, escrita de
 documentação ou simplemente a triagem de tíquetes para ajudar a testar as correções de bugs

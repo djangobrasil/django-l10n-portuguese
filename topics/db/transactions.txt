@@ -17,6 +17,8 @@
 Gerenciando transações de banco de dados
 ========================================
 
+.. module:: django.db.transaction
+
 O Django dá a você poucos caminhos para controlar como as transações de banco de
 dados são gerenciadas, isso se você estiver usando um banco de dados que suporta
 transações.
@@ -370,3 +372,25 @@ uma única operação, ao invés de toda transação. Por exemplo::
 Neste exemplo, ``a.save()`` não será desfeito no caso de ``b.save()`` lançar uma
 exceção.
 
+Database-level autocommit
+-------------------------
+
+With PostgreSQL 8.2 or later, there is an advanced option to run PostgreSQL
+with :doc:`database-level autocommit </ref/databases>`. If you use this option,
+there is no constantly open transaction, so it is always possible to continue
+after catching an exception. For example::
+
+    a.save() # succeeds
+    try:
+        b.save() # Could throw exception
+    except IntegrityError:
+        pass
+    c.save() # succeeds
+
+.. note::
+
+    This is not the same as the :ref:`autocommit decorator
+    <topics-db-transactions-autocommit>`. When using database level autocommit
+    there is no database transaction at all. The ``autocommit`` decorator
+    still uses transactions, automatically committing each transaction when
+    a database modifying operation occurs.

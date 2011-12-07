@@ -33,6 +33,22 @@ documentação ou referência específica do servidor.
 Notas do PostgreSQL
 ===================
 
+.. versionchanged:: 1.3
+
+Django supports PostgreSQL 8.0 and higher. If you want to use
+:ref:`database-level autocommit <postgresql-autocommit-mode>`, a
+minimum version of PostgreSQL 8.2 is required.
+
+.. admonition:: Improvements in recent PostgreSQL versions
+
+    PostgreSQL 8.0 and 8.1 `will soon reach end-of-life`_; there have
+    also been a number of significant performance improvements added
+    in recent PostgreSQL versions. Although PostgreSQL 8.0 is the minimum
+    supported version, you would be well advised to use a more recent
+    version if at all possible.
+
+.. _will soon reach end-of-life: http://wiki.postgresql.org/wiki/PostgreSQL_Release_Support_Policy
+
 PostgreSQL 8.2 to 8.2.4
 -----------------------
 
@@ -54,10 +70,10 @@ database connection is first used and commits the result at the end of the
 request/response handling. The PostgreSQL backends normally operate the same
 as any other Django backend in this respect.
 
+.. _postgresql-autocommit-mode:
+
 Autocommit mode
 ~~~~~~~~~~~~~~~
-
-.. versionadded:: 1.1
 
 If your application is particularly read-heavy and doesn't make many
 database writes, the overhead of a constantly open transaction can
@@ -76,15 +92,15 @@ the :setting:`OPTIONS` part of your database configuration in
         'autocommit': True,
     }
 
-In this configuration, Django still ensures that :doc:`delete()
-</topics/db/queries/delete>` and :doc:`update() </topics/db/queries/update>`
+In this configuration, Django still ensures that :ref:`delete()
+<topics-db-queries-delete>` and :ref:`update() <topics-db-queries-update>`
 queries run inside a single transaction, so that either all the affected
 objects are changed or none of them are.
 
 .. admonition:: This is database-level autocommit
 
-    This functionality is not the same as the
-    :doc:`/topics/db/transactions/autocommit` decorator. That decorator
+    This functionality is not the same as the :ref:`autocommit
+    <topics-db-transactions-autocommit>` decorator. That decorator
     is a Django-level implementation that commits automatically after
     data changing operations. The feature enabled using the
     :setting:`OPTIONS` option provides autocommit behavior at the
@@ -99,7 +115,6 @@ protection for multi-call operations.
 
 Indexes for ``varchar`` and ``text`` columns
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. versionadded:: 1.1.2
 
 When specifying ``db_index=True`` on your model fields, Django typically
 outputs a single ``CREATE INDEX`` statement.  However, if the database type
@@ -360,6 +375,14 @@ Além disso, se você estiver usando uma versnao do MySQL anterior ao 5.0.3, tod
 esses tipos de colunas possuem um comprimento máximo limitado em 255 caracteres,
 independentemente de ``unique=True`` está especificado ou não. 
 
+DateTime fields
+~~~~~~~~~~~~~~~
+
+MySQL does not have a timezone-aware column type. If an attempt is made to
+store a timezone-aware ``time`` or ``datetime`` to a
+:class:`~django.db.models.TimeField` or :class:`~django.db.models.DateTimeField`
+respectively, a ``ValueError`` is raised rather than truncating data.
+
 .. _sqlite-notes:
 
 Notas do SQLite
@@ -451,8 +474,6 @@ antiga do SQLite.
 
 Using newer versions of the SQLite DB-API 2.0 driver
 ----------------------------------------------------
-
-.. versionadded:: 1.1
 
 For versions of Python 2.5 or newer that include ``sqlite3`` in the standard
 library Django will now use a ``pysqlite2`` interface in preference to
