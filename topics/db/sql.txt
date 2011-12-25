@@ -16,8 +16,203 @@
 Performing raw SQL queries
 ==========================
 
-Sinta-se livre para escrever consultas SQL nos métodos de seus modelos e métodos
-a nível de módulo. O objeto ``django.db.connection`` representa a conexão
+.. currentmodule:: django.db.models
+
+Quando a :doc:`API de consulta do modelo </topics/db/queries>` não for o suficiente, você
+pode escrever SQL diretamente. O Django oferece duas maneiras de executar
+queries SQL de forma direta: você pode usar o :meth:`Manager.raw()` para `executar queries diretas e
+retornar instâncias do modelo`__, ou pode evitar a camada de modelo inteiramente e
+`executar SQL personalizado diretamente`__.
+
+__ `executando queries diretas`_
+__ `executando SQL personalizado diretamente`_
+
+Executando queries diretas
+==========================
+
+.. versionadded:: 1.2
+
+O manager ``raw()`` pode ser usado para executar queries SQL diretas que
+retornem instâncias do modelo:
+
+.. method:: Manager.raw(raw_query, params=None, translations=None)
+
+Esse método de classe recebe uma query SQL pura, a executa e retorna uma instância de
+:class:`~django.db.models.query.RawQuerySet`. Essa instância de 
+:class:`~django.db.models.query.RawQuerySet` pode ser iterada
+como um QuerySet normal para fornecer instâncias do objeto.
+
+This is best illustrated with an example. Suppose you've got the following model::
+
+    class Person(models.Model):
+        first_name = models.CharField(...)
+        last_name = models.CharField(...)
+        birth_date = models.DateField(...)
+
+You could then execute custom SQL like so::
+
+    >>> for p in Person.objects.raw('SELECT * FROM myapp_person'):
+    ...     print p
+    John Smith
+    Jane Jones
+
+Of course, this example isn't very exciting -- it's exactly the same as
+running ``Person.objects.all()``. However, ``raw()`` has a bunch of other
+options that make it very powerful.
+
+.. admonition:: Model table names
+
+    Where'd the name of the ``Person`` table come from in that example?
+
+    By default, Django figures out a database table name by joining the
+    model's "app label" -- the name you used in ``manage.py startapp`` -- to
+    the model's class name, with an underscore between them. In the example
+    we've assumed that the ``Person`` model lives in an app named ``myapp``,
+    so its table would be ``myapp_person``.
+
+    For more details check out the documentation for the
+    :attr:`~Options.db_table` option, which also lets you manually set the
+    database table name.
+
+.. warning::
+
+    No checking is done on the SQL statement that is passed in to ``.raw()``.
+    Django expects that the statement will return a set of rows from the
+    database, but does nothing to enforce that. If the query does not
+    return rows, a (possibly cryptic) error will result.
+    
+Mapping query fields to model fields
+------------------------------------
+
+The order of fields in your query doesn't matter. In other words, both
+of the following queries work identically::
+
+    >>> Person.objects.raw('SELECT id, first_name, last_name, birth_date FROM myapp_person')
+    ...
+    >>> Person.objects.raw('SELECT last_name, birth_date, first_name, id FROM myapp_person')
+    ...
+
+Matching is done by name. This means that you can use SQL's ``AS`` clauses to
+map fields in the query to model fields. So if you had some other table that
+had ``Person`` data in it, you could easily map it into ``Person`` instances::
+
+    >>> Person.objects.raw('''SELECT first AS first_name,
+    ...                              last AS last_name,
+    ...                              bd AS birth_date,
+    ...                              pk as id,
+    ...                       FROM some_other_table''')
+
+As long as the names match, the model instances will be created correctly.
+
+Alternatively, you can map fields in the query to model fields using the
+``translations`` argument to ``raw()``. This is a dictionary mapping names of
+fields in the query to names of fields on the model. For example, the above
+query could also be written::
+
+    >>> name_map = {'first': 'first_name', 'last': 'last_name', 'bd': 'birth_date', 'pk': 'id'}
+    >>> Person.objects.raw('SELECT * FROM some_other_table', translations=name_map)
+
+Index lookups
+-------------
+
+``raw()`` supports indexing, so if you need only the first result you can
+write::
+
+    >>> first_person = Person.objects.raw('SELECT * from myapp_person')[0]
+
+However, the indexing and slicing are not performed at the database level. If
+you have a big amount of ``Person`` objects in your database, it is more
+efficient to limit the query at the SQL level::
+
+    >>> first_person = Person.objects.raw('SELECT * from myapp_person LIMIT 1')[0]
+    
+Deferring model fields
+----------------------
+
+Fields may also be left out::
+
+    >>> people = Person.objects.raw('SELECT id, first_name FROM myapp_person')
+
+The ``Person`` objects returned by this query will be deferred model instances
+(see :meth:`~django.db.models.QuerySet.defer()`). This means that the fields
+that are omitted from the query will be loaded on demand. For example::
+
+    >>> for p in Person.objects.raw('SELECT id, first_name FROM myapp_person'):
+    ...     print p.first_name, # This will be retrieved by the original query
+    ...     print p.last_name # This will be retrieved on demand
+    ...
+    John Smith
+    Jane Jones
+
+From outward appearances, this looks like the query has retrieved both
+the first name and last name. However, this example actually issued 3
+queries. Only the first names were retrieved by the raw() query -- the
+last names were both retrieved on demand when they were printed.
+
+There is only one field that you can't leave out - the primary key
+field. Django uses the primary key to identify model instances, so it
+must always be included in a raw query. An ``InvalidQuery`` exception
+will be raised if you forget to include the primary key.
+
+Adding annotations
+------------------
+
+You can also execute queries containing fields that aren't defined on the
+model. For example, we could use `PostgreSQL's age() function`__ to get a list
+of people with their ages calculated by the database::
+
+    >>> people = Person.objects.raw('SELECT *, age(birth_date) AS age FROM myapp_person')
+    >>> for p in people:
+    ...     print "%s is %s." % (p.first_name, p.age)
+    John is 37.
+    Jane is 42.
+    ...
+
+__ http://www.postgresql.org/docs/8.4/static/functions-datetime.html
+
+Passing parameters into ``raw()``
+---------------------------------
+
+If you need to perform parameterized queries, you can use the ``params``
+argument to ``raw()``::
+
+    >>> lname = 'Doe'
+    >>> Person.objects.raw('SELECT * FROM myapp_person WHERE last_name = %s', [lname])
+
+``params`` is a list of parameters. You'll use ``%s`` placeholders in the
+query string (regardless of your database engine); they'll be replaced with
+parameters from the ``params`` list.
+
+.. warning::
+
+    **Do not use string formatting on raw queries!**
+
+    It's tempting to write the above query as::
+
+        >>> query = 'SELECT * FROM myapp_person WHERE last_name = %s' % lname
+        >>> Person.objects.raw(query)
+
+    **Don't.**
+
+    Using the ``params`` list completely protects you from `SQL injection
+    attacks`__, a common exploit where attackers inject arbitrary SQL into
+    your database. If you use string interpolation, sooner or later you'll
+    fall victim to SQL injection. As long as you remember to always use the
+    ``params`` list you'll be protected.
+
+__ http://en.wikipedia.org/wiki/SQL_injection
+
+Executando SQL personalizado diretamente
+========================================
+
+Sometimes even :meth:`Manager.raw` isn't quite enough: you might need to
+perform queries that don't map cleanly to models, or directly execute
+``UPDATE``, ``INSERT``, or ``DELETE`` queries.
+
+In these cases, you can always access the database directly, routing around
+the model layer entirely.
+
+O objeto ``django.db.connection`` representa a conexão
 atual com o banco de dados, e ``django.db.transaction`` representa
 a transação atual do banco de dados. Para usá-lo, chame ``connection.cursor()`` para
 capturar o objeto cursor. Então, chame ``cursor.execute(sql, [params])`` para
@@ -27,7 +222,7 @@ resultado em linhas. Após performar a operação que modica os dados, você dev
 no banco de dados. Se sua consulta é puramente uma operção de leitura de dados, nenhum commit
 é requerido. Por exemplo::
 
-    def my_custom_sql(self):
+    def my_custom_sql():
         from django.db import connection, transaction
         cursor = connection.cursor()
 
@@ -41,42 +236,33 @@ no banco de dados. Se sua consulta é puramente uma operção de leitura de dado
 
         return row
 
+If you are using more than one database you can use
+``django.db.connections`` to obtain the connection (and cursor) for a
+specific database. ``django.db.connections`` is a dictionary-like
+object that allows you to retrieve a specific connection using its
+alias::
+
+    from django.db import connections
+    cursor = connections['my_db_alias'].cursor()
+    # Your code here...
+    transaction.commit_unless_managed(using='my_db_alias')
+
+
 .. _transactions-and-raw-sql:
 
 Transações e SQL puro
 ---------------------
 
-Se você está usando decoradores de transações (como ``commit_on_success``) para
-envolver seus views e prover controle de transações, você não terá que fazer uma
-chamada manual para ``transaction.commit_unless_managed()`` -- você pode comitar
-manualmente se você quiser, mas você não será obrigado, desde que o decorador
-commita por você. No entanto, se você não comitar manualmente suas mudanças,
-você terá de marcar, manualmente, a transação como suja, usando
-``transaction.set_dirty()``::
+When you make a raw SQL call, Django will automatically mark the
+current transaction as dirty. You must then ensure that the
+transaction containing those calls is closed correctly. See :ref:`the
+notes on the requirements of Django's transaction handling
+<topics-db-transactions-requirements>` for more details.
 
-    @commit_on_success
-    def my_custom_sql_view(request, value):
-        from django.db import connection, transaction
-        cursor = connection.cursor()
+.. versionchanged:: 1.3
 
-        # Operação de modificação de dado
-        cursor.execute("UPDATE bar SET foo = 1 WHERE baz = %s", [value])
-
-        # Se nós modificamos dados, marcamos a trasação como suja
-        transaction.set_dirty()
-
-        # Operação de recebimento de dado. Isso não suja a transação,
-        # então não é obrigatório chamar set_dirty()
-        cursor.execute("SELECT foo FROM bar WHERE baz = %s", [value])
-        row = cursor.fetchone()
-
-        return render_to_response('template.html', {'row': row})
-
-A chamada para ``set_dirty()`` é feita automaticamente quando você usa o ORM do
-Django para fazer moficações no banco de dados. Entretanto, quando você usa um
-SQL puro, o Django não tem como sber se seu SQL modifica dados ou não. A chamada
-manual ``set_dirty()`` assegura que o Django saiba que estes são dados
-modificados que devem ser comitados.
+Prior to Django 1.3, it was necessary to manually mark a transaction
+as dirty using ``transaction.set_dirty()`` when using raw SQL calls.
 
 Connections e cursors
 ---------------------
@@ -96,5 +282,5 @@ Um lembrete final: Se tudo que você quer é fazer uma clausula ``WHERE``
 customizada, você pode somente usar os argumentos ``where``, ``tables`` e
 ``params`` da API padrão.
 
-.. _DB-API padrão do Python: http://www.python.org/peps/pep-0249.html
+.. _DB-API padrão do Python: http://www.python.org/dev/peps/pep-0249/
 

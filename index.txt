@@ -156,8 +156,8 @@ Forms
       :doc:`Form preview <ref/contrib/formtools/form-preview>` |
       :doc:`Form wizard <ref/contrib/formtools/form-wizard>`
 
-The development process
-=======================
+O processo de desenvolvimento
+=============================
 
     * **Settings:**
       :doc:`Overview <topics/settings>` |
@@ -181,8 +181,8 @@ The development process
       :doc:`Serving static files <howto/static-files>` |
       :doc:`Tracking code errors by e-mail <howto/error-reporting>`
 
-Other batteries included
-========================
+Outras baterias incluídas
+=========================
 
     * :doc:`Admin site <ref/contrib/admin/index>` | :doc:`Admin actions <ref/contrib/admin/actions>` | :doc:`Admin documentation generator<ref/contrib/admin/admindocs>`
     * :doc:`Authentication <topics/auth>`
