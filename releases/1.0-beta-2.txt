@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _releases-1.0-beta-2:
-
 ========================================
 Notas de lançamento do Django 1.0 beta 2
 ========================================
@@ -49,8 +46,8 @@ Essa versão beta inclui duas funcionalidades principais:
     Como parte de um projeto do Google Summer of Code, Thejaswi Puthraya
     executou uma reescrita e refatoração no sistema de comentários incluído com o
     Django, aumentando grandemente sua flexibilidade e personalização. :doc:`Documentação completa
-    </ref/contrib/comments/index>` está disponível, assim como um :ref:`guia
-    de atualização <ref-contrib-comments-upgrade>` se você estiver usando a encarnação
+    </ref/contrib/comments/index>` está disponível, assim como um :doc:`guia
+    de atualização </ref/contrib/comments/upgrade>` se você estiver usando a encarnação
     anterior da aplicação de comentários..
 
 Documentação refatorada

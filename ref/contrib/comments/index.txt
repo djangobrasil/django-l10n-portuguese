@@ -30,8 +30,8 @@ capitulos de livros, ou algo mais.
 .. note::
 
     Se você costumava usar o framework antigo (não documentado) de comentários
-    do Django, precisará atualizá-lo. Veja o :ref:`guia de atualização
-    <ref-contrib-comments-upgrade>` para instruções.
+    do Django, precisará atualizá-lo. Veja o :doc:`guia de atualização
+    </ref/contrib/comments/upgrade>` para instruções.
 
 Guia rápido de início
 =====================

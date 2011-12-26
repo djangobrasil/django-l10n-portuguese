@@ -23,8 +23,6 @@ Form wizard
 .. module:: django.contrib.formtools.wizard
     :synopsis: Divide formulários em múltiplas páginas Web.
 
-.. versionadded:: 1.0
-
 O Django vem acompanhado uma aplicação opicional "form wizard" que divide
 :doc:`formulários </topics/forms/index>` em várias páginas Web. Ele mantém o
 estado num hash HTML de campos :samp:`<input type="hidden">`, e os dados não são
@@ -67,10 +65,10 @@ Uso
 Esta aplicação manipula tantos mecanismos para você quanto possível.
 Geralmente, você só tem que fazer estas coisas:
 
-    1. Definir um número de classes :mod:`django.forms` e
-       :class:`~django.forms.forms.Form` -- uma por página do wizard.
+    1. Definir um número de classes :class:`~django.forms.Form` --
+       uma por página do wizard.
 
-    2. Criar uma classe :class:`~django.contrib.formtools.wizard.FormWizard` que
+    2. Criar uma classe :class:`FormWizard` que
        especifica o que fazer uma vez que todos os seus formulários foram
        submetidos e validados. Isso também permite você sobrescrever alguns
        comportamentos do wizard.
@@ -79,18 +77,16 @@ Geralmente, você só tem que fazer estas coisas:
        único template genérico para manipular todos os formulários, ou definir
        um template específico para cada formulário.
 
-    4. Apontar seu URLconf para sua classe
-       :class:`~django.contrib.formtools.wizard.FormWizard`.
+    4. Apontar seu URLconf para sua classe :class:`FormWizard`.
 
 Definindo classes ``Form``
 ==========================
 
 o primeiro passo para criar um "form wizard" é criar as classes
-:class:`~django.forms.forms.Form`. Estes deveriam ser padronizados com as
-classes :mod:`django.forms` e :class:`~django.forms.forms.Form`, explanados na
-:doc:`documentação do forms </topics/forms/index>`.
-
-Estas classes podem estar em qualquer lugar de sua base de código, mas por
+:class:`~django.forms.forms.Form`. Estes devel ser classses
+:class:`django.forms.Form` padrão conforme explicado na
+:doc:`documentação do forms </topics/forms/index>`. Estas classes podem estar
+em qualquer lugar de sua base de código, mas por
 convenção são postas num arquivo chamado :file:`forms.py` dentro da sua
 aplicação.
 
@@ -344,3 +340,27 @@ Métodos avançados do FormWizard
         def process_step(self, request, form, step):
             # ...
 
+Providing initial data for the forms
+====================================
+
+.. attribute:: FormWizard.initial
+
+    Initial data for a wizard's :class:`~django.forms.Form` objects can be
+    provided using the optional :attr:`~FormWizard.initial` keyword argument.
+    This argument should be a dictionary mapping a step to a dictionary
+    containing the initial data for that step. The dictionary of initial data
+    will be passed along to the constructor of the step's
+    :class:`~django.forms.Form`::
+
+        >>> from testapp.forms import ContactForm1, ContactForm2, ContactWizard
+        >>> initial = {
+        ...     0: {'subject': 'Hello', 'sender': 'user@example.com'},
+        ...     1: {'message': 'Hi there!'}
+        ... }
+        >>> wiz = ContactWizard([ContactForm1, ContactForm2], initial=initial)
+        >>> form1 = wiz.get_form(0)
+        >>> form2 = wiz.get_form(1)
+        >>> form1.initial
+        {'sender': 'user@example.com', 'subject': 'Hello'}
+        >>> form2.initial
+        {'message': 'Hi there!'}

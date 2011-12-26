@@ -161,9 +161,9 @@ class DjangoHTMLTranslator(SmartyPantsHTMLTranslator):
     # that work.
     #
     version_text = {
-        'deprecated':       'Deprecated in Django %s',
-        'versionchanged':   'Changed in Django %s',
-        'versionadded':     'New in Django %s',
+        'deprecated':       'Tornado obsoleto no Django %s',
+        'versionchanged':   'Alterado no Django %s',
+        'versionadded':     'Novo no Django %s',
     }
 
     def visit_versionmodified(self, node):

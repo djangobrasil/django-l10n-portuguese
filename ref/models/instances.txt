@@ -221,7 +221,7 @@ será atualizado no banco de dados::
     b4 = Blog(id=3, name='Not Cheddar', tagline='Anything but cheese.')
     b4.save()  # Sobrescreve o blog já existente com ID=3!
 
-Veja `Como o Django sabe quando fazer UPDATE vs. INSERT`_, abaixo, para entender
+Veja `Como o Django sabe quando fazer UPDATE ou INSERT`_, abaixo, para entender
 por que isso acontece.
 
 Especificar explicitamente os valores de auto-primary-key é mais usual para
@@ -267,8 +267,8 @@ Quando você salva um objeto, o Django executa os seguintes passos:
        é enviado, permitindo qualquer função ouvir o sinal para executar alguma
        ação personalizada.
 
-Como o Django sabe quando fazer UPDATE ou um INSERT
----------------------------------------------------
+Como o Django sabe quando fazer UPDATE ou INSERT
+------------------------------------------------
 
 Você pode ter notado que os objetos de banco de dados do Django, utilizam o
 mesmo método ``save()`` para criar e atualizar objetos. O Django abstrai a

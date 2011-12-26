@@ -26,7 +26,7 @@ Se você estiver procurando usar o sistema de template do Django como parte de
 outra aplicação -- i.e., sem o resto do framework -- esteja certo de ler a
 seção `configuração`_ mais adiante neste documento.
 
-.. _configuração: `configurando o sistema de template do django no modo standalone`_
+.. _configuração: `configurando o sistema de template no modo standalone`_
 
 Fundamentos
 ===========
