@@ -199,6 +199,7 @@ Outras baterias incluídas
     * :doc:`Internationalization <topics/i18n/index>`
     * :doc:`Jython support <howto/jython>`
     * :doc:`"Local flavor" <ref/contrib/localflavor>`
+    * :doc:`Logging <topics/logging>`
     * :doc:`Messages <ref/contrib/messages>`
     * :doc:`Pagination <topics/pagination>`
     * :doc:`Redirects <ref/contrib/redirects>`
@@ -211,6 +212,7 @@ Outras baterias incluídas
     * :doc:`Unicode in Django <ref/unicode>`
     * :doc:`Web design helpers <ref/contrib/webdesign>`
     * :doc:`Validators <ref/validators>`
+    * Function-based generic views (Deprecated) :doc:`Overview<topics/generic-views>` | :doc:`Built-in generic views<ref/generic-views>` | :doc:`Migration guide<topics/generic-views-migration>`
 
 The Django open-source project
 ==============================
