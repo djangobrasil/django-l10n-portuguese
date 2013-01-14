@@ -16,18 +16,20 @@
 
 .. _howto-index:
 
-Guias "how-to"
-==============
+Guias "como fazer"
+==================
 
 Aqui você irá encontrar respostas curtas para questões do tipo 
 "Como eu faço...?". Estes guias how-to cobrem tópicos em profundidade -- você
-terá de encontrar materiais em :ref:`topics-index` e :ref:`ref-index`. No 
+terá de encontrar materiais em :doc:`/topics/index` e :doc:`/ref/index`. No 
 entanto, estes guias irão ajudá-lo a realizar rapidamente tarefas comuns.
 
 .. toctree::
    :maxdepth: 1
    
    apache-auth
+   auth-remote-user
+   contribute
    custom-management-commands
    custom-model-fields
    custom-template-tags
@@ -35,6 +37,7 @@ entanto, estes guias irão ajudá-lo a realizar rapidamente tarefas comuns.
    deployment/index
    error-reporting
    initial-data
+   i18n
    jython
    legacy-databases
    outputting-csv

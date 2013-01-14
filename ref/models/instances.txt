@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision $
-..   $OriginalRevision: 11348 $
+..   $OriginalRevision: 15294 $
 ..   $TranslationAuthors: Felipe.B.Zorzo, Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -23,13 +23,13 @@ Referência das instâncias de Model
 .. currentmodule:: django.db.models
 
 Esse documento descreve os detalhes da API ``Model``. Isso foi feito baseado
-no material apresentado nos guias :ref:`model <topics-db-models>` e
-:ref:`consultas ao banco de datos <topics-db-queries>`, então provavelmente
+no material apresentado nos guias :doc:`model </topics/db/models>` e
+:doc:`consultas ao banco de dados </topics/db/queries>`, então provavelmente
 você vai querer ler e entender esses documentos antes de ler este aqui.
 
 Durante essa referência, usaremos os :ref:`models de exemplo do weblog
-<queryset-model-example>` apresentado no :ref:`guia de consultas ao banco de
-dados <topics-db-queries>`.
+<queryset-model-example>` apresentado no :doc:`guia de consultas ao banco de
+dados </topics/db/queries>`.
 
 Criando objetos
 ===============
@@ -43,20 +43,126 @@ Os argumentos são simplesmente os nomes dos campos que você definiu no seu
 model. Perceba que instanciando um model você não alterará o banco de dados;
 para isso, você precisa do ``save()``.
 
+.. _validating-objects:
+
+Validating objects
+==================
+
+.. versionadded:: 1.2
+
+There are three steps involved in validating a model:
+
+    1. Validate the model fields
+    2. Validate the model as a whole
+    3. Validate the field uniqueness
+
+All three steps are performed when you call by a model's
+``full_clean()`` method.
+
+When you use a ``ModelForm``, the call to ``is_valid()`` will perform
+these validation steps for all the fields that are included on the
+form. (See the :doc:`ModelForm documentation
+</topics/forms/modelforms>` for more information.) You should only need
+to call a model's ``full_clean()`` method if you plan to handle
+validation errors yourself, or if you have excluded fields from the
+ModelForm that require validation.
+
+.. method:: Model.full_clean(exclude=None)
+
+This method calls ``Model.clean_fields()``, ``Model.clean()``, and
+``Model.validate_unique()``, in that order and raises a ``ValidationError``
+that has a ``message_dict`` attribute containing errors from all three stages.
+
+The optional ``exclude`` argument can be used to provide a list of field names
+that can be excluded from validation and cleaning. ``ModelForm`` uses this
+argument to exclude fields that aren't present on your form from being
+validated since any errors raised could not be corrected by the user.
+
+Note that ``full_clean()`` will *not* be called automatically when you
+call your model's ``save()`` method, nor as a result of ``ModelForm``
+validation. You'll need to call it manually when you want to run model
+validation outside of a ``ModelForm``.
+
+Example::
+
+    try:
+        article.full_clean()
+    except ValidationError, e:
+        # Do something based on the errors contained in e.message_dict.
+        # Display them to a user, or handle them programatically.
+
+The first step ``full_clean()`` performs is to clean each individual field.
+
+.. method:: Model.clean_fields(exclude=None)
+
+This method will validate all fields on your model. The optional ``exclude``
+argument lets you provide a list of field names to exclude from validation. It
+will raise a ``ValidationError`` if any fields fail validation.
+
+The second step ``full_clean()`` performs is to call ``Model.clean()``.
+This method should be overridden to perform custom validation on your model.
+
+.. method:: Model.clean()
+
+This method should be used to provide custom model validation, and to modify
+attributes on your model if desired. For instance, you could use it to
+automatically provide a value for a field, or to do validation that requires
+access to more than a single field::
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        # Don't allow draft entries to have a pub_date.
+        if self.status == 'draft' and self.pub_date is not None:
+            raise ValidationError('Draft entries may not have a publication date.')
+        # Set the pub_date for published items if it hasn't been set already.
+        if self.status == 'published' and self.pub_date is None:
+            self.pub_date = datetime.datetime.now()
+
+Any ``ValidationError`` raised by ``Model.clean()`` will be stored under a
+special key that is used for errors that are tied to the entire model instead
+of to a specific field. You can access these errors with ``NON_FIELD_ERRORS``::
+
+
+    from django.core.exceptions import ValidationError, NON_FIELD_ERRORS
+    try:
+        article.full_clean()
+    except ValidationError, e:
+        non_field_errors = e.message_dict[NON_FIELD_ERRORS]
+
+Finally, ``full_clean()`` will check any unique constraints on your model.
+
+.. method:: Model.validate_unique(exclude=None)
+
+This method is similar to ``clean_fields``, but validates all uniqueness
+constraints on your model instead of individual field values. The optional
+``exclude`` argument allows you to provide a list of field names to exclude
+from validation. It will raise a ``ValidationError`` if any fields fail
+validation.
+
+Note that if you provide an ``exclude`` argument to ``validate_unique``, any
+``unique_together`` constraint that contains one of the fields you provided
+will not be checked.
+
+
 Salvando objetos
 ================
 
 Para salvar um objeto no banco de dados, chame ``save()``:
 
-.. method:: Model.save([force_insert=False, force_update=False])
-
-É claro, há algumas legendas; veja as seções abaixo.
+.. method:: Model.save([force_insert=False, force_update=False, using=DEFAULT_DB_ALIAS])
 
 .. versionadded:: 1.0
+   The ``force_insert`` and ``force_update`` arguments were added.
 
-A assinatura do método ``save()`` tem mudou nas versões mais novas
-(``force_insert`` e ``force_update`` foram adicionados). Se você está
-sobrescrevendo estes métodos, esteja certo do uso correto da assinatura.
+.. versionadded:: 1.2
+   The ``using`` argument was added.
+
+If you want customized saving behavior, you can override this
+``save()`` method. See :ref:`overriding-model-methods` for more
+details.
+
+The model save process also has some subtleties; see the sections
+below.
 
 Auto-incrementando chaves primárias
 ------------------------------------
@@ -115,7 +221,7 @@ será atualizado no banco de dados::
     b4 = Blog(id=3, name='Not Cheddar', tagline='Anything but cheese.')
     b4.save()  # Sobrescreve o blog já existente com ID=3!
 
-Veja `Como o Django sabe quando fazer UPDATE vs. INSERT`_, abaixo, para entender
+Veja `Como o Django sabe quando fazer UPDATE ou INSERT`_, abaixo, para entender
 por que isso acontece.
 
 Especificar explicitamente os valores de auto-primary-key é mais usual para
@@ -127,7 +233,7 @@ O que acontece quando você salva?
 
 Quando você salva um objeto, o Django executa os seguintes passos:
 
-    1. **Emite um sinal pre-save.** O :ref:`sinal <ref-signals>`
+    1. **Emite um sinal pre-save.** O :doc:`sinal </ref/signals>`
        :attr:`django.db.models.signals.pre_save` é enviado, permitindo qualquer
        função ouvir o sinal para executar alguma ação personalizada.
 
@@ -161,8 +267,8 @@ Quando você salva um objeto, o Django executa os seguintes passos:
        é enviado, permitindo qualquer função ouvir o sinal para executar alguma
        ação personalizada.
 
-Como o Django sabe quando fazer UPDATE vs. INSERT
--------------------------------------------------
+Como o Django sabe quando fazer UPDATE ou INSERT
+------------------------------------------------
 
 Você pode ter notado que os objetos de banco de dados do Django, utilizam o
 mesmo método ``save()`` para criar e atualizar objetos. O Django abstrai a
@@ -192,7 +298,7 @@ Forçando um INSERT ou UPDATE
 
 .. versionadded:: 1.0
 
-Em algumas raras circumstancias, é necessário forçar o método ``save()`` a
+Em algumas raras circunstâncias, é necessário forçar o método ``save()`` a
 executar um SQL ``INSERT`` e não retroceder para fazer um ``UPDATE``. Ou
 vice-versa: atualizar, se possível, mas não inserir uma nova linha. Nestes casos
 você pode passar os parametros ``force_insert=True`` ou ``force_update=True``
@@ -203,13 +309,63 @@ Deve ser muito raro você precisar usar estes parâmetros. O Django irá quase
 sempre fazer a coisa certa e tentar contornar isso irá conduzí-los a erros
 difíceis de rastrear. Esta funcionalidade é somente para usuários avandaçados.
 
-Deletando objetos
-=================
+Updating attributes based on existing fields
+--------------------------------------------
 
-.. method:: Model.delete()
+Sometimes you'll need to perform a simple arithmetic task on a field, such
+as incrementing or decrementing the current value. The obvious way to
+achieve this is to do something like::
+
+    >>> product = Product.objects.get(name='Venezuelan Beaver Cheese')
+    >>> product.number_sold += 1
+    >>> product.save()
+
+If the old ``number_sold`` value retrieved from the database was 10, then
+the value of 11 will be written back to the database.
+
+This can be optimized slightly by expressing the update relative to the
+original field value, rather than as an explicit assignment of a new value.
+Django provides :ref:`F() expressions <query-expressions>` as a way of
+performing this kind of relative update. Using ``F()`` expressions, the
+previous example would be expressed as::
+
+    >>> from django.db.models import F
+    >>> product = Product.objects.get(name='Venezuelan Beaver Cheese')
+    >>> product.number_sold = F('number_sold') + 1
+    >>> product.save()
+
+This approach doesn't use the initial value from the database. Instead, it
+makes the database do the update based on whatever value is current at the
+time that the save() is executed.
+
+Once the object has been saved, you must reload the object in order to access
+the actual value that was applied to the updated field::
+
+    >>> product = Products.objects.get(pk=product.pk)
+    >>> print product.number_sold
+    42
+
+For more details, see the documentation on :ref:`F() expressions
+<query-expressions>` and their :ref:`use in update queries
+<topics-db-queries-update>`.
+
+Deleting objects
+================
+
+.. method:: Model.delete([using=DEFAULT_DB_ALIAS])
+
+.. versionadded:: 1.2
+   The ``using`` argument was added.
 
    Emite um SQL ``DELETE`` para um objeto. Este somente deleta o objeto no banco
    de dados; a instância do Python persistirá, e conterá dados em seus campos.
+
+For more details, including how to delete objects in bulk, see
+:ref:`topics-db-queries-delete`.
+
+If you want customized deletion behavior, you can override this
+``delete()`` method. See :ref:`overriding-model-methods` for more
+details.
 
 .. _model-instance-methods:
 
@@ -285,8 +441,8 @@ O Django usa isto em sua interface de administração. Se um objeto define
 que aponta diretamente para a visão pública do objeto, de acordo com o
 ``get_absolute_url()``.
 
-Também, em outros lugares a mais, como no :ref:`framework de feeds
-<ref-contrib-syndication>`, o uso do ``get_absolute_url()`` como uma
+Também, em outros lugares a mais, como no :doc:`framework de feeds
+</ref/contrib/syndication>`, o uso do ``get_absolute_url()`` como uma
 conveniencia para recompensar quem tenha definido o método.
 
 É uma boa prática usar o ``get_absolute_url()`` em templates, ao invés de
@@ -382,10 +538,10 @@ substituição da tupla padrão por uma chamada da função ``url``)::
         return ('people_view', [str(self.id)])
     get_absolute_url = permalink(get_absolute_url)
 
-Mais detalhes sobre padrões de URL nomeadas estão em :ref:`documentação do URL
-dispatch <topics-http-urls>`.
+Mais detalhes sobre padrões de URL nomeadas estão em :doc:`documentação do URL
+dispatch </topics/http/urls>`.
 
-Métodos extra de instancia
+Métodos extra de instância
 ==========================
 
 Além de ``save()``, ``delete()``, um objeto de modelo pode ter qualquer, ou
@@ -405,7 +561,7 @@ valor "legível para humanos" do campo. Por exemplo, no seguinte model::
         name = models.CharField(max_length=20)
         gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
 
-...cada instancia de ``Person`` terá um método ``get_gender_display()``. Exemplo::
+...cada instância de ``Person`` terá um método ``get_gender_display()``. Exemplo::
 
     >>> p = Person(name='John', gender='M')
     >>> p.save()
@@ -425,6 +581,6 @@ de data, lançando a exceção apropriada ``DoesNotExist`` se for o caso.
 Ambos os métodos aceitam argumentos nomeados opicionalmente, que deve ser no
 formato descrito em :ref:`Field lookups <field-lookups>`.
 
-Note que no caso de valores de datas idénticos, estes métodos irão usar o ID
+Note que no caso de valores de datas idênticos, estes métodos irão usar o ID
 como solução de checagem. Isto garante que nenhum dado será pulado ou duplicado.
 

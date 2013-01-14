@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _ref-contrib-sitemaps:
-
 ===================
 O framework sitemap
 ===================
@@ -42,10 +39,10 @@ seu site.
 O framework sitemap do Django automatiza a criação destes arquivos XML deixando
 vocês expressar esta informação em código Python.
 
-Ele funciona parecido com o :ref:`frameworkd syndcation
-<ref-contrib-syndication>`. Para criar um sitemap, é só escrever uma classe
-:class:`~django.contrib.sitemaps.Sitemap` e criar uma URl no seu :ref:`URLconf
-<topics-http-urls>`.
+Ele funciona parecido com o :doc:`frameworkd syndcation
+</ref/contrib/syndication>`. Para criar um sitemap, é só escrever uma classe
+:class:`~django.contrib.sitemaps.Sitemap` e criar uma URl no seu :doc:`URLconf
+</topics/http/urls>`.
 
 Instalação
 ==========
@@ -71,7 +68,7 @@ Inicialização
 =============
 
 Para ativar a geração do sitemap no seu site Django, adicion esta linha ao seu
-:ref:`URLconf <topics-http-urls>`::
+:doc:`URLconf </topics/http/urls>`::
 
    (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps})
 
@@ -269,7 +266,7 @@ O framework sitemap fornece algumas classes convenientes para casos comuns:
 Exemplo
 -------
 
-Aqui tem um exemplo de um :ref:`URLconf <topics-http-urls>` usando ambos::
+Aqui tem um exemplo de um :doc:`URLconf </topics/http/urls>` usando ambos::
 
     from django.conf.urls.defaults import *
     from django.contrib.sitemaps import FlatPageSitemap, GenericSitemap

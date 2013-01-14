@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision $
-..   $OriginalRevision: 11332 $
+..   $OriginalRevision: 13609 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -12,9 +12,6 @@
 ..   $LastChangedBy$
 ..   $LastChangedDate$
 ..
-
-
-.. _topics-settings:
 
 ===============
 Django settings
@@ -42,7 +39,6 @@ Pelo arquivo settings ser um módulo Python, o seguinte se aplica:
     * Ele não permite erros de syntaxe do Python.
     * Ele pode atribuir configurações dinâmicamente usando a sintaxe normal do
       Python.
-
       Por exemplo::
 
           MY_SETTING = [str(i) for i in range(30)]
@@ -51,7 +47,7 @@ Pelo arquivo settings ser um módulo Python, o seguinte se aplica:
 
 .. _django-settings-module:
 
-Designando as configurações
+Atribuindo as configurações
 ===========================
 
 Quando você usa o Django, você tem de informá-lo quais configurações você está
@@ -66,7 +62,7 @@ import`_ do Python.
 O utilitário django-admin.py
 ----------------------------
 
-Quando estiver usando o :ref:`django-admin.py <ref-django-admin>`, você pode
+Quando estiver usando o :doc:`django-admin.py </ref/django-admin>`, você pode
 setar ambos, variável de ambiente, ou explicitamente passar o módulo settings
 toda que você rodar o utilitário.
 
@@ -99,7 +95,7 @@ arquivo settings usar. Faça isso com ``SetEnv``::
         SetEnv DJANGO_SETTINGS_MODULE mysite.settings
     </Location>
 
-Leia a :ref:`documentação do mod_python do Django <howto-deployment-modpython>`
+Leia a :doc:`documentação do mod_python do Django </howto/deployment/modpython>`
 para mais informações.
 
 Configurações padrão
@@ -173,8 +169,8 @@ hospedagem compartilhada.
 Configurações disponíveis
 =========================
 
-Para uma lista completa das configurações disponíveis, veja a :ref:`referência
-do settings <ref-settings>`.
+Para uma lista completa das configurações disponíveis, veja a :doc:`referência
+do settings </ref/settings>`.
 
 Criando seu próprio settings
 ============================

@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision $
-..   $OriginalRevision: 11332 $
+..   $OriginalRevision: 14849 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -20,7 +20,7 @@
 ``Meta`` opções do model
 ========================
 
-Este documento explica todas as `opções de metadados <meta-options>` possíveis
+Este documento explica todas as :ref:`opções de metadados <meta-options>` possíveis
 que você pode dar a seu model em sua ``class Meta``.
 
 Opções disponíveis do ``Meta``
@@ -35,6 +35,17 @@ Opções disponíveis do ``Meta``
 
 Se ``True``, este model será um :ref:`uma classe abstrata básica
 <abstract-base-classes>`.
+
+``app_label``
+-------------
+
+.. attribute:: Options.app_label
+
+If a model exists outside of the standard :file:`models.py` (for instance, if
+the app's models are in submodules of ``myapp.models``), the model must define
+which app it is part of::
+
+    app_label = 'myapp'
 
 ``db_table``
 ------------
@@ -93,6 +104,46 @@ Exemplo::
 
 Veja a documentação para :meth:`~django.db.models.QuerySet.latest` para mais.
 
+``managed``
+-----------------------
+
+.. attribute:: Options.managed
+
+.. versionadded:: 1.1
+
+Defaults to ``True``, meaning Django will create the appropriate database
+tables in :djadmin:`syncdb` and remove them as part of a :djadmin:`reset`
+management command. That is, Django *manages* the database tables' lifecycles.
+
+If ``False``, no database table creation or deletion operations will be
+performed for this model. This is useful if the model represents an existing
+table or a database view that has been created by some other means. This is
+the *only* difference when ``managed`` is ``False``. All other aspects of
+model handling are exactly the same as normal. This includes
+
+    1. Adding an automatic primary key field to the model if you don't declare
+       it.  To avoid confusion for later code readers, it's recommended to
+       specify all the columns from the database table you are modeling when
+       using unmanaged models.
+
+    2. If a model with ``managed=False`` contains a
+       :class:`~django.db.models.ManyToManyField` that points to another
+       unmanaged model, then the intermediate table for the many-to-many join
+       will also not be created. However, a the intermediary table between one
+       managed and one unmanaged model *will* be created.
+
+       If you need to change this default behavior, create the intermediary
+       table as an explicit model (with ``managed`` set as needed) and use the
+       :attr:`ManyToManyField.through` attribute to make the relation use your
+       custom model.
+
+For tests involving models with ``managed=False``, it's up to you to ensure
+the correct tables are created as part of the test setup.
+
+If you're interested in changing the Python-level behavior of a model class,
+you *could* use ``managed=False`` and create a copy of an existing model.
+However, there's a better approach for that situation: :ref:`proxy-models`.
+
 ``order_with_respect_to``
 -------------------------
 
@@ -110,6 +161,32 @@ respostas importa, você poderia fazer isso::
 
         class Meta:
             order_with_respect_to = 'question'
+
+When ``order_with_respect_to`` is set, two additional methods are provided to
+retrieve and to set the order of the related objects: ``get_RELATED_order()``
+and ``set_RELATED_order()``, where ``RELATED`` is the lowercased model name. For
+example, assuming that a ``Question`` object has multiple related ``Answer``
+objects, the list returned contains the primary keys of the related ``Answer``
+objects::
+
+    >>> question = Question.objects.get(id=1)
+    >>> question.get_answer_order()
+    [1, 2, 3]
+
+The order of a ``Question`` object's related ``Answer`` objects can be set by
+passing in a list of ``Answer`` primary keys::
+
+    >>> question.set_answer_order([3, 1, 2])
+
+The related objects also get two methods, ``get_next_in_order()`` and
+``get_previous_in_order()``, which can be used to access those objects in their
+proper order. Assuming the ``Answer`` objects are ordered by ``id``::
+
+    >>> answer = Answer.objects.get(id=2)
+    >>> answer.get_next_in_order()
+    <Answer: 3>
+    >>> answer.get_previous_in_order()
+    <Answer: 1>
 
 ``ordering``
 ------------
@@ -129,7 +206,7 @@ serão ordenados ascendentemente. Use a string "?" para ordenar randomicamente.
     Indiferentemente de quão muitos sejam os campos em
     :attr:`~Options.ordering`, o admin usará somente o primeiro campo.
 
-Por exemplo, para ordernar por um campo ``pub_date``, use isto::
+Por exemplo, para ordenar ascendentemente por um campo ``pub_date``, use isto::
 
     ordering = ['pub_date']
 
@@ -156,6 +233,16 @@ extra ``can_deliver_pizzas``::
 
 Isso é uma lista ou tupla de tuplas duplas no formato ``(código_da_permissão,
 nome_da_permissão_legível_por_humanos)``.
+
+``proxy``
+---------
+
+.. attribute:: Options.proxy
+
+.. versionadded:: 1.1
+
+If set to ``True``, a model which subclasses another model will be treated as
+a :ref:`proxy model <proxy-models>`.
 
 ``unique_together``
 -------------------
@@ -200,4 +287,3 @@ O nome no plural para o objeto::
 
 Se este não for fornecido, o Django usará :attr:`~Options.verbose_name` +
 ``"s"``.
-

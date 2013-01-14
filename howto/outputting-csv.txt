@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: Done, wainting for revision. $
+..   $TranslationStatus: In Progress $
 ..   $OriginalRevision: 11348 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
@@ -83,8 +83,8 @@ ser mencionadas:
 Usando o sistema de template
 ============================
 
-Alternativamente, você pode usar o :ref:`sistema de template do Django 
-<topics-templates>` para gerar CSV. Isso é mais baixo nível do que usar a 
+Alternativamente, você pode usar o :doc:`sistema de template do Django 
+</topics/templates>` para gerar CSV. Isso é mais baixo nível do que usar a 
 biblioteca CSV, mas a solução é apresentada para fins de complementação.
 
 A idéia aqui é passar uma lista de itens para o seu template e ter a saída
@@ -143,4 +143,4 @@ Outro formato baseado em texto
 Repare que não existe muita especificidade para CSV aqui -- somente o formato de
 saída. Você pode usar qualquer destas técnicas para gerar saída de qualquer
 formato baseado em texto que você sonhar. Você pode também usar uma técnica 
-similar para gerar dados binários; veja :ref:`howto-outputting-pdf` por exemplo.
+similar para gerar dados binários; veja :doc:`/howto/outputting-pdf` por exemplo.

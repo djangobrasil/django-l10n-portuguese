@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _ref-contrib-flatpages:
-
 =====================
 A aplicação Flatpages
 =====================
@@ -43,9 +40,8 @@ colocá-lo em um template customizado.
 
 Alguns exemplos de flatpages em sites desenvolvidos com Django:
 
-    * http://www.chicagocrime.org/about/
-    * http://www.everyblock.com/about/
     * http://www.lawrence.com/about/contact/
+    * http://www2.ljworld.com/site/rules/
 
 Instalação
 ==========
@@ -81,7 +77,7 @@ todo o trabalho. Toda vez que qualquer aplicação Django chamar um erro 404, es
 middleware verifica se existe alguma flatpage no banco de dados mapeada para a
 URL requisitada como um último recurso. Mais especificamente, ele procura por
 uma flatpage com a URL requisitada e o ID do site que corresponda com a variável
-:setting:`SITE_ID` no arquivo :ref:`settings.py <ref-settings>`.
+:setting:`SITE_ID` no arquivo :doc:`settings.py </ref/settings>`.
 
 Se encontrar uma combinação, ele segue o seguinte algorítmo:
 
@@ -104,8 +100,8 @@ incluir a classe
 :class:`~django.contrib.flatpages.middleware.FlatpageFallbackMiddleware` no fim
 da lista, pois ele é um último recurso.
 
-Para saber mais sobre middleware, leia a :ref:`documentação do middleware
-<topics-http-middleware>`.
+Para saber mais sobre middleware, leia a :doc':`documentação do middleware
+</topics/http/middleware>`.
 
 
 .. admonition:: Tenha certeza de que seu template de erro 404 está funcionando.
@@ -135,10 +131,10 @@ Usando a API do Python
 
 .. class:: models.FlatPage
 
-    Flatpages são representadas por um :ref:`modelo Django <topics-db-models>`,
+    Flatpages são representadas por um :doc:`modelo Django </topics/db/models>`,
     que fica armazenado em `django/contrib/flatpages/models.py`_. Você pode
-    acessar objetos do tipo flatpage pela :ref:`API de banco de dados do Django
-    <topics-db-queries>`.
+    acessar objetos do tipo flatpage pela :doc:`API de banco de dados do Django
+    </topics/db/queries>`.
 
 .. _django/contrib/flatpages/models.py: http://code.djangoproject.com/browser/django/trunk/django/contrib/flatpages/models.py
 

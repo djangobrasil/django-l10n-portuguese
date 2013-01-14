@@ -24,9 +24,9 @@ Uma lista de todos os sinais que o Django envia.
 
 .. seealso::
 
-    O :ref:`framework de comentários <ref-contrib-comments-index>` envia um
-    :ref:`conjuntos de sinais relacionados a
-    ele <ref-contrib-comments-signals>`.
+    O :doc:`framework de comentários </ref/contrib/comments/index>` envia um
+    :doc:`conjuntos de sinais relacionados a
+    ele </ref/contrib/comments/signals>`.
 
 Sinais de model
 ===============
@@ -202,7 +202,7 @@ Argumentos que são enviados com este sinal:
 Gerenciamento de sinais
 =======================
 
-Sinais enviados pelo :ref:`django-admin <ref-django-admin>`.
+Sinais enviados pelo :doc:`django-admin </ref/django-admin>`.
 
 post_syncdb
 -----------
@@ -309,8 +309,8 @@ Sinais de Test
 .. module:: django.test.signals
    :synopsis: Sinais enviados durante testes.
 
-Sinais que somente são enviados quando estão :ref:`rodando
-testes <topics-testing>`.
+Sinais que somente são enviados quando estão :doc:`rodando
+testes </topics/testing>`.
 
 template_rendered
 -----------------

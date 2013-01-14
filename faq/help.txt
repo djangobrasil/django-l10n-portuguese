@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _faq-help:
-
 FAQ: Obtendo ajuda
 ==================
 

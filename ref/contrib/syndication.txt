@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _ref-contrib-syndication:
-
 ============================
 O framework syndication feed
 ============================
@@ -49,13 +46,13 @@ determinar qual feed mostrar.
 
 Para criar um feed, é só escrever uma classe
 :class:`~django.contrib.syndication.feeds.Feed` e apontá-la para seu
-:ref:`URLconf <topics-http-urls>`.
+:doc:`URLconf </topics/http/urls>`.
 
 Inicialização
 -------------
 
 Para ativar os feeds no seu site Django, adicione esta linha ao seu
-:ref:`URLconf <topics-http-urls>`::
+:doc:`URLconf </topics/http/urls>`::
 
    (r'^feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
 
@@ -137,8 +134,8 @@ Note:
 
 * O :meth:`items()` é, simplesmente, um métod que retorna a lista de objetos que
   deveriam ser incluídos no feed como elementos ``<item>``. Embora este exemplo
-  retorne objetos ``NewsItem`` usando o :ref:`mapeador objeto-relacional
-  <ref-models-querysets>` do Django, o :meth:`items()` não tem como retornar
+  retorne objetos ``NewsItem`` usando o :doc:`mapeador objeto-relacional
+  </ref/models/querysets>` do Django, o :meth:`items()` não tem como retornar
   instâncias de model. Apesar de você ter algumas funcionalidades "for free"
   usando os models do Django, o :meth:`items()` pode retornar qualquer tipo de
   objeto que você quiser.
@@ -152,7 +149,7 @@ Uma coisa que resta fazer. Num feed RSS, cada ``<item>`` tem um ``<title>``,
 por nesses elementos.
 
     * Para especificar os conteúdos de ``<title>`` e ``<description>``, crie
-      :ref:`templates Django <topics-templates>` chamados
+      :doc:`templates Django </topics/templates>` chamados
       :file:`feeds/latest_title.html` e
       :file:`feeds/latest_description.html`, onde :attr:`latest` é o
       :attr:`slug` especificado no URLconf para o dado feed. Note que a extenção

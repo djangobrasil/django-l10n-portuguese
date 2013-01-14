@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, Waiting for revision $
-..   $OriginalRevision: 11348 $
+..   $OriginalRevision: 13609 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -13,16 +13,13 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _howto-apache-auth:
-
 ===========================================================
 Autenticando no Apache usuários do banco de dados do Django
 ===========================================================
 
-Fazer autenticação mantendo múltiplas bases de dados em sincronia é um problema
+Manter diversos bancos de dados  de autenticação em sincronia é um problema
 comum quando se trabalha com o Apache, por isso você pode configurar o Apache
-para usar o :ref:`sistema de autenticação <topics-auth>` do Django diretamente.
+para usar o :doc:`sistema de autenticação </topics/auth>` do Django diretamente.
 Por exemplo, você poderia:
 
     * Servir arquivos static/media diretamente do Apache somente para usuários
@@ -139,4 +136,3 @@ diretivas do Apache são equivalentes::
 
     SetEnv DJANGO_SETTINGS_MODULE mysite.settings
     PythonOption DJANGO_SETTINGS_MODULE mysite.settings
-

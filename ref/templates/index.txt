@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _ref-templates-index:
-
 Referência do Template
 ======================
 
@@ -33,5 +30,5 @@ conhecimento de HTML; não é necessário saber Python.
 .. seealso::
 
     Para informações de como criar suas próprias tags e filters, veja
-    :ref:`howto-custom-template-tags`.
+    :doc:`/howto/custom-template-tags`.
 

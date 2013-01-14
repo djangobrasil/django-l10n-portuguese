@@ -134,9 +134,9 @@ válidas que irão inserir os dados desejados (e.g., consultas ``INSERT``
 apropriadamente formadas, separadas por ponto-e-vírgula);
 
 Os arquivos SQL são lidos pelos comandos :djadmin:`sqlcustom`,
-:djadmin:`sqlreset`, :djadmin:`sqlall` e :djadmin:`reset` no :ref:`manage.py
-<ref-django-admin>`. Consulte a :ref:`documentação do manage.py
-<ref-django-admin>` para mais informações.
+:djadmin:`sqlreset`, :djadmin:`sqlall` e :djadmin:`reset` no :doc:`manage.py
+</ref/django-admin>`. Consulte a :doc:`documentação do manage.py
+</ref/django-admin>` para mais informações.
 
 Note que se você tem múltiplos arquivos de dados SQL, não há garantias da ordem
 em que eles serão executados. A única coisa que pode ser assumida, é que no

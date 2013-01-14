@@ -136,7 +136,7 @@ somente para leitura.
           sequenciais de dados.
 
 
-    Veja :ref:`topics-files` para mais informações.
+    Veja :doc:`/topics/files` para mais informações.
 
     Note que ``FILES`` conterá somente dados se o método de requisição for POST
     e o ``<form>`` que postou a requisição tenha
@@ -196,14 +196,14 @@ somente para leitura.
             # Faça algo para usuários anônimos.
 
     O ``user`` é somente disponível se sua instalação do Django tem o middleware
-    ``AuthenticationMiddleware`` ativado. Para mais, veja :ref:`topics-auth`.
+    ``AuthenticationMiddleware`` ativado. Para mais, veja :doc:`/topics/auth`.
 
 .. attribute:: HttpRequest.session
 
     Um objeto dicionário, onde é possivel ler e escrever dados, que representa a
     sessão corrente. Ele somente é disponível se sua instalação do Django tiver
-    o suporte a sessão ativado. Veja a :ref:`documentação do session
-    <topics-http-sessions>` para destalhes completos.
+    o suporte a sessão ativado. Veja a :doc:`documentação do session
+    </topics/http/sessions>` para destalhes completos.
 
 .. attribute:: HttpRequest.raw_post_data
 

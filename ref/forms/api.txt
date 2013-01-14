@@ -1,7 +1,7 @@
 ..
 .. META INFORMATION OF TRANSLATION
 ..
-..   $TranslationStatus: In Progress $
+..   $TranslationStatus: Done, waiting for revision $
 ..   $OriginalRevision: 11332 $
 ..   $TranslationAuthors: Robson Mendonça $
 ..
@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _ref-forms-api:
-
 ====================
 A API de formulários
 ====================
@@ -25,29 +22,30 @@ A API de formulários
 .. admonition:: Sobre este documento
 
     Este documento cobre os detalhes arenosos da API de formulário do Django.
-    Você deve ler a :ref:`introdução ao trabalho com formulários
-    <topics-forms-index>` primeiro.
+    Você deve ler a :doc:`introdução ao trabalho com formulários
+    </topics/forms/index>` primeiro.
 
 .. _ref-forms-api-bound-unbound:
 
 Bound e unbound formulários
 ---------------------------
 
-A :class:`Form` instance is either **bound** to a set of data, or **unbound**.
-Uma instância :class:`Form` **bound** para um conjunto de dados, ou **unbound**.
+Uma instância de :class:`Form`, pode ser ambos, **bound** para um conjunto de 
+dados, ou **unbound**.
 
-    * If it's **bound** to a set of data, it's capable of validating that data
-      and rendering the form as HTML with the data displayed in the HTML.
+    * Se ela for **bound** para um conjunto de dados, ela será capaz de validar
+      estes dados renderizando o formulário como um HTML com os dados exibidos
+      dentro do HTML.
 
-    * If it's **unbound**, it cannot do validation (because there's no data to
-      validate!), but it can still render the blank form as HTML.
+    * Se ela for **unbound** ela não fará validação (pois não há dados para
+      validar!), mas ela ainda poderá renderizar o formulário em branco em HTML.
 
-To create an unbound :class:`Form` instance, simply instantiate the class::
+Para criar uma instância :class:`Form`, simplesmente instancie a classe::
 
     >>> f = ContactForm()
 
-To bind data to a form, pass the data as a dictionary as the first parameter to
-your :class:`Form` class constructor::
+Para embutir dados no formulário, passe um dicionário como o primeiro parâmetro
+para o construtor da sua classe :class:`Form`::
 
     >>> data = {'subject': 'hello',
     ...         'message': 'Hi there',
@@ -55,16 +53,16 @@ your :class:`Form` class constructor::
     ...         'cc_myself': True}
     >>> f = ContactForm(data)
 
-In this dictionary, the keys are the field names, which correspond to the
-attributes in your :class:`Form` class. The values are the data you're trying to
-validate. These will usually be strings, but there's no requirement that they be
-strings; the type of data you pass depends on the :class:`Field`, as we'll see
-in a moment.
+No dicionário, as chaves são os nomes dos campos, que correspondem aos 
+atributos na sua classe :class:`Form`. Os valores são os ados que você está 
+tentando validar. Estes normalmente serão strings, mas não há exigências para
+sejam strings. o tipo de dado que você passa depende do :class:`Field`, como 
+veremos em breve.
 
 .. attribute:: Form.is_bound
 
-If you need to distinguish between bound and unbound form instances at runtime,
-check the value of the form's :attr:`~Form.is_bound` attribute::
+Se você precisa distinguir entre instâncias formulários bound e unbound em tempo
+de execução, verifique o valor do atributo :attr:`~Form.is_bound`::
 
     >>> f = ContactForm()
     >>> f.is_bound
@@ -73,17 +71,18 @@ check the value of the form's :attr:`~Form.is_bound` attribute::
     >>> f.is_bound
     True
 
-Note that passing an empty dictionary creates a *bound* form with empty data::
+Note que passando um dicionário vazio você cria um formulário *bound* sem 
+dados::
 
     >>> f = ContactForm({})
     >>> f.is_bound
     True
 
-If you have a bound :class:`Form` instance and want to change the data somehow,
-or if you want to bind an unbound :class:`Form` instance to some data, create
-another :class:`Form` instance. There is no way to change data in a
-:class:`Form` instance. Once a :class:`Form` instance has been created, you
-should consider its data immutable, whether it has data or not.
+Se você tem uma instância :class:`Form` e deseja mudar os dados de alguma forma,
+ou se você quer vincular uma instância unbound para algum dado, crie outra 
+instância :class:`Form`. Não há formas de mudar os dados numa instância 
+:class:`Form`. Uma vez que uma instância de :class:`Form` foi criada, você deve
+considerar seus dados imutável, tendo ela dados ou não.
 
 Usando formulários para validar dados
 -------------------------------------
@@ -512,11 +511,11 @@ que esses campos foram listados na classe.
 Como os erros são mostrados
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you render a bound ``Form`` object, the act of rendering will automatically
-run the form's validation if it hasn't already happened, and the HTML output
-will include the validation errors as a ``<ul class="errorlist">`` near the
-field. The particular positioning of the error messages depends on the output
-method you're using::
+Se você renderiza um objeto ``Form`` bound, o ato de renderizar executará 
+automaticamente a validação do formulário, caso ela ainda não tenha sido feita,
+e a saída HTML incluirá os erros de validação como um ``<ul class="errorlist">``
+perto de cada campo. O posicionamento das mensagens de erro depende da saída do
+método que você estiver usando::
 
     >>> data = {'subject': '',
     ...         'message': 'Hi there',

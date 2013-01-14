@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _ref-contrib-comments-index:
-
 ==================================
 Framework de comentários do Django
 ==================================
@@ -33,8 +30,8 @@ capitulos de livros, ou algo mais.
 .. note::
 
     Se você costumava usar o framework antigo (não documentado) de comentários
-    do Django, precisará atualizá-lo. Veja o :ref:`guia de atualização
-    <ref-contrib-comments-upgrade>` para instruções.
+    do Django, precisará atualizá-lo. Veja o :doc:`guia de atualização
+    </ref/contrib/comments/upgrade>` para instruções.
 
 Guia rápido de início
 =====================
@@ -172,15 +169,15 @@ Renderizando um formulário customizado de comentário
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Se você quiser mais controle sobre a aparência do formulário de comentário, você
-usa o :ttag:`get_comment_form` para pegar um :ref:`objeto form
-<topics-forms-index>` que você pode usar num template::
+usa o :ttag:`get_comment_form` para pegar um :doc:`objeto form
+</topics/forms/index>` que você pode usar num template::
 
     {% get_comment_form for [object] as [varname] %}
 
 Um formulário completo pode ficar tipo::
 
     {% get_comment_form for event as form %}
-    <form action="{% comment_form_target %}" method="POST">
+    <form action="{% comment_form_target %}" method="post">
       {{ form }}
       <tr>
         <td></td>
@@ -256,4 +253,7 @@ Mais informações
    settings
    signals
    upgrade
-
+   custom
+   forms
+   moderation
+   example

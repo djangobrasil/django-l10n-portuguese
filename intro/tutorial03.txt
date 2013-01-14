@@ -86,8 +86,8 @@ opcionalmente, os elementos chaves do dicionário informado na URL (um terceiro
 item opcional da tupla).
 
 Para saber mais sobre objetos :class:`~django.http.HttpRequest`, veja a
-documentação sobre :ref:`ref-request-response`. Para maiores detalhes sobre a
-URLconf, veja :ref:`topics-http-urls`.
+documentação sobre :doc:`/ref/request-response`. Para maiores detalhes sobre a
+URLconf, veja :doc:`/topics/http/urls`.
 
 Quando você executou ``django-admin.py startproject mysite`` no início do
 Tutorial 1, ele criou uma URLconf padrão em ``mysite/urls.py``. E também
@@ -444,7 +444,7 @@ A chamada do método acontece no laço ``{% for %}``: ``poll.choice_set.all`` é
 interpretado como codigo Python ``poll.choice_set.all()``, que retorna objetos
 ``Choice`` iteráveis que são suportado para ser usado na tag ``{% for %}``.
 
-Veja o :ref:`guia de templates <topics-templates>` para maiores detalhes sobre
+Veja o :doc:`guia de templates </topics/templates>` para maiores detalhes sobre
 templates.
 
 Simplificando as URLconfs

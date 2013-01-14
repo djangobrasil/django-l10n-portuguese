@@ -22,7 +22,7 @@ Tags e filtros de template embutidos (Built-in)
 
 Este documento descreve as tags e filtros de templates embutidos do Django. É
 recomendado o uso da
-:ref:`documentação automática <template-built-in-reference>`, se disponível,
+:doc:`documentação automática </ref/contrib/admin/admindocs>`, se disponível,
 que irá incluir a documentação de qualquer tag ou filtro personalizado
 instalado.
 
@@ -38,8 +38,6 @@ Referência de tags nativas
 autoescape
 ~~~~~~~~~~
 
-.. versionadded:: 1.0
-
 Controla o comportamento de auto-scaping atual. Esta tag tem que receber ``on``
 ou ``off`` como um argumento que determina se o auto-scaping surtirá efeito
 dentro do bloco.
@@ -52,6 +50,12 @@ variável.
 A única exceção são variáveis que já estão marcadas como "safe", que atráves de
 código foram povoadas, ou porque tem os filtros ``safe`` ou ``escape``
 aplicados.
+
+Sample usage::
+
+    {% autoescape on %}
+        {{ body }}
+    {% endautoescape %}
 
 .. templatetag:: block
 
@@ -68,13 +72,22 @@ comment
 
 Ignora tudo entre dois ``{% comment %}`` e ``{% endcomment %}``
 
+.. templatetag:: csrf_token
+
+csrf_token
+~~~~~~~~~~
+
+In the Django 1.1.X series, this is a no-op tag that returns an empty string for
+future compatibility purposes.  In Django 1.2 and later, it is used for CSRF
+protection, as described in the documentation for :doc:`Cross Site Request
+Forgeries </ref/contrib/csrf>`.
+
 .. templatetag:: cycle
 
 cycle
 ~~~~~
 
-.. versionchanged:: 1.0
-    Ciclo entre dadas strings ou variáveis a cada vez que esta tag é encontrada.
+Ciclo entre dadas strings ou variáveis a cada vez que esta tag é encontrada.
 
 Dentro de um loop, ciclos entre dadas strings a cada volta dentro do loop::
 
@@ -108,11 +121,31 @@ desta forma::
 
     {% cycle 'row1' 'row2' as rowcolors %}
 
-A partir daqui, você pode inserir o valor atual de um ciclo onde você quiser
-dentro do seu template::
+From then on, you can insert the current value of the cycle wherever
+you'd like in your template by referencing the cycle name as a context
+variable. If you want to move the cycle onto the next value, you use
+the cycle tag again, using the name of the variable. So, the following
+template::
 
-    <tr class="{% cycle rowcolors %}">...</tr>
-    <tr class="{% cycle rowcolors %}">...</tr>
+    <tr>
+        <td class="{% cycle 'row1' 'row2' as rowcolors %}">...</td>
+        <td class="{{ rowcolors }}">...</td>
+    </tr>
+    <tr>
+        <td class="{% cycle rowcolors %}">...</td>
+        <td class="{{ rowcolors }}">...</td>
+    </tr>
+
+would output::
+
+    <tr>
+        <td class="row1">...</td>
+        <td class="row1">...</td>
+    </tr>
+    <tr>
+        <td class="row2">...</td>
+        <td class="row2">...</td>
+    </tr>
 
 Você pode usar qualquer número de valores em uma tag ``{% cycle %}``, separados
 por espaços. Os valores colocados dentro de aspas simples (``'``) ou duplas
@@ -120,8 +153,12 @@ por espaços. Os valores colocados dentro de aspas simples (``'``) ou duplas
 como variáveis de template.
 
 Perceba que as variáveis incluídas no cycle não serão escapadas. Isto porque a
-tag de template não escapa seus conteúdos. Se você deseja escapar as variáveis
-no cycle, você deve fazê-lo explicitamente::
+tag de template não escapa seus conteúdos. Any HTML or
+Javascript code contained in the printed variable will be rendered
+as-is, which could potentially lead to security issues.
+
+Se você deseja escapar as variáveis no cycle, você deve fazê-lo
+explicitamente::
 
     {% filter force_escape %}
         {% cycle var1 var2 var3 %}
@@ -136,7 +173,36 @@ a forma antiga de se usar::
 
 Nesta sintaxe, cada valor é interpretado como uma string, e não há meios de
 especificar valores de variáveis. Ou vígulas de fato. Ou espaços. Nós
-mensionamos que você não deve usar esta sintaxe em nenhum novo projeto?
+mencionamos que você não deve usar esta sintaxe em nenhum novo projeto?
+
+.. versionadded:: 1.3
+
+By default, when you use the ``as`` keyword with the cycle tag, the
+usage of ``{% cycle %}`` that declares the cycle will itself output
+the first value in the cycle. This could be a problem if you want to
+use the value in a nested loop or an included template. If you want to
+just declare the cycle, but not output the first value, you can add a
+``silent`` keyword as the last keyword in the tag. For example::
+
+    {% for obj in some_list %}
+        {% cycle 'row1' 'row2' as rowcolors silent %}
+        <tr class="{{ rowcolors }}">{% include "subtemplate.html " %}</tr>
+    {% endfor %}
+
+This will output a list of ``<tr>`` elements with ``class``
+alternating between ``row1`` and ``row2``; the subtemplate will have
+access to ``rowcolors`` in it's context that matches the class of the
+``<tr>`` that encloses it. If the ``silent`` keyword were to be
+omitted, ``row1`` would be emitted as normal text, outside the
+``<tr>`` element.
+
+When the silent keyword is used on a cycle definition, the silence
+automatically applies to all subsequent uses of the cycle tag. In,
+the following template would output *nothing*, even though the second
+call to ``{% cycle %}`` doesn't specify silent::
+
+    {% cycle 'row1' 'row2' as rowcolors silent %}
+    {% cycle rowcolors %}
 
 .. templatetag:: debug
 
@@ -233,8 +299,6 @@ atletas vindos de ``athlete_list``::
 
 Você pode iterar a lista ao contrário usando ``{% for obj in list reversed %}``.
 
-.. versionadded:: 1.0
-
 Se você precisa iterar uma lista de listas, você pode descompactar os valores
 de cada sub-lista em variáveis individuais. Por exemplo, se seu contexto contém
 uma lista de coordenadas (x,y) chamada ``points``, você poderia usar a seguinte
@@ -269,6 +333,33 @@ O loop for cria algumas variáveis dentro do loop:
                                 loop atual
     ==========================  ================================================
 
+for ... empty
+^^^^^^^^^^^^^
+
+The ``for`` tag can take an optional ``{% empty %}`` clause that will be
+displayed if the given array is empty or could not be found::
+
+    <ul>
+    {% for athlete in athlete_list %}
+        <li>{{ athlete.name }}</li>
+    {% empty %}
+        <li>Sorry, no athlete in this list!</li>
+    {% endfor %}
+    <ul>
+
+The above is equivalent to -- but shorter, cleaner, and possibly faster
+than -- the following::
+
+    <ul>
+      {% if athlete_list %}
+        {% for athlete in athlete_list %}
+          <li>{{ athlete.name }}</li>
+        {% endfor %}
+      {% else %}
+        <li>Sorry, no athletes in this list.</li>
+      {% endif %}
+    </ul>
+
 .. templatetag:: if
 
 if
@@ -289,6 +380,9 @@ variável ``{{ athlete_list|length }}``.
 
 Como você pode ver, a tag ``if`` pode ter uma clausula opcional ``{% else %}``
 que será mostrado se o teste falhar.
+
+Boolean operators
+^^^^^^^^^^^^^^^^^
 
 As tags ``if`` podem usar ``and``, ``or`` ou ``not`` para testar um várias
 variáveis ou para negá-las::
@@ -312,28 +406,162 @@ variáveis ou para negá-las::
     {% endif %}
 
     {% if athlete_list and not coach_list %}
-        There are some athletes and absolutely no coaches.
-        Não há qualquer atleta e absolutamente nenhum treinador.
+        Existem alguns atletas e absolutamente nenhum treinador.
     {% endif %}
 
-As tags ``if`` não permitem clausulas ``and`` e ``or`` dentro da mesma tag, pois
-a ordem da lógica pode ser ambígua. Por exemplo, isto é inválido::
+.. versionchanged:: 1.2
+
+Use of both ``and`` and ``or`` clauses within the same tag is allowed, with
+``and`` having higher precedence than ``or`` e.g.::
 
     {% if athlete_list and coach_list or cheerleader_list %}
 
-Se você precisa combinar ``and`` e ``or`` para lógica avançada, use as tags
-``if`` aninhadas. Por exemplo::
+will be interpreted like:
 
-    {% if athlete_list %}
-        {% if coach_list or cheerleader_list %}
-            Nós temos atletas, e também treinadores ou líderes de torcida!
-        {% endif %}
+.. code-block:: python
+
+    if (athlete_list and coach_list) or cheerleader_list
+
+Use of actual brackets in the ``if`` tag is invalid syntax.  If you need them to
+indicate precedence, you should use nested ``if`` tags.
+
+.. versionadded:: 1.2
+
+
+``if`` tags may also use the operators ``==``, ``!=``, ``<``, ``>``,
+``<=``, ``>=`` and ``in`` which work as follows:
+
+
+``==`` operator
+^^^^^^^^^^^^^^^
+
+Equality. Example::
+
+    {% if somevar == "x" %}
+      This appears if variable somevar equals the string "x"
     {% endif %}
 
-Múltiplos usos do mesmo operador lógico são bons, desde que você use o mesmo
-operador. Por exemplo, istó é válido::
+``!=`` operator
+^^^^^^^^^^^^^^^
 
-    {% if athlete_list or coach_list or parent_list or teacher_list %}
+Inequality. Example::
+
+    {% if somevar != "x" %}
+      This appears if variable somevar does not equal the string "x",
+      or if somevar is not found in the context
+    {% endif %}
+
+``<`` operator
+^^^^^^^^^^^^^^
+
+Less than. Example::
+
+    {% if somevar < 100 %}
+      This appears if variable somevar is less than 100.
+    {% endif %}
+
+``>`` operator
+^^^^^^^^^^^^^^
+
+Greater than. Example::
+
+    {% if somevar > 0 %}
+      This appears if variable somevar is greater than 0.
+    {% endif %}
+
+``<=`` operator
+^^^^^^^^^^^^^^^
+
+Less than or equal to. Example::
+
+    {% if somevar <= 100 %}
+      This appears if variable somevar is less than 100 or equal to 100.
+    {% endif %}
+
+``>=`` operator
+^^^^^^^^^^^^^^^
+
+Greater than or equal to. Example::
+
+    {% if somevar >= 1 %}
+      This appears if variable somevar is greater than 1 or equal to 1.
+    {% endif %}
+
+``in`` operator
+^^^^^^^^^^^^^^^
+
+Contained within. This operator is supported by many Python containers to test
+whether the given value is in the container.  The following are some examples of
+how ``x in y`` will be interpreted::
+
+    {% if "bc" in "abcdef" %}
+      This appears since "bc" is a substring of "abcdef"
+    {% endif %}
+
+    {% if "hello" in greetings %}
+      If greetings is a list or set, one element of which is the string
+      "hello", this will appear.
+    {% endif %}
+
+    {% if user in users %}
+      If users is a QuerySet, this will appear if user is an
+      instance that belongs to the QuerySet.
+    {% endif %}
+
+``not in`` operator
+~~~~~~~~~~~~~~~~~~~~
+
+Not contained within.  This is the negation of the ``in`` operator.
+
+
+The comparison operators cannot be 'chained' like in Python or in mathematical
+notation. For example, instead of using::
+
+    {% if a > b > c %}  (WRONG)
+
+you should use::
+
+    {% if a > b and b > c %}
+
+
+Filters
+^^^^^^^
+
+You can also use filters in the ``if`` expression. For example::
+
+    {% if messages|length >= 100 %}
+       You have lots of messages today!
+    {% endif %}
+
+Complex expressions
+^^^^^^^^^^^^^^^^^^^
+
+All of the above can be combined to form complex expressions. For such
+expressions, it can be important to know how the operators are grouped when the
+expression is evaluated - that is, the precedence rules.  The precedence of the
+operators, from lowest to highest, is as follows:
+
+ * ``or``
+ * ``and``
+ * ``not``
+ * ``in``
+ * ``==``, ``!=``, ``<``, ``>``,``<=``, ``>=``
+
+(This follows Python exactly). So, for example, the following complex if tag:
+
+.. code-block:: django
+
+    {% if a == b or c == d and e %}
+
+...will be interpreted as:
+
+.. code-block:: python
+
+    (a == b) or ((c == d) and e)
+
+If you need different precedence, you will need to use nested if tags. Sometimes
+that is better for clarity anyway, for the sake of those who do not know the
+precedence rules.
 
 .. templatetag:: ifchanged
 
@@ -405,6 +633,9 @@ strings. Você não pode checar a igualdade entre objetos Python com ``True`` ou
 ``False``. Se você precisa testar se algo é verdadeiro ou falso, use a tag
 ``if``.
 
+.. versionadded:: 1.2
+   An alternative to the ``ifequal`` tag is to use the :ttag:`if` tag and the ``==`` operator.
+
 .. templatetag:: ifnotequal
 
 ifnotequal
@@ -412,6 +643,9 @@ ifnotequal
 
 Exatamente como ``ifequal``, exceto que testa se os dois argumentos não são
 iguais.
+
+.. versionadded:: 1.2
+   An alternative to the ``ifnotequal`` tag is to use the :ttag:`if` tag and the ``!=`` operator.
 
 .. templatetag:: include
 
@@ -443,7 +677,26 @@ exemplo produz uma saída ``"Hello, John"``:
 
     * O template ``name_snippet.html``::
 
-        Hello, {{ person }}
+        {{ greeting }}, {{ person|default:"friend" }}!
+        
+.. versionchanged:: 1.3
+   Additional context and exclusive context.
+
+You can pass additional context to the template using keyword arguments::
+
+    {% include "name_snippet.html" with person="Jane" greeting="Hello" %}
+
+If you want to only render the context with the variables provided (or even
+no variables at all), use the ``only`` option::
+
+    {% include "name_snippet.html" with greeting="Hi" only %}
+
+.. note::
+    The :ttag:`include` tag should be considered as an implementation of
+    "render this subtemplate and include the HTML", not as "parse this
+    subtemplate and include its contents as if it were part of the parent".
+    This means that there is no shared state between included templates --
+    each include is a completely independent rendering process.
 
 Veja também: ``{% ssi %}``.
 
@@ -454,8 +707,21 @@ load
 
 Carrega um conjunto de tags de template customizadas.
 
-Veja :ref:`Bibliotecas de tags e filtros customizados
-<howto-custom-template-tags>` para mais informações.
+For example, the following template would load all the tags and filters
+registered in ``somelibrary`` and ``otherlibrary``::
+
+    {% load somelibrary otherlibrary %}
+
+.. versionchanged:: 1.3
+
+You can also selectively load individual filters or tags from a library, using
+the ``from`` argument. In this example, the template tags/filters named ``foo``
+and ``bar`` will be loaded from ``somelibrary``::
+
+    {% load foo bar from somelibrary %}
+
+Veja :doc:`Bibliotecas de tags e filtros customizados
+</howto/custom-template-tags>` para mais informações.
 
 .. templatetag:: now
 
@@ -1663,7 +1929,7 @@ django.contrib.humanize
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Um conjunto de filtros de templates Django usuais para adicionar um "toque
-humano" aos dados. Veja :ref:`ref-contrib-humanize`.
+humano" aos dados. Veja :doc:`/ref/contrib/humanize`.
 
 django.contrib.markup
 ~~~~~~~~~~~~~~~~~~~~~
@@ -1675,7 +1941,7 @@ comuns:
     * Markdown
     * ReST (ReStructured Text)
 
-Veja :ref:`ref-contrib-markup`.
+Veja :doc:`/ref/contrib/markup`.
 
 django.contrib.webdesign
 ~~~~~~~~~~~~~~~~~~~~~~~~

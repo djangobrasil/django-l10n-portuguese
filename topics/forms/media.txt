@@ -209,6 +209,8 @@ também ser definido de forma dinâmica::
 Veja a seção sobre `Objetos Media`_ para mais detalhes sobre como construir
 retornos de valores para propriedades dinâmicas de media.
 
+.. _form-media-paths:
+
 Caminhos em definições de media
 -------------------------------
 

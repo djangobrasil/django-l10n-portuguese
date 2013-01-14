@@ -13,15 +13,13 @@
 ..   $LastChangedDate$
 ..
 
-.. _topics-generic-views:
-
 ===============
 Views genéricas
 ===============
 
 Escrever aplicações web pode ser monótono, porque nós repetimos certos padrões
 várias e várias vezes. O Django tenta tirar um pouco dessa monotonia nas
-camadas de model e template, mas os desenvolvedores web também experimentam 
+camadas de model e template, porém os desenvolvedores web também enfrentam 
 esse tédio na camada da view.
 
 As *views genéricas* do Django foram criadas para diminuir esse sofrimento. 
@@ -35,10 +33,10 @@ questão pode ser passado como um argumento extra ao URLconf.
 
 O Django vem com views genéricas que fazem o seguinte:
 
-    * Efetuam "simples" tarefas comuns: redirecionar para uma página 
+    * Efetuam tarefas comuns "simples": redirecionar para uma página 
       diferente e renderizar determinado template.
 
-    * Mostrar uma lista e página com detalhes de um único objeto. Se estamos
+    * Mostrar uma lista e páginas com detalhes de um único objeto. Se estamos
       criando uma aplicação para gerenciar conferências, então uma view
       ``talk_list`` e uma view ``registered_user_list`` seriam exemplo
       de views de listas. Uma única página de conversa seria o que chamamos
@@ -121,14 +119,14 @@ exceções ``TemplateDoesNotExist`` e retornamos um erro 404.
 
 .. admonition:: Existe uma falha de segurança aqui?
 
-    Os leitores mais atendos podem ter percebido uma possível falha de 
+    Os leitores mais atentos podem ter percebido uma possível falha de 
     segurança: estamos contruindo o nome do template usando conteúdo 
     do navegador (``template="about/%s.html" % page``). A primeira vista,
     isso parece uma clássica vulnerabilidade *directory traversal*. Mas
     realmente é?
 
     Não exatamente. Sim, um valor malicioso para ``page`` poderia causar
-    *directory traversal*, porém, a variável ``page`` *é* advinda da 
+    *directory traversal*, porém, a variável ``page`` *é* obtida pela 
     URL, e não é qualquer valor que será aceito. A chave para isso está
     na URLconf: estamos usando a expressão regular ``\w+`` para obter 
     parte da URL, e ``\w`` aceita somente letras e números. Portanto,
@@ -138,13 +136,14 @@ exceções ``TemplateDoesNotExist`` e retornamos um erro 404.
 Views genéricas de objetos
 ==========================
 
-The ``direct_to_template`` certainly is useful, but Django's generic views
-really shine when it comes to presenting views on your database content. Because
-it's such a common task, Django comes with a handful of built-in generic views
-that make generating list and detail views of objects incredibly easy.
+A view ``direct_to_template`` certamente é útil, mas as views genéricas do
+Django realmente se destacam quando utilizadas para apresentar conteúdo do 
+banco de dados. Como isso é uma tarefa comum, o Django vêm com um punhado 
+de views genéricas que fazem com que a geração de views para listagem e 
+detalhes de objetos incrivelmente simples.
 
-Let's take a look at one of these generic views: the "object list" view. We'll
-be using these models::
+Vamos dar uma olhada em uma dessas views genéricas: a view "lista de objetos".
+Vamos usar esses models::
 
     # models.py
     from django.db import models
@@ -169,7 +168,8 @@ be using these models::
         publisher = models.ForeignKey(Publisher)
         publication_date = models.DateField()
 
-To build a list page of all books, we'd use a URLconf along these lines::
+Para criar uma página com a lista de todos os livros, usaremos uma URLconf
+como essa::
 
     from django.conf.urls.defaults import *
     from django.views.generic import list_detail
@@ -183,20 +183,20 @@ To build a list page of all books, we'd use a URLconf along these lines::
         (r'^publishers/$', list_detail.object_list, publisher_info)
     )
 
-That's all the Python code we need to write. We still need to write a template,
-however. We could explicitly tell the ``object_list`` view which template to use
-by including a ``template_name`` key in the extra arguments dictionary, but in
-the absence of an explicit template Django will infer one from the object's
-name. In this case, the inferred template will be
-``"books/publisher_list.html"`` -- the "books" part comes from the name of the
-app that defines the model, while the "publisher" bit is just the lowercased
-version of the model's name.
+E esse é todo o código Python que precisamos escrever. Ainda precisamos
+escrever o template, entretanto. Podemos fazer com que a view ``object_list``
+utilize um template específico incluindo uma chave ``template_name`` no
+dicionário de argumentos extras, mas na falta de um template explícito, o 
+Django irá inferir um a partir do nome do objeto. Nesse caso, o template 
+seria ``"books/publisher_list.html"`` -- a parte "books" é o nome da app em
+que definimos o model, enquanto a parte "publisher" é só a versão minúscula
+do nome do model.
 
 .. highlightlang:: html+django
 
-This template will be rendered against a context containing a variable called
-``object_list`` that contains all the book objects. A very simple template
-might look like the following::
+Esse template será renderizado sobre um contexto contendo uma variável chamada
+``object_list`` que contém todos os objetos livro. Um template bem simples
+poderia parecer com o seguinte::
 
     {% extends "base.html" %}
 
@@ -209,11 +209,12 @@ might look like the following::
         </ul>
     {% endblock %}
 
-That's really all there is to it. All the cool features of generic views come
-from changing the "info" dictionary passed to the generic view. The
-:ref:`generic views reference<ref-generic-views>` documents all the generic
-views and all their options in detail; the rest of this document will consider
-some of the common ways you might customize and extend generic views.
+E isso é realmente tudo que precisamos fazer. Todos os recursos legais
+das views genéricas surgem mudando o dicionário "info" passado como argumento
+à view genérica. A :ref:`referência para views genéricas<ref-generic-views>`
+documenta todas as views genéricas e todas suas opções detalhadamente. o resto
+desse documento irá considerar alguns meios comuns de customizar e estender as
+views genéricas.
 
 Extending generic views
 =======================
@@ -334,7 +335,7 @@ Viewing subsets of objects
 
 Now let's take a closer look at this ``queryset`` key we've been using all
 along. Most generic views take one of these ``queryset`` arguments -- it's how
-the view knows which set of objects to display (see :ref:`topics-db-queries` for
+the view knows which set of objects to display (see :doc:`/topics/db/queries` for
 more information about ``QuerySet`` objects, and see the
 :ref:`generic views reference<ref-generic-views>` for the complete details).
 

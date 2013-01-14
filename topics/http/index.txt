@@ -26,6 +26,7 @@ Informações sobre manipulação de requisições HTTP no Django:
    
    urls
    views
+   decorators
    file-uploads
    shortcuts
    generic-views

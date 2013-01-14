@@ -48,7 +48,7 @@ Aplicação admin refatorada (newforms-admin)
     extensibilidade e customização. A documentação completa para a aplicação
     admin está disponível online na documentação oficial do Django:
 
-         :ref:`referência da administração <ref-contrib-admin>`
+         :doc:`referência da administração </ref/contrib/admin/index>`
 
 Manipulação de Unicode melhorada
     Internamente o Django foi completamente refatorado para usar Unicode; isso
@@ -58,7 +58,7 @@ Manipulação de Unicode melhorada
     terceiros que podem ou não manipular Unicode graciosamente. Detalhes estão
     disponíveis na documentação Manipulando Unicode:
 
-         :ref:`unicode reference <ref-unicode>`
+         :doc:`unicode reference </ref/unicode>`
 
 Uma melhoria no ORM do Django
     O mapeador objeto-relacional do Django -- o componente que provê o
@@ -168,7 +168,7 @@ juntar às discussões.
 A documentação online do Django também inclui pontos sobre como contribuir para
 o Django:
 
-    :ref:`contribuíndo para o Django <internals-contributing>`
+    :doc:`contribuíndo para o Django </internals/contributing>`
 
 Contribuições de qualquer nível -- desenvolvendo código, escrevendo
 documentação ou simplesmente criando tickets e ajudando a testar corresções de

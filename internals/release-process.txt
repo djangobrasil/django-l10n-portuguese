@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Not started $
-..   $OriginalRevision: 11298 $
+..   $OriginalRevision: 13609 $
 ..   $TranslationAuthors: None $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -63,7 +63,7 @@ not "months"), and will probably represent major, sweeping changes to Django.
 Minor releases
 --------------
 
-Minor release (1.1, 1.2, etc.) will happen roughly every six months -- see
+Minor release (1.1, 1.2, etc.) will happen roughly every nine months -- see
 `release process`_, below for details.
 
 .. _internal-release-deprecation-policy:
@@ -72,7 +72,7 @@ These releases will contain new features, improvements to existing features, and
 such. A minor release may deprecate certain features from previous releases. If a
 feature in version ``A.B`` is deprecated, it will continue to work in version
 ``A.B+1``. In version ``A.B+2``, use of the feature will raise a
-``PendingDeprecationWarning`` but will continue to work. Version ``A.B+3`` will
+``DeprecationWarning`` but will continue to work. Version ``A.B+3`` will
 remove the feature entirely.
 
 So, for example, if we decided to remove a function that existed in Django 1.0:
@@ -135,7 +135,7 @@ Release process
 ===============
 
 Django uses a time-based release schedule, with minor (i.e. 1.1, 1.2, etc.)
-releases every six months, or more, depending on features.
+releases every nine months, or more, depending on features.
 
 After each previous release (and after a suitable cooling-off period of a week
 or two), the core development team will examine the landscape and announce a

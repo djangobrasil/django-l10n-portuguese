@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done $
-..   $OriginalRevision: 11268 $
+..   $OriginalRevision: 13609 $
 ..   $TranslationAuthors: Italo Maia, Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -24,8 +24,8 @@ Como eu começo?
 
     #. `Baixe o código`_.
     #. Instale o Django (leia o :ref:`guia de instalação <intro-install>`).
-    #. Execute o :ref:`tutorial <intro-tutorial01>`.
-    #. Verifique o resto da :ref:`documentação <index>`, e `pergunte`_ se você
+    #. Execute o :doc:`tutorial </intro/tutorial01>`.
+    #. Verifique o resto da :doc:`documentação </index>`, e `pergunte`_ se você
        estiver com problemas.
 
 .. _`Baixe o código`: http://www.djangobrasil.org/download/
@@ -35,16 +35,16 @@ Quais são os pré requisitos para executar o Django?
 ---------------------------------------------------
 
 O Django requer o Python_ 2.3, especificamente qualquer versão do Python da 2.3
-até a 2.6. Nenhuma outra biblioteca Python é requerida para o uso básico do
+até a 2.7. Nenhuma outra biblioteca Python é requerida para o uso básico do
 Django.
 
 Para um ambiente de desenvolvimento -- se você apenas quer experimentar o
 Django -- você não precisa ter um servidor web separado; o Django vem com o seu
 próprio servidor leve de desenvolvimento. Para um ambiente de produção, o
 Django segue a especificação WSGI_, o que significa que ele pode rodar sobre
-uma ampla variedade de plataformas de servidores. Veja :ref:`Implantando o
-Django <howto-deployment-index>` para algumas anternativas populares. Além
-disso, a `página wiki de opções de arranjo do servidor`_ contém detalhes para
+uma ampla variedade de plataformas de servidores. Veja :doc:`Implantando o
+Django </howto/deployment/index>` para algumas anternativas populares. Além
+disso, a `página wiki de opções de configuração do servidor`_ contém detalhes para
 algumas estratégias de implantação.
 
 Se você quer usar o Django com um banco de dados, que é o caso provável, você
@@ -56,33 +56,40 @@ são suportados também.
 .. _Apache 2: http://httpd.apache.org/
 .. _mod_python: http://www.modpython.org/
 .. _WSGI: http://www.python.org/peps/pep-0333.html
-.. _página wiki de opções de arranjo do servidor: http://code.djangoproject.com/wiki/ServerArrangements
+.. _página wiki de opções de configuração do servidor: http://code.djangoproject.com/wiki/ServerArrangements
 .. _PostgreSQL: http://www.postgresql.org/
 .. _MySQL: http://www.mysql.com/
 .. _`SQLite 3`: http://www.sqlite.org/
 .. _Oracle: http://www.oracle.com/
 
-Eu perco algo se eu rodar o Django com uma a versão 2.3 do Python em vez de usar a 2.5?
----------------------------------------------------------------------------------------
+Eu perco algo se eu rodar o Django com uma a versão 2.4 do Python em vez de usar versẽs mais novas do Python como a 2.5 ou 2.6? 2.5?
+------------------------------------------------------------------------------------------------------------------------------------
 
 Não no framework. Atualmente, o Django suporta oficialmente quaisquer versões
-do Python da 2.3 até a 2.6, inclusive. Porém, alguns componentes adicionais
-podem precisar de uma versão mais recente do Python; o componente
-``django.contrib.gis``, por exemplo, requer pelo menos o Python 2.4, e
-aplicações de terceiros para uso com o Django são, é claro, livres para
+do Python da 2.4 até a 2.7, inclusive. Porém, novas versões do Python sã
+frequentemente mais rápidas, tem mais features e são 
+melhor suportadas. Aplicações de terceiros para uso com o Django são, é claro, livres para
 escolher seus próprios requerimentos de versão.
 
 Note porém que no próximo ano e talvez no outro o Django irá começar a remover
 suporte para versões antigas do Python como parte da migração que culminará com
-o Django rodando no Python 3.0 (veja a próxima questão para detalhes). Assim,
-se você está começando com o Python, é recomendado que você use a última versão
-da série 2.x (atualmente, o Python 2.6). Isso irá permitir que você tome
-proveito de numerosas melhorias e otimizações na linguagem Python desde a
-versão 2.3, e irá ajudar a facilitar o processo de remoção do suporte para
-versões antigas do Python no caminho para o Python 3.0.
+o Django rodando no Python 3.(veja abaixo para mais detalhes)
 
-Posso usar o Django com o Python 3.0?
--------------------------------------
+Assim, se você está começando com o Python, é recomendado que você use a última versão
+da série 2.x (atualmente, o Python 2.7). Isso irá permitir que você tome
+proveito de numerosas melhorias e otimizações na linguagem Python desde a
+versão 2.4, e irá ajudar a facilitar o processo de remoção do suporte para
+versões antigas do Python no caminho para o Python 3.
+
+Can I use Django with Python 2.3?
+---------------------------------
+
+Django 1.1 (and earlier) supported Python 2.3. Django 1.2 and newer does not.
+We highly recommend you upgrade Python if at all possible, but Django 1.1 will
+continue to work on Python 2.3.
+
+Posso usar o Django com o Python 3?
+-----------------------------------
 
 Não agora. O Python 3.0 introduziu um número de mudanças não retro compatíveis
 na linguagem Python, e apesar dessas mudanças serem algo bom para o futuro do
@@ -113,3 +120,11 @@ desenvolvimento (do repositório Subversion) diretamente em nossos servidores,
 então nós o consideramos estável. Com isso em mente, recomentadmos que você use
 a última versão do código em desenvolvimento, porque ele geralmente tem mais
 funcionalidades e menos bugs que as versões "oficiais".
+
+Generally, if you're using code in production, you should be using a
+stable release. The Django project publishes a full stable release
+every nine months or so, with bugfix updates in between. These stable
+releases contain the API that is covered by our backwards
+compatibility guarantees; if you write code against stable releases,
+you shouldn't have any problems upgrading when the next official
+version is released.

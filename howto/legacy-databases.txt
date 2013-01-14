@@ -36,7 +36,7 @@ Dê ao Django seus parâmetros do banco de dados
 
 Você necessitará informar ao Django os seus parâmetros de conexão com o banco de
 dados, e qual tipo de banco de dados será usado. Faça isso editando estas
-configurações no seu :ref:`arquivo settings <topics-settings>`:
+configurações no seu :doc:`arquivo settings </topics/settings>`:
 
     * :setting:`DATABASE_NAME`
     * :setting:`DATABASE_ENGINE`

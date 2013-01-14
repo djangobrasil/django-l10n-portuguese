@@ -364,7 +364,7 @@ O :mod:`django.contrib.contenttypes.generic` provê ambos,
 :class:`~django.contrib.contenttypes.generic.GenericInlineModelAdmin`. Isso
 permite o uso de relacionamentos genéricos nos formulários e no admin. Veja a
 documentação do :ref:`model formset <topics-forms-modelforms>` e
-:ref:`admin <ref-contrib-admin>` para mais informações.
+:doc:`admin </ref/contrib/admin/index>` para mais informações.
 
 .. class:: generic.GenericInlineModelAdmin
 

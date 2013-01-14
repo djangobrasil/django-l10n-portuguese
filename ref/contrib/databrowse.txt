@@ -66,8 +66,8 @@ Como usar o Databrowse
        Note que você pode registrar a *classe* do modelo, não instâncias.
 
        Não importa onde você coloque isto, desde que seja executado em algum
-       ponto. Um bom lugar para isso é seu arquivo :ref:`URLconf
-       <topics-http-urls>` (``urls.py``).
+       ponto. Um bom lugar para isso é seu arquivo :doc:`URLconf
+       </topics/http/urls>` (``urls.py``).
 
     3. Mude seu URLconf para importar o módulo :mod:`~django.contrib.databrowse`::
 
@@ -90,22 +90,22 @@ extra. Simplesmente adicione o seguinte import em seu URLconf::
 
     from django.contrib.auth.decorators import login_required
 
-Em seguida modifique o :ref:`URLconf <topics-http-urls>` a fim de que o view
+Em seguida modifique o :doc:`URLconf </topics/http/urls>` a fim de que o view
 :func:`databrowse.site.root` seja afetado pelo decorador
 :func:`django.contrib.auth.decorators.login_required`::
 
     (r'^databrowse/(.*)', login_required(databrowse.site.root)),
 
-Se você ainda não adicionou suporte para logins de usuários à sua :ref:`URLconf
-<topics-http-urls>`, como descrito na documentação de :ref:`autenticação de
-usuário <ref-contrib-auth>`, então você precisará fazer isso agora com o
+Se você ainda não adicionou suporte para logins de usuários à sua :doc:`URLconf
+</topics/http/urls>`, como descrito na documentação de :doc:`autenticação de
+usuário </ref/contrib/auth>`, então você precisará fazer isso agora com o
 seguinte mapeamento::
 
     (r'^accounts/login/$', 'django.contrib.auth.views.login'),
 
 O passo final é criar o fomulário de login requerido pelo
 :func:`django.contrib.auth.views.login`. A
-documentação de :ref:`autenticação de usuário <ref-contrib-auth>` provê os
+documentação de :doc:`autenticação de usuário </ref/contrib/auth>` provê os
 detalhes completos e um template de exemplo que pode ser usado com este
 propósito.
 

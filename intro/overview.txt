@@ -27,9 +27,9 @@ banco de dados com Django.
 O objetivo deste documento é dar a você as especificações técnicas necessárias
 para entender como o Django funciona, mas este texto não pretende ser um
 tutorial ou uma referência -- mas possuímos os dois! Quando você estiver pronto
-para iniciar um projeto, você pode :ref:`iniciar com o tutorial
-<intro-tutorial01>` ou :ref:`mergulhar direto em uma documentação mais detalhada
-<topics-index>`.
+para iniciar um projeto, você pode :doc:`iniciar com o tutorial
+</intro/tutorial01>` ou :doc:`mergulhar direto em uma documentação mais detalhada
+</topics/index>`.
 
 Projete seu model
 =================
@@ -38,7 +38,7 @@ Embora você possa usar o Django sem um banco de dados, ele vem com um mapeador
 objeto-relacional no qual você descreve o layout da sua base de dados em código
 Python.
 
-A :ref:`sintaxe do modelo de dados <topics-db-models>` oferece muitas formas
+A :doc:`sintaxe do modelo de dados </topics/db/models>` oferece muitas formas
 ricas de representar seus models -- portanto, ela está resolvendo cerca de dois
 anos de problemas de esquemas de base de dados. Aqui está um exemplo rápido::
 
@@ -73,7 +73,7 @@ cria as tabelas na sua base de dados caso as tabelas ainda não existam.
 Aproveite a API livre
 =====================
 
-Com ela você irá ter uma :ref:`API Python <topics-db-queries>` livre e rica para
+Com ela você irá ter uma :doc:`API Python </topics/db/queries>` livre e rica para
 acessar seus dados. A API é criada em tempo de execução, nenhuma geração de
 código é necessária::
 
@@ -150,7 +150,7 @@ Uma interface de administração dinâmica: não é apenas o andaime -- é a cas
 ===================================================================================
 
 Uma vez definido seus models, o Django poderá criar automaticamente uma
-:ref:`interface administrativa <ref-contrib-admin>` profissional pronta para
+:doc:`interface administrativa </ref/contrib/admin/index>` profissional pronta para
 produção -- um Web site que permite aos usuários autenticados adicionar, alterar
 e deletar objetos. E isso é tão fácil como registrar seu modelo no site de
 administracao::
@@ -190,7 +190,7 @@ de alta qualidade. O Django encoraja o desenho de belíssimas URLs e não coloca
 nenhuma sujeira nelas, como ``.php`` ou ``.asp``.
 
 Para desenhar URLs para uma aplicação, você cria um módulo Python chamado
-:ref:`URLconf <topics-http-urls>`. Uma tabela de conteúdos para sua aplicação,
+:doc:`URLconf </topics/http/urls>`. Uma tabela de conteúdos para sua aplicação,
 contendo um mapeamento simples entre padrões de URL e funções Python de retorno
 (funções de callback). URLconfs também servem para desacoplar as URLs do código
 Python.
@@ -238,7 +238,7 @@ para o ``year_archive`` do exemplo acima::
         a_list = Article.objects.filter(pub_date__year=year)
         return render_to_response('news/year_archive.html', {'year': year, 'article_list': a_list})
 
-Esse exemplo usa o :ref:`sistema de template <topics-templates>` do Django, o 
+Esse exemplo usa o :doc:`sistema de template </topics/templates>` do Django, o 
 qual possui diversos recursos poderosos mas prima por permanecer simples o 
 suficiente para que não-programadores possam usá-lo.
 
@@ -330,10 +330,10 @@ Isto é apenas a superfície
 Essa foi apenas uma visão rápida das funcionalidades do Django. Alguns outros
 recursos úteis:
 
-    * Um :ref:`framework para caching <topics-cache>` que se integra com o
+    * Um :doc:`framework para caching </topics/cache>` que se integra com o
       memcached e outros backends.
 
-    * Um :ref:`syndication framework <ref-contrib-syndication>` que torna a 
+    * Um :doc:`syndication framework </ref/contrib/syndication>` que torna a 
       criação de RSS e Atom uma tarefa tão fácil quanto escrever uma classe Python.
 
     * Mais recursos sexy da administração gerada automaticamente -- essa

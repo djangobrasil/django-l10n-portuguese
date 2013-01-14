@@ -13,8 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-.. _topics-forms-index:
-
 ===========================
 Trabalhando com formulários
 ===========================
@@ -23,8 +21,8 @@ Trabalhando com formulários
 
     Este documento fornece uma introdução as funcionalidades de manipulação de
     formulários do Django. Para uma visão mais detalhada da API de forumulários,
-    veja :ref:`ref-forms-api`. Para documentação de tipos de campos disponíveis,
-    veja :ref:`ref-forms-fields`.
+    veja :doc:`/ref/forms/api`. Para documentação de tipos de campos disponíveis,
+    veja :doc:`/ref/forms/fields`.
 
 .. highlightlang:: html+django
 
@@ -96,7 +94,7 @@ Um formulário é composto de objetos ``Field``. Neste caso, nosso formulário t
 quatro campos: ``subject``, ``message``, ``sender`` e ``cc_myself``.
 ``CharField``, ``EmailField`` e ``BooleandField`` são somente três dos tipos
 tipos de campos disponíveis; uma lista completa pode ser encontrada em
-:ref:`ref-forms-fields`.
+:doc:`/ref/forms/fields`.
 
 Se seu formulário será usado para adicionar ou editar um model do Django
 diretamente, você pode usar um :ref:`ModelForm <topics-forms-modelforms>` para
@@ -134,10 +132,6 @@ Existem três caminhos de código aqui:
        "agradecimento".
     3. Se o formulário foi submitetido mas é inválido, uma instância **bound**
        do form é passada ao template.
-
-.. versionchanged:: 1.0
-    O atributo ``cleanded_data`` foi chamado de ``clean_data`` em versões
-    anteriores.
 
 A distinção entre formulários **bound** e **unbound** é importante. Um
 formulário unbound não tem qualquer dado associado a ele; quando o formlário for
@@ -187,7 +181,7 @@ processados:
         send_mail(subject, message, sender, recipients)
         return HttpResponseRedirect('/thanks/') # Redirect after POST
 
-Para saber mais sobre como enviar e-mail do Django, veja :ref:`topics-email`.
+Para saber mais sobre como enviar e-mail do Django, veja :doc:`/topics/email`.
 
 Mostrando um formulário usando um template
 ------------------------------------------
@@ -377,5 +371,5 @@ Isto cobre o básido, mas os forms podem fazer muito mais:
 
 .. seealso::
 
-    A :ref:`referência de API do form <ref-forms-index>`.
+    A :doc:`referência de API do form </ref/forms/index>`.
 

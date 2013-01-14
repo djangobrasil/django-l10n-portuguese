@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _topics-http-views:
-
 ================
 Escrevendo Views
 ================
@@ -75,7 +72,7 @@ Mapeando URLs para Views
 
 Então, para recapitular, esta função view retorna uma página HTML, que inclui a
 data e hora atual. Para mostrar este view numa URL em particular, você precisará
-criar uma no *URLconf*; veja :ref:`topics-http-urls` para instruções.
+criar uma no *URLconf*; veja :doc:`/topics/http/urls` para instruções.
 
 Retornando erros
 ================

@@ -13,9 +13,6 @@
 ..   $LastChangedDate$
 ..
 
-
-.. _topics-install:
-
 ======================
 Como instalar o Django
 ======================
@@ -38,7 +35,7 @@ provavelmente já o tem instalado.
 .. admonition:: Django on Jython
 
     Se você usa o Jython_ (uma implementação do Python para plataforma Java),
-    você precisará serguir alguns passos adicionais. Veja :ref:`howto-jython`
+    você precisará serguir alguns passos adicionais. Veja :doc:`/howto/jython`
     para mais detalhes.
 
 .. _jython: http://jython.org/
@@ -60,13 +57,13 @@ servidor. Garanta que você tem o Apache instalado e que o módulo mod_wsgi
 esteja ativo. O Django irá funcionar com qualquer versão do Apache que
 suporte o mod_wsgi.
 
-Leia :ref:`Como usar o Django com mod_wsgi <howto-deployment-modwsgi>` para
+Leia :doc:`Como usar o Django com mod_wsgi </howto/deployment/modwsgi>` para
 mais informações sobre como configurar o mod_wsgi uma vez que você o tenha
 instalado.
 
 Se você não puder usar o mod_wsgi por qualquer motivo, não se desespere:
 o Django suppora muitos outras opções de implantação. Uma grande segunda escolha é
-:ref:`mod_python <howto-deployment-modpython>`, o predecessor do mod_wsgi. Além disso,
+:doc:`mod_python </howto/deployment/modpython>`, o predecessor do mod_wsgi. Além disso,
 o Django segue a especificação WSGI, o que permite que ele rode em uma variedade
 de plataformas de servidor. Leia o wiki `server-arrangements`_ para
 informações específicas de instalação em cada plataforma.
@@ -115,7 +112,7 @@ acesso ao banco de dados estão instaladas.
 * Se você estiver usando MySQL, você vai precisar da biblioteca MySQLdb_ (versão
   1.2.1p2 ou superior).
   Você também vai quiser ler as observações específicas de bancos de dados
-  para o :ref:`backend MySQL <ref-databases>`.
+  para o :ref:`backend MySQL <mysql-notes>`.
 
 * Se você estiver usando SQLite e Python 2.3 ou Python 2.4, vai precisar da
   biblioteca pysqlite_. Use a versão 2.0.3 ou superior. A versão 2.5 do Python
@@ -138,7 +135,7 @@ Se você pretende criar as tabelas manualmente, precisa apenas dar permissão de
 (configurado em settings.py, atributo DATABASE_USER). O Django não usa comandos
 ``ALTER TABLE``, então não precisa de permissão para isso.
 
-Se você pretende usar o :ref:`framework de teste <topics-testing>` do Django com
+Se você pretende usar o :doc:`framework de teste </topics/testing>` do Django com
 'data fixtures', o Django também vai precisar de permissão para criar um bando
 de dados de teste temporário.
 
@@ -292,8 +289,8 @@ Se você gostaria de poder atualizar seu Django ocasionalmente com as
       de configuração do Apache.
 
       Mais informações sobre implementações em produção, é lógico, estão
-      disponíveis na documentação :ref:`Como usar o Django com mod_python
-      <howto-deployment-modpython>`.
+      disponíveis na documentação :doc:`Como usar o Django com mod_python
+      </howto/deployment/modpython>`.
 
       .. _Como usar o Django com mod_python: http://www.djangoproject.com/documentation/modpython/
 

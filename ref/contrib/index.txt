@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done, waiting for revision. $
-..   $OriginalRevision: 11348 $
+..   $OriginalRevision: 15294 $
 ..   $TranslationAuthors: Felipe Zorzo $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -12,9 +12,6 @@
 ..   $LastChangedBy$
 ..   $LastChangedDate$
 ..
-
-
-.. _ref-contrib-index:
 
 ===========================
 Os add-ons "django.contrib"
@@ -40,7 +37,7 @@ dependências.
 .. toctree::
    :maxdepth: 1
 
-   admin
+   admin/index
    auth
    comments/index
    contenttypes
@@ -48,11 +45,15 @@ dependências.
    databrowse
    flatpages
    formtools/index
+   gis/index
    humanize
    localflavor
+   markup
+   messages
    redirects
    sitemaps
    sites
+   staticfiles
    syndication
    webdesign
 
@@ -60,8 +61,8 @@ admin
 =====
 
 A interface administrativa automática do Django. Para mais informações, veja
-:ref:`Tutorial 2 <intro-tutorial02>` e a
-:ref:`documentação do admin <ref-contrib-admin>`.
+:doc:`Tutorial 2 </intro/tutorial02>` e a
+:doc:`documentação do admin </ref/contrib/admin/index>`.
 
 Precisa que os pacotes contrib auth_ e contenttypes_ estejam instalados.
 
@@ -70,16 +71,12 @@ auth
 
 O framework de autenticação do Django.
 
-Veja :ref:`topics-auth`.
+Veja :doc:`/topics/auth`.
 
 comments
 ========
 
-.. versionchanged:: 1.0
-   O aplicativo de comentários foi reescrito. Veja :ref:`ref-contrib-comments-upgrade`
-   para informações sobre como atualizar seu código.
-
-Um simples e flexível sistema de comentários. Veja :ref:`ref-contrib-comments-index`.
+Um simples e flexível sistema de comentários. Veja :doc:`/ref/contrib/comments/index`.
 
 contenttypes
 ============
@@ -87,21 +84,21 @@ contenttypes
 Um framework leve para a conexão de "tipos" de conteúdo, onde cada model
 Django instalado é um tipo de coneteúdo diferente.
 
-Veja a :ref:`documentação do contenttypes <ref-contrib-contenttypes>`.
+Veja a :doc:`documentação do contenttypes </ref/contrib/contenttypes>`.
 
 csrf
 ====
 
 Um middleware para prevenir Cross Site Request Forgeries.
 
-Veja a :ref:`documentação csrf <ref-contrib-csrf>`.
+Veja a :doc:`documentação csrf </ref/contrib/csrf>`.
 
 flatpages
 =========
 
 Um framework para gerenciar simples conteúdo HTML "planos" no banco de dados.
 
-Veja a :ref:`documentação flatpages <ref-contrib-flatpages>`.
+Veja a :doc:`documentação flatpages </ref/contrib/flatpages>`.
 
 Precisa que o pacote contrib sites_ seja instalado também.
 
@@ -117,21 +114,29 @@ Uma abstração para o seguinte fluxo:
 
 "Exibe um formulário HTML, força um preview, então faça algo com a submissão."
 
-Veja a :ref:`documentação do form preview <ref-contrib-formtools-form-preview>`.
+Veja a :doc:`documentação do form preview </ref/contrib/formtools/form-preview>`.
 
 django.contrib.formtools.wizard
 --------------------------------
 
-Divide um form em várias páginas.
+Divide um formulário em várias páginas.
 
-Veja a :ref:`documentação do assistente de formulários <ref-contrib-formtools-form-wizard>`.
+Veja a :doc:`documentação do assistente de formulários </ref/contrib/formtools/form-wizard>`.
+
+gis
+====
+
+A world-class geospatial framework built on top of Django, that enables
+storage, manipulation and display of spatial data.
+
+See the :doc:`/ref/contrib/gis/index` documentation for more.
 
 humanize
 ========
 
 Um conjunto de template filters úteis para adicionar um "toque humano" aos dados.
 
-Veja a :ref:`documentação do humanize <ref-contrib-humanize>`.
+Veja a :doc:`documentação do humanize </ref/contrib/humanize>`.
 
 localflavor
 ===========
@@ -141,46 +146,40 @@ país ou cultura. Por exemplo, ``django.contrib.localflavor.us.forms``
 contém um ``USZipCodeField`` que você pode usar para validar zip codes dos 
 Estado Unidos.
 
-Veja a :ref:`documentação localflavor <ref-contrib-localflavor>`.
-
-.. _ref-contrib-markup:
+Veja a :doc:`documentação localflavor </ref/contrib/localflavor>`.
 
 markup
 ======
 
 Uma coleção de template filters que implementam as linguagens de marcação mais
-comuns:
+comuns.
 
-    * ``textile`` -- implementa `Textile`_
-    * ``markdown`` -- implementa `Markdown`_
-    * ``restructuredtext`` -- implementa `ReST (ReStructured Text)`_
+See the :doc:`markup documentation </ref/contrib/markup>`.
 
-Em cada caso, o filtro espera por uma marcação formatada como string e retorna
-uma string representando o texto processado. Por exemplo, o filtro ``textile``
-converte texto escrito no formato Textile em HTML.
+messages
+========
 
-Para ativar esses filtros, adicione ``'django.contrib.markup'`` às suas
-:setting:`INSTALLED_APPS`. Uma vez adicionado, use ``{% load markup %}`` em
-um template, e você terá acesso à esses filtros. Para mais documentação,
-leia o código fonte em django/contrib/markup/templatetags/markup.py.
+.. versionchanged:: 1.2
+    The messages framework was added.
 
-.. _Textile: http://en.wikipedia.org/wiki/Textile_%28markup_language%29
-.. _Markdown: http://en.wikipedia.org/wiki/Markdown
-.. _ReST (ReStructured Text): http://en.wikipedia.org/wiki/ReStructuredText
+A framework for storing and retrieving temporary cookie- or session-based
+messages
+
+See the :doc:`messages documentation </ref/contrib/messages>`.
 
 redirects
 =========
 
 Um framework para gerenciar redirecionamentos.
 
-Veja a :ref:`documentação de redirects <ref-contrib-redirects>`.
+Veja a :doc:`documentação de redirects </ref/contrib/redirects>`.
 
 sessions
 ========
 
 Um framework para armazenar dados em sessões anônimas.
 
-Veja a :ref:`documentação de sessões <topics-http-sessions>`.
+Veja a :doc:`documentação de sessões </topics/http/sessions>`.
 
 sites
 =====
@@ -189,21 +188,21 @@ Um framework leve que permite que você gerencie múltiplos web sites no mesmo
 banco de dados e instalação do Django. Ele te dá ganchos para associar objetos a
 um ou mais sites.
 
-Veja a :ref:`documentação de sites <ref-contrib-sites>`.
+Veja a :doc:`documentação de sites </ref/contrib/sites>`.
 
 sitemaps
 ========
 
 Um framework para gerar arquivos XML no formato de sitemap do Google.
 
-Veja a :ref:`documentação de sitemaps <ref-contrib-sitemaps>`.
+Veja a :doc:`documentação de sitemaps </ref/contrib/sitemaps>`.
 
 syndication
 ===========
 
 Um framework para gerar feed, em RSS e Atom, facilmente.
 
-Veja a :ref:`documentação do syndication <ref-contrib-syndication>`.
+Veja a :doc:`documentação do syndication </ref/contrib/syndication>`.
 
 webdesign
 =========
@@ -211,7 +210,7 @@ webdesign
 Ajudantes que são particularmente úteis à web *designers*, e não
 desenvolvedores web.
 
-Veja a :ref:`documentação dos ajudantes de web design <ref-contrib-webdesign>`.
+Veja a :doc:`documentação dos ajudantes de web design </ref/contrib/webdesign>`.
 
 Outros add-ons
 ==============

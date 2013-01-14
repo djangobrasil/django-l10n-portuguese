@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done $
-..   $OriginalRevision: 11268 $
+..   $OriginalRevision: 14025 $
 ..   $TranslationAuthors: Italo Maia, Walter Cruz, semente $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -19,7 +19,7 @@
 FAQ: Geral
 ==========
 
-Por que existe este projeto?
+Por que este projeto existe?
 ----------------------------
 
 O Django surgiu a partir de uma necessidade prática: a World Online, uma
@@ -85,16 +85,16 @@ adicionar hardware em qualquer nível da arquitetura -- servidores de banco de
 dados, servidores de cache e servidores de aplicação.
 
 O Framework separa claramente a camadas de banco de dados da camada de
-aplicação. E ainda disponibiliza um simples, porém poderoso, :ref:`framework de
-cache <topics-cache>`.
+aplicação. E ainda disponibiliza um simples, porém poderoso, :doc:`framework de
+cache </topics/cache>`.
 
 Quem está por trás do Django?
 -----------------------------
 
 O Django foi originalmente desenvolvido na World Online, o departamento Web de
 um jornal de Lawrence, Kansas, Estados Unidos. O Django é agora mantido por um
-time internacional de voluntários; você pode ler tudo sobre eles na :ref:`lista
-de committers <internals-committers>`
+time internacional de voluntários; você pode ler tudo sobre eles na :doc:`lista
+de committers </internals/committers>`
 
 Que sites utilizam o Django?
 ----------------------------
@@ -156,7 +156,7 @@ disponíveis.
 
 Em nossa opinião, nenhum deles era completamente satisfatório.
 
-Somos esquisitos. Pode até mesmo nos chamar de perfeccionistas. (Com prazos.)
+Somos meticulosos. Pode até mesmo nos chamar de perfeccionistas. (Com prazos.)
 
 Com o passar do tempo, nós começamos a descobrir outras bibliotecas open-source
 que faziam coisas que nós já havíamos implementado. Foi confortante ver outras
@@ -169,9 +169,9 @@ Na maioria dos casos, porém, nós descobrimos que os frameworks e ferramentas e
 sempre algum tipo de falha de design fundamental que nós não gostavamos. Nenhuma ferramenta
 se encaixava 100% em nossas filosofias.
 
-Como dissemos: Somos estranhos.
+Como dissemos: Somos meticulosos.
 
-Documentamos nossa filosofia na :ref:`Página de filosofia sobre o design <misc-design-philosophies>`.
+Documentamos nossa filosofia na :doc:`Página de filosofia sobre o design </misc/design-philosophies>`.
 
 O Django é um sistema de gerenciamento de conteúdo (CMS)?
 ---------------------------------------------------------

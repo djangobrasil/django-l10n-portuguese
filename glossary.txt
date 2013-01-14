@@ -26,7 +26,7 @@ Glossário
         Um atributo em um :term:`model`; um determinado campo que usualmente é
         mapeado diretamente para uma única coluna em uma base dados.
 
-        Veja :ref:`topics-db-models`.
+        Veja :doc:`/topics/db/models`.
 
     generic view
         Uma função :term:`view` de ordem superior que fornece uma implementação
@@ -38,7 +38,7 @@ Glossário
     model
         Um modelo armazena os dado de sua aplicação.
 
-        Veja :ref:`topics-db-models`.
+        Veja :doc:`/topics/db/models`.
 
     MTV
         Veja :ref:`mtv`.
@@ -76,7 +76,7 @@ Glossário
         Um objeto representando algum conjunto de linhas à serem obtidas do
         banco de dados.
 
-        Veja :ref:`topics-db-queries`.
+        Veja :doc:`/topics/db/queries`.
 
     slug
         Uma pequena etiqueta para alguma coisa, contendo apenas letras,
@@ -94,7 +94,7 @@ Glossário
         representação de dados. Um template ajuda a abstrair a apresentação dos
         dados à partir dos mesmos.
 
-        Veja :ref:`topics-templates`.
+        Veja :doc:`/topics/templates`.
 
     view
         Uma função responsável por renderizar uma página.

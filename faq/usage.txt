@@ -2,7 +2,7 @@
 .. META INFORMATION OF TRANSLATION
 ..
 ..   $TranslationStatus: Done $
-..   $OriginalRevision: 11268 $
+..   $OriginalRevision: 14483 $
 ..   $TranslationAuthors: Italo Maia, Walter Cruz $
 ..
 .. INFO OF THIS FILE (DO NOT EDIT! UPDATED BY SUBVERSION)
@@ -12,9 +12,6 @@
 ..   $LastChangedBy$
 ..   $LastChangedDate$
 ..
-
-
-.. _faq-usage:
 
 FAQ: Usando o Django
 ====================
@@ -93,4 +90,3 @@ adicionar um dicionário comum ao contexto do template.
 
 A solução correta é usar um ``RequestContext``. Detalhes em como fazer isso
 estão aqui: :ref:`subclassing-context-requestcontext`.
-
