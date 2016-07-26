@@ -4,10 +4,9 @@ Este é o projeto do grupo de localização do Django para o Português. Aqui ma
 
 Django é um framework de desenvolvimento web. Para saber mais, acesse <http://www.djangoproject.com>.
 
-Lista de discussão do projeto de localização: <http://groups.google.com/group/django-l10n-portuguese>. 
+Lista de discussão do projeto de localização: <https://telegram.me/joinchat/CjIqFj4UVvCtPnCwxUDJLA>. 
 
 ##Ambiente e dependências
 
-A única dependência necessária para é o [Sphinx](http://sphinx.pocoo.org). Para instalá-lo, basta digitar em um terminal:
-
-    $ [sudo] pip install sphinx
+Hoje a tradução do Django é feita no transifex, basta se cadastrar lá e entrar no grupo de tradução PT-BR.
+<https://www.transifex.com/django/django-docs/>
